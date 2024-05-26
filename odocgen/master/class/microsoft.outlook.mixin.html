@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>microsoft.outlook.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>microsoft.outlook.mixin</h1><p>Originally defined in: odoo/addons/microsoft_outlook/models/microsoft_outlook_mixin.py</p><hr/><h2>Original: odoo/addons/microsoft_outlook/models/microsoft_outlook_mixin.py</h2><h3>Fields</h3><details><summary id="f-is_microsoft_outlook_configured">is_microsoft_outlook_configured <span class="position">@ line 25</span></summary><pre>is_microsoft_outlook_configured = fields.Boolean('Is Outlook Credential Configured',
+        compute='_compute_is_microsoft_outlook_configured')</pre></details><details><summary id="f-microsoft_outlook_access_token">microsoft_outlook_access_token <span class="position">@ line 29</span></summary><pre>microsoft_outlook_access_token = fields.Char(string='Outlook Access Token',
+        groups='base.group_system', copy=False)</pre></details><details><summary id="f-microsoft_outlook_access_token_expiration">microsoft_outlook_access_token_expiration <span class="position">@ line 31</span></summary><pre>microsoft_outlook_access_token_expiration = fields.Integer(string='Outlook Access Token Expiration Timestamp',
+        groups='base.group_system', copy=False)</pre></details><details><summary id="f-microsoft_outlook_refresh_token">microsoft_outlook_refresh_token <span class="position">@ line 27</span></summary><pre>microsoft_outlook_refresh_token = fields.Char(string='Outlook Refresh Token',
+        groups='base.group_system', copy=False)</pre></details><details><summary id="f-microsoft_outlook_uri">microsoft_outlook_uri <span class="position">@ line 33</span></summary><pre>microsoft_outlook_uri = fields.Char(compute='_compute_outlook_uri', string='Authentication URI',
+        help='The URL to generate the authorization code from Outlook', groups='base.group_system')</pre></details><h3>Methods</h3><ul id="m-_compute_is_microsoft_outlook_configured"><li>_compute_is_microsoft_outlook_configured(self) <span class="position">@ line 36</span></li></ul><details><summary id="m-_fetch_outlook_access_token">_fetch_outlook_access_token(self, refresh_token) <span class="position">@ line 100</span></summary><pre>Refresh the access token thanks to the refresh token.
+
+:return:
+access_token, access_token_expiration</pre></details><details><summary id="m-_fetch_outlook_refresh_token">_fetch_outlook_refresh_token(self, authorization_code) <span class="position">@ line 87</span></summary><pre>Request the refresh token and the initial access token from the authorization code.
+
+:return:
+refresh_token, access_token, access_token_expiration</pre></details><details><summary id="m-_fetch_outlook_token">_fetch_outlook_token(self, grant_type) <span class="position">@ line 113</span></summary><pre>Generic method to request an access token or a refresh token.
+
+Return the JSON response of the Outlook API and manage the errors which can occur.
+
+:param grant_type: Depends the action we want to do (refresh_token or authorization_code)
+:param values: Additional parameters that will be given to the Outlook endpoint</pre></details><details><summary id="m-_generate_outlook_oauth2_string">_generate_outlook_oauth2_string(self, login) <span class="position">@ line 148</span></summary><pre>Generate a OAuth2 string which can be used for authentication.
+
+:param user: Email address of the Outlook account to authenticate
+:return: The SASL argument for the OAuth2 mechanism.</pre></details><details><summary id="m-_get_outlook_csrf_token">_get_outlook_csrf_token(self) <span class="position">@ line 176</span></summary><pre>Generate a CSRF token that will be verified in `microsoft_outlook_callback`.
+
+This will prevent a malicious person to make an admin user disconnect the mail servers.</pre></details><details><summary id="m-open_microsoft_outlook_uri">open_microsoft_outlook_uri(self) <span class="position">@ line 67</span></summary><pre>Open the URL to accept the Outlook permission.
+
+This is done with an action, so we can force the user the save the form.
+We need him to save the form so the current mail server record exist in DB and
+we can include the record ID in the URL.</pre></details><script src="class.js"></script></body></html>

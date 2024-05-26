@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.mail - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.mail</h1><p>Inherited in: odoo/addons/mail/models/mail_mail.py<br/></p><hr/><h2>Inherited: odoo/addons/mail/models/mail_mail.py</h2><h3>Fields</h3><details><summary id="f-auto_delete">auto_delete <span class="position">@ line 89</span></summary><pre>auto_delete = fields.Boolean(
+        'Auto Delete',
+        help="This option permanently removes any track of email after it's been sent, including from the Technical menu in the Settings, in order to preserve storage space of your Odoo database.")</pre></details><details><summary id="f-body_content">body_content <span class="position">@ line 49</span></summary><pre>body_content = fields.Html('Rich-text Contents', sanitize=True, compute='_compute_body_content', search="_search_body_content")</pre></details><details><summary id="f-body_html">body_html <span class="position">@ line 48</span></summary><pre>body_html = fields.Text('Text Contents', help="Rich-text/HTML message")</pre></details><details><summary id="f-email_cc">email_cc <span class="position">@ line 61</span></summary><pre>email_cc = fields.Char('Cc', help='Carbon copy message recipients')</pre></details><details><summary id="f-email_to">email_to <span class="position">@ line 60</span></summary><pre>email_to = fields.Text('To', help='Message recipients (emails)')</pre></details><details><summary id="f-failure_reason">failure_reason <span class="position">@ line 86</span></summary><pre>failure_reason = fields.Text(
+        'Failure Reason', readonly=True, copy=False,
+        help="Failure reason. This is usually the exception thrown by the email server, stored to ease the debugging of mailing issues.")</pre></details><details><summary id="f-failure_type">failure_type <span class="position">@ line 72</span></summary><pre>failure_type = fields.Selection(selection=[
+        # generic
+        ("unknown", "Unknown error"),
+        # mail
+        ("mail_email_invalid", "Invalid email address"),
+        ("mail_email_missing", "Missing email"),
+        ("mail_from_invalid", "Invalid from address"),
+        ("mail_from_missing", "Missing from address"),
+        ("mail_smtp", "Connection failed (outgoing mail server problem)"),
+        # mass mode
+        ("mail_bl", "Blacklisted Address"),
+        ("mail_optout", "Opted Out"),
+        ("mail_dup", "Duplicated Email"),
+        ], string='Failure type')</pre></details><details><summary id="f-fetchmail_server_id">fetchmail_server_id <span class="position">@ line 94</span></summary><pre>fetchmail_server_id = fields.Many2one('fetchmail.server', "Inbound Mail Server", readonly=True)</pre></details><details><summary id="f-headers">headers <span class="position">@ line 51</span></summary><pre>headers = fields.Text('Headers', copy=False)</pre></details><details><summary id="f-is_notification">is_notification <span class="position">@ line 57</span></summary><pre>is_notification = fields.Boolean('Notification Email', help='Mail has been created to notify people of an existing mail.message')</pre></details><details><summary id="f-mail_message_id">mail_message_id <span class="position">@ line 45</span></summary><pre>mail_message_id = fields.Many2one('mail.message', 'Message', required=True, ondelete='cascade', index=True, auto_join=True)</pre></details><details><summary id="f-mail_message_id_int">mail_message_id_int <span class="position">@ line 46</span></summary><pre>mail_message_id_int = fields.Integer(compute='_compute_mail_message_id_int', compute_sudo=True)</pre></details><details><summary id="f-message_type">message_type <span class="position">@ line 47</span></summary><pre>message_type = fields.Selection(related='mail_message_id.message_type', inherited=True, default='email_outgoing')</pre></details><details><summary id="f-recipient_ids">recipient_ids <span class="position">@ line 62</span></summary><pre>recipient_ids = fields.Many2many('res.partner', string='To (Partners)',
+        context={'active_test': False})</pre></details><details><summary id="f-references">references <span class="position">@ line 50</span></summary><pre>references = fields.Text('References', help='Message references, such as identifiers of previous messages', readonly=True)</pre></details><details><summary id="f-restricted_attachment_count">restricted_attachment_count <span class="position">@ line 52</span></summary><pre>restricted_attachment_count = fields.Integer('Restricted attachments', compute='_compute_restricted_attachments')</pre></details><details><summary id="f-scheduled_date">scheduled_date <span class="position">@ line 92</span></summary><pre>scheduled_date = fields.Datetime('Scheduled Send Date',
+        help="If set, the queue manager will send the email after the date. If not set, the email will be send as soon as possible. Unless a timezone is specified, it is considered as being in UTC timezone.")</pre></details><details><summary id="f-state">state <span class="position">@ line 65</span></summary><pre>state = fields.Selection([
+        ('outgoing', 'Outgoing'),
+        ('sent', 'Sent'),
+        ('received', 'Received'),
+        ('exception', 'Delivery Failed'),
+        ('cancel', 'Cancelled'),
+    ], 'Status', readonly=True, copy=False, default='outgoing')</pre></details><details><summary id="f-unrestricted_attachment_ids">unrestricted_attachment_ids <span class="position">@ line 53</span></summary><pre>unrestricted_attachment_ids = fields.Many2many('ir.attachment', string='Unrestricted Attachments',
+        compute='_compute_restricted_attachments', inverse='_inverse_unrestricted_attachment_ids')</pre></details><h3>Methods</h3><ul id="m-_compute_body_content"><li>_compute_body_content(self) <span class="position">@ line 96</span></li></ul><ul id="m-_compute_mail_message_id_int"><li>_compute_mail_message_id_int(self) <span class="position">@ line 100</span></li></ul><details><summary id="m-_fields_get_message_type_update_selection">_fields_get_message_type_update_selection(self, selection) <span class="position">@ line 134</span></summary><pre>Update the field selection for message type on mail.message to match the runtime values.
+
+DO NOT USE it is only there for a stable fix and should not be used for any reason other than hotfixing.</pre></details><details><summary id="m-_inverse_unrestricted_attachment_ids">_inverse_unrestricted_attachment_ids(self) <span class="position">@ line 115</span></summary><pre>We can only remove the attachments we have access to.</pre></details><details><summary id="m-_parse_scheduled_datetime">_parse_scheduled_datetime(self, scheduled_datetime) <span class="position">@ line 298</span></summary><pre>Taking an arbitrary datetime (either as a date, a datetime or a string)
+try to parse it and return a datetime timezoned to UTC.
+
+If no specific timezone information is given, we consider it as being
+given in UTC, as all datetime values given to the server. Trying to
+guess its timezone based on user or flow would be strange as this is
+not standard. When manually creating datetimes for mail.mail scheduled
+date, business code should ensure either a timezone info is set, either
+it is converted into UTC.
+
+Using yearfirst when parsing str datetimes eases parser's job when
+dealing with the hard-to-parse trio (01/04/09 -> ?). In most use cases
+year will be given first as this is the expected default formatting.
+
+:return datetime: parsed datetime (or False if parser failed)</pre></details><details><summary id="m-_personalize_outgoing_body">_personalize_outgoing_body(self, body, partner, recipients_follower_status) <span class="position">@ line 362</span></summary><pre>Return a modified body based on the recipient (partner).
+
+It must be called when using standard notification layouts
+even for message without partners.
+
+:param str body: body to personalize for the recipient
+:param partner: <res.partner> recipient
+:param set recipients_follower_status: see ``Followers._get_mail_recipients_follower_status()``</pre></details><details><summary id="m-_postprocess_sent_message">_postprocess_sent_message(self, success_pids, failure_reason, failure_type) <span class="position">@ line 259</span></summary><pre>Perform any post-processing necessary after sending ``mail``
+successfully, including deleting it completely along with its
+attachment if the ``auto_delete`` flag of the mail was set.
+Overridden by subclasses for extra post-processing behaviors.
+
+:return: True</pre></details><details><summary id="m-_prepare_outgoing_body">_prepare_outgoing_body(self) <span class="position">@ line 354</span></summary><pre>Return a specific ir_email body. The main purpose of this method
+is to be inherited to add custom content depending on some module.</pre></details><details><summary id="m-_prepare_outgoing_list">_prepare_outgoing_list(self, mail_server, recipients_follower_status) <span class="position">@ line 385</span></summary><pre>Return a list of emails to send based on current mail.mail. Each
+is a dictionary for specific email values, depending on a partner, or
+generic to the whole recipients given by mail.email_to.
+
+:param mail_server: <ir.mail_server> mail server that will be used to send the mails,
+False if it is the default one
+:param set recipients_follower_status: see ``Followers._get_mail_recipients_follower_status()``
+:return list: list of dicts used in IrMailServer.build_email()</pre></details><ul id="m-_search_body_content"><li>_search_body_content(self, operator, value) <span class="position">@ line 122</span></li></ul><ul id="m-_send"><li>_send(self, auto_commit, raise_exception, smtp_session, alias_domain_id, mail_server) <span class="position">@ line 634</span></li></ul><details><summary id="m-_split_by_mail_configuration">_split_by_mail_configuration(self) <span class="position">@ line 517</span></summary><pre>Group the <mail.mail> based on their "email_from", their "alias domain"
+and their "mail_server_id".
+
+The <mail.mail> will have the "same sending configuration" if they have the same
+mail server, alias domain and mail from. For performance purpose, we can use an SMTP
+session in batch and therefore we need to group them by the parameter that will
+influence the mail server used.
+
+The same "sending configuration" may repeat in order to limit batch size
+according to the `mail.session.batch.size` system parameter.
+
+Return iterators over
+mail_server_id, email_from, Records<mail.mail>.ids</pre></details><details><summary id="m-action_open_document">action_open_document(self) <span class="position">@ line 200</span></summary><pre>Opens the related record based on the model and ID</pre></details><ul id="m-action_retry"><li>action_retry(self) <span class="position">@ line 197</span></li></ul><ul id="m-cancel"><li>cancel(self) <span class="position">@ line 214</span></li></ul><ul id="m-mark_outgoing"><li>mark_outgoing(self) <span class="position">@ line 211</span></li></ul><details><summary id="m-send">send(self, auto_commit, raise_exception) <span class="position">@ line 590</span></summary><pre>Sends the selected emails immediately, ignoring their current
+state (mails that have already been sent should not be passed
+unless they should actually be re-sent).
+Emails successfully delivered are marked as 'sent', and those
+that fail to be deliver are marked as 'exception', and the
+corresponding error mail is output in the server logs.
+
+:param bool auto_commit: whether to force a commit of the mail status
+after sending each mail (meant only for scheduler processing);
+should never be True during normal transactions (default: False)
+:param bool raise_exception: whether to raise an exception if the
+email sending process has failed
+:return: True</pre></details><details><summary id="m-send_after_commit">send_after_commit(self) <span class="position">@ line 569</span></summary><pre>Queues the email to be sent after the commit of the current cursor.
+
+Useful to send an email only if a transaction is successful.</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 175</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 165</span></li></ul><script src="class.js"></script></body></html>

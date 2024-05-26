@@ -1,0 +1,314 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>crm.lead - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>crm.lead</h1><p>Inherited in: odoo/addons/website_crm_partner_assign/models/crm_lead.py<br/>Inherited in: odoo/addons/website_crm_livechat/models/crm_lead.py<br/>Inherited in: odoo/addons/website_crm_iap_reveal/models/crm_lead.py<br/>Inherited in: odoo/addons/website_crm/models/crm_lead.py<br/>Inherited in: odoo/addons/sale_crm/models/crm_lead.py<br/>Inherited in: odoo/addons/mass_mailing_crm/models/crm_lead.py<br/>Inherited in: odoo/addons/iap_crm/models/crm_lead.py<br/>Inherited in: odoo/addons/event_crm/models/crm_lead.py<br/>Inherited in: odoo/addons/crm_mail_plugin/models/crm_lead.py<br/>Inherited in: odoo/addons/crm_iap_mine/models/crm_lead.py<br/>Inherited in: odoo/addons/crm_iap_enrich/models/crm_lead.py<br/>Inherited in: odoo/addons/crm/models/crm_lead.py<br/></p><hr/><h2>Inherited: odoo/addons/website_crm_partner_assign/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-date_partner_assign">date_partner_assign <span class="position">@ line 25</span></summary><pre>date_partner_assign = fields.Date(
+        'Partner Assignment Date', compute='_compute_date_partner_assign',
+        copy=True, readonly=False, store=True,
+        help="Last date this case was forwarded/assigned to a partner")</pre></details><details><summary id="f-partner_assigned_id">partner_assigned_id <span class="position">@ line 18</span></summary><pre>partner_assigned_id = fields.Many2one('res.partner', 'Assigned Partner', tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="Partner this case has been forwarded/assigned to.", index='btree_not_null')</pre></details><details><summary id="f-partner_declined_ids">partner_declined_ids <span class="position">@ line 19</span></summary><pre>partner_declined_ids = fields.Many2many(
+        'res.partner',
+        'crm_lead_declined_partner',
+        'lead_id',
+        'partner_id',
+        string='Partner not interested')</pre></details><details><summary id="f-partner_latitude">partner_latitude <span class="position">@ line 16</span></summary><pre>partner_latitude = fields.Float('Geo Latitude', digits=(10, 7))</pre></details><details><summary id="f-partner_longitude">partner_longitude <span class="position">@ line 17</span></summary><pre>partner_longitude = fields.Float('Geo Longitude', digits=(10, 7))</pre></details><h3>Methods</h3><details><summary id="m-_get_access_action">_get_access_action(self, access_uid, force_website) <span class="position">@ line 296</span></summary><pre>Instead of the classic form view, redirect to the online document for
+portal users or if force_website=True.</pre></details><ul id="m-_merge_get_fields"><li>_merge_get_fields(self) <span class="position">@ line 38</span></li></ul><ul id="m-_prepare_customer_values"><li>_prepare_customer_values(self, partner_name, is_company, parent_id) <span class="position">@ line 112</span></li></ul><details><summary id="m-action_assign_partner">action_assign_partner(self) <span class="position">@ line 54</span></summary><pre>While assigning a partner, geo-localization is performed only for leads having country
+set (see method 'assign_geo_localize' and 'search_geo_partner'). So for leads that does not
+have country set, we show the notification, and for the rest, we geo-localize them.</pre></details><ul id="m-assign_geo_localize"><li>assign_geo_localize(self, latitude, longitude) <span class="position">@ line 89</span></li></ul><ul id="m-assign_partner"><li>assign_partner(self, partner_id) <span class="position">@ line 69</span></li></ul><ul id="m-assign_salesman_of_assigned_partner"><li>assign_salesman_of_assigned_partner(self) <span class="position">@ line 43</span></li></ul><ul id="m-partner_desinterested"><li>partner_desinterested(self, comment, contacted, spam) <span class="position">@ line 201</span></li></ul><ul id="m-partner_interested"><li>partner_interested(self, comment) <span class="position">@ line 193</span></li></ul><ul id="m-search_geo_partner"><li>search_geo_partner(self) <span class="position">@ line 120</span></li></ul><ul id="m-update_contact_details_from_portal"><li>update_contact_details_from_portal(self, values) <span class="position">@ line 256</span></li></ul><ul id="m-update_lead_portal"><li>update_lead_portal(self, values) <span class="position">@ line 224</span></li></ul><h2>Inherited: odoo/addons/website_crm_livechat/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-visitor_sessions_count">visitor_sessions_count <span class="position">@ line 10</span></summary><pre>visitor_sessions_count = fields.Integer('# Sessions', compute="_compute_visitor_sessions_count", groups="im_livechat.im_livechat_group_user")</pre></details><h3>Methods</h3><ul id="m-action_redirect_to_livechat_sessions"><li>action_redirect_to_livechat_sessions(self) <span class="position">@ line 17</span></li></ul><h2>Inherited: odoo/addons/website_crm_iap_reveal/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-reveal_iap_credits">reveal_iap_credits <span class="position">@ line 11</span></summary><pre>reveal_iap_credits = fields.Integer(string='IAP Credits')</pre></details><details><summary id="f-reveal_ip">reveal_ip <span class="position">@ line 10</span></summary><pre>reveal_ip = fields.Char(string='IP Address')</pre></details><details><summary id="f-reveal_rule_id">reveal_rule_id <span class="position">@ line 12</span></summary><pre>reveal_rule_id = fields.Many2one('crm.reveal.rule', string='Lead Generation Rule', index='btree_not_null')</pre></details><h3>Methods</h3><ul id="m-_merge_get_fields"><li>_merge_get_fields(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/website_crm/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-visitor_ids">visitor_ids <span class="position">@ line 10</span></summary><pre>visitor_ids = fields.Many2many('website.visitor', string="Web Visitors")</pre></details><details><summary id="f-visitor_page_count">visitor_page_count <span class="position">@ line 11</span></summary><pre>visitor_page_count = fields.Integer('# Page Views', compute="_compute_visitor_page_count")</pre></details><h3>Methods</h3><ul id="m-_merge_get_fields_specific"><li>_merge_get_fields_specific(self) <span class="position">@ line 41</span></li></ul><ul id="m-action_redirect_to_page_views"><li>action_redirect_to_page_views(self) <span class="position">@ line 32</span></li></ul><ul id="m-website_form_input_filter"><li>website_form_input_filter(self, request, values) <span class="position">@ line 47</span></li></ul><h2>Inherited: odoo/addons/sale_crm/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-order_ids">order_ids <span class="position">@ line 16</span></summary><pre>order_ids = fields.One2many('sale.order', 'opportunity_id', string='Orders')</pre></details><details><summary id="f-quotation_count">quotation_count <span class="position">@ line 14</span></summary><pre>quotation_count = fields.Integer(compute='_compute_sale_data', string="Number of Quotations")</pre></details><details><summary id="f-sale_amount_total">sale_amount_total <span class="position">@ line 13</span></summary><pre>sale_amount_total = fields.Monetary(compute='_compute_sale_data', string="Sum of Orders", help="Untaxed Total of Confirmed Orders", currency_field='company_currency')</pre></details><details><summary id="f-sale_order_count">sale_order_count <span class="position">@ line 15</span></summary><pre>sale_order_count = fields.Integer(compute='_compute_sale_data', string="Number of Sale Orders")</pre></details><h3>Methods</h3><ul id="m-_get_action_view_sale_quotation_domain"><li>_get_action_view_sale_quotation_domain(self) <span class="position">@ line 71</span></li></ul><ul id="m-_get_lead_quotation_domain"><li>_get_lead_quotation_domain(self) <span class="position">@ line 74</span></li></ul><ul id="m-_get_lead_sale_order_domain"><li>_get_lead_sale_order_domain(self) <span class="position">@ line 77</span></li></ul><ul id="m-_merge_get_fields_specific"><li>_merge_get_fields_specific(self) <span class="position">@ line 99</span></li></ul><details><summary id="m-_prepare_opportunity_quotation_context">_prepare_opportunity_quotation_context(self) <span class="position">@ line 80</span></summary><pre>Prepares the context for a new quotation (sale.order) by sharing the values of common fields</pre></details><ul id="m-action_new_quotation"><li>action_new_quotation(self) <span class="position">@ line 38</span></li></ul><ul id="m-action_sale_quotations_new"><li>action_sale_quotations_new(self) <span class="position">@ line 32</span></li></ul><ul id="m-action_view_sale_order"><li>action_view_sale_order(self) <span class="position">@ line 56</span></li></ul><ul id="m-action_view_sale_quotation"><li>action_view_sale_quotation(self) <span class="position">@ line 44</span></li></ul><h2>Inherited: odoo/addons/iap_crm/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-reveal_id">reveal_id <span class="position">@ line 10</span></summary><pre>reveal_id = fields.Char(string='Reveal ID')</pre></details><h3>Methods</h3><ul id="m-_merge_get_fields"><li>_merge_get_fields(self) <span class="position">@ line 12</span></li></ul><h2>Inherited: odoo/addons/event_crm/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-event_id">event_id <span class="position">@ line 11</span></summary><pre>event_id = fields.Many2one('event.event', string="Source Event", help="Event triggering the rule that created this lead")</pre></details><details><summary id="f-event_lead_rule_id">event_lead_rule_id <span class="position">@ line 10</span></summary><pre>event_lead_rule_id = fields.Many2one('event.lead.rule', string="Registration Rule", help="Rule that created this lead")</pre></details><details><summary id="f-registration_count">registration_count <span class="position">@ line 16</span></summary><pre>registration_count = fields.Integer(
+        string="# Registrations", compute='_compute_registration_count',
+        groups='event.group_event_registration_desk',
+        help="Counter for the registrations linked to this lead")</pre></details><details><summary id="f-registration_ids">registration_ids <span class="position">@ line 12</span></summary><pre>registration_ids = fields.Many2many(
+        'event.registration', string="Source Registrations",
+        groups='event.group_event_registration_desk',
+        help="Registrations triggering the rule that created this lead")</pre></details><h3>Methods</h3><ul id="m-_merge_dependences"><li>_merge_dependences(self, opportunities) <span class="position">@ line 26</span></li></ul><ul id="m-_merge_get_fields"><li>_merge_get_fields(self) <span class="position">@ line 34</span></li></ul><h2>Inherited: odoo/addons/crm_iap_mine/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-lead_mining_request_id">lead_mining_request_id <span class="position">@ line 10</span></summary><pre>lead_mining_request_id = fields.Many2one('crm.iap.lead.mining.request', string='Lead Mining Request', index='btree_not_null')</pre></details><h3>Methods</h3><ul id="m-_merge_get_fields"><li>_merge_get_fields(self) <span class="position">@ line 12</span></li></ul><ul id="m-action_generate_leads"><li>action_generate_leads(self) <span class="position">@ line 15</span></li></ul><h2>Inherited: odoo/addons/crm_iap_enrich/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-iap_enrich_done">iap_enrich_done <span class="position">@ line 18</span></summary><pre>iap_enrich_done = fields.Boolean(string='Enrichment done', help='Whether IAP service for lead enrichment based on email has been performed on this lead.')</pre></details><details><summary id="f-show_enrich_button">show_enrich_button <span class="position">@ line 19</span></summary><pre>show_enrich_button = fields.Boolean(string='Allow manual enrich', compute="_compute_show_enrich_button")</pre></details><h3>Methods</h3><ul id="m-_merge_get_fields_specific"><li>_merge_get_fields_specific(self) <span class="position">@ line 166</span></li></ul><ul id="m-iap_enrich"><li>iap_enrich(self, from_cron) <span class="position">@ line 51</span></li></ul><h2>Inherited: odoo/addons/crm/models/crm_lead.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 129</span></summary><pre>active = fields.Boolean('Active', default=True, tracking=True)</pre></details><details><summary id="f-automated_probability">automated_probability <span class="position">@ line 226</span></summary><pre>automated_probability = fields.Float('Automated Probability', compute='_compute_probabilities', readonly=True, store=True)</pre></details><details><summary id="f-calendar_event_ids">calendar_event_ids <span class="position">@ line 233</span></summary><pre>calendar_event_ids = fields.One2many('calendar.event', 'opportunity_id', string='Meetings')</pre></details><details><summary id="f-campaign_id">campaign_id <span class="position">@ line 243</span></summary><pre>campaign_id = fields.Many2one(ondelete='set null')</pre></details><details><summary id="f-city">city <span class="position">@ line 214</span></summary><pre>city = fields.Char('City', compute='_compute_partner_address_values', readonly=False, store=True)</pre></details><details><summary id="f-color">color <span class="position">@ line 145</span></summary><pre>color = fields.Integer('Color Index', default=0)</pre></details><details><summary id="f-company_currency">company_currency <span class="position">@ line 157</span></summary><pre>company_currency = fields.Many2one("res.currency", string='Currency', compute="_compute_company_currency", compute_sudo=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 124</span></summary><pre>company_id = fields.Many2one(
+        'res.company', string='Company', index=True,
+        compute='_compute_company_id', readonly=False, store=True)</pre></details><details><summary id="f-contact_name">contact_name <span class="position">@ line 174</span></summary><pre>contact_name = fields.Char(
+        'Contact Name', index='trigram', tracking=30,
+        compute='_compute_contact_name', readonly=False, store=True)</pre></details><details><summary id="f-country_id">country_id <span class="position">@ line 219</span></summary><pre>country_id = fields.Many2one(
+        'res.country', string='Country',
+        compute='_compute_partner_address_values', readonly=False, store=True)</pre></details><details><summary id="f-date_automation_last">date_automation_last <span class="position">@ line 160</span></summary><pre>date_automation_last = fields.Datetime('Last Action', readonly=True)</pre></details><details><summary id="f-date_closed">date_closed <span class="position">@ line 159</span></summary><pre>date_closed = fields.Datetime('Closed Date', readonly=True, copy=False)</pre></details><details><summary id="f-date_conversion">date_conversion <span class="position">@ line 167</span></summary><pre>date_conversion = fields.Datetime('Conversion Date', readonly=True)</pre></details><details><summary id="f-date_deadline">date_deadline <span class="position">@ line 168</span></summary><pre>date_deadline = fields.Date('Expected Closing', help="Estimate of the date on which the opportunity will be won.")</pre></details><details><summary id="f-date_last_stage_update">date_last_stage_update <span class="position">@ line 165</span></summary><pre>date_last_stage_update = fields.Datetime(
+        'Last Stage Update', compute='_compute_date_last_stage_update', index=True, readonly=True, store=True)</pre></details><details><summary id="f-date_open">date_open <span class="position">@ line 161</span></summary><pre>date_open = fields.Datetime(
+        'Assignment Date', compute='_compute_date_open', readonly=True, store=True)</pre></details><details><summary id="f-day_close">day_close <span class="position">@ line 164</span></summary><pre>day_close = fields.Float('Days to Close', compute='_compute_day_close', store=True)</pre></details><details><summary id="f-day_open">day_open <span class="position">@ line 163</span></summary><pre>day_open = fields.Float('Days to Assign', compute='_compute_day_open', store=True)</pre></details><details><summary id="f-description">description <span class="position">@ line 128</span></summary><pre>description = fields.Html('Notes')</pre></details><details><summary id="f-duplicate_lead_count">duplicate_lead_count <span class="position">@ line 235</span></summary><pre>duplicate_lead_count = fields.Integer(compute="_compute_potential_lead_duplicates", string="Potential Duplicate Lead Count")</pre></details><details><summary id="f-duplicate_lead_ids">duplicate_lead_ids <span class="position">@ line 234</span></summary><pre>duplicate_lead_ids = fields.Many2many("crm.lead", compute="_compute_potential_lead_duplicates", string="Potential Duplicate Lead", context={"active_test": False})</pre></details><details><summary id="f-email_domain_criterion">email_domain_criterion <span class="position">@ line 187</span></summary><pre>email_domain_criterion = fields.Char(
+        string='Email Domain Criterion',
+        compute="_compute_email_domain_criterion",
+        index='btree_not_null',  # used for exact match, void value do not matter
+        store=True,
+    )</pre></details><details><summary id="f-email_from">email_from <span class="position">@ line 183</span></summary><pre>email_from = fields.Char(
+        'Email', tracking=40, index='trigram',
+        compute='_compute_email_from', inverse='_inverse_email_from', readonly=False, store=True)</pre></details><details><summary id="f-email_normalized">email_normalized <span class="position">@ line 186</span></summary><pre>email_normalized = fields.Char(index='trigram')</pre></details><details><summary id="f-email_state">email_state <span class="position">@ line 201</span></summary><pre>email_state = fields.Selection([
+        ('correct', 'Correct'),
+        ('incorrect', 'Incorrect')], string='Email Quality', compute="_compute_email_state", store=True)</pre></details><details><summary id="f-expected_revenue">expected_revenue <span class="position">@ line 147</span></summary><pre>expected_revenue = fields.Monetary('Expected Revenue', currency_field='company_currency', tracking=True, default=0.0)</pre></details><details><summary id="f-function">function <span class="position">@ line 181</span></summary><pre>function = fields.Char('Job Position', compute='_compute_function', readonly=False, store=True)</pre></details><details><summary id="f-is_automated_probability">is_automated_probability <span class="position">@ line 227</span></summary><pre>is_automated_probability = fields.Boolean('Is automated probability?', compute="_compute_is_automated_probability")</pre></details><details><summary id="f-is_partner_visible">is_partner_visible <span class="position">@ line 241</span></summary><pre>is_partner_visible = fields.Boolean('Is Partner Visible', compute='_compute_is_partner_visible')</pre></details><details><summary id="f-lang_active_count">lang_active_count <span class="position">@ line 209</span></summary><pre>lang_active_count = fields.Integer(compute='_compute_lang_active_count')</pre></details><details><summary id="f-lang_code">lang_code <span class="position">@ line 208</span></summary><pre>lang_code = fields.Char(related='lang_id.code')</pre></details><details><summary id="f-lang_id">lang_id <span class="position">@ line 205</span></summary><pre>lang_id = fields.Many2one(
+        'res.lang', string='Language',
+        compute='_compute_lang_id', readonly=False, store=True)</pre></details><details><summary id="f-lead_properties">lead_properties <span class="position">@ line 121</span></summary><pre>lead_properties = fields.Properties(
+        'Properties', definition='team_id.lead_properties_definition',
+        copy=True)</pre></details><details><summary id="f-lost_reason_id">lost_reason_id <span class="position">@ line 229</span></summary><pre>lost_reason_id = fields.Many2one(
+        'crm.lost.reason', string='Lost Reason',
+        index=True, ondelete='restrict', tracking=True)</pre></details><details><summary id="f-medium_id">medium_id <span class="position">@ line 244</span></summary><pre>medium_id = fields.Many2one(ondelete='set null')</pre></details><details><summary id="f-meeting_display_date">meeting_display_date <span class="position">@ line 236</span></summary><pre>meeting_display_date = fields.Date(compute="_compute_meeting_display")</pre></details><details><summary id="f-meeting_display_label">meeting_display_label <span class="position">@ line 237</span></summary><pre>meeting_display_label = fields.Char(compute="_compute_meeting_display")</pre></details><details><summary id="f-mobile">mobile <span class="position">@ line 196</span></summary><pre>mobile = fields.Char('Mobile', compute='_compute_mobile', readonly=False, store=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 108</span></summary><pre>name = fields.Char(
+        'Opportunity', index='trigram', required=True,
+        compute='_compute_name', readonly=False, store=True)</pre></details><details><summary id="f-partner_email_update">partner_email_update <span class="position">@ line 239</span></summary><pre>partner_email_update = fields.Boolean('Partner Email will Update', compute='_compute_partner_email_update')</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 170</span></summary><pre>partner_id = fields.Many2one(
+        'res.partner', string='Customer', check_company=True, index=True, tracking=10,
+        help="Linked partner (optional). Usually created when converting the lead. You can find a partner by its Name, TIN, Email or Internal Reference.")</pre></details><details><summary id="f-partner_is_blacklisted">partner_is_blacklisted <span class="position">@ line 173</span></summary><pre>partner_is_blacklisted = fields.Boolean('Partner is blacklisted', related='partner_id.is_blacklisted', readonly=True)</pre></details><details><summary id="f-partner_name">partner_name <span class="position">@ line 177</span></summary><pre>partner_name = fields.Char(
+        'Company Name', index='trigram', tracking=20,
+        compute='_compute_partner_name', readonly=False, store=True,
+        help='The name of the future partner company that will be created while converting the lead into opportunity')</pre></details><details><summary id="f-partner_phone_update">partner_phone_update <span class="position">@ line 240</span></summary><pre>partner_phone_update = fields.Boolean('Partner Phone will Update', compute='_compute_partner_phone_update')</pre></details><details><summary id="f-phone">phone <span class="position">@ line 193</span></summary><pre>phone = fields.Char(
+        'Phone', tracking=50,
+        compute='_compute_phone', inverse='_inverse_phone', readonly=False, store=True)</pre></details><details><summary id="f-phone_sanitized">phone_sanitized <span class="position">@ line 197</span></summary><pre>phone_sanitized = fields.Char(index='btree_not_null')</pre></details><details><summary id="f-phone_state">phone_state <span class="position">@ line 198</span></summary><pre>phone_state = fields.Selection([
+        ('correct', 'Correct'),
+        ('incorrect', 'Incorrect')], string='Phone Quality', compute="_compute_phone_state", store=True)</pre></details><details><summary id="f-priority">priority <span class="position">@ line 134</span></summary><pre>priority = fields.Selection(
+        crm_stage.AVAILABLE_PRIORITIES, string='Priority', index=True,
+        default=crm_stage.AVAILABLE_PRIORITIES[0][0])</pre></details><details><summary id="f-probability">probability <span class="position">@ line 223</span></summary><pre>probability = fields.Float(
+        'Probability', aggregator="avg", copy=False,
+        compute='_compute_probabilities', readonly=False, store=True)</pre></details><details><summary id="f-prorated_revenue">prorated_revenue <span class="position">@ line 148</span></summary><pre>prorated_revenue = fields.Monetary('Prorated Revenue', currency_field='company_currency', store=True, compute="_compute_prorated_revenue")</pre></details><details><summary id="f-recurring_plan">recurring_plan <span class="position">@ line 150</span></summary><pre>recurring_plan = fields.Many2one('crm.recurring.plan', string="Recurring Plan")</pre></details><details><summary id="f-recurring_revenue">recurring_revenue <span class="position">@ line 149</span></summary><pre>recurring_revenue = fields.Monetary('Recurring Revenues', currency_field='company_currency', tracking=True, default=0.0)</pre></details><details><summary id="f-recurring_revenue_monthly">recurring_revenue_monthly <span class="position">@ line 151</span></summary><pre>recurring_revenue_monthly = fields.Monetary('Expected MRR', currency_field='company_currency', store=True,
+                                                compute="_compute_recurring_revenue_monthly")</pre></details><details><summary id="f-recurring_revenue_monthly_prorated">recurring_revenue_monthly_prorated <span class="position">@ line 153</span></summary><pre>recurring_revenue_monthly_prorated = fields.Monetary('Prorated MRR', currency_field='company_currency', store=True,
+                                                         compute="_compute_recurring_revenue_monthly_prorated")</pre></details><details><summary id="f-recurring_revenue_prorated">recurring_revenue_prorated <span class="position">@ line 155</span></summary><pre>recurring_revenue_prorated = fields.Monetary('Prorated Recurring Revenues', currency_field='company_currency',
+                                                 compute="_compute_recurring_revenue_prorated", store=True)</pre></details><details><summary id="f-referred">referred <span class="position">@ line 127</span></summary><pre>referred = fields.Char('Referred By')</pre></details><details><summary id="f-source_id">source_id <span class="position">@ line 245</span></summary><pre>source_id = fields.Many2one(ondelete='set null')</pre></details><details><summary id="f-stage_id">stage_id <span class="position">@ line 137</span></summary><pre>stage_id = fields.Many2one(
+        'crm.stage', string='Stage', index=True, tracking=True,
+        compute='_compute_stage_id', readonly=False, store=True,
+        copy=False, group_expand='_read_group_stage_ids', ondelete='restrict',
+        domain="['|', ('team_id', '=', False), ('team_id', '=', team_id)]")</pre></details><details><summary id="f-state_id">state_id <span class="position">@ line 215</span></summary><pre>state_id = fields.Many2one(
+        "res.country.state", string='State',
+        compute='_compute_partner_address_values', readonly=False, store=True,
+        domain="[('country_id', '=?', country_id)]")</pre></details><details><summary id="f-street">street <span class="position">@ line 211</span></summary><pre>street = fields.Char('Street', compute='_compute_partner_address_values', readonly=False, store=True)</pre></details><details><summary id="f-street2">street2 <span class="position">@ line 212</span></summary><pre>street2 = fields.Char('Street2', compute='_compute_partner_address_values', readonly=False, store=True)</pre></details><details><summary id="f-tag_ids">tag_ids <span class="position">@ line 142</span></summary><pre>tag_ids = fields.Many2many(
+        'crm.tag', 'crm_tag_rel', 'lead_id', 'tag_id', string='Tags',
+        help="Classify and analyze your lead/opportunity categories like: Training, Service")</pre></details><details><summary id="f-team_id">team_id <span class="position">@ line 118</span></summary><pre>team_id = fields.Many2one(
+        'crm.team', string='Sales Team', check_company=True, index=True, tracking=True,
+        compute='_compute_team_id', ondelete="set null", readonly=False, store=True, precompute=True)</pre></details><details><summary id="f-title">title <span class="position">@ line 182</span></summary><pre>title = fields.Many2one('res.partner.title', string='Title', compute='_compute_title', readonly=False, store=True)</pre></details><details><summary id="f-type">type <span class="position">@ line 130</span></summary><pre>type = fields.Selection([
+        ('lead', 'Lead'), ('opportunity', 'Opportunity')], required=True, tracking=15, index=True,
+        default=lambda self: 'lead' if self.env.user.has_group('crm.group_use_lead') else 'opportunity')</pre></details><details><summary id="f-user_company_ids">user_company_ids <span class="position">@ line 115</span></summary><pre>user_company_ids = fields.Many2many(
+        'res.company', compute='_compute_user_company_ids',
+        help='UX: Limit to lead company or all if no company')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 111</span></summary><pre>user_id = fields.Many2one(
+        'res.users', string='Salesperson', default=lambda self: self.env.user,
+        domain="[('share', '=', False)]",
+        check_company=True, index=True, tracking=True)</pre></details><details><summary id="f-website">website <span class="position">@ line 204</span></summary><pre>website = fields.Char('Website', help="Website of the contact", compute="_compute_website", readonly=False, store=True)</pre></details><details><summary id="f-zip">zip <span class="position">@ line 213</span></summary><pre>zip = fields.Char('Zip', change_default=True, compute='_compute_partner_address_values', readonly=False, store=True)</pre></details><h3>Methods</h3><ul id="m-_auto_init"><li>_auto_init(self) <span class="position">@ line 719</span></li></ul><details><summary id="m-_convert_opportunity_data">_convert_opportunity_data(self, customer, team_id) <span class="position">@ line 1675</span></summary><pre>Extract the data from a lead to create the opportunity
+:param customer : res.partner record
+:param team_id : identifier of the Sales Team to determine the stage</pre></details><details><summary id="m-_create_customer">_create_customer(self) <span class="position">@ line 1832</span></summary><pre>Create a partner from lead data and link it to the lead.
+
+:return: newly-created partner browse record</pre></details><ul id="m-_creation_message"><li>_creation_message(self) <span class="position">@ line 1911</span></li></ul><ul id="m-_creation_subtype"><li>_creation_subtype(self) <span class="position">@ line 1908</span></li></ul><details><summary id="m-_cron_update_automated_probabilities">_cron_update_automated_probabilities(self) <span class="position">@ line 2280</span></summary><pre>This cron will :
+- rebuild the lead scoring frequency table
+- recompute all the automated_probability and align probability if both were aligned</pre></details><details><summary id="m-_find_matching_partner">_find_matching_partner(self, email_only) <span class="position">@ line 1808</span></summary><pre>Try to find a matching partner with available information on the
+lead, using notably customer's name, email, ...
+
+:param email_only: Only find a matching based on the email. To use
+for automatic process where ilike based on name can be too dangerous
+:return: partner browse record</pre></details><details><summary id="m-_format_properties">_format_properties(self) <span class="position">@ line 1606</span></summary><pre>Format the properties to build the merge message.
+
+Return a list of dict containing the label, and a value key if there's only
+one value, or a "values" key if we have multiple values (e.g. many2many, tags).
+
+E.G.
+[{
+'label': 'My Partner',
+'value': 'Alice',
+}, {
+'label': 'My Partners',
+'values': [
+{'name': 'Alice'},
+{'name': 'Bob'},
+],
+}, {
+'label': 'My Tags',
+'values': [
+{'name': 'A', 'color': 1},
+{'name': 'C', 'color': 3},
+],
+}]</pre></details><ul id="m-_get_customer_information"><li>_get_customer_information(self) <span class="position">@ line 1856</span></li></ul><details><summary id="m-_get_lead_duplicates">_get_lead_duplicates(self, partner, email, include_lost) <span class="position">@ line 1752</span></summary><pre>Search for leads that seem duplicated based on partner / email.
+
+:param partner : optional customer when searching duplicated
+:param email: email (possibly formatted) to search
+:param boolean include_lost: if True, search includes archived opportunities
+(still only active leads are considered). If False, search for active
+and not won leads and opportunities;</pre></details><details><summary id="m-_get_opportunity_meeting_view_parameters">_get_opportunity_meeting_view_parameters(self) <span class="position">@ line 1147</span></summary><pre>Return the most relevant parameters for calendar view when viewing meetings linked to an opportunity.
+If there are any meetings that are not finished yet, only consider those meetings,
+since the user would prefer no to see past meetings. Otherwise, consider all meetings.
+Allday events datetimes are used without taking tz into account.
+-If there is no event, return week mode and false (The calendar will target 'now' by default)
+-If there is only one, return week mode and date of the start of the event.
+-If there are several events entirely on the same week, return week mode and start of first event.
+-Else, return month mode and the date of the start of first event as initial date. (If they are
+on the same month, this will display that month and therefore show all of them, which is expected)
+
+:return tuple(mode, initial_date)
+- mode: selected mode of the calendar view, 'week' or 'month'
+- initial_date: date of the start of the first relevant meeting. The calendar will target that date.</pre></details><details><summary id="m-_get_partner_email_update">_get_partner_email_update(self) <span class="position">@ line 685</span></summary><pre>Calculate if we should write the email on the related partner. When
+the email of the lead / partner is an empty string, we force it to False
+to not propagate a False on an empty string.
+
+Done in a separate method so it can be used in both ribbon and inverse
+and compute of email update methods.</pre></details><details><summary id="m-_get_partner_phone_update">_get_partner_phone_update(self) <span class="position">@ line 700</span></summary><pre>Calculate if we should write the phone on the related partner. When
+the phone of the lead / partner is an empty string, we force it to False
+to not propagate a False on an empty string.
+
+Done in a separate method so it can be used in both ribbon and inverse
+and compute of phone update methods.</pre></details><ul id="m-_get_rainbowman_message"><li>_get_rainbowman_message(self) <span class="position">@ line 1063</span></li></ul><details><summary id="m-_handle_partner_assignment">_handle_partner_assignment(self, force_partner_id, create_missing) <span class="position">@ line 1705</span></summary><pre>Update customer (partner_id) of leads. Purpose is to set the same
+partner on most leads; either through a newly created partner either
+through a given partner_id.
+
+:param int force_partner_id: if set, update all leads to that customer;
+:param create_missing: for leads without customer, create a new one
+based on lead information;</pre></details><details><summary id="m-_handle_salesmen_assignment">_handle_salesmen_assignment(self, user_ids, team_id) <span class="position">@ line 1721</span></summary><pre>Assign salesmen and salesteam to a batch of leads.  If there are more
+leads than salesmen, these salesmen will be assigned in round-robin. E.g.
+4 salesmen (S1, S2, S3, S4) for 6 leads (L1, L2, ... L6) will assigned as
+following: L1 - S1, L2 - S2, L3 - S3, L4 - S4, L5 - S1, L6 - S2.
+
+:param list user_ids: salesmen to assign
+:param int team_id: salesteam to assign</pre></details><details><summary id="m-_handle_won_lost">_handle_won_lost(self, vals) <span class="position">@ line 880</span></summary><pre>This method handle the state changes :
+- To lost : We need to increment corresponding lost count in scoring frequency table
+- To won : We need to increment corresponding won count in scoring frequency table
+- From lost to Won : We need to decrement corresponding lost count + increment corresponding won count
+in scoring frequency table.
+- From won to lost : We need to decrement corresponding won count + increment corresponding lost count
+in scoring frequency table.</pre></details><ul id="m-_inverse_email_from"><li>_inverse_email_from(self) <span class="position">@ line 439</span></li></ul><ul id="m-_inverse_phone"><li>_inverse_phone(self) <span class="position">@ line 458</span></li></ul><details><summary id="m-_merge_data">_merge_data(self, fnames) <span class="position">@ line 1325</span></summary><pre>Prepare lead/opp data into a dictionary for merging. Different types
+of fields are processed in different ways:
+- text: all the values are concatenated
+- m2m and o2m: those fields aren't processed
+- m2o: the first not null value prevails (the other are dropped)
+- any other type of field: same as m2o
+
+:param fields: list of fields to process
+:return dict data: contains the merged values of the new opportunity</pre></details><details><summary id="m-_merge_dependences">_merge_dependences(self, opportunities) <span class="position">@ line 1470</span></summary><pre>Merge dependences (messages, attachments,activities, calendar events,
+...). These dependences will be transfered to `self` considered as the
+master lead.
+
+:param opportunities : recordset of opportunities to transfer. Does not
+include `self` which is the target crm.lead being the result of the
+merge;</pre></details><details><summary id="m-_merge_dependences_attachments">_merge_dependences_attachments(self, opportunities) <span class="position">@ line 1512</span></summary><pre>Move attachments of given opportunities to the current one `self`, and rename
+the attachments having same name than native ones.
+
+:param opportunities: see ``_merge_dependences``</pre></details><details><summary id="m-_merge_dependences_calendar_events">_merge_dependences_calendar_events(self, opportunities) <span class="position">@ line 1537</span></summary><pre>Move calender.event from the given opportunities to the current one. `self` is the
+crm.lead record destination for event of `opportunities`.
+:param opportunities: see ``merge_dependences``</pre></details><details><summary id="m-_merge_dependences_history">_merge_dependences_history(self, opportunities) <span class="position">@ line 1484</span></summary><pre>Move history from the given opportunities to the current one. `self`
+is the crm.lead record destination for message of `opportunities`.
+
+This method moves
+* messages
+* activities
+
+:param opportunities: see ``_merge_dependences``</pre></details><details><summary id="m-_merge_followers">_merge_followers(self, opportunities) <span class="position">@ line 1549</span></summary><pre>Add the followers into the destination lead if they post a message in the last 30 days.
+
+:param opportunities : Record<crm.lead> of opportunities to transfer
+:return: {old_lead_id: Record<mail.followers>} Followers which have been added in
+the destination lead grouped by source lead ID.</pre></details><ul id="m-_merge_get_fields"><li>_merge_get_fields(self) <span class="position">@ line 1463</span></li></ul><details><summary id="m-_merge_get_fields_address">_merge_get_fields_address(self) <span class="position">@ line 1439</span></summary><pre>The address fields are propagated as a whole.
+
+The address is taken from the lead with the most non-empty address field
+(sorted by highest rank if multiple lead have the same amount of non-empty
+fields).</pre></details><ul id="m-_merge_get_fields_specific"><li>_merge_get_fields_specific(self) <span class="position">@ line 1452</span></li></ul><details><summary id="m-_merge_log_summary">_merge_log_summary(self, merged_followers, opportunities_tail) <span class="position">@ line 1593</span></summary><pre>Log the merge message on the lead.</pre></details><details><summary id="m-_merge_opportunity">_merge_opportunity(self, user_id, team_id, auto_unlink, max_length) <span class="position">@ line 1383</span></summary><pre>Private merging method. This one allows to relax rules on record set
+length allowing to merge more than 5 opportunities at once if requested.
+This should not be called by action buttons.
+
+See ``merge_opportunity`` for more details.</pre></details><ul id="m-_message_get_default_recipients"><li>_message_get_default_recipients(self) <span class="position">@ line 1986</span></li></ul><ul id="m-_message_get_suggested_recipients"><li>_message_get_suggested_recipients(self) <span class="position">@ line 1995</span></li></ul><details><summary id="m-_message_partner_info_from_emails">_message_partner_info_from_emails(self, emails, link_mail) <span class="position">@ line 2054</span></summary><pre>Try to propose a better recipient when having only an email by populating
+it with the partner_name / contact_name field of the lead e.g. if lead
+contact_name is "Raoul" and email is "raoul@raoul.fr", suggest
+"Raoul" <raoul@raoul.fr> as recipient.</pre></details><ul id="m-_message_post_after_hook"><li>_message_post_after_hook(self, message, msg_vals) <span class="position">@ line 2036</span></li></ul><ul id="m-_notify_by_email_prepare_rendering_context"><li>_notify_by_email_prepare_rendering_context(self, message, msg_vals, model_description, force_email_company, force_email_lang) <span class="position">@ line 1931</span></li></ul><details><summary id="m-_notify_get_recipients_groups">_notify_get_recipients_groups(self, message, model_description, msg_vals) <span class="position">@ line 1942</span></summary><pre>Handle salesman recipients that can convert leads into opportunities
+and set opportunities as won / lost.</pre></details><details><summary id="m-_notify_get_reply_to">_notify_get_reply_to(self, default) <span class="position">@ line 1977</span></summary><pre>Override to set alias of lead and opportunities to their sales team if any.</pre></details><details><summary id="m-_pls_get_lead_pls_values">_pls_get_lead_pls_values(self, domain) <span class="position">@ line 2621</span></summary><pre>This methods builds a dict where, for each lead in self or matching the given domain,
+we will get a list of field/value couple.
+Due to onchange and create, we don't always have the id of the lead to recompute.
+When we update few records (one, typically) with onchanges, we build the lead_values (= couple field/value)
+using the ORM.
+To speed up the computation and avoid making too much DB read inside loops,
+we can give a domain to make sql queries to bypass the ORM.
+This domain will be used in sql queries to get the values for every lead matching the domain.
+:param domain: If set, we get all the leads values via unique sql queries (one for tags, one for other fields),
+using the given domain on leads.
+If not set, get lead values lead by lead using the ORM.
+:return: {lead_id: [(field1: value1), (field2: value2), ...], ...}</pre></details><details><summary id="m-_pls_get_naive_bayes_probabilities">_pls_get_naive_bayes_probabilities(self, batch_mode) <span class="position">@ line 2108</span></summary><pre>In machine learning, naive Bayes classifiers (NBC) are a family of simple "probabilistic classifiers" based on
+applying Bayes theorem with strong (naive) independence assumptions between the variables taken into account.
+E.g: will TDE eat m&m's depending on his sleep status, the amount of work he has and the fullness of his stomach?
+As we use experience to compute the statistics, every day, we will register the variables state + the result.
+As the days pass, we will be able to determine, with more and more precision, if TDE will eat m&m's
+for a specific combination :
+- did sleep very well, a lot of work and stomach full > Will never happen !
+- didn't sleep at all, no work at all and empty stomach > for sure !
+Following Bayes' Theorem: the probability that an event occurs (to win) under certain conditions is proportional
+to the probability to win under each condition separately and the probability to win. We compute a 'Win score'
+-> P(Won | A∩B) ∝ P(A∩B | Won)*P(Won) OR S(Won | A∩B) = P(A∩B | Won)*P(Won)
+To compute a percentage of probability to win, we also compute the 'Lost score' that is proportional to the
+probability to lose under each condition separately and the probability to lose.
+-> Probability =  S(Won | A∩B) / ( S(Won | A∩B) + S(Lost | A∩B) )
+See https://www.youtube.com/watch?v=CPqOCI0ahss can help to get a quick and simple example.
+One issue about NBC is when a event occurence is never observed.
+E.g: if when TDE has an empty stomach, he always eat m&m's, than the "not eating m&m's when empty stomach' event
+will never be observed.
+This is called 'zero frequency' and that leads to division (or at least multiplication) by zero.
+To avoid this, we add 0.1 in each frequency. With few data, the computation is than not really realistic.
+The more we have records to analyse, the more the estimation will be precise.
+:return: probability in percent (and integer rounded) that the lead will be won at the current stage.</pre></details><details><summary id="m-_pls_get_safe_fields">_pls_get_safe_fields(self) <span class="position">@ line 2538</span></summary><pre>As config_parameters does not accept M2M field,
+we the fields from the formated string stored into the Char config field.
+To avoid sql injections when using that list, we return only the fields
+that are defined on the model.</pre></details><details><summary id="m-_pls_get_safe_start_date">_pls_get_safe_start_date(self) <span class="position">@ line 2527</span></summary><pre>As config_parameters does not accept Date field,
+we get directly the date formated string stored into the Char config field,
+as we directly use this string in the sql queries.
+To avoid sql injections when using this config param,
+we ensure the date string can be effectively a date.</pre></details><details><summary id="m-_pls_get_won_lost_total_count">_pls_get_won_lost_total_count(self, team_results) <span class="position">@ line 2550</span></summary><pre>Get all won and all lost + total :
+first stage can be used to know how many lost and won there is
+as won count are equals for all stage
+and first stage is always incremented in lost_count
+:param frequencies: lead_scoring_frequencies
+:return: won count, lost count and total count for all records in frequencies</pre></details><details><summary id="m-_pls_increment_frequencies">_pls_increment_frequencies(self, from_state, to_state) <span class="position">@ line 2256</span></summary><pre>When losing or winning a lead, this method is called to increment each PLS parameter related to the lead
+in won_count (if won) or in lost_count (if lost).
+
+This method is also used when reactivating a mistakenly lost lead (using the decrement argument).
+In this case, the lost count should be de-increment by 1 for each PLS parameter linked to the lead.
+
+Live increment must be done before writing the new values because we need to know the state change (from and to).
+This would not be an issue for the reach won or reach lost as we just need to increment the frequencies with the
+final state of the lead.
+This issue is when the lead leaves a closed state because once the new values have been writen, we do not know
+what was the previous state that we need to decrement.
+This is why 'is_won' and 'decrement' parameters are used to describe the from / to change of its state.</pre></details><ul id="m-_pls_increment_frequency_dict"><li>_pls_increment_frequency_dict(self, frequencies, field, value, won, lost) <span class="position">@ line 2610</span></li></ul><details><summary id="m-_pls_prepare_frequencies">_pls_prepare_frequencies(self, lead_values, leads_pls_fields, target_state) <span class="position">@ line 2567</span></summary><pre>new state is used when getting frequencies for leads that are changing to lost or won.
+Stays none if we are checking frequencies for leads already won or lost.</pre></details><details><summary id="m-_pls_prepare_update_frequency_table">_pls_prepare_update_frequency_table(self, rebuild, target_state) <span class="position">@ line 2386</span></summary><pre>This method is common to Live Increment or Full Rebuild mode, as it shares the main steps.
+This method will prepare the frequency dict needed to update the frequency table:
+- New frequencies: frequencies that we need to add in the frequency table.
+- Existing frequencies: frequencies that are already in the frequency table.
+In rebuild mode, only the new frequencies are needed as existing frequencies are truncated.
+For each team, each dict contains the frequency in won and lost for each field/value couple
+of the target leads.
+Target leads are :
+- in Live increment mode : given ongoing leads (self)
+- in Full rebuild mode : all the closed (won and lost) leads in the DB.
+During the frequencies update, with both new and existing frequencies, we can split frequencies to update
+and frequencies to add. If a field/value couple already exists in the frequency table, we just update it.
+Otherwise, we need to insert a new one.</pre></details><details><summary id="m-_pls_update_frequency_table">_pls_update_frequency_table(self, new_frequencies_by_team, step, existing_frequencies_by_team) <span class="position">@ line 2479</span></summary><pre>Create / update the frequency table in a cross company way, per team_id</pre></details><ul id="m-_prepare_address_values_from_partner"><li>_prepare_address_values_from_partner(self, partner) <span class="position">@ line 663</span></li></ul><ul id="m-_prepare_contact_name_from_partner"><li>_prepare_contact_name_from_partner(self, partner) <span class="position">@ line 671</span></li></ul><details><summary id="m-_prepare_customer_values">_prepare_customer_values(self, partner_name, is_company, parent_id) <span class="position">@ line 1870</span></summary><pre>Extract data from lead to create a partner.
+
+:param name : furtur name of the partner
+:param is_company : True if the partner is a company
+:param parent_id : id of the parent partner (False if no parent)
+
+:return: dictionary of values to give at res_partner.create()</pre></details><details><summary id="m-_prepare_partner_name_from_partner">_prepare_partner_name_from_partner(self, partner) <span class="position">@ line 675</span></summary><pre>Company name: name of partner parent (if set) or name of partner
+(if company) or company_name of partner (if not a company).</pre></details><details><summary id="m-_prepare_values_from_partner">_prepare_values_from_partner(self, partner) <span class="position">@ line 644</span></summary><pre>Get a dictionary with values coming from partner information to
+copy on a lead. Non-address fields get the current lead
+values to avoid being reset if partner has no value for them.</pre></details><ul id="m-_rebuild_pls_frequency_table"><li>_rebuild_pls_frequency_table(self) <span class="position">@ line 2290</span></li></ul><details><summary id="m-_sort_by_confidence_level">_sort_by_confidence_level(self, reverse) <span class="position">@ line 1781</span></summary><pre>Sorting the leads/opps according to the confidence level to it
+being won. It is sorted following this incremental heuristics :
+
+* "not lost" first (inactive leads are lost); normally all leads
+should be active but in case lost one, they are always last.
+Inactive opportunities are considered as valid;
+* opportunity is more reliable than a lead which is a pre-stage
+used mainly for first classification;
+* stage sequence: the higher the better as it indicates we are moving
+towards won stage;
+* probability: the higher the better as it is more likely to be won;
+* ID: the higher the better when all other parameters are equal. We
+consider newer leads to be more reliable;</pre></details><details><summary id="m-_stage_find">_stage_find(self, team_id, domain, order, limit) <span class="position">@ line 962</span></summary><pre>Determine the stage of the current lead with its teams, the given domain and the given team_id
+:param team_id
+:param domain : base search domain for stage
+:param order : base search order for stage
+:param limit : base search limit for stage
+:returns crm.stage recordset</pre></details><ul id="m-_track_subtype"><li>_track_subtype(self, init_values) <span class="position">@ line 1917</span></li></ul><details><summary id="m-_update_automated_probabilities">_update_automated_probabilities(self) <span class="position">@ line 2305</span></summary><pre>Recompute all the automated_probability (and align probability if both were aligned) for all the leads
+that are active (not won, nor lost).
+
+For performance matter, as there can be a huge amount of leads to recompute, this cron proceed by batch.
+Each batch is performed into its own transaction, in order to minimise the lock time on the lead table
+(and to avoid complete lock if there was only 1 transaction that would last for too long -> several minutes).
+If a concurrent update occurs, it will simply be put in the queue to get the lock.</pre></details><ul id="m-action_reschedule_meeting"><li>action_reschedule_meeting(self) <span class="position">@ line 1219</span></li></ul><details><summary id="m-action_schedule_meeting">action_schedule_meeting(self, smart_calendar) <span class="position">@ line 1118</span></summary><pre>Open meeting's calendar view to schedule meeting on current opportunity.
+
+:param smart_calendar: boolean, to set to False if the view should not try to choose relevant
+mode and initial date for calendar view, see ``_get_opportunity_meeting_view_parameters``
+:return dict: dictionary value for created Meeting view</pre></details><ul id="m-action_set_automated_probability"><li>action_set_automated_probability(self) <span class="position">@ line 1038</span></li></ul><details><summary id="m-action_set_lost">action_set_lost(self) <span class="position">@ line 1005</span></summary><pre>Lost semantic: probability = 0 or active = False</pre></details><details><summary id="m-action_set_won">action_set_won(self) <span class="position">@ line 1012</span></summary><pre>Won semantic: probability = 100 (active untouched)</pre></details><ul id="m-action_set_won_rainbowman"><li>action_set_won_rainbowman(self) <span class="position">@ line 1041</span></li></ul><details><summary id="m-action_show_potential_duplicates">action_show_potential_duplicates(self) <span class="position">@ line 1227</span></summary><pre>Open kanban view to display duplicate leads or opportunity.
+:return dict: dictionary value for created kanban view</pre></details><ul id="m-action_snooze"><li>action_snooze(self) <span class="position">@ line 1240</span></li></ul><ul id="m-convert_opportunity"><li>convert_opportunity(self, partner, user_ids, team_id) <span class="position">@ line 1692</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 915</span></li></ul><ul id="m-get_rainbowman_message"><li>get_rainbowman_message(self) <span class="position">@ line 1057</span></li></ul><details><summary id="m-log_meeting">log_meeting(self, meeting) <span class="position">@ line 1300</span></summary><pre>Log the meeting info with a link to it in the chatter
+:param record meeting: the meeting we want to log</pre></details><details><summary id="m-merge_opportunity">merge_opportunity(self, user_id, team_id, auto_unlink) <span class="position">@ line 1369</span></summary><pre>Merge opportunities in one. Different cases of merge:
+- merge leads together = 1 new lead
+- merge at least 1 opp with anything else (lead or opp) = 1 new opp
+The resulting lead/opportunity will be the most important one (based on its confidence level)
+updated with values from other opportunities to merge.
+
+:param user_id : the id of the saleperson. If not given, will be determined by `_merge_data`.
+:param team : the id of the Sales Team. If not given, will be determined by `_merge_data`.
+
+:return crm.lead record resulting of th merge</pre></details><ul id="m-redirect_lead_opportunity_view"><li>redirect_lead_opportunity_view(self) <span class="position">@ line 1250</span></li></ul><details><summary id="m-toggle_active">toggle_active(self) <span class="position">@ line 992</span></summary><pre>When archiving: mark probability as 0. When re-activating
+update probability again, for leads and opportunities.</pre></details><details><summary id="m-unlink">unlink(self) <span class="position">@ line 932</span></summary><pre>Update meetings when removing opportunities, otherwise you have
+a link to a record that does not lead anywhere.</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 750</span></li></ul><script src="class.js"></script></body></html>

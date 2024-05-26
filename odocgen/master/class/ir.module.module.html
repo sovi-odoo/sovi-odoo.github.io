@@ -1,0 +1,139 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.module.module - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.module.module</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_module.py</p><p>Inherited in: odoo/addons/website/models/ir_module_module.py<br/>Inherited in: odoo/addons/base_install_request/models/ir_module_module.py<br/>Inherited in: odoo/addons/base_import_module/models/ir_module.py<br/>Inherited in: odoo/addons/account/models/ir_module.py<br/></p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_module.py</h2><h3>Fields</h3><details><summary id="f-application">application <span class="position">@ line 316</span></summary><pre>application = fields.Boolean('Application', readonly=True)</pre></details><details><summary id="f-author">author <span class="position">@ line 275</span></summary><pre>author = fields.Char("Author", readonly=True)</pre></details><details><summary id="f-auto_install">auto_install <span class="position">@ line 295</span></summary><pre>auto_install = fields.Boolean('Automatic Installation',
+                                   help='An auto-installable module is automatically installed by the '
+                                        'system when all its dependencies are satisfied. '
+                                        'If the module has no dependency, it is always installed.')</pre></details><details><summary id="f-category_id">category_id <span class="position">@ line 270</span></summary><pre>category_id = fields.Many2one('ir.module.category', string='Category', readonly=True, index=True)</pre></details><details><summary id="f-contributors">contributors <span class="position">@ line 277</span></summary><pre>contributors = fields.Text('Contributors', readonly=True)</pre></details><details><summary id="f-country_ids">country_ids <span class="position">@ line 292</span></summary><pre>country_ids = fields.Many2many('res.country', 'module_country', 'module_id', 'country_id')</pre></details><details><summary id="f-demo">demo <span class="position">@ line 300</span></summary><pre>demo = fields.Boolean('Demo Data', default=False, readonly=True)</pre></details><details><summary id="f-dependencies_id">dependencies_id <span class="position">@ line 290</span></summary><pre>dependencies_id = fields.One2many('ir.module.module.dependency', 'module_id',
+                                       string='Dependencies', readonly=True)</pre></details><details><summary id="f-description">description <span class="position">@ line 273</span></summary><pre>description = fields.Text('Description', readonly=True, translate=True)</pre></details><details><summary id="f-description_html">description_html <span class="position">@ line 274</span></summary><pre>description_html = fields.Html('Description HTML', compute='_get_desc')</pre></details><details><summary id="f-exclusion_ids">exclusion_ids <span class="position">@ line 293</span></summary><pre>exclusion_ids = fields.One2many('ir.module.module.exclusion', 'module_id',
+                                    string='Exclusions', readonly=True)</pre></details><details><summary id="f-has_iap">has_iap <span class="position">@ line 321</span></summary><pre>has_iap = fields.Boolean(compute='_compute_has_iap')</pre></details><details><summary id="f-icon">icon <span class="position">@ line 317</span></summary><pre>icon = fields.Char('Icon URL')</pre></details><details><summary id="f-icon_flag">icon_flag <span class="position">@ line 319</span></summary><pre>icon_flag = fields.Char(string='Flag', compute='_get_icon_image')</pre></details><details><summary id="f-icon_image">icon_image <span class="position">@ line 318</span></summary><pre>icon_image = fields.Binary(string='Icon', compute='_get_icon_image')</pre></details><details><summary id="f-installed_version">installed_version <span class="position">@ line 284</span></summary><pre>installed_version = fields.Char('Latest Version', compute='_get_latest_version')</pre></details><details><summary id="f-latest_version">latest_version <span class="position">@ line 285</span></summary><pre>latest_version = fields.Char('Installed Version', readonly=True)</pre></details><details><summary id="f-license">license <span class="position">@ line 301</span></summary><pre>license = fields.Selection([
+        ('GPL-2', 'GPL Version 2'),
+        ('GPL-2 or any later version', 'GPL-2 or later version'),
+        ('GPL-3', 'GPL Version 3'),
+        ('GPL-3 or any later version', 'GPL-3 or later version'),
+        ('AGPL-3', 'Affero GPL-3'),
+        ('LGPL-3', 'LGPL Version 3'),
+        ('Other OSI approved licence', 'Other OSI Approved License'),
+        ('OEEL-1', 'Odoo Enterprise Edition License v1.0'),
+        ('OPL-1', 'Odoo Proprietary License v1.0'),
+        ('Other proprietary', 'Other Proprietary')
+    ], string='License', default='LGPL-3', readonly=True)</pre></details><details><summary id="f-maintainer">maintainer <span class="position">@ line 276</span></summary><pre>maintainer = fields.Char('Maintainer', readonly=True)</pre></details><details><summary id="f-menus_by_module">menus_by_module <span class="position">@ line 313</span></summary><pre>menus_by_module = fields.Text(string='Menus', compute='_get_views', store=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 269</span></summary><pre>name = fields.Char('Technical Name', readonly=True, required=True)</pre></details><details><summary id="f-published_version">published_version <span class="position">@ line 286</span></summary><pre>published_version = fields.Char('Published Version', readonly=True)</pre></details><details><summary id="f-reports_by_module">reports_by_module <span class="position">@ line 314</span></summary><pre>reports_by_module = fields.Text(string='Reports', compute='_get_views', store=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 289</span></summary><pre>sequence = fields.Integer('Sequence', default=100)</pre></details><details><summary id="f-shortdesc">shortdesc <span class="position">@ line 271</span></summary><pre>shortdesc = fields.Char('Module Name', readonly=True, translate=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 299</span></summary><pre>state = fields.Selection(STATES, string='Status', default='uninstallable', readonly=True, index=True)</pre></details><details><summary id="f-summary">summary <span class="position">@ line 272</span></summary><pre>summary = fields.Char('Summary', readonly=True, translate=True)</pre></details><details><summary id="f-to_buy">to_buy <span class="position">@ line 320</span></summary><pre>to_buy = fields.Boolean('Odoo Enterprise Module', default=False)</pre></details><details><summary id="f-url">url <span class="position">@ line 288</span></summary><pre>url = fields.Char('URL', readonly=True)</pre></details><details><summary id="f-views_by_module">views_by_module <span class="position">@ line 315</span></summary><pre>views_by_module = fields.Text(string='Views', compute='_get_views', store=True)</pre></details><details><summary id="f-website">website <span class="position">@ line 278</span></summary><pre>website = fields.Char("Website", readonly=True)</pre></details><h3>Methods</h3><ul id="m-_button_immediate_function"><li>_button_immediate_function(self, function) <span class="position">@ line 579</span></li></ul><ul id="m-_check"><li>_check(self) <span class="position">@ line 868</span></li></ul><ul id="m-_compute_has_iap"><li>_compute_has_iap(self) <span class="position">@ line 327</span></li></ul><details><summary id="m-_get">_get(self, name) <span class="position">@ line 873</span></summary><pre>Return the (sudoed) `ir.module.module` record with the given name.
+The result may be an empty recordset if the module is not found.</pre></details><ul id="m-_get_id"><li>_get_id(self, name) <span class="position">@ line 881</span></li></ul><details><summary id="m-_get_modules_to_load_domain">_get_modules_to_load_domain(self) <span class="position">@ line 341</span></summary><pre>Domain to retrieve the modules that should be loaded by the registry.</pre></details><details><summary id="m-_remove_copied_views">_remove_copied_views(self) <span class="position">@ line 497</span></summary><pre>Remove the copies of the views installed by the modules in `self`.
+
+Those copies do not have an external id so they will not be cleaned by
+`_module_data_uninstall`. This is why we rely on `key` instead.
+
+It is important to remove these copies because using them will crash if
+they rely on data that don't exist anymore if the module is removed.</pre></details><ul id="m-_state_update"><li>_state_update(self, newstate, states_to_update, level) <span class="position">@ line 359</span></li></ul><ul id="m-_update_category"><li>_update_category(self, category) <span class="position">@ line 836</span></li></ul><ul id="m-_update_countries"><li>_update_countries(self, countries) <span class="position">@ line 816</span></li></ul><ul id="m-_update_dependencies"><li>_update_dependencies(self, depends, auto_install_requirements) <span class="position">@ line 803</span></li></ul><ul id="m-_update_exclusions"><li>_update_exclusions(self, excludes) <span class="position">@ line 826</span></li></ul><ul id="m-_update_from_terp"><li>_update_from_terp(self, terp) <span class="position">@ line 797</span></li></ul><ul id="m-_update_translations"><li>_update_translations(self, filter_lang, overwrite) <span class="position">@ line 853</span></li></ul><details><summary id="m-button_immediate_install">button_immediate_install(self) <span class="position">@ line 462</span></summary><pre>Installs the selected module(s) immediately and fully,
+returns the next res.config action to execute
+
+:returns: next res.config item to execute
+:rtype: dict[str, object]</pre></details><details><summary id="m-button_immediate_uninstall">button_immediate_uninstall(self) <span class="position">@ line 625</span></summary><pre>Uninstall the selected module(s) immediately and fully,
+returns the next res.config action to execute</pre></details><details><summary id="m-button_immediate_upgrade">button_immediate_upgrade(self) <span class="position">@ line 664</span></summary><pre>Upgrade the selected module(s) immediately and fully,
+return the next res.config action to execute</pre></details><ul id="m-button_install"><li>button_install(self) <span class="position">@ line 397</span></li></ul><ul id="m-button_install_cancel"><li>button_install_cancel(self) <span class="position">@ line 481</span></li></ul><ul id="m-button_uninstall"><li>button_uninstall(self) <span class="position">@ line 634</span></li></ul><ul id="m-button_uninstall_cancel"><li>button_uninstall_cancel(self) <span class="position">@ line 659</span></li></ul><details><summary id="m-button_uninstall_wizard">button_uninstall_wizard(self) <span class="position">@ line 648</span></summary><pre>Launch the wizard to uninstall the given module.</pre></details><ul id="m-button_upgrade"><li>button_upgrade(self) <span class="position">@ line 672</span></li></ul><ul id="m-button_upgrade_cancel"><li>button_upgrade_cancel(self) <span class="position">@ line 721</span></li></ul><ul id="m-check_external_dependencies"><li>check_external_dependencies(cls, module_name, newstate) <span class="position">@ line 346</span></li></ul><ul id="m-get_module_info"><li>get_module_info(cls, name) <span class="position">@ line 160</span></li></ul><ul id="m-get_values_from_terp"><li>get_values_from_terp(terp) <span class="position">@ line 726</span></li></ul><details><summary id="m-module_uninstall">module_uninstall(self) <span class="position">@ line 486</span></summary><pre>Perform the various steps required to uninstall a module completely
+including the deletion of all database structures created by the module:
+tables, columns, constraints, etc.</pre></details><details><summary id="m-next">next(self) <span class="position">@ line 562</span></summary><pre>Return the action linked to an ir.actions.todo is there exists one that
+should be executed. Otherwise, redirect to /web</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 337</span></li></ul><h2>Inherited: odoo/addons/website/models/ir_module_module.py</h2><h3>Fields</h3><details><summary id="f-image_ids">image_ids <span class="position">@ line 35</span></summary><pre>image_ids = fields.One2many('ir.attachment', 'res_id',
+                                domain=[('res_model', '=', _name), ('mimetype', '=like', 'image/%')],
+                                string='Screenshots', readonly=True)</pre></details><details><summary id="f-is_installed_on_current_website">is_installed_on_current_website <span class="position">@ line 39</span></summary><pre>is_installed_on_current_website = fields.Boolean(compute='_compute_is_installed_on_current_website')</pre></details><h3>Methods</h3><ul id="m-_check"><li>_check(self) <span class="position">@ line 474</span></li></ul><details><summary id="m-_compute_is_installed_on_current_website">_compute_is_installed_on_current_website(self) <span class="position">@ line 41</span></summary><pre>Compute for every theme in ``self`` if the current website is using it or not.
+
+This method does not take dependencies into account, because if it did, it would show
+the current website as having multiple different themes installed at the same time,
+which would be confusing for the user.</pre></details><details><summary id="m-_generate_primary_page_templates">_generate_primary_page_templates(self) <span class="position">@ line 730</span></summary><pre>Generates page templates based on manifest entries.</pre></details><details><summary id="m-_generate_primary_snippet_templates">_generate_primary_snippet_templates(self) <span class="position">@ line 582</span></summary><pre>Generates snippet templates hierarchy based on manifest entries for
+use in the configurator and when creating new pages from templates.</pre></details><details><summary id="m-_get_module_data">_get_module_data(self, model_name) <span class="position">@ line 99</span></summary><pre>Return every theme template model of type ``model_name`` for every theme in ``self``.
+
+:param model_name: string with the technical name of the model for which to get data.
+(the name must be one of the keys present in ``_theme_model_names``)
+:return: recordset of theme template models (of type defined by ``model_name``)</pre></details><ul id="m-_post_copy"><li>_post_copy(self, old_rec, new_rec) <span class="position">@ line 189</span></li></ul><details><summary id="m-_theme_cleanup">_theme_cleanup(self, model_name, website) <span class="position">@ line 268</span></summary><pre>Remove orphan models of type ``model_name`` from the current theme and
+for the website ``website``.
+
+We need to compute it this way because if the upgrade (or deletion) of a theme module
+removes a model template, then in the model itself the variable
+``theme_template_id`` will be set to NULL and the reference to the theme being removed
+will be lost. However we do want the ophan to be deleted from the website when
+we upgrade or delete the theme from the website.
+
+``website.page`` and ``website.menu`` don't have ``key`` field so we don't clean them.
+TODO in master: add a field ``theme_id`` on the models to more cleanly compute orphans.
+
+:param model_name: string with the technical name of the model to cleanup
+(the name must be one of the keys present in ``_theme_model_names``)
+:param website: ``website`` model for which the models have to be cleaned</pre></details><details><summary id="m-_theme_get_downstream">_theme_get_downstream(self) <span class="position">@ line 310</span></summary><pre>Return installed downstream themes that starts with the same name.
+
+eg. For theme_A, this will return theme_A_sale, but not theme_B even if theme B
+depends on theme_A.
+
+:return: recordset of themes ``ir.module.module``</pre></details><details><summary id="m-_theme_get_stream_themes">_theme_get_stream_themes(self) <span class="position">@ line 322</span></summary><pre>Returns all the themes in the stream of the current theme.
+
+First find all its downstream themes, and all of the upstream themes of both
+sorted by their level in hierarchy, up first.
+
+:return: recordset of themes ``ir.module.module``</pre></details><details><summary id="m-_theme_get_stream_website_ids">_theme_get_stream_website_ids(self) <span class="position">@ line 338</span></summary><pre>Websites for which this theme (self) is in the stream (up or down) of their theme.
+
+:return: recordset of websites ``website``</pre></details><details><summary id="m-_theme_get_upstream">_theme_get_upstream(self) <span class="position">@ line 301</span></summary><pre>Return installed upstream themes.
+
+:return: recordset of themes ``ir.module.module``</pre></details><details><summary id="m-_theme_load">_theme_load(self, website) <span class="position">@ line 228</span></summary><pre>For every type of model in ``self._theme_model_names``, and for every theme in ``self``:
+create/update real models for the website ``website`` based on the theme template models.
+
+:param website: ``website`` model on which to load the themes</pre></details><details><summary id="m-_theme_unload">_theme_unload(self, website) <span class="position">@ line 251</span></summary><pre>For every type of model in ``self._theme_model_names``, and for every theme in ``self``:
+remove real models that were generated based on the theme template models
+for the website ``website``.
+
+:param website: ``website`` model on which to unload the themes</pre></details><details><summary id="m-_theme_upgrade_upstream">_theme_upgrade_upstream(self) <span class="position">@ line 351</span></summary><pre>Upgrade the upstream dependencies of a theme, and install it if necessary.</pre></details><details><summary id="m-_update_records">_update_records(self, model_name, website) <span class="position">@ line 116</span></summary><pre>This method:
+
+- Find and update existing records.
+
+For each model, overwrite the fields that are defined in the template (except few
+cases such as active) but keep inherited models to not lose customizations.
+
+- Create new records from templates for those that didn't exist.
+
+- Remove the models that existed before but are not in the template anymore.
+
+See _theme_cleanup for more information.
+
+
+There is a special 'while' loop around the 'for' to be able queue back models at the end
+of the iteration when they have unmet dependencies. Hopefully the dependency will be
+found after all models have been processed, but if it's not the case an error message will be shown.
+
+
+:param model_name: string with the technical name of the model to handle
+(the name must be one of the keys present in ``_theme_model_names``)
+:param website: ``website`` model for which the records have to be updated
+
+:raise MissingError: if there is a missing dependency.</pre></details><details><summary id="m-button_choose_theme">button_choose_theme(self) <span class="position">@ line 382</span></summary><pre>Remove any existing theme on the current website and install the theme ``self`` instead.
+
+The actual loading of the theme on the current website will be done
+automatically on ``write`` thanks to the upgrade and/or install.
+
+When installating a new theme, upgrade the upstream chain first to make sure
+we have the latest version of the dependencies to prevent inconsistencies.
+
+:return: dict with the next action to execute</pre></details><details><summary id="m-button_refresh_theme">button_refresh_theme(self) <span class="position">@ line 416</span></summary><pre>Refresh the current theme of the current website.
+
+To refresh it, we only need to upgrade the modules.
+Indeed the (re)loading of the theme will be done automatically on ``write``.</pre></details><details><summary id="m-button_remove_theme">button_remove_theme(self) <span class="position">@ line 411</span></summary><pre>Remove the current theme of the current website.</pre></details><details><summary id="m-get_themes_domain">get_themes_domain(self) <span class="position">@ line 459</span></summary><pre>Returns the 'ir.module.module' search domain matching all available themes.</pre></details><details><summary id="m-write">write(self, vals) <span class="position">@ line 52</span></summary><pre>Override to correctly upgrade themes after upgrade/installation of modules.
+
+# Install
+
+If this theme wasn't installed before, then load it for every website
+for which it is in the stream.
+
+eg. The very first installation of a theme on a website will trigger this.
+
+eg. If a website uses theme_A and we install sale, then theme_A_sale will be
+autoinstalled, and in this case we need to load theme_A_sale for the website.
+
+# Upgrade
+
+There are 2 cases to handle when upgrading a theme:
+
+* When clicking on the theme upgrade button on the interface,
+in which case there will be an http request made.
+
+-> We want to upgrade the current website only, not any other.
+
+* When upgrading with -u, in which case no request should be set.
+
+-> We want to upgrade every website using this theme.</pre></details><h2>Inherited: odoo/addons/base_install_request/models/ir_module_module.py</h2><h3>Methods</h3><ul id="m-action_open_install_request"><li>action_open_install_request(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/base_import_module/models/ir_module.py</h2><h3>Fields</h3><details><summary id="f-imported">imported <span class="position">@ line 33</span></summary><pre>imported = fields.Boolean(string="Imported Module")</pre></details><details><summary id="f-module_type">module_type <span class="position">@ line 34</span></summary><pre>module_type = fields.Selection([
+        ('official', 'Official Apps'),
+        ('industries', 'Industries'),
+    ], default='official')</pre></details><h3>Methods</h3><ul id="m-_get_missing_dependencies_modules"><li>_get_missing_dependencies_modules(self, zip_data) <span class="position">@ line 437</span></li></ul><ul id="m-_get_modules_to_load_domain"><li>_get_modules_to_load_domain(self) <span class="position">@ line 39</span></li></ul><ul id="m-_import_module"><li>_import_module(self, module, path, force, with_demo) <span class="position">@ line 63</span></li></ul><ul id="m-button_immediate_install_app"><li>button_immediate_install_app(self) <span class="position">@ line 383</span></li></ul><ul id="m-module_uninstall"><li>module_uninstall(self) <span class="position">@ line 262</span></li></ul><ul id="m-more_info"><li>more_info(self) <span class="position">@ line 297</span></li></ul><ul id="m-web_read"><li>web_read(self, specification) <span class="position">@ line 307</span></li></ul><h2>Inherited: odoo/addons/account/models/ir_module.py</h2><h3>Fields</h3><details><summary id="f-account_templates">account_templates <span class="position">@ line 26</span></summary><pre>account_templates = fields.Binary(compute='_compute_account_templates', exportable=False)</pre></details><h3>Methods</h3><ul id="m-_load_module_terms"><li>_load_module_terms(self, modules, langs, overwrite) <span class="position">@ line 75</span></li></ul><ul id="m-_register_hook"><li>_register_hook(self) <span class="position">@ line 85</span></li></ul><ul id="m-module_uninstall"><li>module_uninstall(self) <span class="position">@ line 94</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 61</span></li></ul><script src="class.js"></script></body></html>

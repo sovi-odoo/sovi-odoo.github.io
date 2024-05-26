@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>project.task.type - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>project.task.type</h1><p>Originally defined in: odoo/addons/project/models/project_task_type.py</p><p>Inherited in: odoo/addons/project_sms/models/project_task_type.py<br/></p><hr/><h2>Original: odoo/addons/project/models/project_task_type.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 22</span></summary><pre>active = fields.Boolean('Active', default=True, export_string_translation=False)</pre></details><details><summary id="f-auto_validation_state">auto_validation_state <span class="position">@ line 42</span></summary><pre>auto_validation_state = fields.Boolean('Automatic Kanban Status', default=False,
+        help="Automatically modify the state when the customer replies to the feedback for this stage.\n"
+            " * Good feedback from the customer will update the state to 'Approved' (green bullet).\n"
+            " * Neutral or bad feedback will set the kanban state to 'Changes Requested' (orange bullet).\n")</pre></details><details><summary id="f-disabled_rating_warning">disabled_rating_warning <span class="position">@ line 46</span></summary><pre>disabled_rating_warning = fields.Text(compute='_compute_disabled_rating_warning', export_string_translation=False)</pre></details><details><summary id="f-fold">fold <span class="position">@ line 34</span></summary><pre>fold = fields.Boolean(string='Folded in Kanban')</pre></details><details><summary id="f-mail_template_id">mail_template_id <span class="position">@ line 29</span></summary><pre>mail_template_id = fields.Many2one(
+        'mail.template',
+        string='Email Template',
+        domain=[('model', '=', 'project.task')],
+        help="If set, an email will be automatically sent to the customer when the task reaches this stage.")</pre></details><details><summary id="f-name">name <span class="position">@ line 23</span></summary><pre>name = fields.Char(string='Name', required=True, translate=True)</pre></details><details><summary id="f-project_ids">project_ids <span class="position">@ line 25</span></summary><pre>project_ids = fields.Many2many('project.project', 'project_task_type_rel', 'type_id', 'project_id', string='Projects',
+        default=lambda self: self._get_default_project_ids(),
+        help="Projects in which this stage is present. If you follow a similar workflow in several projects,"
+            " you can share this stage among them and get consolidated information this way.")</pre></details><details><summary id="f-rating_template_id">rating_template_id <span class="position">@ line 35</span></summary><pre>rating_template_id = fields.Many2one(
+        'mail.template',
+        string='Rating Email Template',
+        domain=[('model', '=', 'project.task')],
+        help="If set, a rating request will automatically be sent by email to the customer when the task reaches this stage. \n"
+             "Alternatively, it will be sent at a regular interval as long as the task remains in this stage, depending on the configuration of your project. \n"
+             "To use this feature make sure that the 'Customer Ratings' option is enabled on your project.")</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 24</span></summary><pre>sequence = fields.Integer(default=1)</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 48</span></summary><pre>user_id = fields.Many2one('res.users', 'Stage Owner', default=_default_user_id, compute='_compute_user_id', store=True, index=True)</pre></details><h3>Methods</h3><ul id="m-_default_user_id"><li>_default_user_id(self) <span class="position">@ line 19</span></li></ul><ul id="m-_get_default_project_ids"><li>_get_default_project_ids(self) <span class="position">@ line 15</span></li></ul><details><summary id="m-_prepare_personal_stages_deletion">_prepare_personal_stages_deletion(self, remaining_stages_dict, personal_stages_to_update) <span class="position">@ line 113</span></summary><pre>_prepare_personal_stages_deletion prepare the deletion of personal stages of a single user.
+Tasks using that stage will be moved to the first stage with a lower sequence if it exists
+higher if not.
+:param self: project.task.type recordset containing the personal stage of a user
+that need to be deleted
+:param remaining_stages_dict: list of dict representation of the personal stages of a user that
+can be used to replace the deleted ones. Can not be empty.
+e.g: [{'id': stage1_id, 'seq': stage1_sequence}, ...]
+:param personal_stages_to_update: project.task.stage.personal recordset containing the records
+that need to be updated after stage modification. Is passed to
+this method as an argument to avoid to reload it for each users
+when this method is called multiple times.</pre></details><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 80</span></li></ul><ul id="m-toggle_active"><li>toggle_active(self) <span class="position">@ line 143</span></li></ul><ul id="m-unlink_wizard"><li>unlink_wizard(self, stage_view) <span class="position">@ line 50</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 75</span></li></ul><h2>Inherited: odoo/addons/project_sms/models/project_task_type.py</h2><h3>Fields</h3><details><summary id="f-sms_template_id">sms_template_id <span class="position">@ line 10</span></summary><pre>sms_template_id = fields.Many2one('sms.template', string="SMS Template",
+        domain=[('model', '=', 'project.task')],
+        help="If set, an SMS Text Message will be automatically sent to the customer when the task reaches this stage.")</pre></details><script src="class.js"></script></body></html>

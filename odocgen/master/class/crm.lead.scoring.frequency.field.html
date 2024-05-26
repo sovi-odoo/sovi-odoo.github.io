@@ -1,0 +1,4 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>crm.lead.scoring.frequency.field - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>crm.lead.scoring.frequency.field</h1><p>Originally defined in: odoo/addons/crm/models/crm_lead_scoring_frequency.py</p><hr/><h2>Original: odoo/addons/crm/models/crm_lead_scoring_frequency.py</h2><h3>Fields</h3><details><summary id="f-field_id">field_id <span class="position">@ line 20</span></summary><pre>field_id = fields.Many2one(
+        'ir.model.fields', domain=[('model_id.model', '=', 'crm.lead')], required=True,
+        ondelete='cascade',
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 19</span></summary><pre>name = fields.Char(related="field_id.field_description")</pre></details><script src="class.js"></script></body></html>

@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>stock.putaway.rule - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>stock.putaway.rule</h1><p>Originally defined in: odoo/addons/stock/models/product_strategy.py</p><hr/><h2>Original: odoo/addons/stock/models/product_strategy.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 69</span></summary><pre>active = fields.Boolean('Active', default=True)</pre></details><details><summary id="f-category_id">category_id <span class="position">@ line 50</span></summary><pre>category_id = fields.Many2one('product.category', 'Product Category',
+        default=_default_category_id, domain=[('filter_for_stock_putaway_rule', '=', True)], ondelete='cascade')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 61</span></summary><pre>company_id = fields.Many2one(
+        'res.company', 'Company', required=True,
+        default=lambda s: s.env.company.id, index=True)</pre></details><details><summary id="f-location_in_id">location_in_id <span class="position">@ line 52</span></summary><pre>location_in_id = fields.Many2one(
+        'stock.location', 'When product arrives in', check_company=True,
+        domain="[('child_ids', '!=', False)]",
+        default=_default_location_id, required=True, ondelete='cascade', index=True)</pre></details><details><summary id="f-location_out_id">location_out_id <span class="position">@ line 56</span></summary><pre>location_out_id = fields.Many2one(
+        'stock.location', 'Store to sublocation', check_company=True,
+        domain="[('id', 'child_of', location_in_id)]",
+        required=True, ondelete='cascade')</pre></details><details><summary id="f-package_type_ids">package_type_ids <span class="position">@ line 64</span></summary><pre>package_type_ids = fields.Many2many('stock.package.type', string='Package Type', check_company=True)</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 45</span></summary><pre>product_id = fields.Many2one(
+        'product.product', 'Product', check_company=True,
+        default=_default_product_id,
+        domain="[('product_tmpl_id', '=', context.get('active_id', False))] if context.get('active_model') == 'product.template' else [('type', '!=', 'service')]",
+        ondelete='cascade')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 60</span></summary><pre>sequence = fields.Integer('Priority', help="Give to the more specialized category, a higher priority to have them in top of the list.")</pre></details><details><summary id="f-storage_category_id">storage_category_id <span class="position">@ line 65</span></summary><pre>storage_category_id = fields.Many2one(
+        'stock.storage.category', 'Storage Category',
+        compute='_compute_storage_category', store=True, readonly=False,
+        ondelete='cascade', check_company=True)</pre></details><details><summary id="f-sublocation">sublocation <span class="position">@ line 70</span></summary><pre>sublocation = fields.Selection([
+        ('no', 'No'),
+        ('last_used', 'Last Used'),
+        ('closest_location', 'Closest Location')
+    ], default='no')</pre></details><h3>Methods</h3><ul id="m-_default_category_id"><li>_default_category_id(self) <span class="position">@ line 24</span></li></ul><ul id="m-_default_location_id"><li>_default_location_id(self) <span class="position">@ line 28</span></li></ul><ul id="m-_default_product_id"><li>_default_product_id(self) <span class="position">@ line 36</span></li></ul><ul id="m-_get_last_used_location"><li>_get_last_used_location(self, product) <span class="position">@ line 135</span></li></ul><ul id="m-_get_last_used_search_domain"><li>_get_last_used_search_domain(self, product) <span class="position">@ line 121</span></li></ul><ul id="m-_get_putaway_location"><li>_get_putaway_location(self, product, quantity, package, packaging, qty_by_location) <span class="position">@ line 143</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 114</span></li></ul><script src="class.js"></script></body></html>

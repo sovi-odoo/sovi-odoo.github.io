@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>pos_self_order.custom_link - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>pos_self_order.custom_link</h1><p>Originally defined in: odoo/addons/pos_self_order/models/pos_self_order_custom_link.py</p><hr/><h2>Original: odoo/addons/pos_self_order/models/pos_self_order_custom_link.py</h2><h3>Fields</h3><details><summary id="f-link_html">link_html <span class="position">@ line 37</span></summary><pre>link_html = fields.Html("Preview", compute="_compute_link_html", store=True, readonly=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 14</span></summary><pre>name = fields.Char(string="Label", required=True, translate=True)</pre></details><details><summary id="f-pos_config_ids">pos_config_ids <span class="position">@ line 16</span></summary><pre>pos_config_ids = fields.Many2many(
+        "pos.config",
+        string="Points of Sale",
+        domain="[('self_ordering_mode', '!=', 'nothing')]",
+        help="Select for which points of sale you want to display this link. Leave empty to display it for all points of sale. You have to select among the points of sale that have the 'QR Code Menu' feature enabled.",
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 38</span></summary><pre>sequence = fields.Integer("Sequence", default=1)</pre></details><details><summary id="f-style">style <span class="position">@ line 22</span></summary><pre>style = fields.Selection(
+        [
+            ("primary", "Primary"),
+            ("secondary", "Secondary"),
+            ("success", "Success"),
+            ("warning", "Warning"),
+            ("danger", "Danger"),
+            ("info", "Info"),
+            ("light", "Light"),
+            ("dark", "Dark"),
+        ],
+        string="Style",
+        default="primary",
+        required=True,
+    )</pre></details><details><summary id="f-url">url <span class="position">@ line 15</span></summary><pre>url = fields.Char(string="URL", required=True)</pre></details><script src="class.js"></script></body></html>

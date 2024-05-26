@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>repair.order - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>repair.order</h1><p>Inherited in: odoo/addons/repair/models/repair.py<br/>Inherited in: odoo/addons/mrp_repair/models/repair.py<br/>Inherited in: odoo/addons/l10n_din5008_repair/models/repair.py<br/></p><hr/><h2>Inherited: odoo/addons/repair/models/repair.py</h2><h3>Fields</h3><details><summary id="f-company_id">company_id <span class="position">@ line 37</span></summary><pre>company_id = fields.Many2one(
+        'res.company', 'Company',
+        readonly=True, required=True, index=True,
+        default=lambda self: self.env.company)</pre></details><details><summary id="f-internal_notes">internal_notes <span class="position">@ line 61</span></summary><pre>internal_notes = fields.Html('Internal Notes')</pre></details><details><summary id="f-is_parts_available">is_parts_available <span class="position">@ line 138</span></summary><pre>is_parts_available = fields.Boolean(
+        'All Parts are available',
+        default=False, store=True, compute='_compute_availability_boolean')</pre></details><details><summary id="f-is_parts_late">is_parts_late <span class="position">@ line 141</span></summary><pre>is_parts_late = fields.Boolean(
+        'Any Part is late',
+        default=False, store=True, compute='_compute_availability_boolean')</pre></details><details><summary id="f-is_returned">is_returned <span class="position">@ line 162</span></summary><pre>is_returned = fields.Boolean(
+        "Returned", compute='_compute_is_returned',
+        help="True if this repair is linked to a Return Order and the order is 'Done'. False otherwise.")</pre></details><details><summary id="f-location_dest_id">location_dest_id <span class="position">@ line 108</span></summary><pre>location_dest_id = fields.Many2one(
+        'stock.location', 'Added Parts Destination Location',
+        related="picking_type_id.default_location_dest_id", depends=["picking_type_id"],
+        store=True, readonly=True, required=True, precompute=True,
+        index=True, check_company=True,
+        help="This is the location where the repaired product is located.")</pre></details><details><summary id="f-location_id">location_id <span class="position">@ line 102</span></summary><pre>location_id = fields.Many2one(
+        'stock.location', 'Location',
+        compute="_compute_location_id",
+        store=True, readonly=False, required=True, precompute=True,
+        index=True, check_company=True,
+        help="This is the location where the product to repair is located.")</pre></details><details><summary id="f-lot_id">lot_id <span class="position">@ line 84</span></summary><pre>lot_id = fields.Many2one(
+        'stock.lot', 'Lot/Serial',
+        default=False,
+        compute="compute_lot_id", store=True,
+        domain="[('product_id','=', product_id), '|', ('company_id', '=', False), ('company_id', '=', company_id)]", check_company=True,
+        help="Products repaired are all belonging to this lot")</pre></details><details><summary id="f-move_id">move_id <span class="position">@ line 69</span></summary><pre>move_id = fields.Many2one(  # Generated in 'action_repair_done', needed for traceability
+        'stock.move', 'Inventory Move',
+        copy=False, readonly=True, tracking=True, check_company=True)</pre></details><details><summary id="f-move_ids">move_ids <span class="position">@ line 128</span></summary><pre>move_ids = fields.One2many(
+        'stock.move', 'repair_id', "Parts", check_company=True, copy=True,
+        domain=[('repair_line_type', '!=', False)])</pre></details><details><summary id="f-name">name <span class="position">@ line 32</span></summary><pre>name = fields.Char(
+        'Repair Reference',
+        default='New', index='trigram',
+        copy=False, required=True,
+        readonly=True)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 54</span></summary><pre>partner_id = fields.Many2one(
+        'res.partner', 'Customer',
+        index=True, check_company=True, change_default=True,
+        help='Choose partner for whom the order will be invoiced and delivered. You can find a partner by its Name, TIN, Email or Internal Reference.')</pre></details><details><summary id="f-parts_availability">parts_availability <span class="position">@ line 131</span></summary><pre>parts_availability = fields.Char(
+        string="Component Status", compute='_compute_parts_availability',
+        help="Latest parts availability status for this RO. If green, then the RO's readiness status is ready.")</pre></details><details><summary id="f-parts_availability_state">parts_availability_state <span class="position">@ line 134</span></summary><pre>parts_availability_state = fields.Selection([
+        ('available', 'Available'),
+        ('expected', 'Expected'),
+        ('late', 'Late')], compute='_compute_parts_availability')</pre></details><details><summary id="f-parts_location_id">parts_location_id <span class="position">@ line 114</span></summary><pre>parts_location_id = fields.Many2one(
+        'stock.location', 'Removed Parts Destination Location',
+        related="picking_type_id.default_remove_location_dest_id", depends=["picking_type_id"],
+        store=True, readonly=True, required=True, precompute=True,
+        index=True, check_company=True,
+        help="This is the location where the repair parts are located.")</pre></details><details><summary id="f-picking_id">picking_id <span class="position">@ line 158</span></summary><pre>picking_id = fields.Many2one(
+        'stock.picking', 'Return', check_company=True,
+        domain="[('return_id', '!=', False), ('product_id', '=?', product_id)]",
+        copy=False, help="Return Order from which the product to be repaired comes from.")</pre></details><details><summary id="f-picking_product_id">picking_product_id <span class="position">@ line 166</span></summary><pre>picking_product_id = fields.Many2one(related="picking_id.product_id")</pre></details><details><summary id="f-picking_product_ids">picking_product_ids <span class="position">@ line 165</span></summary><pre>picking_product_ids = fields.One2many('product.product', compute='compute_picking_product_ids')</pre></details><details><summary id="f-picking_type_id">picking_type_id <span class="position">@ line 93</span></summary><pre>picking_type_id = fields.Many2one(
+        'stock.picking.type', 'Operation Type', copy=True, readonly=False,
+        compute='_compute_picking_type_id', store=True,
+        default=_default_picking_type_id,
+        domain="[('code', '=', 'repair_operation'), ('company_id', '=', company_id)]",
+        required=True, precompute=True, check_company=True, index=True)</pre></details><details><summary id="f-priority">priority <span class="position">@ line 53</span></summary><pre>priority = fields.Selection([('0', 'Normal'), ('1', 'Urgent')], default='0', string="Priority")</pre></details><details><summary id="f-procurement_group_id">procurement_group_id <span class="position">@ line 99</span></summary><pre>procurement_group_id = fields.Many2one(
+        'procurement.group', 'Procurement Group',
+        copy=False)</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 72</span></summary><pre>product_id = fields.Many2one(
+        'product.product', string='Product to Repair',
+        domain="[('type', '=', 'consu'), '|', ('company_id', '=', company_id), ('company_id', '=', False), '|', ('id', 'in', picking_product_ids), ('id', '=?', picking_product_id)]",
+        check_company=True)</pre></details><details><summary id="f-product_qty">product_qty <span class="position">@ line 76</span></summary><pre>product_qty = fields.Float(
+        'Product Quantity',
+        default=1.0, digits='Product Unit of Measure')</pre></details><details><summary id="f-product_uom">product_uom <span class="position">@ line 79</span></summary><pre>product_uom = fields.Many2one(
+        'uom.uom', 'Product Unit of Measure',
+        compute='compute_product_uom', store=True, precompute=True,
+        domain="[('category_id', '=', product_uom_category_id)]")</pre></details><details><summary id="f-product_uom_category_id">product_uom_category_id <span class="position">@ line 83</span></summary><pre>product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id')</pre></details><details><summary id="f-recycle_location_id">recycle_location_id <span class="position">@ line 120</span></summary><pre>recycle_location_id = fields.Many2one(
+        'stock.location', 'Recycled Parts Destination Location',
+        compute="_compute_recycle_location_id",
+        store=True, readonly=False, required=True, precompute=True,
+        index=True, check_company=True,
+        help="This is the location where the repair parts are located.")</pre></details><details><summary id="f-repair_request">repair_request <span class="position">@ line 152</span></summary><pre>repair_request = fields.Text(
+        related='sale_order_line_id.name',
+        string='Repair Request',
+        help="Sale Order Line Description.")</pre></details><details><summary id="f-reserve_visible">reserve_visible <span class="position">@ line 171</span></summary><pre>reserve_visible = fields.Boolean(
+        'Allowed to Reserve Production', compute='_compute_unreserve_visible',
+        help='Technical field to check when we can reserve quantities')</pre></details><details><summary id="f-sale_order_id">sale_order_id <span class="position">@ line 146</span></summary><pre>sale_order_id = fields.Many2one(
+        'sale.order', 'Sale Order', check_company=True, readonly=True,
+        copy=False, help="Sale Order from which the Repair Order comes from.")</pre></details><details><summary id="f-sale_order_line_id">sale_order_line_id <span class="position">@ line 149</span></summary><pre>sale_order_line_id = fields.Many2one(
+        'sale.order.line', check_company=True, readonly=True,
+        copy=False, help="Sale Order Line from which the Repair Order comes from.")</pre></details><details><summary id="f-schedule_date">schedule_date <span class="position">@ line 66</span></summary><pre>schedule_date = fields.Datetime("Scheduled Date", default=fields.Datetime.now, index=True, required=True, copy=False)</pre></details><details><summary id="f-state">state <span class="position">@ line 41</span></summary><pre>state = fields.Selection([
+        ('draft', 'New'),
+        ('confirmed', 'Confirmed'),
+        ('under_repair', 'Under Repair'),
+        ('done', 'Repaired'),
+        ('cancel', 'Cancelled')], string='Status',
+        copy=False, default='draft', readonly=True, tracking=True, index=True,
+        help="* The \'New\' status is used when a user is encoding a new and unconfirmed repair order.\n"
+             "* The \'Confirmed\' status is used when a user confirms the repair order.\n"
+             "* The \'Under Repair\' status is used when the repair is ongoing.\n"
+             "* The \'Repaired\' status is set when repairing is completed.\n"
+             "* The \'Cancelled\' status is used when user cancel repair order.")</pre></details><details><summary id="f-tag_ids">tag_ids <span class="position">@ line 62</span></summary><pre>tag_ids = fields.Many2many('repair.tags', string="Tags")</pre></details><details><summary id="f-tracking">tracking <span class="position">@ line 90</span></summary><pre>tracking = fields.Selection(string='Product Tracking', related="product_id.tracking", readonly=False)</pre></details><details><summary id="f-under_warranty">under_warranty <span class="position">@ line 63</span></summary><pre>under_warranty = fields.Boolean(
+        'Under Warranty',
+        help='If ticked, the sales price will be set to 0 for all products transferred from the repair order.')</pre></details><details><summary id="f-unreserve_visible">unreserve_visible <span class="position">@ line 168</span></summary><pre>unreserve_visible = fields.Boolean(
+        'Allowed to Unreserve Production', compute='_compute_unreserve_visible',
+        help='Technical field to check when we can unreserve')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 58</span></summary><pre>user_id = fields.Many2one('res.users', string="Responsible", default=lambda self: self.env.user, check_company=True)</pre></details><h3>Methods</h3><details><summary id="m-_action_repair_confirm">_action_repair_confirm(self) <span class="position">@ line 537</span></summary><pre>Repair order state is set to 'Confirmed'.
+@param *arg: Arguments
+@return: True</pre></details><ul id="m-_default_order_line_values"><li>_default_order_line_values(self, child_field) <span class="position">@ line 603</span></li></ul><ul id="m-_get_location"><li>_get_location(self, field) <span class="position">@ line 551</span></li></ul><ul id="m-_get_picking_type"><li>_get_picking_type(self) <span class="position">@ line 554</span></li></ul><ul id="m-_get_product_catalog_order_data"><li>_get_product_catalog_order_data(self, products) <span class="position">@ line 609</span></li></ul><ul id="m-_get_product_catalog_record_lines"><li>_get_product_catalog_record_lines(self, product_ids) <span class="position">@ line 619</span></li></ul><ul id="m-_get_product_price_and_data"><li>_get_product_price_and_data(self, product) <span class="position">@ line 615</span></li></ul><ul id="m-_update_order_line_info"><li>_update_order_line_info(self, product_id, quantity) <span class="position">@ line 628</span></li></ul><ul id="m-_update_sale_order_line_price"><li>_update_sale_order_line_price(self) <span class="position">@ line 585</span></li></ul><ul id="m-action_add_from_catalog"><li>action_add_from_catalog(self) <span class="position">@ line 597</span></li></ul><ul id="m-action_assign"><li>action_assign(self) <span class="position">@ line 321</span></li></ul><ul id="m-action_create_sale_order"><li>action_create_sale_order(self) <span class="position">@ line 324</span></li></ul><ul id="m-action_repair_cancel"><li>action_repair_cancel(self) <span class="position">@ line 346</span></li></ul><ul id="m-action_repair_cancel_draft"><li>action_repair_cancel_draft(self) <span class="position">@ line 355</span></li></ul><details><summary id="m-action_repair_done">action_repair_done(self) <span class="position">@ line 364</span></summary><pre>Creates stock move for final product of repair order.
+Writes move_id and move_ids state to 'done'.
+Writes repair order state to 'Repaired'.
+@return: True</pre></details><details><summary id="m-action_repair_end">action_repair_end(self) <span class="position">@ line 448</span></summary><pre>Checks before action_repair_done.
+@return: True</pre></details><details><summary id="m-action_repair_start">action_repair_start(self) <span class="position">@ line 476</span></summary><pre>Writes repair order state to 'Under Repair'</pre></details><ul id="m-action_unreserve"><li>action_unreserve(self) <span class="position">@ line 483</span></li></ul><ul id="m-action_validate"><li>action_validate(self) <span class="position">@ line 486</span></li></ul><ul id="m-action_view_sale_order"><li>action_view_sale_order(self) <span class="position">@ line 526</span></li></ul><ul id="m-print_repair_order"><li>print_repair_order(self) <span class="position">@ line 534</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 296</span></li></ul><h2>Inherited: odoo/addons/mrp_repair/models/repair.py</h2><h3>Methods</h3><ul id="m-_get_action_add_from_catalog_extra_context"><li>_get_action_add_from_catalog_extra_context(self) <span class="position">@ line 38</span></li></ul><ul id="m-action_explode"><li>action_explode(self) <span class="position">@ line 20</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 15</span></li></ul><h2>Inherited: odoo/addons/l10n_din5008_repair/models/repair.py</h2><h3>Fields</h3><details><summary id="f-l10n_din5008_printing_date">l10n_din5008_printing_date <span class="position">@ line 7</span></summary><pre>l10n_din5008_printing_date = fields.Date(default=fields.Date.today, store=False)</pre></details><script src="class.js"></script></body></html>

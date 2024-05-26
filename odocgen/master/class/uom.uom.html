@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>uom.uom - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>uom.uom</h1><p>Originally defined in: odoo/addons/uom/models/uom_uom.py</p><p>Inherited in: odoo/addons/stock/models/product.py<br/>Inherited in: odoo/addons/product/models/uom_uom.py<br/>Inherited in: odoo/addons/point_of_sale/models/product.py<br/>Inherited in: odoo/addons/l10n_in/models/uom_uom.py<br/>Inherited in: odoo/addons/l10n_hu_edi/models/uom_uom.py<br/>Inherited in: odoo/addons/l10n_es_edi_facturae/models/uom_uom.py<br/>Inherited in: odoo/addons/l10n_eg_edi_eta/models/uom_uom.py<br/>Inherited in: odoo/addons/l10n_cl/models/uom_uom.py<br/>Inherited in: odoo/addons/l10n_ar/models/uom_uom.py<br/>Inherited in: odoo/addons/hr_timesheet/models/uom_uom.py<br/>Inherited in: odoo/addons/account/models/uom_uom.py<br/></p><hr/><h2>Original: odoo/addons/uom/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 70</span></summary><pre>active = fields.Boolean('Active', default=True, help="Uncheck the active field to disable a unit of measure without deleting it.")</pre></details><details><summary id="f-category_id">category_id <span class="position">@ line 56</span></summary><pre>category_id = fields.Many2one(
+        'uom.category', 'Category', required=True, ondelete='restrict',
+        help="Conversion between Units of Measure can only occur if they belong to the same category. The conversion will be made based on the ratios.")</pre></details><details><summary id="f-color">color <span class="position">@ line 77</span></summary><pre>color = fields.Integer('Color', compute='_compute_color')</pre></details><details><summary id="f-factor">factor <span class="position">@ line 59</span></summary><pre>factor = fields.Float(
+        'Ratio', default=1.0, digits=0, required=True,  # force NUMERIC with unlimited precision
+        help='How much bigger or smaller this unit is compared to the reference Unit of Measure for this category: 1 * (reference unit) = ratio * (this unit)')</pre></details><details><summary id="f-factor_inv">factor_inv <span class="position">@ line 62</span></summary><pre>factor_inv = fields.Float(
+        'Bigger Ratio', compute='_compute_factor_inv', digits=0,  # force NUMERIC with unlimited precision
+        readonly=True, required=True,
+        help='How many times this Unit of Measure is bigger than the reference Unit of Measure in this category: 1 * (this unit) = ratio * (reference unit)')</pre></details><details><summary id="f-name">name <span class="position">@ line 55</span></summary><pre>name = fields.Char('Unit of Measure', required=True, translate=True)</pre></details><details><summary id="f-ratio">ratio <span class="position">@ line 76</span></summary><pre>ratio = fields.Float('Combined Ratio', compute='_compute_ratio', inverse='_set_ratio', store=False)</pre></details><details><summary id="f-rounding">rounding <span class="position">@ line 66</span></summary><pre>rounding = fields.Float(
+        'Rounding Precision', default=0.01, digits=0, required=True,
+        help="The computed quantity will be a multiple of this value. "
+             "Use 1.0 for a Unit of Measure that cannot be further split, such as a piece.")</pre></details><details><summary id="f-uom_type">uom_type <span class="position">@ line 71</span></summary><pre>uom_type = fields.Selection([
+        ('bigger', 'Bigger than the reference Unit of Measure'),
+        ('reference', 'Reference Unit of Measure for this category'),
+        ('smaller', 'Smaller than the reference Unit of Measure')], 'Type',
+        default='reference', required=True)</pre></details><h3>Methods</h3><ul id="m-_check_category_reference_uniqueness"><li>_check_category_reference_uniqueness(self) <span class="position">@ line 85</span></li></ul><ul id="m-_compute_price"><li>_compute_price(self, price, to_unit) <span class="position">@ line 243</span></li></ul><details><summary id="m-_compute_quantity">_compute_quantity(self, qty, to_unit, round, rounding_method, raise_if_failure) <span class="position">@ line 211</span></summary><pre>Convert the given quantity from the current UoM `self` into a given one
+:param qty: the quantity to convert
+:param to_unit: the destination UoM record (uom.uom)
+:param raise_if_failure: only if the conversion is not possible
+- if true, raise an exception if the conversion is not possible (different UoM category),
+- otherwise, return the initial quantity</pre></details><details><summary id="m-_filter_protected_uoms">_filter_protected_uoms(self) <span class="position">@ line 254</span></summary><pre>Verifies self does not contain protected uoms.</pre></details><ul id="m-_set_ratio"><li>_set_ratio(self) <span class="position">@ line 121</span></li></ul><ul id="m-_unprotected_uom_xml_ids"><li>_unprotected_uom_xml_ids(self) <span class="position">@ line 49</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 171</span></li></ul><h2>Inherited: odoo/addons/stock/models/product.py</h2><h3>Methods</h3><details><summary id="m-_adjust_uom_quantities">_adjust_uom_quantities(self, qty, quant_uom) <span class="position">@ line 1128</span></summary><pre>This method adjust the quantities of a procurement if its UoM isn't the same
+as the one of the quant and the parameter 'propagate_uom' is not set.</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 1097</span></li></ul><h2>Inherited: odoo/addons/point_of_sale/models/product.py</h2><h3>Fields</h3><details><summary id="f-is_pos_groupable">is_pos_groupable <span class="position">@ line 302</span></summary><pre>is_pos_groupable = fields.Boolean(related='category_id.is_pos_groupable', readonly=False)</pre></details><h3>Methods</h3><ul id="m-_load_pos_data"><li>_load_pos_data(self, data) <span class="position">@ line 308</span></li></ul><h2>Inherited: odoo/addons/l10n_in/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-l10n_in_code">l10n_in_code <span class="position">@ line 11</span></summary><pre>l10n_in_code = fields.Char("Indian GST UQC", help="Unique Quantity Code (UQC) under GST")</pre></details><h2>Inherited: odoo/addons/l10n_hu_edi/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-l10n_hu_edi_code">l10n_hu_edi_code <span class="position">@ line 9</span></summary><pre>l10n_hu_edi_code = fields.Selection(
+        selection=[
+            ('PIECE', 'Piece'),
+            ('KILOGRAM', 'Kilogram'),
+            ('TON', 'Ton'),
+            ('KWH', 'Kilowatt hour'),
+            ('DAY', 'Day'),
+            ('HOUR', 'Hour'),
+            ('MINUTE', 'Minute'),
+            ('MONTH', 'Month'),
+            ('LITRE', 'Litre'),
+            ('KILOMETER', 'Kilometer'),
+            ('CUBIC_METER', 'Cubic meter'),
+            ('METER', 'Meter'),
+            ('LINEAR_METER', 'Linear meter'),
+            ('CARTON', 'Carton'),
+            ('PACK', 'Package'),
+        ],
+        string='NAV UoM code',
+        help='Choose the corresponding code, or leave blank if none correspond.',
+    )</pre></details><h2>Inherited: odoo/addons/l10n_es_edi_facturae/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-l10n_es_edi_facturae_uom_code">l10n_es_edi_facturae_uom_code <span class="position">@ line 7</span></summary><pre>l10n_es_edi_facturae_uom_code = fields.Selection(
+        selection=[
+            ('01', 'Units'),
+            ('02', 'Hours'),
+            ('03', 'Kilograms'),
+            ('04', 'Liters'),
+            ('05', 'Other'),
+            ('06', 'Boxes'),
+            ('07', 'Trays, one layer no cover, plastic'),
+            ('08', 'Barrels'),
+            ('09', 'Jerricans, cylindrical'),
+            ('10', 'Bags'),
+            ('11', 'Carboys, non-protected'),
+            ('12', 'Bottles, non-protected, cylindrical'),
+            ('13', 'Canisters'),
+            ('14', 'Tetra Briks'),
+            ('15', 'Centiliters'),
+            ('16', 'Centimeters'),
+            ('17', 'Bins'),
+            ('18', 'Dozens'),
+            ('19', 'Cases'),
+            ('20', 'Demijohns, non-protected'),
+            ('21', 'Grams'),
+            ('22', 'Kilometers'),
+            ('23', 'Cans, rectangular'),
+            ('24', 'Bunches'),
+            ('25', 'Meters'),
+            ('26', 'Millimeters'),
+            ('27', '6-Packs'),
+            ('28', 'Packages'),
+            ('29', 'Portions'),
+            ('30', 'Rolls'),
+            ('31', 'Envelopes'),
+            ('32', 'Tubs'),
+            ('33', 'Cubic meter'),
+            ('34', 'Second'),
+            ('35', 'Watt'),
+            ('36', 'Kilowatt-hour')
+    ], string='Spanish EDI Units', default="05", required=True)</pre></details><h2>Inherited: odoo/addons/l10n_eg_edi_eta/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-l10n_eg_unit_code_id">l10n_eg_unit_code_id <span class="position">@ line 18</span></summary><pre>l10n_eg_unit_code_id = fields.Many2one('l10n_eg_edi.uom.code', string='ETA Unit Code',
+                                           help='This is the type of unit according to egyptian tax authority')</pre></details><h2>Inherited: odoo/addons/l10n_cl/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-l10n_cl_sii_code">l10n_cl_sii_code <span class="position">@ line 9</span></summary><pre>l10n_cl_sii_code = fields.Char('SII Code')</pre></details><h2>Inherited: odoo/addons/l10n_ar/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-l10n_ar_afip_code">l10n_ar_afip_code <span class="position">@ line 9</span></summary><pre>l10n_ar_afip_code = fields.Char('Code', help='Argentina: This code will be used on electronic invoice.')</pre></details><h2>Inherited: odoo/addons/hr_timesheet/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-timesheet_widget">timesheet_widget <span class="position">@ line 19</span></summary><pre>timesheet_widget = fields.Char("Widget", export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_unprotected_uom_xml_ids"><li>_unprotected_uom_xml_ids(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/account/models/uom_uom.py</h2><h3>Fields</h3><details><summary id="f-fiscal_country_codes">fiscal_country_codes <span class="position">@ line 10</span></summary><pre>fiscal_country_codes = fields.Char(compute="_compute_fiscal_country_codes")</pre></details><h3>Methods</h3><details><summary id="m-_get_unece_code">_get_unece_code(self) <span class="position">@ line 17</span></summary><pre>Returns the UNECE code used for international trading for corresponding to the UoM as per
+https://unece.org/fileadmin/DAM/cefact/recommendations/rec20/rec20_rev3_Annex2e.pdf</pre></details><script src="class.js"></script></body></html>

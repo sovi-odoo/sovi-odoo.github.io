@@ -1,0 +1,375 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.tax - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.tax</h1><p>Inherited in: odoo/addons/purchase/models/account_tax.py<br/>Inherited in: odoo/addons/point_of_sale/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_uy/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_sa_edi/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_ph/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_pe/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_mx/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_ke/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_it_edi_withholding/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_it/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_in/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_hu_edi/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_es_edi_facturae/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_es/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_eg/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_ee/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_ec/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_de/models/datev.py<br/>Inherited in: odoo/addons/l10n_cl/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_br/models/account.py<br/>Inherited in: odoo/addons/l10n_be/models/account_tax.py<br/>Inherited in: odoo/addons/l10n_ar_withholding/models/account_tax.py<br/>Inherited in: odoo/addons/hr_expense/models/account_tax.py<br/>Inherited in: odoo/addons/account_tax_python/models/account_tax.py<br/>Inherited in: odoo/addons/account/models/account_tax.py<br/></p><hr/><h2>Inherited: odoo/addons/purchase/models/account_tax.py</h2><h3>Methods</h3><ul id="m-_hook_compute_is_used"><li>_hook_compute_is_used(self, taxes_to_compute) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/point_of_sale/models/account_tax.py</h2><h3>Methods</h3><ul id="m-_hook_compute_is_used"><li>_hook_compute_is_used(self, taxes_to_compute) <span class="position">@ line 30</span></li></ul><ul id="m-_load_pos_data"><li>_load_pos_data(self, data) <span class="position">@ line 64</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/l10n_uy/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_uy_tax_category">l10n_uy_tax_category <span class="position">@ line 9</span></summary><pre>l10n_uy_tax_category = fields.Selection([
+        ('vat', 'VAT'),
+    ], string="Tax Category", help="UY: Use to group the transactions in the Financial Reports required by DGI")</pre></details><h2>Inherited: odoo/addons/l10n_sa_edi/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_sa_exemption_reason_code">l10n_sa_exemption_reason_code <span class="position">@ line 29</span></summary><pre>l10n_sa_exemption_reason_code = fields.Selection(string="Exemption Reason Code",
+                                                     selection=EXEMPTION_REASON_CODES, help="Tax Exemption Reason Code (ZATCA)")</pre></details><details><summary id="f-l10n_sa_is_retention">l10n_sa_is_retention <span class="position">@ line 26</span></summary><pre>l10n_sa_is_retention = fields.Boolean("Is Retention", default=False,
+                                          help="Determines whether or not a tax counts as a Withholding Tax")</pre></details><h2>Inherited: odoo/addons/l10n_ph/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_ph_atc">l10n_ph_atc <span class="position">@ line 9</span></summary><pre>l10n_ph_atc = fields.Char("Philippines ATC")</pre></details><h2>Inherited: odoo/addons/l10n_pe/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_pe_edi_isc_type">l10n_pe_edi_isc_type <span class="position">@ line 36</span></summary><pre>l10n_pe_edi_isc_type = fields.Selection([
+        ('01', 'System to value'),
+        ('02', 'Application of the Fixed Amount'),
+        ('03', 'Retail Price System'),
+    ], 'ISC Type',
+        help='Used in Selective Consumption Tax to indicate the type of calculation for the ISC.')</pre></details><details><summary id="f-l10n_pe_edi_tax_code">l10n_pe_edi_tax_code <span class="position">@ line 8</span></summary><pre>l10n_pe_edi_tax_code = fields.Selection(
+        [
+            ('1000', 'IGV - General Sales Tax'),
+            ('1016', 'IVAP - Tax on Sale Paddy Rice'),
+            ('2000', 'ISC - Selective Excise Tax'),
+            ('7152', 'ICBPER - Plastic bag tax'),
+            ('9995', 'EXP - Exportation'),
+            ('9996', 'GRA - Free'),
+            ('9997', 'EXO - Exonerated'),
+            ('9998', 'INA - Unaffected'),
+            ('9999', 'OTHERS - Other taxes')
+        ],
+        string='Code',
+        help="Peru: SUNAT tax code",
+    )</pre></details><details><summary id="f-l10n_pe_edi_unece_category">l10n_pe_edi_unece_category <span class="position">@ line 24</span></summary><pre>l10n_pe_edi_unece_category = fields.Selection(
+        [
+            ('E', 'Exempt from tax'),
+            ('G', 'Free export item, tax not charged'),
+            ('O', 'Services outside scope of tax'),
+            ('S', 'Standard rate'),
+            ('Z', 'Zero rated goods')
+        ],
+        string='UNECE Code',
+        help="Peru: Follow the UN/ECE 5305 standard from the United Nations Economic Commission for Europe for more "
+             "information http://www.unece.org/trade/untdid/d08a/tred/tred5305.html"
+    )</pre></details><h2>Inherited: odoo/addons/l10n_mx/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_mx_factor_type">l10n_mx_factor_type <span class="position">@ line 8</span></summary><pre>l10n_mx_factor_type = fields.Selection(
+        selection=[
+            ('Tasa', "Tasa"),
+            ('Cuota', "Cuota"),
+            ('Exento', "Exento"),
+        ],
+        string="Factor Type",
+        default='Tasa',
+        help="Mexico: 'TipoFactor' is an attribute for CFDI 4.0. This indicates the factor type that is applied to the base of the tax.",
+    )</pre></details><details><summary id="f-l10n_mx_tax_type">l10n_mx_tax_type <span class="position">@ line 18</span></summary><pre>l10n_mx_tax_type = fields.Selection(
+        selection=[
+            ('isr', "ISR"),
+            ('iva', "IVA"),
+            ('ieps', "IEPS"),
+        ],
+        string="SAT Tax Type",
+        compute="_compute_l10n_mx_tax_type",
+        store=True,
+        readonly=False,
+    )</pre></details><h2>Inherited: odoo/addons/l10n_ke/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_ke_item_code_id">l10n_ke_item_code_id <span class="position">@ line 8</span></summary><pre>l10n_ke_item_code_id = fields.Many2one(
+        'l10n_ke.item.code',
+        string='KRA Item Code',
+        help='KRA code that describes a tax rate or exemption on specific products or services.',
+    )</pre></details><h2>Inherited: odoo/addons/l10n_it_edi_withholding/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_it_pension_fund_type">l10n_it_pension_fund_type <span class="position">@ line 87</span></summary><pre>l10n_it_pension_fund_type = fields.Selection(PENSION_FUND_TYPE_SELECTION, string="Pension fund type (Italy)", help="Pension Fund Type. Only for Italian accounting EDI.")</pre></details><details><summary id="f-l10n_it_withholding_reason">l10n_it_withholding_reason <span class="position">@ line 86</span></summary><pre>l10n_it_withholding_reason = fields.Selection(WITHHOLDING_REASON_SELECTION, string="Withholding tax reason (Italy)", help="Withholding tax reason. Only for Italian accounting EDI.")</pre></details><details><summary id="f-l10n_it_withholding_type">l10n_it_withholding_type <span class="position">@ line 85</span></summary><pre>l10n_it_withholding_type = fields.Selection(WITHHOLDING_TYPE_SELECTION, string="Withholding tax type (Italy)", help="Withholding tax type. Only for Italian accounting EDI.")</pre></details><h3>Methods</h3><details><summary id="m-_l10n_it_filter_kind">_l10n_it_filter_kind(self, kind) <span class="position">@ line 94</span></summary><pre>Filters taxes depending on _l10n_it_get_tax_kind.</pre></details><ul id="m-_l10n_it_get_tax_kind"><li>_l10n_it_get_tax_kind(self) <span class="position">@ line 89</span></li></ul><h2>Inherited: odoo/addons/l10n_it/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_it_exempt_reason">l10n_it_exempt_reason <span class="position">@ line 9</span></summary><pre>l10n_it_exempt_reason = fields.Selection(
+        selection=[
+            ("N1", "[N1] Escluse ex art. 15"),
+            ("N2", "[N2] Non soggette"),
+            ("N2.1", "[N2.1] Non soggette ad IVA ai sensi degli artt. Da 7 a 7-septies del DPR 633/72"),
+            ("N2.2", "[N2.2] Non soggette - altri casi"),
+            ("N3", "[N3] Non imponibili"),
+            ("N3.1", "[N3.1] Non imponibili - esportazioni"),
+            ("N3.2", "[N3.2] Non imponibili - cessioni intracomunitarie"),
+            ("N3.3", "[N3.3] Non imponibili - cessioni verso San Marino"),
+            ("N3.4", "[N3.4] Non imponibili - operazioni assimilate alle cessioni all'esportazione"),
+            ("N3.5", "[N3.5] Non imponibili - a seguito di dichiarazioni d'intento"),
+            ("N3.6", "[N3.6] Non imponibili - altre operazioni che non concorrono alla formazione del plafond"),
+            ("N4", "[N4] Esenti"),
+            ("N5", "[N5] Regime del margine / IVA non esposta in fattura"),
+            ("N6", "[N6] Inversione contabile (per le operazioni in reverse charge ovvero nei casi di autofatturazione per acquisti extra UE di servizi ovvero per importazioni di beni nei soli casi previsti)"),
+            ("N6.1", "[N6.1] Inversione contabile - cessione di rottami e altri materiali di recupero"),
+            ("N6.2", "[N6.2] Inversione contabile - cessione di oro e argento puro"),
+            ("N6.3", "[N6.3] Inversione contabile - subappalto nel settore edile"),
+            ("N6.4", "[N6.4] Inversione contabile - cessione di fabbricati"),
+            ("N6.5", "[N6.5] Inversione contabile - cessione di telefoni cellulari"),
+            ("N6.6", "[N6.6] Inversione contabile - cessione di prodotti elettronici"),
+            ("N6.7", "[N6.7] Inversione contabile - prestazioni comparto edile esettori connessi"),
+            ("N6.8", "[N6.8] Inversione contabile - operazioni settore energetico"),
+            ("N6.9", "[N6.9] Inversione contabile - altri casi"),
+            ("N7", "[N7] IVA assolta in altro stato UE (prestazione di servizi di telecomunicazioni, tele-radiodiffusione ed elettronici ex art. 7-octies, comma 1 lett. a, b, art. 74-sexies DPR 633/72)")
+        ],
+        string="Exoneration",
+        help="Exoneration type",
+    )</pre></details><details><summary id="f-l10n_it_law_reference">l10n_it_law_reference <span class="position">@ line 39</span></summary><pre>l10n_it_law_reference = fields.Char(string="Law Reference", size=100)</pre></details><h3>Methods</h3><details><summary id="m-_l10n_it_filter_kind">_l10n_it_filter_kind(self, kind) <span class="position">@ line 59</span></summary><pre>This can be overridden by l10n_it_edi_withholding for different kind of taxes (withholding, pension_fund).</pre></details><ul id="m-_l10n_it_get_tax_kind"><li>_l10n_it_get_tax_kind(self) <span class="position">@ line 54</span></li></ul><details><summary id="m-_l10n_it_is_split_payment">_l10n_it_is_split_payment(self) <span class="position">@ line 63</span></summary><pre>Split payment means that the Public Administration buyer will pay VAT
+to the tax agency instead of the vendor</pre></details><h2>Inherited: odoo/addons/l10n_in/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_in_reverse_charge">l10n_in_reverse_charge <span class="position">@ line 9</span></summary><pre>l10n_in_reverse_charge = fields.Boolean("Reverse charge", help="Tick this if this tax is reverse charge. Only for Indian accounting")</pre></details><h3>Methods</h3><ul id="m-_prepare_dict_for_taxes_computation"><li>_prepare_dict_for_taxes_computation(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/l10n_hu_edi/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_hu_tax_reason">l10n_hu_tax_reason <span class="position">@ line 51</span></summary><pre>l10n_hu_tax_reason = fields.Char(
+        string='NAV VAT Tax Exemption Reason',
+        help='May be used to provide support for the use of a VAT-exempt VAT tax type.',
+        compute='_compute_l10n_hu_tax_reason',
+        readonly=False,
+    )</pre></details><details><summary id="f-l10n_hu_tax_type">l10n_hu_tax_type <span class="position">@ line 46</span></summary><pre>l10n_hu_tax_type = fields.Selection(
+        _SELECTION_TAX_TYPE,
+        string='NAV VAT Tax Type',
+        help='Precise identification of the VAT tax for the Hungarian authority.',
+    )</pre></details><h2>Inherited: odoo/addons/l10n_es_edi_facturae/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_es_edi_facturae_tax_type">l10n_es_edi_facturae_tax_type <span class="position">@ line 7</span></summary><pre>l10n_es_edi_facturae_tax_type = fields.Selection((
+        ('01', 'Value-Added Tax'),
+        ('02', 'Taxes on production, services and imports in Ceuta and Melilla'),
+        ('03', 'IGIC: Canaries General Indirect Tax'),
+        ('04', 'IRPF: Personal Income Tax'),
+        ('05', 'Other'),
+        ('06', 'ITPAJD: Tax on wealth transfers and stamp duty'),
+        ('07', 'IE: Excise duties and consumption taxes'),
+        ('08', 'RA: Customs duties'),
+        ('09', 'IGTECM: Sales tax in Ceuta and Melilla'),
+        ('10', 'IECDPCAC: Excise duties on oil derivates in Canaries'),
+        ('11', 'IIIMAB: Tax on premises that affect the environment in the Balearic Islands'),
+        ('12', 'ICIO: Tax on construction, installation and works'),
+        ('13', 'IMVDN: Local tax on unoccupied homes in Navarre'),
+        ('14', 'IMSN: Local tax on building plots in Navarre'),
+        ('15', 'IMGSN: Local sumptuary tax in Navarre'),
+        ('16', 'IMPN: Local tax on advertising in Navarre'),
+        ('17', 'REIVA: Special VAT for travel agencies'),
+        ('18', 'REIGIC: Special IGIC: for travel agencies'),
+        ('19', 'REIPSI: Special IPSI for travel agencies'),
+        ('20', 'IPS: Insurance premiums Tax'),
+        ('21', 'SWUA: Surcharge for Winding Up Activity'),
+        ('22', 'IVPEE: Tax on the value of electricity generation'),
+        ('23', 'Tax on the production of spent nuclear fuel and radioactive waste from the generation of nuclear electric power'),
+        ('24', 'Tax on the storage of spent nuclear energy and radioactive waste in centralised facilities'),
+        ('25', 'IDEC: Tax on bank deposits'),
+        ('26', 'Excise duty applied to manufactured tobacco in Canaries'),
+        ('27', 'IGFEI: Tax on Fluorinated Greenhouse Gases'),
+        ('28', 'IRNR: Non-resident Income Tax'),
+        ('29', 'Corporation Tax'),
+    ), string='Spanish Facturae EDI Tax Type', default='01')</pre></details><h2>Inherited: odoo/addons/l10n_es/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_es_bien_inversion">l10n_es_bien_inversion <span class="position">@ line 36</span></summary><pre>l10n_es_bien_inversion = fields.Boolean('Bien de Inversion', default=False)</pre></details><details><summary id="f-l10n_es_exempt_reason">l10n_es_exempt_reason <span class="position">@ line 9</span></summary><pre>l10n_es_exempt_reason = fields.Selection(
+        selection=[
+            ('E1', 'Art. 20'),
+            ('E2', 'Art. 21'),
+            ('E3', 'Art. 22'),
+            ('E4', 'Art. 23 y 24'),
+            ('E5', 'Art. 25'),
+            ('E6', 'Otros'),
+        ],
+        string="Exempt Reason (Spain)",
+    )</pre></details><details><summary id="f-l10n_es_type">l10n_es_type <span class="position">@ line 20</span></summary><pre>l10n_es_type = fields.Selection(
+        selection=[
+            ('exento', 'Exento'),
+            ('sujeto', 'Sujeto'),
+            ('sujeto_agricultura', 'Sujeto Agricultura'),
+            ('sujeto_isp', 'Sujeto ISP'),
+            ('no_sujeto', 'No Sujeto'),
+            ('no_sujeto_loc', 'No Sujeto por reglas de Localization'),
+            ('no_deducible', 'No Deducible'),
+            ('retencion', 'Retencion'),
+            ('recargo', 'Recargo de Equivalencia'),
+            ('dua', 'DUA'),
+            ('ignore', 'Ignore even the base amount'),
+        ],
+        string="Tax Type (Spain)", default='sujeto'
+    )</pre></details><h2>Inherited: odoo/addons/l10n_eg/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_eg_eta_code">l10n_eg_eta_code <span class="position">@ line 8</span></summary><pre>l10n_eg_eta_code = fields.Selection(
+        selection=[
+            ('t1_v001', 'T1 - V001 - Export'),
+            ('t1_v002', 'T1 - V002 - Export to free areas and other areas'),
+            ('t1_v003', 'T1 - V003 - Exempted good or service'),
+            ('t1_v004', 'T1 - V004 - A non-taxable good or service'),
+            ('t1_v005', 'T1 - V005 - Exemptions for diplomats, consulates and embassies'),
+            ('t1_v006', 'T1 - V006 - Defence and National security Exemptions'),
+            ('t1_v007', 'T1 - V007 - Agreements exemptions'),
+            ('t1_v008', 'T1 - V008 - Special Exemption and other reasons'),
+            ('t1_v009', 'T1 - V009 - General Item sales'),
+            ('t1_v010', 'T1 - V010 - Other Rates'),
+            ('t2_tbl01', 'T2 - Tbl01 - Table tax (percentage)'),
+            ('t3_tbl02', 'T3 - Tbl02 - Table tax (Fixed Amount)'),
+            ('t4_w001', 'T4 - W001 - Contracting'),
+            ('t4_w002', 'T4 - W002 - Supplies'),
+            ('t4_w003', 'T4 - W003 - Purchases'),
+            ('t4_w004', 'T4 - W004 - Services'),
+            ('t4_w005', 'T4 - W005 - Sums paid by the cooperative societies for car transportation to their members'),
+            ('t4_w006', 'T4 - W006 - Commission agency & brokerage'),
+            ('t4_w007', 'T4 - W007 - Discounts & grants & additional exceptional incentives (smoke, cement companies)'),
+            ('t4_w008', 'T4 - W008 - All discounts & grants & commissions (petroleum, telecommunications, and other)'),
+            ('t4_w009', 'T4 - W009 - Supporting export subsidies'),
+            ('t4_w010', 'T4 - W010 - Professional fees'),
+            ('t4_w011', 'T4 - W011 - Commission & brokerage _A_57'),
+            ('t4_w012', 'T4 - W012 - Hospitals collecting from doctors'),
+            ('t4_w013', 'T4 - W013 - Royalties'),
+            ('t4_w014', 'T4 - W014 - Customs clearance'),
+            ('t4_w015', 'T4 - W015 - Exemption'),
+            ('t4_w016', 'T4 - W016 - advance payments'),
+            ('t5_st01', 'T5 - ST01 - Stamping tax (percentage)'),
+            ('t6_st02', 'T6 - ST02 - Stamping Tax (amount)'),
+            ('t7_ent01', 'T7 - Ent01 - Entertainment tax (rate)'),
+            ('t7_ent02', 'T7 - Ent02 - Entertainment tax (amount)'),
+            ('t8_rd01', 'T8 - RD01 - Resource development fee (rate)'),
+            ('t8_rd02', 'T8 - RD02 - Resource development fee (amount)'),
+            ('t9_sc01', 'T9 - SC01 - Service charges (rate)'),
+            ('t9_sc02', 'T9 - SC02 - Service charges (amount)'),
+            ('t10_mn01', 'T10 - Mn01 - Municipality Fees (rate)'),
+            ('t10_mn02', 'T10 - Mn02 - Municipality Fees (amount)'),
+            ('t11_mi01', 'T11 - MI01 - Medical insurance fee (rate)'),
+            ('t11_mi02', 'T11 - MI02 - Medical insurance fee (amount)'),
+            ('t12_of01', 'T12 - OF01 - Other fees (rate)'),
+            ('t12_of02', 'T12 - OF02 - Other fees (amount)'),
+            ('t13_st03', 'T13 - ST03 - Stamping tax (percentage)'),
+            ('t14_st04', 'T14 - ST04 - Stamping Tax (amount)'),
+            ('t15_ent03', 'T15 - Ent03 - Entertainment tax (rate)'),
+            ('t15_ent04', 'T15 - Ent04 - Entertainment tax (amount)'),
+            ('t16_rd03', 'T16 - RD03 - Resource development fee (rate)'),
+            ('t16_rd04', 'T16 - RD04 - Resource development fee (amount)'),
+            ('t17_sc03', 'T17 - SC03 - Service charges (rate)'),
+            ('t17_sc04', 'T17 - SC04 - Service charges (amount)'),
+            ('t18_mn03', 'T18 - Mn03 - Municipality Fees (rate)'),
+            ('t18_mn04', 'T18 - Mn04 - Municipality Fees (amount)'),
+            ('t19_mi03', 'T19 - MI03 - Medical insurance fee (rate)'),
+            ('t19_mi04', 'T19 - MI04 - Medical insurance fee (amount)'),
+            ('t20_of03', 'T20 - OF03 - Other fees (rate)'),
+            ('t20_of04', 'T20 - OF04 - Other fees (amount)')
+        ],
+        string='ETA Code (Egypt)', default=False)</pre></details><h2>Inherited: odoo/addons/l10n_ee/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_ee_kmd_inf_code">l10n_ee_kmd_inf_code <span class="position">@ line 7</span></summary><pre>l10n_ee_kmd_inf_code = fields.Selection(
+        selection=[
+            ('1', 'Sale KMS §41/42'),
+            ('2', 'Sale KMS §41^1'),
+            ('11', 'Purchase KMS §29(4)/30/32'),
+            ('12', 'Purchase KMS §41^1'),
+        ],
+        string='KMD INF Code',
+        default=False,
+        help='This field is used for the comments/special code column in the KMD INF report.'
+    )</pre></details><h2>Inherited: odoo/addons/l10n_ec/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_ec_code_applied">l10n_ec_code_applied <span class="position">@ line 15</span></summary><pre>l10n_ec_code_applied = fields.Char(
+        string="Code applied",
+        help="Ecuador: Tax declaration code of the resulting amount after the calculation of the tax.",
+    )</pre></details><details><summary id="f-l10n_ec_code_ats">l10n_ec_code_ats <span class="position">@ line 19</span></summary><pre>l10n_ec_code_ats = fields.Char(
+        string="Code ATS",
+        help="Ecuador: Indicates if the purchase invoice supports tax credit or cost or expenses, conforming table 5 of ATS.",
+    )</pre></details><details><summary id="f-l10n_ec_code_base">l10n_ec_code_base <span class="position">@ line 11</span></summary><pre>l10n_ec_code_base = fields.Char(
+        string="Code base",
+        help="Ecuador: Tax declaration code of the base amount prior to the calculation of the tax.",
+    )</pre></details><h2>Inherited: odoo/addons/l10n_de/models/datev.py</h2><h3>Fields</h3><details><summary id="f-l10n_de_datev_code">l10n_de_datev_code <span class="position">@ line 7</span></summary><pre>l10n_de_datev_code = fields.Char(size=4, help="4 digits code use by Datev")</pre></details><h2>Inherited: odoo/addons/l10n_cl/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_cl_sii_code">l10n_cl_sii_code <span class="position">@ line 9</span></summary><pre>l10n_cl_sii_code = fields.Integer('SII Code', aggregator=False)</pre></details><h2>Inherited: odoo/addons/l10n_br/models/account.py</h2><h3>Fields</h3><details><summary id="f-amount_mva">amount_mva <span class="position">@ line 15</span></summary><pre>amount_mva = fields.Float(string='MVA Percent', digits=0, required=True,
+                              help="Um percentual decimal em % entre 0-1.", default=0)</pre></details><details><summary id="f-base_reduction">base_reduction <span class="position">@ line 13</span></summary><pre>base_reduction = fields.Float(string='Redution', digits=0, required=True,
+                                  help="Um percentual decimal em % entre 0-1.", default=0)</pre></details><details><summary id="f-tax_discount">tax_discount <span class="position">@ line 11</span></summary><pre>tax_discount = fields.Boolean(string='Discount this Tax in Price',
+                                  help="Mark it for (ICMS, PIS e etc.).")</pre></details><h2>Inherited: odoo/addons/l10n_be/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-tax_scope">tax_scope <span class="position">@ line 7</span></summary><pre>tax_scope = fields.Selection(
+        selection_add=[('merch', 'Merchandise'), ('invest', 'Investment')],
+    )</pre></details><h2>Inherited: odoo/addons/l10n_ar_withholding/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-l10n_ar_withholding_payment_type">l10n_ar_withholding_payment_type <span class="position">@ line 9</span></summary><pre>l10n_ar_withholding_payment_type = fields.Selection(
+        [('supplier', 'Supplier'), ('customer', 'Customer')], 'Argentinean Withholding type',
+        compute="_compute_l10n_ar_withholding_payment_type", store=True, readonly=False)</pre></details><details><summary id="f-l10n_ar_withholding_sequence_id">l10n_ar_withholding_sequence_id <span class="position">@ line 13</span></summary><pre>l10n_ar_withholding_sequence_id = fields.Many2one(
+        'ir.sequence', 'Withholding Number Sequence', copy=False, check_company=True,
+        help='If no sequence provided then it will be required for you to enter withholding number when registering one.')</pre></details><h2>Inherited: odoo/addons/hr_expense/models/account_tax.py</h2><h3>Methods</h3><ul id="m-_hook_compute_is_used"><li>_hook_compute_is_used(self, taxes_to_compute) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/account_tax_python/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-amount_type">amount_type <span class="position">@ line 17</span></summary><pre>amount_type = fields.Selection(selection_add=[
+        ('code', 'Python Code')
+    ], ondelete={'code': lambda recs: recs.write({'amount_type': 'percent', 'active': False})})</pre></details><details><summary id="f-python_applicable">python_applicable <span class="position">@ line 29</span></summary><pre>python_applicable = fields.Text(string='Applicable Code', default="result = True",
+        help="Determine if the tax will be applied by setting the variable 'result' to True or False.\n\n"
+            ":param price_unit: float\n"
+            ":param quantity: float\n"
+            ":param company: res.company recordset singleton\n"
+            ":param product: product.product recordset singleton or None\n"
+            ":param partner: res.partner recordset singleton or None")</pre></details><details><summary id="f-python_compute">python_compute <span class="position">@ line 21</span></summary><pre>python_compute = fields.Text(string='Python Code', default="result = price_unit * 0.10",
+        help="Compute the amount of the tax by setting the variable 'result'.\n\n"
+            ":param base_amount: float, actual amount on which the tax is applied\n"
+            ":param price_unit: float\n"
+            ":param quantity: float\n"
+            ":param company: res.company recordset singleton\n"
+            ":param product: product.product recordset singleton or None\n"
+            ":param partner: res.partner recordset singleton or None")</pre></details><h2>Inherited: odoo/addons/account/models/account_tax.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 115</span></summary><pre>active = fields.Boolean(default=True, help="Set active to false to hide the tax without removing it.")</pre></details><details><summary id="f-amount">amount <span class="position">@ line 123</span></summary><pre>amount = fields.Float(required=True, digits=(16, 4), default=0.0, tracking=True)</pre></details><details><summary id="f-amount_type">amount_type <span class="position">@ line 103</span></summary><pre>amount_type = fields.Selection(default='percent', string="Tax Computation", required=True, tracking=True,
+        selection=[('group', 'Group of Taxes'), ('fixed', 'Fixed'), ('percent', 'Percentage'), ('division', 'Percentage Tax Included')],
+        help="""
+    - Group of Taxes: The tax is a set of sub taxes.
+    - Fixed: The tax amount stays the same whatever the price.
+    - Percentage: The tax amount is a % of the price:
+        e.g 100 * (1 + 10%) = 110 (not price included)
+        e.g 110 / (1 + 10%) = 100 (price included)
+    - Percentage Tax Included: The tax amount is a division of the price:
+        e.g 180 / (1 - 10%) = 200 (not price included)
+        e.g 200 * (1 - 10%) = 180 (price included)
+        """)</pre></details><details><summary id="f-analytic">analytic <span class="position">@ line 135</span></summary><pre>analytic = fields.Boolean(string="Include in Analytic Cost", help="If set, the amount computed by this tax will be assigned to the same analytic account as the invoice line (if any)")</pre></details><details><summary id="f-cash_basis_transition_account_id">cash_basis_transition_account_id <span class="position">@ line 150</span></summary><pre>cash_basis_transition_account_id = fields.Many2one(string="Cash Basis Transition Account",
+        check_company=True,
+        domain="[('deprecated', '=', False)]",
+        comodel_name='account.account',
+        help="Account used to transition the tax amount for cash basis taxes. It will contain the tax amount as long as the original invoice has not been reconciled ; at reconciliation, this amount cancelled on this account and put on the regular tax account.")</pre></details><details><summary id="f-children_tax_ids">children_tax_ids <span class="position">@ line 117</span></summary><pre>children_tax_ids = fields.Many2many('account.tax',
+        'account_tax_filiation_rel', 'parent_tax', 'child_tax',
+        check_company=True,
+        string='Children Taxes')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 116</span></summary><pre>company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True, default=lambda self: self.env.company)</pre></details><details><summary id="f-country_code">country_code <span class="position">@ line 184</span></summary><pre>country_code = fields.Char(related='country_id.code', readonly=True)</pre></details><details><summary id="f-country_id">country_id <span class="position">@ line 177</span></summary><pre>country_id = fields.Many2one(
+        string="Country",
+        comodel_name='res.country',
+        compute='_compute_country_id', readonly=False, store=True,
+        required=True, precompute=True,
+        help="The country for which this tax is applicable.",
+    )</pre></details><details><summary id="f-description">description <span class="position">@ line 124</span></summary><pre>description = fields.Html(string='Description', translate=html_translate)</pre></details><details><summary id="f-hide_tax_exigibility">hide_tax_exigibility <span class="position">@ line 143</span></summary><pre>hide_tax_exigibility = fields.Boolean(string='Hide Use Cash Basis Option', related='company_id.tax_exigibility', readonly=True)</pre></details><details><summary id="f-include_base_amount">include_base_amount <span class="position">@ line 128</span></summary><pre>include_base_amount = fields.Boolean(string='Affect Base of Subsequent Taxes', default=False, tracking=True,
+        help="If set, taxes with a higher sequence than this one will be affected by it, provided they accept it.")</pre></details><details><summary id="f-invoice_label">invoice_label <span class="position">@ line 125</span></summary><pre>invoice_label = fields.Char(string='Label on Invoices', translate=True)</pre></details><details><summary id="f-invoice_legal_notes">invoice_legal_notes <span class="position">@ line 187</span></summary><pre>invoice_legal_notes = fields.Html(string="Legal Notes", help="Legal mentions that have to be printed on the invoices.")</pre></details><details><summary id="f-invoice_repartition_line_ids">invoice_repartition_line_ids <span class="position">@ line 155</span></summary><pre>invoice_repartition_line_ids = fields.One2many(
+        string="Distribution for Invoices",
+        comodel_name="account.tax.repartition.line",
+        compute='_compute_invoice_repartition_line_ids', store=True, readonly=False,
+        inverse_name="tax_id",
+        domain=[('document_type', '=', 'invoice')],
+        help="Distribution when the tax is used on an invoice",
+    )</pre></details><details><summary id="f-is_base_affected">is_base_affected <span class="position">@ line 130</span></summary><pre>is_base_affected = fields.Boolean(
+        string="Base Affected by Previous Taxes",
+        default=True,
+        tracking=True,
+        help="If set, taxes with a lower sequence might affect this one, provided they try to do it.")</pre></details><details><summary id="f-is_used">is_used <span class="position">@ line 185</span></summary><pre>is_used = fields.Boolean(string="Tax used", compute='_compute_is_used')</pre></details><details><summary id="f-name">name <span class="position">@ line 95</span></summary><pre>name = fields.Char(string='Tax Name', required=True, translate=True, tracking=True)</pre></details><details><summary id="f-name_searchable">name_searchable <span class="position">@ line 96</span></summary><pre>name_searchable = fields.Char(store=False, search='_search_name',
+          help="This dummy field lets us use another search method on the field 'name'."
+               "This allows more freedom on how to search the 'name' compared to 'filter_domain'."
+               "See '_search_name' and '_parse_name_search' for why this is not possible with 'filter_domain'.")</pre></details><details><summary id="f-price_include">price_include <span class="position">@ line 126</span></summary><pre>price_include = fields.Boolean(string='Included in Price', default=False, tracking=True,
+        help="Check this if the price you use on the product and invoices includes this tax.")</pre></details><details><summary id="f-refund_repartition_line_ids">refund_repartition_line_ids <span class="position">@ line 163</span></summary><pre>refund_repartition_line_ids = fields.One2many(
+        string="Distribution for Refund Invoices",
+        comodel_name="account.tax.repartition.line",
+        compute='_compute_refund_repartition_line_ids', store=True, readonly=False,
+        inverse_name="tax_id",
+        domain=[('document_type', '=', 'refund')],
+        help="Distribution when the tax is used on a refund",
+    )</pre></details><details><summary id="f-repartition_line_ids">repartition_line_ids <span class="position">@ line 171</span></summary><pre>repartition_line_ids = fields.One2many(
+        string="Distribution",
+        comodel_name="account.tax.repartition.line",
+        inverse_name="tax_id",
+        copy=True,
+    )</pre></details><details><summary id="f-repartition_lines_str">repartition_lines_str <span class="position">@ line 186</span></summary><pre>repartition_lines_str = fields.Char(string="Repartition Lines", tracking=True, compute='_compute_repartition_lines_str')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 121</span></summary><pre>sequence = fields.Integer(required=True, default=1,
+        help="The sequence field is used to define order in which the tax lines are applied.")</pre></details><details><summary id="f-tax_exigibility">tax_exigibility <span class="position">@ line 144</span></summary><pre>tax_exigibility = fields.Selection(
+        [('on_invoice', 'Based on Invoice'),
+         ('on_payment', 'Based on Payment'),
+        ], string='Tax Exigibility', default='on_invoice',
+        help="Based on Invoice: the tax is due as soon as the invoice is validated.\n"
+        "Based on Payment: the tax is due as soon as the payment of the invoice is received.")</pre></details><details><summary id="f-tax_group_id">tax_group_id <span class="position">@ line 136</span></summary><pre>tax_group_id = fields.Many2one(
+        comodel_name='account.tax.group',
+        string="Tax Group",
+        compute='_compute_tax_group_id', readonly=False, store=True,
+        required=True, precompute=True,
+        domain="[('country_id', 'in', (country_id, False))]")</pre></details><details><summary id="f-tax_scope">tax_scope <span class="position">@ line 102</span></summary><pre>tax_scope = fields.Selection([('service', 'Services'), ('consu', 'Goods')], string="Tax Scope", help="Restrict the use of taxes to a type of product.")</pre></details><details><summary id="f-type_tax_use">type_tax_use <span class="position">@ line 100</span></summary><pre>type_tax_use = fields.Selection(TYPE_TAX_USE, string='Tax Type', required=True, default="sale", tracking=True,
+        help="Determines where the tax is selectable. Note: 'None' means a tax can't be used by itself, however it can still be used in a group. 'adjustment' is used to perform tax adjustment.")</pre></details><h3>Methods</h3><ul id="m-_check_repartition_lines"><li>_check_repartition_lines(self, lines) <span class="position">@ line 446</span></li></ul><ul id="m-_compute_is_used"><li>_compute_is_used(self) <span class="position">@ line 251</span></li></ul><details><summary id="m-_convert_to_dict_for_taxes_computation">_convert_to_dict_for_taxes_computation(self) <span class="position">@ line 631</span></summary><pre>Convert the current taxes to a list of dict.
+Since a lot of method here are copy-pasted in account_tax.js, we want to keep exactly the same method in both
+python and javascript.
+
+:return: A list of dictionaries, each one representing the taxes.</pre></details><details><summary id="m-_filter_taxes_by_company">_filter_taxes_by_company(self, company_id) <span class="position">@ line 1601</span></summary><pre>Filter taxes by the given company
+It goes through the company hierarchy until a tax is found</pre></details><details><summary id="m-_hook_compute_is_used">_hook_compute_is_used(self, tax_to_compute) <span class="position">@ line 243</span></summary><pre>Override to compute the ids of taxes used in other modules. It takes
+as parameter a set of tax ids. It should return a set containing the
+ids of the taxes from that input set that are used in transactions.</pre></details><ul id="m-_message_log"><li>_message_log(self) <span class="position">@ line 374</span></li></ul><ul id="m-_message_log_repartition_lines"><li>_message_log_repartition_lines(self, old_values_str, new_values_str) <span class="position">@ line 316</span></li></ul><details><summary id="m-_parse_name_search">_parse_name_search(name) <span class="position">@ line 412</span></summary><pre>Parse the name to search the taxes faster.
+Technical:  0EUM      => 0%E%U%M
+21M       => 2%1%M%   where the % represents 0, 1 or multiple characters in a SQL 'LIKE' search.
+21" M"    => 2%1% M%
+21" M"co  => 2%1% M%c%o%
+Examples:   0EUM      => VAT 0% EU M.
+21M       => 21% M , 21% EU M, 21% M.Cocont and 21% EX M.
+21" M"    => 21% M and 21% M.Cocont.
+21" M"co  => 21% M.Cocont.</pre></details><details><summary id="m-_prepare_dict_for_taxes_computation">_prepare_dict_for_taxes_computation(self) <span class="position">@ line 588</span></summary><pre>Convert the current tax to a python dictionary. Since the taxes computation is made js-side too, this
+way, we ensure a common representation of the taxes.
+
+:return: A dictionary representing the raw values of the tax used during the taxes computation.</pre></details><details><summary id="m-_sanitize_vals">_sanitize_vals(self, vals) <span class="position">@ line 505</span></summary><pre>Normalize the create/write values.</pre></details><ul id="m-_search_name"><li>_search_name(self, operator, value) <span class="position">@ line 441</span></li></ul><details><summary id="m-compute_all">compute_all(self, price_unit, currency, quantity, product, partner, is_refund, handle_price_include, include_caba_tags) <span class="position">@ line 1489</span></summary><pre>Compute all information required to apply taxes (in self + their children in case of a tax group).
+We consider the sequence of the parent for group of taxes.
+Eg. considering letters as taxes and alphabetic order as sequence :
+[G, B([A, D, F]), E, C] will be computed as [A, D, F, C, E, G]
+
+
+
+:param price_unit: The unit price of the line to compute taxes on.
+:param currency: The optional currency in which the price_unit is expressed.
+:param quantity: The optional quantity of the product to compute taxes on.
+:param product: The optional product to compute taxes on.
+Used to get the tags to apply on the lines.
+:param partner: The optional partner compute taxes on.
+Used to retrieve the lang to build strings and for potential extensions.
+:param is_refund: The optional boolean indicating if this is a refund.
+:param handle_price_include: Used when we need to ignore all tax included in price. If False, it means the
+amount passed to this method will be considered as the base of all computations.
+:param include_caba_tags: The optional boolean indicating if CABA tags need to be taken into account.
+:return: {
+'total_excluded': 0.0,    # Total without taxes
+'total_included': 0.0,    # Total with taxes
+'total_void'    : 0.0,    # Total with those taxes, that don't have an account set
+'base_tags: : list<int>,  # Tags to apply on the base line
+'taxes': [{               # One dict for each tax in self and their children
+'id': int,
+'name': str,
+'amount': float,
+'base': float,
+'sequence': int,
+'account_id': int,
+'refund_account_id': int,
+'analytic': bool,
+'price_include': bool,
+'tax_exigibility': str,
+'tax_repartition_line_id': int,
+'group': recordset,
+'tag_ids': list<int>,
+'tax_ids': list<int>,
+}],
+}</pre></details><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 543</span></li></ul><ul id="m-flatten_taxes_hierarchy"><li>flatten_taxes_hierarchy(self) <span class="position">@ line 1360</span></li></ul><ul id="m-get_tax_tags"><li>get_tax_tags(self, is_refund, repartition_type) <span class="position">@ line 1375</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 540</span></li></ul><script src="class.js"></script></body></html>

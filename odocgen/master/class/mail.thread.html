@@ -1,0 +1,989 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.thread - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.thread</h1><p>Originally defined in: odoo/addons/mail/models/mail_thread.py</p><p>Inherited in: odoo/addons/test_mail_full/models/test_mail_models_mail.py<br/>Inherited in: odoo/addons/snailmail/models/mail_thread.py<br/>Inherited in: odoo/addons/sms/models/mail_thread.py<br/>Inherited in: odoo/addons/rating/models/rating_mixin.py<br/>Inherited in: odoo/addons/rating/models/mail_thread.py<br/>Inherited in: odoo/addons/portal/models/mail_thread.py<br/>Inherited in: odoo/addons/mass_mailing/models/mail_thread.py<br/>Inherited in: odoo/addons/mail_bot/models/mail_thread.py<br/>Inherited in: odoo/addons/mail/models/mail_thread_main_attachment.py<br/>Inherited in: odoo/addons/mail/models/mail_thread_cc.py<br/>Inherited in: odoo/addons/hr_attendance/models/hr_attendance.py<br/>Inherited in: odoo/addons/gamification/models/gamification_challenge.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_thread.py</h2><h3>Fields</h3><details><summary id="f-has_message">has_message <span class="position">@ line 102</span></summary><pre>has_message = fields.Boolean(compute="_compute_has_message", search="_search_has_message", store=False)</pre></details><details><summary id="f-message_attachment_count">message_attachment_count <span class="position">@ line 117</span></summary><pre>message_attachment_count = fields.Integer('Attachment Count', compute='_compute_message_attachment_count', groups="base.group_user")</pre></details><details><summary id="f-message_follower_ids">message_follower_ids <span class="position">@ line 90</span></summary><pre>message_follower_ids = fields.One2many(
+        'mail.followers', 'res_id', string='Followers', groups='base.group_user')</pre></details><details><summary id="f-message_has_error">message_has_error <span class="position">@ line 110</span></summary><pre>message_has_error = fields.Boolean(
+        'Message Delivery error',
+        compute='_compute_message_has_error', search='_search_message_has_error',
+        help="If checked, some messages have a delivery error.")</pre></details><details><summary id="f-message_has_error_counter">message_has_error_counter <span class="position">@ line 114</span></summary><pre>message_has_error_counter = fields.Integer(
+        'Number of errors', compute='_compute_message_has_error',
+        help="Number of messages with delivery error")</pre></details><details><summary id="f-message_ids">message_ids <span class="position">@ line 99</span></summary><pre>message_ids = fields.One2many(
+        'mail.message', 'res_id', string='Messages',
+        domain=lambda self: [('message_type', '!=', 'user_notification')], auto_join=True)</pre></details><details><summary id="f-message_is_follower">message_is_follower <span class="position">@ line 88</span></summary><pre>message_is_follower = fields.Boolean(
+        'Is Follower', compute='_compute_message_is_follower', search='_search_message_is_follower')</pre></details><details><summary id="f-message_needaction">message_needaction <span class="position">@ line 103</span></summary><pre>message_needaction = fields.Boolean(
+        'Action Needed',
+        compute='_compute_message_needaction', search='_search_message_needaction',
+        help="If checked, new messages require your attention.")</pre></details><details><summary id="f-message_needaction_counter">message_needaction_counter <span class="position">@ line 107</span></summary><pre>message_needaction_counter = fields.Integer(
+        'Number of Actions', compute='_compute_message_needaction',
+        help="Number of messages requiring action")</pre></details><details><summary id="f-message_partner_ids">message_partner_ids <span class="position">@ line 92</span></summary><pre>message_partner_ids = fields.Many2many(
+        comodel_name='res.partner', string='Followers (Partners)',
+        compute='_compute_message_partner_ids',
+        inverse='_inverse_message_partner_ids',
+        search='_search_message_partner_ids',
+        groups='base.group_user',
+    )</pre></details><h3>Methods</h3><details><summary id="m-_check_can_update_message_content">_check_can_update_message_content(self, messages) <span class="position">@ line 467</span></summary><pre>" Checks that the current user can update the content of the message.
+Current heuristic is
+
+* if no tracking;
+* only for user generated content;</pre></details><ul id="m-_compute_field_value"><li>_compute_field_value(self, field) <span class="position">@ line 417</span></li></ul><ul id="m-_compute_has_message"><li>_compute_has_message(self) <span class="position">@ line 171</span></li></ul><ul id="m-_compute_message_attachment_count"><li>_compute_message_attachment_count(self) <span class="position">@ line 236</span></li></ul><ul id="m-_compute_message_has_error"><li>_compute_message_has_error(self) <span class="position">@ line 210</span></li></ul><ul id="m-_compute_message_needaction"><li>_compute_message_needaction(self) <span class="position">@ line 190</span></li></ul><ul id="m-_condition_to_sql"><li>_condition_to_sql(self, alias, fname, operator, value, query) <span class="position">@ line 401</span></li></ul><details><summary id="m-_creation_message">_creation_message(self) <span class="position">@ line 430</span></summary><pre>Get the creation message to log into the chatter at the record's creation.
+:returns: The message's body to log (either plain text or markup safe html).</pre></details><details><summary id="m-_creation_subtype">_creation_subtype(self) <span class="position">@ line 423</span></summary><pre>Give the subtypes triggered by the creation of a record
+
+:returns: a subtype browse record (empty if no subtype is triggered)</pre></details><ul id="m-_extract_partner_ids_for_notifications"><li>_extract_partner_ids_for_notifications(self, message, msg_vals, recipients_data) <span class="position">@ line 4061</span></li></ul><ul id="m-_fallback_lang"><li>_fallback_lang(self) <span class="position">@ line 462</span></li></ul><details><summary id="m-_get_bounced_message_data">_get_bounced_message_data(self, message, message_dict) <span class="position">@ line 1765</span></summary><pre>Find the original <mail.message> and the bounced email references based on an incoming email.
+
+:param message: The EmailMessage object, part of the incoming email
+First Content type: 'message/rfc822' or 'text/rfc822-headers'
+:param message_dict: The dict values already parsed
+:return:
+A tuple with
+- The <mail.message> (or empty recordset if nothing has been found)
+- The list of references ids used to find the bounced mail message</pre></details><details><summary id="m-_get_customer_information">_get_customer_information(self) <span class="position">@ line 2046</span></summary><pre>Get customer information that can be extracted from the records by
+normalized email.
+
+The goal of this method is to offer an extension point to subclasses
+for retrieving initial values from a record to populate related
+customers record (res_partner).
+
+:return dict: normalized email -> dict of initial res_partner values</pre></details><ul id="m-_get_mail_thread_data"><li>_get_mail_thread_data(self, request_list) <span class="position">@ line 4516</span></li></ul><ul id="m-_get_mail_thread_data_attachments"><li>_get_mail_thread_data_attachments(self) <span class="position">@ line 4512</span></li></ul><details><summary id="m-_get_message_create_valid_field_names">_get_message_create_valid_field_names(self) <span class="position">@ line 2891</span></summary><pre>Some fields should not be given when creating a mail.message from
+mail.thread main API methods (in addition to some API specific check).
+Those fields are generally used through UI or dedicated methods. We
+therefore give an allowed field names list.</pre></details><details><summary id="m-_get_notify_valid_parameters">_get_notify_valid_parameters(self) <span class="position">@ line 2980</span></summary><pre>Several parameters exist for notification methods as business
+flows often want to customize the standard notification experience.
+In order to ease coding kwargs are frequently used. This method
+acts like a filter, allowing to spot parameters that are not
+supported.</pre></details><details><summary id="m-_get_parent_message">_get_parent_message(self, msg_dict) <span class="position">@ line 1802</span></summary><pre>Find the <mail.message> which is the parent of the given email.
+
+:param msg_dict: The dict values already parsed
+:return: The <mail.message> or None if nothing has been found</pre></details><details><summary id="m-_get_source_from_ref">_get_source_from_ref(self, source_ref) <span class="position">@ line 2925</span></summary><pre>From a source_reference, return either a mail template, either
+an ir ui view.
+
+:return tuple(template, view): one is a recordset (may be void if
+source_ref is a void recordset, or a singleton), the other one is
+False. Always only one is set, as source is either a template,
+either a view.</pre></details><ul id="m-_inverse_message_partner_ids"><li>_inverse_message_partner_ids(self) <span class="position">@ line 124</span></li></ul><details><summary id="m-_is_thread_message">_is_thread_message(self, msg_vals) <span class="position">@ line 4124</span></summary><pre>Tool method to compute thread validity in notification methods.
+msg_vals is used as a replacement for self, allowing to force model
+and res_id independently of current recordset. Void values in dict
+are kept e.g. model=False is valid.</pre></details><details><summary id="m-_mail_find_user_for_gateway">_mail_find_user_for_gateway(self, email_value, alias) <span class="position">@ line 1905</span></summary><pre>Utility method to find user from email address that can create documents
+in the target model. Purpose is to link document creation to users whenever
+possible, for example when creating document through mailgateway.
+
+Heuristic
+
+* alias owner record: fetch in its followers for user with matching email;
+* find any user with matching emails;
+* try alias owner as fallback;
+
+Note that standard search order is applied.
+
+:param str email_value: will be sanitized and parsed to find email;
+:param mail.alias alias: optional alias. Used to fetch owner followers
+or fallback user (alias owner);
+
+:return res.user user: user matching email or void recordset if none found</pre></details><ul id="m-_mail_search_on_partner"><li>_mail_search_on_partner(self, normalized_emails, extra_domain) <span class="position">@ line 1899</span></li></ul><details><summary id="m-_mail_search_on_user">_mail_search_on_user(self, normalized_emails, extra_domain) <span class="position">@ line 1888</span></summary><pre>Find partners linked to users, given an email address that will
+be normalized. Search is done as sudo on res.users model to avoid domain
+on partner like ('user_ids', '!=', False) that would not be efficient.</pre></details><details><summary id="m-_message_add_suggested_recipient">_message_add_suggested_recipient(self, result, partner, email, lang, reason) <span class="position">@ line 1830</span></summary><pre>Called by _message_get_suggested_recipients, to add a suggested
+recipient as a dictionary in the result list</pre></details><details><summary id="m-_message_auto_subscribe">_message_auto_subscribe(self, updated_values, followers_existing_policy) <span class="position">@ line 4298</span></summary><pre>Handle auto subscription. Auto subscription is done based on two
+main mechanisms
+
+* using subtypes parent relationship. For example following a parent record
+(i.e. project) with subtypes linked to child records (i.e. task). See
+mail.message.subtype ``_get_auto_subscription_subtypes``;
+* calling _message_auto_subscribe_notify that returns a list of partner
+to subscribe, as well as data about the subtypes and notification
+to send. Base behavior is to subscribe responsible and notify them;
+
+Adding application-specific auto subscription should be done by overriding
+``_message_auto_subscribe_followers``. It should return structured data
+for new partner to subscribe, with subtypes and eventual notification
+to perform. See that method for more details.
+
+:param updated_values: values modifying the record trigerring auto subscription</pre></details><details><summary id="m-_message_auto_subscribe_followers">_message_auto_subscribe_followers(self, updated_values, default_subtype_ids) <span class="position">@ line 4229</span></summary><pre>Optional method to override in addons inheriting from mail.thread.
+Return a list tuples containing (
+partner ID,
+subtype IDs (or False if model-based default subtypes),
+QWeb template XML ID for notification (or False is no specific
+notification is required),
+), aka partners and their subtype and possible notification to send
+using the auto subscription mechanism linked to updated values.
+
+Default value of this method is to return the new responsible of
+documents. This is done using relational fields linking to res.users
+with track_visibility set. Since OpenERP v7 it is considered as being
+responsible for the document and therefore standard behavior is to
+subscribe the user and send them a notification.
+
+Override this method to change that behavior and/or to add people to
+notify, using possible custom notification.
+
+:param updated_values: see ``_message_auto_subscribe``
+:param default_subtype_ids: coming from ``_get_auto_subscription_subtypes``</pre></details><details><summary id="m-_message_auto_subscribe_notify">_message_auto_subscribe_notify(self, partner_ids, template) <span class="position">@ line 4263</span></summary><pre>Notify new followers, using a template to render the content of the
+notification message. Notifications pushed are done using the standard
+notification mechanism in mail.thread. It is either inbox either email
+depending on the partner state: no user (email, customer), share user
+(email, customer) or classic user (notification_type)
+
+:param partner_ids: IDs of partner to notify;
+:param template: XML ID of template used for the notification;</pre></details><details><summary id="m-_message_compute_author">_message_compute_author(self, author_id, email_from, raise_on_email) <span class="position">@ line 2802</span></summary><pre>Tool method computing author information for messages. Purpose is
+to ensure maximum coherence between author / current user / email_from
+when sending emails.
+
+:param raise_on_email: if email_from is not found, raise an UserError
+
+:return tuple: res.partner ID (may be False or None), email_from</pre></details><ul id="m-_message_compute_parent_id"><li>_message_compute_parent_id(self, parent_id) <span class="position">@ line 2830</span></li></ul><details><summary id="m-_message_compute_subject">_message_compute_subject(self) <span class="position">@ line 2858</span></summary><pre>Get the default subject for a message posted in this record's
+discussion thread.
+
+:return str: default subject</pre></details><details><summary id="m-_message_create">_message_create(self, values_list) <span class="position">@ line 2866</span></summary><pre>Low-level helper to create mail.message records. It is mainly used
+to hide the cleanup of given values, for mail gateway or helpers.</pre></details><details><summary id="m-_message_get_suggested_recipients">_message_get_suggested_recipients(self) <span class="position">@ line 1864</span></summary><pre>Get suggested recipients to be managed by Chatter
+
+:returns: list of dictionaries (per suggested recipient) containing:
+* partner_id:       int: recipient partner id
+* name:             str: name of the recipient
+* email:            str: email of recipient
+* lang:             str: language code
+* reason:           str
+* create_values:    dict: data for unknown partner</pre></details><details><summary id="m-_message_log">_message_log(self, body, subject, author_id, email_from, message_type, partner_ids, attachment_ids, tracking_value_ids) <span class="position">@ line 2727</span></summary><pre>Shortcut allowing to post note on a document. See ``_message_log_batch``
+for more details.</pre></details><details><summary id="m-_message_log_batch">_message_log_batch(self, bodies, subject, author_id, email_from, message_type, partner_ids, attachment_ids, tracking_value_ids) <span class="position">@ line 2745</span></summary><pre>Shortcut allowing to post notes on a batch of documents. It does not
+perform any notification and pre-computes some values to have a short code
+as optimized as possible. This method is private as it does not check
+access rights and perform the message creation as sudo to speedup
+the log process. This method should be called within methods where
+access rights are already granted to avoid privilege escalation.
+
+:param bodies: dict {record_id: body}
+:param list partner_ids: optional partners, not used in any notification
+mechanism. This is mainly used to link a log to a specific customer
+like SMS or WhatsApp log;
+:return: created messages (as sudo)</pre></details><details><summary id="m-_message_log_with_view">_message_log_with_view(self, view_ref, render_values, message_type) <span class="position">@ line 2694</span></summary><pre>Log a message on each record of self, using a view to render the
+body using QWeb.
+
+:param str/int/record view_ref: source QWeb template. It should be an
+XmlID allowing to fetch an ``ir.ui.view``, or an ID of a view or
+an ``ir.ui.view`` record;
+:param dict render_values: additional rendering values for qweb context;
+:param str message_type: one of 'notification' or 'comment';
+:param kwargs: additional values propagated to ``_message_log``;
+
+:return: posted mail.message records (as sudo)</pre></details><details><summary id="m-_message_mail_after_hook">_message_mail_after_hook(self, mails) <span class="position">@ line 2238</span></summary><pre>Hook to add custom behavior after having sent an mass mailing.
+
+:param mail.mail mails: mail.mail records about to be sent</pre></details><details><summary id="m-_message_parse_extract_bounce">_message_parse_extract_bounce(self, email_message, message_dict) <span class="position">@ line 1584</span></summary><pre>Parse email and extract bounce information to be used in future
+processing.
+
+:param email_message: an email.message instance;
+:param message_dict: dictionary holding already-parsed values;
+
+:return dict: bounce-related values will be added, containing
+
+* is_bounce: whether the email is recognized as a bounce email;
+* bounced_email: email that bounced (normalized);
+* bounce_partner: res.partner recordset whose email_normalized =
+bounced_email;
+* bounced_msg_ids: list of message_ID references (<...@myserver>) linked
+to the email that bounced;
+* bounced_message: if found, mail.message recordset matching bounced_msg_ids;</pre></details><details><summary id="m-_message_parse_extract_from_parent">_message_parse_extract_from_parent(self, parent_message) <span class="position">@ line 1754</span></summary><pre>Derive message values from the parent.</pre></details><details><summary id="m-_message_parse_extract_payload">_message_parse_extract_payload(self, message, message_dict, save_original) <span class="position">@ line 1494</span></summary><pre>Extract body as HTML and attachments from the mail message
+
+:param string message: an email.message instance</pre></details><details><summary id="m-_message_parse_extract_payload_postprocess">_message_parse_extract_payload_postprocess(self, message, payload_dict) <span class="position">@ line 1455</span></summary><pre>Perform some cleaning / postprocess in the body and attachments
+extracted from the email. Note that this processing is specific to the
+mail module, and should not contain security or generic html cleaning.
+Indeed those aspects should be covered by the html_sanitize method
+located in tools.
+
+:param string message: an email.message instance</pre></details><details><summary id="m-_message_partner_info_from_emails">_message_partner_info_from_emails(self, emails, link_mail) <span class="position">@ line 2024</span></summary><pre>Convert a list of emails into a list partner_ids and a list
+new_partner_ids. The return value is non conventional because
+it is meant to be used by the mail widget.
+
+:return dict: partner_ids and new_partner_ids</pre></details><details><summary id="m-_message_post_after_hook">_message_post_after_hook(self, message, msg_values) <span class="position">@ line 2232</span></summary><pre>Hook to add custom behavior after having posted the message. Both
+message and computed value are given, to try to lessen query count by
+using already-computed values instead of having to rebrowse things.</pre></details><details><summary id="m-_message_receive_bounce">_message_receive_bounce(self, email, partner) <span class="position">@ line 1432</span></summary><pre>Called by ``message_process`` when a bounce email (such as Undelivered
+Mail Returned to Sender) is received for an existing thread. The default
+behavior is to do nothing. This method is meant to be overridden in various
+modules to add some specific behavior like blacklist management or mass
+mailing statistics update. check is an integer  ``message_bounce`` column exists.
+If it is the case, its content is incremented.
+
+:param string email: email that caused the bounce;
+:param record partner: partner matching the bounced email address, if any;</pre></details><details><summary id="m-_message_reset_bounce">_message_reset_bounce(self, email) <span class="position">@ line 1445</span></summary><pre>Called by ``message_process`` when an email is considered as not being
+a bounce. The default behavior is to do nothing. This method is meant to
+be overridden in various modules to add some specific behavior like
+blacklist management.
+
+:param string email: email for which to reset bounce information</pre></details><details><summary id="m-_message_subscribe">_message_subscribe(self, partner_ids, subtype_ids, customer_ids) <span class="position">@ line 4180</span></summary><pre>Main private API to add followers to a record set. This method adds
+partners and channels, given their IDs, as followers of all records
+contained in the record set.
+
+If subtypes are given existing followers are erased with new subtypes.
+If default one have to be computed only missing followers will be added
+with default subtypes matching the record set model.
+
+This private method does not specifically check for access right. Use
+``message_subscribe`` public API when not sure about access rights.
+
+:param customer_ids: see ``_insert_followers``</pre></details><details><summary id="m-_message_track">_message_track(self, fields_iter, initial_values_dict) <span class="position">@ line 590</span></summary><pre>Track updated values. Comparing the initial and current values of
+the fields given in tracked_fields, it generates a message containing
+the updated values. This message can be linked to a mail.message.subtype
+given by the ``_track_subtype`` method.
+
+:param iter fields_iter: iterable of field names to track
+:param dict initial_values_dict: mapping {record_id: initial_values}
+where initial_values is a dict {field_name: value, ... }
+:return: mapping {record_id: (changed_field_names, tracking_value_ids)}
+containing existing records only</pre></details><details><summary id="m-_message_track_post_template">_message_track_post_template(self, changes) <span class="position">@ line 648</span></summary><pre>Based on a tracking, post a message defined by ``_track_template``
+parameters. It allows to implement automatic post of messages based
+on templates (e.g. stage change triggering automatic email).
+
+:param dict changes: mapping {record_id: (changed_field_names, tracking_value_ids)}
+containing existing records only</pre></details><details><summary id="m-_message_update_content">_message_update_content(self, message, body, attachment_ids, partner_ids, strict) <span class="position">@ line 4429</span></summary><pre>Update message content. Currently does not support attachments
+specific code (see ``_process_attachments_for_post``), to be added
+when necessary.
+
+Private method to use for tooling, do not expose to interface as editing
+messages should be avoided at all costs (think of: notifications already
+sent, ...).
+
+:param <mail.message> message: message to update, should be linked to self through
+model and res_id;
+:param str body: new body (None to skip its update);
+:param list attachment_ids: list of new attachments IDs, replacing old one (None
+to skip its update);
+:param list attachment_ids: list of new partner IDs that are mentioned;
+:param bool strict: whether to check for allowance before updating
+content. This should be skipped only when really necessary as it
+creates issues with already-sent notifications, lack of content
+tracking, ...
+
+Kwargs are supported, notably to match mail.message fields to update.
+See content of this method for more details about supported keys.</pre></details><details><summary id="m-_notify_by_email_get_base_mail_values">_notify_by_email_get_base_mail_values(self, message, additional_values) <span class="position">@ line 3549</span></summary><pre>Return model-specific and message-related values to be used when
+creating notification emails. It serves as a common basis for all
+notification emails based on a given message.
+
+:param record message: <mail.message> record being notified;
+:param dict additional_values: optional additional values to add (ease
+custom calls and inheritance);
+
+:return: dictionary of values suitable for a <mail.mail> create;</pre></details><details><summary id="m-_notify_by_email_get_final_mail_values">_notify_by_email_get_final_mail_values(self, recipient_ids, mail_values, additional_values) <span class="position">@ line 3596</span></summary><pre>Perform final formatting of values to create notification emails.
+Basic method just set the recipient partners as mail_mail recipients.
+Override to generate other mail values like email_to or email_cc.
+
+:param list recipient_ids: res.partner IDs to notify;
+:param dict mail_values: notification mail values;
+:param dict additional_values: optional additional values to add (ease
+custom calls and inheritance);
+
+:return: a new dictionary of values suitable for a <mail.mail> create;</pre></details><details><summary id="m-_notify_by_email_prepare_rendering_context">_notify_by_email_prepare_rendering_context(self, message, msg_vals, model_description, force_email_company, force_email_lang) <span class="position">@ line 3398</span></summary><pre>Prepare rendering context for notification email.
+
+Signature: if asked a default signature is computed based on author. Either
+it has an user and we use the user's signature. Either we do not find any
+user and we compute a default one based on the author's name.
+
+Company: either there is one defined on the record (company_id field set
+with a value), either we use env.company. A new parameter allows to force
+its value.
+
+Lang: when calling this method, ``_fallback_lang`` should already been
+called, or a lang set in context with another way. A wild guess is done
+based on templates to try to retrieve the recipient's language when a flow
+like "send by email" is performed. Lang is used to try to have the
+notification layout in the same language as the email content. A new
+parameter allows to force its value.
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+:param str model_description: description of current model, given to
+avoid fetching it and easing translation support;
+:param record force_email_company: <res.company> record used when rendering
+notification layout. Otherwise computed based on current record;
+:param str force_email_lang: lang used when rendering content, used
+notably to compute model name or translate access buttons;
+
+:return: dictionary of values used when rendering notification layout;</pre></details><details><summary id="m-_notify_by_email_render_layout">_notify_by_email_render_layout(self, message, recipients_group, msg_vals, render_values) <span class="position">@ line 3508</span></summary><pre>Renders the email layout for a given recipients group which
+encapsulate the message body.
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param dict recipients_group: a dict containing data for the recipients,
+see @ _notify_get_recipients_groups;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+:param dict render_values: values to render the notification layout;
+
+At this point expected values are
+render_values: company, is_discussion, lang, message, model_description,
+record, record_name, signature, subtype, tracking_values,
+website_url
+recipients_group: actions, button_access, has_button_access, recipients
+
+:return str: rendered complete layout;</pre></details><details><summary id="m-_notify_by_web_push_prepare_payload">_notify_by_web_push_prepare_payload(self, message, msg_vals) <span class="position">@ line 3693</span></summary><pre>Returns dictionary containing message information for a browser device.
+This info will be delivered to a browser device via its recorded endpoint.
+REM: It is having a limit of 4000 bytes (4kb)</pre></details><details><summary id="m-_notify_cancel_by_type_generic">_notify_cancel_by_type_generic(self, notification_type) <span class="position">@ line 3040</span></summary><pre>Standard implementation for canceling notifications by type that cancels notifications
+* in 'bounce' and 'exception' status
+* of the current user
+* of the given type
+* for mail_message related to the model implemented by this class
+It also sends bus notifications to update status of notifications in the web client.</pre></details><details><summary id="m-_notify_get_action_link">_notify_get_action_link(self, link_type) <span class="position">@ line 3999</span></summary><pre>Prepare link to an action: view document, follow document, ...</pre></details><details><summary id="m-_notify_get_classified_recipients_iterator">_notify_get_classified_recipients_iterator(self, message, recipients_data, msg_vals, model_description, force_email_company, force_email_lang, subtitles) <span class="position">@ line 3318</span></summary><pre>Make groups of recipients, based on 'recipients_data' which is a list
+of recipients informations. Purpose of this method is to group them by
+main usage ('user', 'portal_user', 'follower', 'customer', ... see
+@_notify_get_recipients_classify) and lang. Each group is linked to
+an evaluation context to render the notification layout.
+
+:param message: ``mail.message`` record to notify;
+:param list recipients_data: see ``MailThread._notify_get_recipients``;
+:param msg_vals: dictionary of values used to create the message. If
+given it may be used to access values related to ``message``;
+
+:param str model_description: description of current model, given to
+avoid fetching it and easing translation support;
+:param record force_email_company: <res.company> record used when rendering
+notification layout. Otherwise computed based on current record;
+:param str force_email_lang: when no specific lang is found this is the
+default lang to use notably to compute model name or translate access
+buttons;
+:param list subtitles: optional list set as template value "subtitles";
+
+:return: iterator based on recipients classified by lang, with their
+rendering evaluation context. Each item is a tuple containing (
+lang: used for rendering (customer language, forced email, default
+environment language,
+render_values: used to render the notification layout and translated
+using lang,
+recipients_group: a recipients group is a dict containing data
+defined in "_notify_get_recipients_groups" like {
+'active': if not, it is skipped in notification process (ease
+inheritance to be already present);
+'actions': list of actions to display as links or buttons in form
+{'url': link of the action, 'title': link or button
+string};
+'button_access': main access document button information, {'url'
+link of the access, 'title': link or button
+string};
+'has_button_access': display access document main button in email;
+'notification_group_name': name of the group, to ease usage;
+'recipients': list of partner IDs, will be fillup when evaluating
+groups;
+}
+);</pre></details><details><summary id="m-_notify_get_recipients">_notify_get_recipients(self, message, msg_vals) <span class="position">@ line 3736</span></summary><pre>Compute recipients to notify based on subtype and followers. This
+method returns data structured as expected for ``_notify_recipients``.
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+
+Kwargs allow to pass various parameters that are used by sub notification
+methods. See those methods for more details about supported parameters.
+Specific kwargs used in this method:
+
+* ``notify_author``: allows to notify the author, which is False by
+default as we don't want people to receive their own content. It is
+used notably when impersonating partners or having automated
+notifications send by current user, targeting current user;
+* ``skip_existing``: check existing notifications and skip them in order
+to avoid having several notifications / partner as it would make
+constraints crash. This is disabled by default to optimize speed;
+
+TDE/XDO TODO: flag rdata directly, for example r['notif'] = 'ocn_client'
+and r['needaction']=False and correctly override _notify_get_recipients
+
+:return list recipients_data: list of recipients information (see
+``MailFollowers._get_recipient_data()`` for more details) formatted
+like [
+{
+'active': partner.active;
+'id': id of the res.partner being recipient to notify;
+'is_follower': follows the message related document;
+'lang': its lang;
+'groups': res.group IDs if linked to a user;
+'notif': 'inbox', 'email', 'sms' (SMS App);
+'share': is partner a customer (partner.partner_share);
+'type': partner usage ('customer', 'portal', 'user');
+'ushare': are users shared (if users, all users are shared);
+}, {...}]</pre></details><details><summary id="m-_notify_get_recipients_classify">_notify_get_recipients_classify(self, message, recipients_data, model_description, msg_vals) <span class="position">@ line 3935</span></summary><pre>Classify recipients to be notified of a message in groups to have
+specific rendering depending on their group. For example users could
+have access to buttons customers should not have in their emails.
+Module-specific grouping should be done by overriding ``_notify_get_recipients_groups``
+method defined here-under.
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param list recipients_data: list of recipients data based on <res.partner>
+records formatted like [
+{
+'active': partner.active;
+'id': id of the res.partner being recipient to notify;
+'is_follower': follows the message related document;
+'lang': its lang;
+'groups': res.group IDs if linked to a user;
+'notif': 'inbox', 'email', 'sms' (SMS App);
+'share': is partner a customer (partner.partner_share);
+'type': partner usage ('customer', 'portal', 'user');
+'ushare': are users shared (if users, all users are shared);
+}, {...}]. See ``MailThread._notify_get_recipients()``;
+:param str model_description: description of current model, given to
+avoid fetching it and easing translation support;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+
+:return list: list of groups (see '_notify_get_recipients_groups')
+with 'recipients' key filled with matching partners, like
+[{
+'active': True,
+'actions': [],
+'button_access': {},
+'has_button_access': False,
+'notification_group_name': 'user',
+'recipients': [11],
+}, {...}]</pre></details><details><summary id="m-_notify_get_recipients_groups">_notify_get_recipients_groups(self, message, model_description, msg_vals) <span class="position">@ line 3820</span></summary><pre>Return groups used to classify recipients of a notification email.
+Groups is a list of tuple (group_name, group_func, group_data) where
+
+* 'group_name' is an identifier used only to be able to override and
+manipulate groups;
+* 'group_func' is a function pointer taking a partner data dict as
+parameter. It is called on recipients to know if they belong to
+the group. Only first matching group is kept, iterating on the
+group list in order.
+* 'group_data' is a dict containing parameters used in notification
+process like {
+'active': if not, it is skipped in notification process (ease
+inheritance to be already present);
+'actions': list of actions to display as links or buttons in form
+{'url': link of the action, 'title': link or button
+string};
+'button_access': main access document button information, {'url'
+link of the access, 'title': link or button
+string};
+'has_button_access': display access document main button in email;
+'notification_group_name': name of the group, to ease usage;
+'recipients': list of partner IDs, will be fillup when evaluating
+groups;
+}
+
+Default groups:
+
+* 'user': recipients linked to an internal user;
+* 'portal': recipients linked to a portal user;
+* 'follower': recipients (not internal/portal users) follower of the
+related record;
+* 'customer': other recipients;
+
+When having to find a group for recipients, the first matching one
+when iterating on groups is used. Reordering those groups is doable
+through override. Adding groups is a common override, to add specific
+buttons or actions for users belonging to some user groups.
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param str model_description: description of current model, given to
+avoid fetching it and easing translation support;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+
+:return: list of groups definition</pre></details><details><summary id="m-_notify_get_recipients_groups_fillup">_notify_get_recipients_groups_fillup(self, groups, model_description, msg_vals) <span class="position">@ line 3900</span></summary><pre>Iterate on recipients groups (see '_notify_get_recipients_groups')
+and fill up the result with default values, allowing to compute links or
+titles once.
+
+:param list groups: recipients groups;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+:param str model_description: description of current model, given to
+avoid fetching it and easing translation support;
+
+:return: updated groups;</pre></details><details><summary id="m-_notify_thread">_notify_thread(self, message, msg_vals) <span class="position">@ line 3082</span></summary><pre>Main notification method. This method basically does two things
+
+* call ``_notify_get_recipients`` that computes recipients to
+notify based on message record or message creation values if given
+(to optimize performance if we already have data computed);
+* performs the notification process by calling the various notification
+methods implemented;
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+
+Kwargs allow to pass various parameters that are given to sub notification
+methods. See those methods for more details about supported parameters.
+Specific kwargs used in this method:
+
+* ``scheduled_date``: delay notification sending if set in the future.
+This is done using the ``mail.message.schedule`` intermediate model;
+
+:return: recipients data (see ``MailThread._notify_get_recipients()``)</pre></details><details><summary id="m-_notify_thread_by_email">_notify_thread_by_email(self, message, recipients_data, msg_vals, mail_auto_delete, model_description, force_email_company, force_email_lang, subtitles, resend_existing, force_send, send_after_commit) <span class="position">@ line 3182</span></summary><pre>Method to send emails notifications linked to a message.
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param list recipients_data: list of recipients data based on <res.partner>
+records formatted like [
+{
+'active': partner.active;
+'id': id of the res.partner being recipient to notify;
+'is_follower': follows the message related document;
+'lang': its lang;
+'groups': res.group IDs if linked to a user;
+'notif': 'inbox', 'email', 'sms' (SMS App);
+'share': is partner a customer (partner.partner_share);
+'type': partner usage ('customer', 'portal', 'user');
+'ushare': are users shared (if users, all users are shared);
+}, {...}]. See ``MailThread._notify_get_recipients()``;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;
+
+:param bool mail_auto_delete: delete notification emails once sent;
+
+:param str model_description: description of current model, given to
+avoid fetching it and easing translation support;
+:param record force_email_company: <res.company> record used when rendering
+notification layout. Otherwise computed based on current record;
+:param str force_email_lang: lang used when rendering content, used
+notably to compute model name or translate access buttons;
+:param list subtitles: optional list set as template value "subtitles";
+
+:param bool resend_existing: check for existing notifications to update
+based on mailed recipient, otherwise create new notifications;
+:param bool force_send: send emails directly instead of using queue;
+:param bool send_after_commit: if force_send, tells to send emails after
+the transaction has been committed using a post-commit hook;</pre></details><details><summary id="m-_notify_thread_by_inbox">_notify_thread_by_inbox(self, message, recipients_data, msg_vals) <span class="position">@ line 3135</span></summary><pre>Notificaty recipients inbox of a message. It does two main things :
+
+* create inbox notifications for users;
+* send bus notifications;
+
+:param record message: <mail.message> record being notified. May be
+void as 'msg_vals' superseeds it;
+:param list recipients_data: list of recipients data based on <res.partner>
+records formatted like [
+{
+'active': partner.active;
+'id': id of the res.partner being recipient to notify;
+'is_follower': follows the message related document;
+'lang': its lang;
+'groups': res.group IDs if linked to a user;
+'notif': 'inbox', 'email', 'sms' (SMS App);
+'share': is partner a customer (partner.partner_share);
+'type': partner usage ('customer', 'portal', 'user');
+'ushare': are users shared (if users, all users are shared);
+}, {...}]. See ``MailThread._notify_get_recipients()``;
+:param dict msg_vals: values dict used to create the message, allows to
+skip message usage and spare some queries;</pre></details><details><summary id="m-_notify_thread_by_web_push">_notify_thread_by_web_push(self, message, recipients_data, msg_vals) <span class="position">@ line 3615</span></summary><pre>Method to send cloud notifications for every mention of a partner
+and every direct message. We have to take into account the risk of
+duplicated notifications in case of a mention in a channel of `chat` type.
+
+:param message: ``mail.message`` record to notify;
+:param recipients_data: list of recipients information (based on res.partner
+records), formatted like
+[{'active': partner.active;
+'id': id of the res.partner being recipient to notify;
+'groups': res.group IDs if linked to a user;
+'notif': 'inbox', 'email', 'sms' (SMS App);
+'share': partner.partner_share;
+'type': 'customer', 'portal', 'user;'
+}, {...}].
+See ``MailThread._notify_get_recipients``;
+:param msg_vals: dictionary of values used to create the message. If given it
+may be used to access values related to ``message`` without accessing it
+directly. It lessens query count in some optimized use cases by avoiding
+access message content in db;</pre></details><details><summary id="m-_process_attachments_for_post">_process_attachments_for_post(self, attachments, attachment_ids, message_values) <span class="position">@ line 2244</span></summary><pre>Preprocess attachments for MailTread.message_post() or MailMail.create().
+Purpose is to
+
+* transfer attachments given by ``attachment_ids`` from the composer
+to the record (if any);
+* limit attachments manipulation when being a shared user: only those
+created by the user and linked to the composer are considered;
+* create attachments from ``attachments``. If those are linked to the
+content (body) through CIDs body is updated. CIDs are found and
+replaced by links to web/image as CIDs are not supported as it.
+
+Note that attachments are created/written in sudo as we consider at this
+point access is granted on related record and/or to post the linked
+message. The caller must verify the access rights accordingly. Indeed
+attachments rights are stricter than message rights which may lead to
+ACLs issues e.g. when posting on a readonly document or replying to
+a notification on a private document.
+
+:param list(tuple(str,str)) or list(tuple(str,str, dict)) attachments:
+list of attachment tuples in the form ``(name,content)`` or
+`(name,content, info)`` where content is NOT base64 encoded;
+:param list attachment_ids: list of existing attachments to link to this
+message;
+:param message_values: dictionary of values that will be used to create the
+message. It is used to find back record- or content- context;
+
+:return dict: new values for message: 'attachment_ids' and optionally
+'body' if CIDs have been transformed;</pre></details><details><summary id="m-_process_attachments_for_template_post">_process_attachments_for_template_post(self, mail_template) <span class="position">@ line 2383</span></summary><pre>Model specific management of attachments used with template attachments
+generation in addition to reports. Only usage currently is for EDI in
+accounting.
+
+:param mail.template mail_template: a mail.template record used to generate
+message or emails on self;
+
+:return dict: a dictionary based on self.ids (optional). For each given
+key, value should be a dict holding 'attachments' and 'attachment_ids'
+keys;</pre></details><details><summary id="m-_raise_for_invalid_parameters">_raise_for_invalid_parameters(self, parameter_names, forbidden_names, restricting_names) <span class="position">@ line 3017</span></summary><pre>Helper to warn about invalid parameters (or fields).
+
+:param set parameter_names: a set of parameter names;
+:param set forbidden_names: set of parameter name that should not be
+present in parameter_names;
+:param set restricting_names: set of parameters restricting given
+parameter_names, parameters not belonging to this list are rejected;</pre></details><ul id="m-_routing_create_bounce_email"><li>_routing_create_bounce_email(self, email_from, body_html, message) <span class="position">@ line 703</span></li></ul><details><summary id="m-_routing_warn">_routing_warn(self, error_message, message_id, route, raise_exception) <span class="position">@ line 693</span></summary><pre>Tools method used in _routing_check_route: whether to log a warning or raise an error</pre></details><ul id="m-_search_has_message"><li>_search_has_message(self, operator, value) <span class="position">@ line 183</span></li></ul><details><summary id="m-_track_discard">_track_discard(self) <span class="position">@ line 501</span></summary><pre>Prevent any tracking of fields on ``self``.</pre></details><details><summary id="m-_track_filter_for_display">_track_filter_for_display(self, tracking_values) <span class="position">@ line 511</span></summary><pre>Filter out tracking values from being displayed.</pre></details><details><summary id="m-_track_finalize">_track_finalize(self) <span class="position">@ line 516</span></summary><pre>Generate the tracking messages for the records that have been
+prepared with ``_tracking_prepare``.</pre></details><details><summary id="m-_track_get_default_log_message">_track_get_default_log_message(self, tracked_fields) <span class="position">@ line 558</span></summary><pre>Get a default log message based on the changed fields.
+
+:param List[str] tracked_fields: Name of the tracked fields being evaluated;
+
+:return str: A message to log when these changes happen for this record;</pre></details><details><summary id="m-_track_get_fields">_track_get_fields(self) <span class="position">@ line 568</span></summary><pre>Return the set of tracked fields names for the current model.</pre></details><details><summary id="m-_track_post_template_finalize">_track_post_template_finalize(self) <span class="position">@ line 543</span></summary><pre>Call the tracking template method with right values from precommit.</pre></details><details><summary id="m-_track_prepare">_track_prepare(self, fields_iter) <span class="position">@ line 483</span></summary><pre>Prepare the tracking of ``fields_iter`` for ``self``.
+
+:param iter fields_iter: iterable of fields names to potentially track</pre></details><details><summary id="m-_track_set_author">_track_set_author(self, author) <span class="position">@ line 535</span></summary><pre>Set the author of the tracking message.</pre></details><details><summary id="m-_track_set_log_message">_track_set_log_message(self, message) <span class="position">@ line 548</span></summary><pre>Link tracking to a message logged as body, in addition to subtype
+description (if set) and tracking values that make the core content of
+tracking message.</pre></details><details><summary id="m-_track_subtype">_track_subtype(self, initial_values) <span class="position">@ line 578</span></summary><pre>Give the subtypes triggered by the changes on the record according
+to values that have been updated.
+
+:param dict initial_values: original values of the record; only modified
+fields are present in the dict
+
+:returns: a subtype browse record or False if no subtype is triggered</pre></details><ul id="m-_track_template"><li>_track_template(self, changes) <span class="position">@ line 686</span></li></ul><details><summary id="m-_truncate_payload">_truncate_payload(self, payload) <span class="position">@ line 4135</span></summary><pre>Check the payload limit of 4096 bytes to avoid 413 error return code.
+If the payload is too big, we trunc the body value.
+:param dict payload: Current payload to trunc
+:return: The truncate payload;</pre></details><ul id="m-_valid_field_parameter"><li>_valid_field_parameter(self, field, name) <span class="position">@ line 458</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 345</span></li></ul><details><summary id="m-message_change_thread">message_change_thread(self, new_thread, new_parent_message) <span class="position">@ line 4389</span></summary><pre>Transfer the list of the mail thread messages from an model to another
+
+:param id : the old res_id of the mail.message
+:param new_res_id : the new res_id of the mail.message
+:param new_model : the name of the new model of the mail.message
+
+Example :   my_lead.message_change_thread(my_project_task)
+will transfer the context of the thread of my_lead to my_project_task</pre></details><ul id="m-message_get_followers"><li>message_get_followers(self, after, limit, filter_recipients) <span class="position">@ line 4367</span></li></ul><details><summary id="m-message_mail_with_source">message_mail_with_source(self, source_ref, render_values, message_type, auto_commit) <span class="position">@ line 2401</span></summary><pre>Send a mass mail on self, using an external source to render part
+of the content. It can be either a 'mail.template', either a view used
+to render the body using QWeb.
+
+SPOILER: this method currently calls a composer in a loop when using
+a view even if it is suboptimal. This is due to current composer
+implementation.. This will be cleaned soon to  optimize mass mailing
+through mail.thread and lessen usage of composer itself.
+
+Default values
+* subtype_id: will be False, forced by composer in mass mode;
+
+:param record/str source_ref: reference to a source for rendering.
+It can be one of
+* a MailTemplate record. It will be used to render the various
+message values (body, subject, recipients, ...). It should behave
+like using the mail composer with a template;
+* an IrUIView record. It will be used to render the content
+(body). Other fields are left to the caller and/or default values
+computation;
+* an XmlID of a MailTemplate or of an IrUiView: see above;
+:param dict render_values: additional rendering values for qweb context;
+
+:param str message_type: one of 'notification' or 'comment';
+:param bool auto_commit: auto commit after each batch of emails sent
+(see ``MailComposer._action_send_mail()``);
+:param dict kwargs: additional values given to the 'mail.compose.message'
+creation;
+
+:return: created mail.mail records, as sudo</pre></details><details><summary id="m-message_post_with_source">message_post_with_source(self, source_ref, render_values, message_type, subtype_xmlid, subtype_id) <span class="position">@ line 2480</span></summary><pre>Post a message on each record of self, using a view to render the
+body using QWeb.
+
+Default values
+* subtype_id: if not given, fallback on ``note`` to be consistent
+with what message_post does;
+
+:param record/str source_ref: reference to a source for rendering.
+It can be one of
+* a MailTemplate record. It will be used to render the various
+message values (body, subject, recipients, ...). It should behave
+like using the mail composer with a template;
+* an IrUIView record. It will be used to render the content
+(body). Other fields are left to the caller and/or default values
+computation;
+* an XmlID of a MailTemplate or of an IrUiView: see above
+:param dict render_values: additional rendering values for qweb context;
+
+:param str message_type: one of 'notification' or 'comment';
+:param str subtype_xmlid: optional xml id of a mail.message.subtype to
+fetch, will force value of subtype_id;
+:param int subtype_id: subtype_id of the message, used mainly for followers
+notification mechanism;
+:param dict kwargs: additional values given to the 'mail.compose.message'
+creation;
+
+:return: posted mail.message records</pre></details><details><summary id="m-message_subscribe">message_subscribe(self, partner_ids, subtype_ids) <span class="position">@ line 4154</span></summary><pre>Main public API to add followers to a record set. Its main purpose is
+to perform access rights checks before calling ``_message_subscribe``.</pre></details><details><summary id="m-message_unsubscribe">message_unsubscribe(self, partner_ids) <span class="position">@ line 4209</span></summary><pre>Remove partners from the records followers.</pre></details><details><summary id="m-message_update">message_update(self, msg_dict, update_vals) <span class="position">@ line 1415</span></summary><pre>Called by ``message_process`` when a new message is received
+for an existing thread. The default behavior is to update the record
+with update_vals taken from the incoming email.
+Additional behavior may be implemented by overriding this
+method.
+:param dict msg_dict: a map containing the email details and
+attachments. See ``message_process`` and
+``mail.message.parse()`` for details.
+:param dict update_vals: a dict containing values to update records
+given their ids; if the dict is None or is
+void, no write operation is performed.</pre></details><details><summary id="m-unlink">unlink(self) <span class="position">@ line 331</span></summary><pre>Override unlink to delete messages and followers. This cannot be
+cascaded, because link is done through (res_model, res_id).</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 316</span></li></ul><h2>Inherited: odoo/addons/test_mail_full/models/test_mail_models_mail.py</h2><h3>Fields</h3><details><summary id="f-customer_id">customer_id <span class="position">@ line 116</span></summary><pre>customer_id = fields.Many2one('res.partner', 'Customer')</pre></details><details><summary id="f-name">name <span class="position">@ line 115</span></summary><pre>name = fields.Char('Name')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 117</span></summary><pre>user_id = fields.Many2one('res.users', 'Responsible', tracking=1)</pre></details><h3>Methods</h3><ul id="m-_mail_get_partner_fields"><li>_mail_get_partner_fields(self, introspect_fields) <span class="position">@ line 119</span></li></ul><ul id="m-_rating_get_partner"><li>_rating_get_partner(self) <span class="position">@ line 122</span></li></ul><h2>Inherited: odoo/addons/snailmail/models/mail_thread.py</h2><h3>Methods</h3><ul id="m-_notify_cancel_snail"><li>_notify_cancel_snail(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/sms/models/mail_thread.py</h2><h3>Fields</h3><details><summary id="f-message_has_sms_error">message_has_sms_error <span class="position">@ line 15</span></summary><pre>message_has_sms_error = fields.Boolean(
+        'SMS Delivery error', compute='_compute_message_has_sms_error', search='_search_message_has_sms_error',
+        help="If checked, some messages have a delivery error.")</pre></details><h3>Methods</h3><ul id="m-_compute_message_has_sms_error"><li>_compute_message_has_sms_error(self) <span class="position">@ line 19</span></li></ul><ul id="m-_get_notify_valid_parameters"><li>_get_notify_valid_parameters(self) <span class="position">@ line 339</span></li></ul><details><summary id="m-_message_sms">_message_sms(self, body, subtype_id, partner_ids, number_field, sms_numbers, sms_pid_to_number) <span class="position">@ line 168</span></summary><pre>Main method to post a message on a record using SMS-based notification
+method.
+
+:param body: content of SMS;
+:param subtype_id: mail.message.subtype used in mail.message associated
+to the sms notification process;
+:param partner_ids: if set is a record set of partners to notify;
+:param number_field: if set is a name of field to use on current record
+to compute a number to notify;
+:param sms_numbers: see ``_notify_thread_by_sms``;
+:param sms_pid_to_number: see ``_notify_thread_by_sms``;</pre></details><details><summary id="m-_message_sms_schedule_mass">_message_sms_schedule_mass(self, body, template) <span class="position">@ line 127</span></summary><pre>Shortcut method to schedule a mass sms sending on a recordset.
+
+:param template: an optional sms.template record;</pre></details><details><summary id="m-_message_sms_with_template">_message_sms_with_template(self, template, template_xmlid, template_fallback, partner_ids) <span class="position">@ line 151</span></summary><pre>Shortcut method to perform a _message_sms with an sms.template.
+
+:param template: a valid sms.template record;
+:param template_xmlid: XML ID of an sms.template (if no template given);
+:param template_fallback: plaintext (inline_template-enabled) in case template
+and template xml id are falsy (for example due to deleted data);</pre></details><ul id="m-_notify_thread"><li>_notify_thread(self, message, msg_vals) <span class="position">@ line 210</span></li></ul><details><summary id="m-_notify_thread_by_sms">_notify_thread_by_sms(self, message, recipients_data, msg_vals, sms_numbers, sms_pid_to_number, resend_existing, put_in_queue) <span class="position">@ line 217</span></summary><pre>Notification method: by SMS.
+
+:param message: ``mail.message`` record to notify;
+:param recipients_data: list of recipients information (based on res.partner
+records), formatted like
+[{'active': partner.active;
+'id': id of the res.partner being recipient to notify;
+'groups': res.group IDs if linked to a user;
+'notif': 'inbox', 'email', 'sms' (SMS App);
+'share': partner.partner_share;
+'type': 'customer', 'portal', 'user;'
+}, {...}].
+See ``MailThread._notify_get_recipients``;
+:param msg_vals: dictionary of values used to create the message. If given it
+may be used to access values related to ``message`` without accessing it
+directly. It lessens query count in some optimized use cases by avoiding
+access message content in db;
+
+:param sms_numbers: additional numbers to notify in addition to partners
+and classic recipients;
+:param pid_to_number: force a number to notify for a given partner ID
+instead of taking its mobile / phone number;
+:param resend_existing: check for existing notifications to update based on
+mailed recipient, otherwise create new notifications;
+:param put_in_queue: use cron to send queued SMS instead of sending them
+directly;</pre></details><details><summary id="m-_sms_get_recipients_info">_sms_get_recipients_info(self, force_field, partner_fallback) <span class="position">@ line 44</span></summary><pre>" Get SMS recipient information on current record set. This method
+checks for numbers and sanitation in order to centralize computation.
+
+Example of use cases
+
+* click on a field -> number is actually forced from field, find customer
+linked to record, force its number to field or fallback on customer fields;
+* contact -> find numbers from all possible phone fields on record, find
+customer, force its number to found field number or fallback on customer fields;
+
+:param force_field: either give a specific field to find phone number, either
+generic heuristic is used to find one based on ``_phone_get_number_fields``;
+:param partner_fallback: if no value found in the record, check its customer
+values based on ``_mail_get_partners``;
+
+:return dict: record.id: {
+'partner': a res.partner recordset that is the customer (void or singleton)
+linked to the recipient. See ``_mail_get_partners``;
+'sanitized': sanitized number to use (coming from record's field or partner's
+phone fields). Set to False is number impossible to parse and format;
+'number': original number before sanitation;
+'partner_store': whether the number comes from the customer phone fields. If
+False it means number comes from the record itself, even if linked to a
+customer;
+'field_store': field in which the number has been found (generally mobile or
+phone, see ``_phone_get_number_fields``);
+} for each record in self</pre></details><h2>Inherited: odoo/addons/rating/models/rating_mixin.py</h2><h3>Fields</h3><details><summary id="f-rating_avg">rating_avg <span class="position">@ line 20</span></summary><pre>rating_avg = fields.Float("Average Rating", groups='base.group_user',
+        compute='_compute_rating_stats', compute_sudo=True, search='_search_rating_avg')</pre></details><details><summary id="f-rating_avg_text">rating_avg_text <span class="position">@ line 22</span></summary><pre>rating_avg_text = fields.Selection(rating_data.RATING_TEXT, groups='base.group_user',
+        compute='_compute_rating_avg_text', compute_sudo=True)</pre></details><details><summary id="f-rating_count">rating_count <span class="position">@ line 19</span></summary><pre>rating_count = fields.Integer('Rating count', compute="_compute_rating_stats", compute_sudo=True)</pre></details><details><summary id="f-rating_last_feedback">rating_last_feedback <span class="position">@ line 17</span></summary><pre>rating_last_feedback = fields.Text('Rating Last Feedback', groups='base.group_user', related='rating_ids.feedback')</pre></details><details><summary id="f-rating_last_image">rating_last_image <span class="position">@ line 18</span></summary><pre>rating_last_image = fields.Binary('Rating Last Image', groups='base.group_user', related='rating_ids.rating_image')</pre></details><details><summary id="f-rating_last_text">rating_last_text <span class="position">@ line 25</span></summary><pre>rating_last_text = fields.Selection(string="Rating Text", groups='base.group_user', related="rating_ids.rating_text")</pre></details><details><summary id="f-rating_last_value">rating_last_value <span class="position">@ line 16</span></summary><pre>rating_last_value = fields.Float('Rating Last Value', groups='base.group_user', compute='_compute_rating_last_value', compute_sudo=True, store=True)</pre></details><details><summary id="f-rating_percentage_satisfaction">rating_percentage_satisfaction <span class="position">@ line 24</span></summary><pre>rating_percentage_satisfaction = fields.Float("Rating Satisfaction", compute='_compute_rating_satisfaction', compute_sudo=True)</pre></details><h3>Methods</h3><details><summary id="m-_rating_domain">_rating_domain(self) <span class="position">@ line 114</span></summary><pre>Returns a normalized domain on rating.rating to select the records to
+include in count, avg, ... computation of current model.</pre></details><details><summary id="m-_rating_get_parent_field_name">_rating_get_parent_field_name(self) <span class="position">@ line 110</span></summary><pre>Return the parent relation field name. Should return a Many2One</pre></details><details><summary id="m-_rating_get_repartition">_rating_get_repartition(self, add_stats, domain) <span class="position">@ line 120</span></summary><pre>get the repatition of rating grade for the given res_ids.
+:param add_stats : flag to add stat to the result
+:type add_stats : boolean
+:param domain : optional extra domain of the rating to include/exclude in repartition
+:return dictionnary
+if not add_stats, the dict is like
+- key is the rating value (integer)
+- value is the number of object (res_model, res_id) having the value
+otherwise, key is the value of the information (string) : either stat name (avg, total, ...) or 'repartition'
+containing the same dict if add_stats was False.</pre></details><ul id="m-_search_rating_avg"><li>_search_rating_avg(self, operator, value) <span class="position">@ line 60</span></li></ul><details><summary id="m-rating_get_grades">rating_get_grades(self, domain) <span class="position">@ line 151</span></summary><pre>get the repatition of rating grade for the given res_ids.
+:param domain : optional domain of the rating to include/exclude in grades computation
+:return dictionnary where the key is the grade (great, okay, bad), and the value, the number of object (res_model, res_id) having the grade
+the grade are compute as    0-30% : Bad
+31-69%: Okay
+70-100%: Great</pre></details><details><summary id="m-rating_get_stats">rating_get_stats(self, domain) <span class="position">@ line 166</span></summary><pre>get the statistics of the rating repatition
+:param domain : optional domain of the rating to include/exclude in statistic computation
+:return dictionnary where
+- key is the name of the information (stat name)
+- value is statistic value : 'percent' contains the repartition in percentage, 'avg' is the average rate
+and 'total' is the number of rating</pre></details><details><summary id="m-write">write(self, values) <span class="position">@ line 97</span></summary><pre>If the rated ressource name is modified, we should update the rating res_name too.
+If the rated ressource parent is changed we should update the parent_res_id too</pre></details><h2>Inherited: odoo/addons/rating/models/mail_thread.py</h2><h3>Fields</h3><details><summary id="f-rating_ids">rating_ids <span class="position">@ line 12</span></summary><pre>rating_ids = fields.One2many('rating.rating', 'res_id', string='Ratings', groups='base.group_user',
+                                 domain=lambda self: [('res_model', '=', self._name)], auto_join=True)</pre></details><h3>Methods</h3><details><summary id="m-_message_create">_message_create(self, values_list) <span class="position">@ line 25</span></summary><pre>Force usage of rating-specific methods and API allowing to delegate
+computation to records. Keep methods optimized and skip rating_ids
+support to simplify MailThrad main API.</pre></details><ul id="m-_rating_apply_get_default_subtype_id"><li>_rating_apply_get_default_subtype_id(self) <span class="position">@ line 38</span></li></ul><details><summary id="m-_rating_get_access_token">_rating_get_access_token(self, partner) <span class="position">@ line 62</span></summary><pre>Return access token linked to existing ratings, or create a new rating
+that will create the asked token. An explicit call to access rights is
+performed as sudo is used afterwards as this method could be used from
+different sources, notably templates.</pre></details><details><summary id="m-_rating_get_operator">_rating_get_operator(self) <span class="position">@ line 41</span></summary><pre>Return the operator (partner) that is the person who is rated.
+
+:return record: res.partner singleton</pre></details><details><summary id="m-_rating_get_partner">_rating_get_partner(self) <span class="position">@ line 50</span></summary><pre>Return the customer (partner) that performs the rating.
+
+:return record: res.partner singleton</pre></details><details><summary id="m-rating_apply">rating_apply(self, rate, token, rating, feedback, subtype_xmlid, notify_delay_send) <span class="position">@ line 107</span></summary><pre>Apply a rating to the record. This rating can either be linked to a
+token (customer flow) or directly a rating record (code flow).
+
+If the current model inherits from mail.thread mixin a message is posted
+on its chatter. User going through this method should have at least
+employee rights as well as rights on the current record because of rating
+manipulation and chatter post (either employee, either sudo-ed in public
+controllers after security check granting access).
+
+:param float rate: the rating value to apply (from 0 to 5);
+:param string token: access token to fetch the rating to apply (optional);
+:param record rating: rating.rating to apply (if no token);
+:param string feedback: additional feedback (plaintext);
+:param string subtype_xmlid: xml id of a valid mail.message.subtype used
+to post the message (if it applies). If not given a classic comment is
+posted;
+:param notify_delay_send: Delay the sending by 2 hours of the email so the user
+can still change his feedback. If False, the email will be sent immediately.
+
+:returns rating: rating.rating record</pre></details><details><summary id="m-rating_send_request">rating_send_request(self, template, lang, force_send) <span class="position">@ line 89</span></summary><pre>This method send rating request by email, using a template given in parameter.
+
+:param record template: a mail.template record used to compute the message body;
+:param str lang: optional lang; it can also be specified directly on the template
+itself in the lang field;
+:param bool force_send: whether to send the request directly or use the mail
+queue cron (preferred option);</pre></details><details><summary id="m-unlink">unlink(self) <span class="position">@ line 18</span></summary><pre>When removing a record, its rating should be deleted too.</pre></details><h2>Inherited: odoo/addons/portal/models/mail_thread.py</h2><h3>Fields</h3><details><summary id="f-website_message_ids">website_message_ids <span class="position">@ line 15</span></summary><pre>website_message_ids = fields.One2many('mail.message', 'res_id', string='Website Messages',
+        domain=lambda self: [('model', '=', self._name), ('message_type', 'in', ('comment', 'email', 'email_outgoing'))],
+        auto_join=True,
+        help="Website communication history")</pre></details><h3>Methods</h3><ul id="m-_notify_get_recipients_groups"><li>_notify_get_recipients_groups(self, message, model_description, msg_vals) <span class="position">@ line 20</span></li></ul><details><summary id="m-_sign_token">_sign_token(self, pid) <span class="position">@ line 61</span></summary><pre>Generate a secure hash for this record with the email of the recipient with whom the record have been shared.
+
+This is used to determine who is opening the link
+to be able for the recipient to post messages on the document's portal view.
+
+:param str email:
+Email of the recipient that opened the link.</pre></details><h2>Inherited: odoo/addons/mass_mailing/models/mail_thread.py</h2><h3>Methods</h3><ul id="m-message_mail_with_source"><li>message_mail_with_source(self, source_ref) <span class="position">@ line 31</span></li></ul><ul id="m-message_post_with_source"><li>message_post_with_source(self, source_ref) <span class="position">@ line 39</span></li></ul><h2>Inherited: odoo/addons/mail_bot/models/mail_thread.py</h2><h3>Methods</h3><ul id="m-_message_post_after_hook"><li>_message_post_after_hook(self, message, msg_vals) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/mail/models/mail_thread_main_attachment.py</h2><h3>Fields</h3><details><summary id="f-message_main_attachment_id">message_main_attachment_id <span class="position">@ line 14</span></summary><pre>message_main_attachment_id = fields.Many2one(string="Main Attachment", comodel_name='ir.attachment', copy=False)</pre></details><h3>Methods</h3><ul id="m-_get_mail_thread_data"><li>_get_mail_thread_data(self, request_list) <span class="position">@ line 37</span></li></ul><details><summary id="m-_message_post_after_hook">_message_post_after_hook(self, message, msg_values) <span class="position">@ line 16</span></summary><pre>Set main attachment field if necessary</pre></details><ul id="m-_message_set_main_attachment_id"><li>_message_set_main_attachment_id(self, attachment_ids) <span class="position">@ line 24</span></li></ul><h2>Inherited: odoo/addons/mail/models/mail_thread_cc.py</h2><h3>Fields</h3><details><summary id="f-email_cc">email_cc <span class="position">@ line 12</span></summary><pre>email_cc = fields.Char('Email cc')</pre></details><h3>Methods</h3><details><summary id="m-_mail_cc_sanitized_raw_dict">_mail_cc_sanitized_raw_dict(self, cc_string) <span class="position">@ line 14</span></summary><pre>return a dict of sanitize_email:raw_email from a string of cc</pre></details><ul id="m-_message_get_suggested_recipients"><li>_message_get_suggested_recipients(self) <span class="position">@ line 46</span></li></ul><details><summary id="m-message_update">message_update(self, msg_dict, update_vals) <span class="position">@ line 33</span></summary><pre>Adds cc email to self.email_cc while trying to keep email as raw as possible but unique</pre></details><h2>Inherited: odoo/addons/hr_attendance/models/hr_attendance.py</h2><h3>Fields</h3><details><summary id="f-check_in">check_in <span class="position">@ line 35</span></summary><pre>check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True, tracking=True)</pre></details><details><summary id="f-check_out">check_out <span class="position">@ line 36</span></summary><pre>check_out = fields.Datetime(string="Check Out", tracking=True)</pre></details><details><summary id="f-color">color <span class="position">@ line 38</span></summary><pre>color = fields.Integer(compute='_compute_color')</pre></details><details><summary id="f-department_id">department_id <span class="position">@ line 33</span></summary><pre>department_id = fields.Many2one('hr.department', string="Department", related="employee_id.department_id",
+        readonly=True)</pre></details><details><summary id="f-employee_id">employee_id <span class="position">@ line 32</span></summary><pre>employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)</pre></details><details><summary id="f-in_browser">in_browser <span class="position">@ line 45</span></summary><pre>in_browser = fields.Char(string="Browser", readonly=True)</pre></details><details><summary id="f-in_city">in_city <span class="position">@ line 43</span></summary><pre>in_city = fields.Char(string="City", readonly=True)</pre></details><details><summary id="f-in_country_name">in_country_name <span class="position">@ line 42</span></summary><pre>in_country_name = fields.Char(string="Country", help="Based on IP Address", readonly=True)</pre></details><details><summary id="f-in_ip_address">in_ip_address <span class="position">@ line 44</span></summary><pre>in_ip_address = fields.Char(string="IP Address", readonly=True)</pre></details><details><summary id="f-in_latitude">in_latitude <span class="position">@ line 40</span></summary><pre>in_latitude = fields.Float(string="Latitude", digits=(10, 7), readonly=True)</pre></details><details><summary id="f-in_longitude">in_longitude <span class="position">@ line 41</span></summary><pre>in_longitude = fields.Float(string="Longitude", digits=(10, 7), readonly=True)</pre></details><details><summary id="f-in_mode">in_mode <span class="position">@ line 46</span></summary><pre>in_mode = fields.Selection(string="Mode",
+                               selection=[('kiosk', "Kiosk"),
+                                          ('systray', "Systray"),
+                                          ('manual', "Manual")],
+                               readonly=True,
+                               default='manual')</pre></details><details><summary id="f-out_browser">out_browser <span class="position">@ line 57</span></summary><pre>out_browser = fields.Char(readonly=True)</pre></details><details><summary id="f-out_city">out_city <span class="position">@ line 55</span></summary><pre>out_city = fields.Char(readonly=True)</pre></details><details><summary id="f-out_country_name">out_country_name <span class="position">@ line 54</span></summary><pre>out_country_name = fields.Char(help="Based on IP Address", readonly=True)</pre></details><details><summary id="f-out_ip_address">out_ip_address <span class="position">@ line 56</span></summary><pre>out_ip_address = fields.Char(readonly=True)</pre></details><details><summary id="f-out_latitude">out_latitude <span class="position">@ line 52</span></summary><pre>out_latitude = fields.Float(digits=(10, 7), readonly=True)</pre></details><details><summary id="f-out_longitude">out_longitude <span class="position">@ line 53</span></summary><pre>out_longitude = fields.Float(digits=(10, 7), readonly=True)</pre></details><details><summary id="f-out_mode">out_mode <span class="position">@ line 58</span></summary><pre>out_mode = fields.Selection(selection=[('kiosk', "Kiosk"),
+                                           ('systray', "Systray"),
+                                           ('manual', "Manual")],
+                                readonly=True,
+                                default='manual')</pre></details><details><summary id="f-overtime_hours">overtime_hours <span class="position">@ line 39</span></summary><pre>overtime_hours = fields.Float(string="Over Time", compute='_compute_overtime_hours', store=True)</pre></details><details><summary id="f-worked_hours">worked_hours <span class="position">@ line 37</span></summary><pre>worked_hours = fields.Float(string='Worked Hours', compute='_compute_worked_hours', store=True, readonly=True)</pre></details><h3>Methods</h3><ul id="m-_compute_color"><li>_compute_color(self) <span class="position">@ line 64</span></li></ul><ul id="m-_default_employee"><li>_default_employee(self) <span class="position">@ line 29</span></li></ul><ul id="m-_get_attendances_dates"><li>_get_attendances_dates(self) <span class="position">@ line 216</span></li></ul><ul id="m-_get_employee_calendar"><li>_get_employee_calendar(self) <span class="position">@ line 133</span></li></ul><ul id="m-_get_overtime_leave_domain"><li>_get_overtime_leave_domain(self) <span class="position">@ line 229</span></li></ul><ul id="m-_update_overtime"><li>_update_overtime(self, employee_attendance_dates) <span class="position">@ line 232</span></li></ul><ul id="m-action_in_attendance_maps"><li>action_in_attendance_maps(self) <span class="position">@ line 421</span></li></ul><ul id="m-action_out_attendance_maps"><li>action_out_attendance_maps(self) <span class="position">@ line 429</span></li></ul><ul id="m-copy"><li>copy(self, default) <span class="position">@ line 418</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 412</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 397</span></li></ul><h2>Inherited: odoo/addons/gamification/models/gamification_challenge.py</h2><h3>Fields</h3><details><summary id="f-REPORT_OFFSETS">REPORT_OFFSETS <span class="position">@ line 164</span></summary><pre>REPORT_OFFSETS = {
+        'daily': timedelta(days=1),
+        'weekly': timedelta(days=7),
+        'monthly': relativedelta(months=1),
+        'yearly': relativedelta(years=1),
+    }</pre></details><details><summary id="f-challenge_category">challenge_category <span class="position">@ line 138</span></summary><pre>challenge_category = fields.Selection([
+        ('hr', 'Human Resources / Engagement'),
+        ('other', 'Settings / Gamification Tools'),
+    ], string="Appears in", required=True, default='hr',
+       help="Define the visibility of the challenge through menus")</pre></details><details><summary id="f-description">description <span class="position">@ line 75</span></summary><pre>description = fields.Text("Description", translate=True)</pre></details><details><summary id="f-end_date">end_date <span class="position">@ line 101</span></summary><pre>end_date = fields.Date("End Date", help="The day a new challenge will be automatically closed. If no periodicity is set, will use this date as the goal end date.")</pre></details><details><summary id="f-invited_user_ids">invited_user_ids <span class="position">@ line 103</span></summary><pre>invited_user_ids = fields.Many2many('res.users', 'gamification_invited_user_ids_rel', string="Suggest to users")</pre></details><details><summary id="f-last_report_date">last_report_date <span class="position">@ line 135</span></summary><pre>last_report_date = fields.Date("Last Report Date", default=fields.Date.today)</pre></details><details><summary id="f-line_ids">line_ids <span class="position">@ line 105</span></summary><pre>line_ids = fields.One2many('gamification.challenge.line', 'challenge_id',
+                                  string="Lines",
+                                  help="List of goals that will be set",
+                                  required=True, copy=True)</pre></details><details><summary id="f-manager_id">manager_id <span class="position">@ line 82</span></summary><pre>manager_id = fields.Many2one(
+        'res.users', default=lambda self: self.env.uid,
+        string="Responsible")</pre></details><details><summary id="f-name">name <span class="position">@ line 74</span></summary><pre>name = fields.Char("Challenge Name", required=True, translate=True)</pre></details><details><summary id="f-next_report_date">next_report_date <span class="position">@ line 136</span></summary><pre>next_report_date = fields.Date("Next Report Date", compute='_get_next_report_date', store=True)</pre></details><details><summary id="f-period">period <span class="position">@ line 90</span></summary><pre>period = fields.Selection([
+            ('once', "Non recurring"),
+            ('daily', "Daily"),
+            ('weekly', "Weekly"),
+            ('monthly', "Monthly"),
+            ('yearly', "Yearly")
+        ], default='once',
+        string="Periodicity",
+        help="Period of automatic goal assignment. If none is selected, should be launched manually.",
+        required=True)</pre></details><details><summary id="f-remind_update_delay">remind_update_delay <span class="position">@ line 134</span></summary><pre>remind_update_delay = fields.Integer("Non-updated manual goals will be reminded after", help="Never reminded if no value or zero is specified.")</pre></details><details><summary id="f-report_message_frequency">report_message_frequency <span class="position">@ line 123</span></summary><pre>report_message_frequency = fields.Selection([
+            ('never', "Never"),
+            ('onchange', "On change"),
+            ('daily', "Daily"),
+            ('weekly', "Weekly"),
+            ('monthly', "Monthly"),
+            ('yearly', "Yearly")
+        ], default='never',
+        string="Report Frequency", required=True)</pre></details><details><summary id="f-report_message_group_id">report_message_group_id <span class="position">@ line 132</span></summary><pre>report_message_group_id = fields.Many2one('discuss.channel', string="Send a copy to", help="Group that will receive a copy of the report in addition to the user")</pre></details><details><summary id="f-report_template_id">report_template_id <span class="position">@ line 133</span></summary><pre>report_template_id = fields.Many2one('mail.template', default=lambda self: self._get_report_template(), string="Report Template", required=True)</pre></details><details><summary id="f-reward_failure">reward_failure <span class="position">@ line 114</span></summary><pre>reward_failure = fields.Boolean("Reward Bests if not Succeeded?")</pre></details><details><summary id="f-reward_first_id">reward_first_id <span class="position">@ line 111</span></summary><pre>reward_first_id = fields.Many2one('gamification.badge', string="For 1st user")</pre></details><details><summary id="f-reward_id">reward_id <span class="position">@ line 110</span></summary><pre>reward_id = fields.Many2one('gamification.badge', string="For Every Succeeding User")</pre></details><details><summary id="f-reward_realtime">reward_realtime <span class="position">@ line 115</span></summary><pre>reward_realtime = fields.Boolean("Reward as soon as every goal is reached", default=True, help="With this option enabled, a user can receive a badge only once. The top 3 badges are still rewarded only at the end of the challenge.")</pre></details><details><summary id="f-reward_second_id">reward_second_id <span class="position">@ line 112</span></summary><pre>reward_second_id = fields.Many2one('gamification.badge', string="For 2nd user")</pre></details><details><summary id="f-reward_third_id">reward_third_id <span class="position">@ line 113</span></summary><pre>reward_third_id = fields.Many2one('gamification.badge', string="For 3rd user")</pre></details><details><summary id="f-start_date">start_date <span class="position">@ line 100</span></summary><pre>start_date = fields.Date("Start Date", help="The day a new challenge will be automatically started. If no periodicity is set, will use this date as the goal start date.")</pre></details><details><summary id="f-state">state <span class="position">@ line 76</span></summary><pre>state = fields.Selection([
+            ('draft', "Draft"),
+            ('inprogress', "In Progress"),
+            ('done', "Done"),
+        ], default='draft', copy=False,
+        string="State", required=True, tracking=True)</pre></details><details><summary id="f-user_count">user_count <span class="position">@ line 88</span></summary><pre>user_count = fields.Integer('# Users', compute='_compute_user_count')</pre></details><details><summary id="f-user_domain">user_domain <span class="position">@ line 87</span></summary><pre>user_domain = fields.Char("User domain")</pre></details><details><summary id="f-user_ids">user_ids <span class="position">@ line 86</span></summary><pre>user_ids = fields.Many2many('res.users', 'gamification_challenge_users_rel', string="Participants")</pre></details><details><summary id="f-visibility_mode">visibility_mode <span class="position">@ line 117</span></summary><pre>visibility_mode = fields.Selection([
+            ('personal', "Individual Goals"),
+            ('ranking', "Leader Board (Group Ranking)"),
+        ], default='personal',
+        string="Display Mode", required=True)</pre></details><h3>Methods</h3><details><summary id="m-_check_challenge_reward">_check_challenge_reward(self, force) <span class="position">@ line 654</span></summary><pre>Actions for the end of a challenge
+
+If a reward was selected, grant it to the correct users.
+Rewards granted at:
+- the end date for a challenge with no periodicity
+- the end of a period for challenge with periodicity
+- when a challenge is manually closed
+(if no end date, a running challenge is never rewarded)</pre></details><details><summary id="m-_generate_goals_from_challenge">_generate_goals_from_challenge(self) <span class="position">@ line 362</span></summary><pre>Generate the goals for each line and user.
+
+If goals already exist for this line and user, the line is skipped. This
+can be called after each change in the list of users or lines.
+:param list(int) ids: the list of challenge concerned</pre></details><ul id="m-_get_challenger_users"><li>_get_challenger_users(self, domain) <span class="position">@ line 317</span></li></ul><ul id="m-_get_report_template"><li>_get_report_template(self) <span class="position">@ line 184</span></li></ul><details><summary id="m-_get_serialized_challenge_lines">_get_serialized_challenge_lines(self, user, restrict_goals, restrict_top) <span class="position">@ line 439</span></summary><pre>Return a serialised version of the goals information if the user has not completed every goal
+
+:param user: user retrieving progress (False if no distinction,
+only for ranking challenges)
+:param restrict_goals: compute only the results for this subset of
+gamification.goal ids, if False retrieve every
+goal of current running challenge
+:param int restrict_top: for challenge lines where visibility_mode is
+``ranking``, retrieve only the best
+``restrict_top`` results and itself, if 0
+retrieve all restrict_goal_ids has priority
+over restrict_top
+
+format list
+# if visibility_mode == 'ranking'
+{
+'name': <gamification.goal.description name>,
+'description': <gamification.goal.description description>,
+'condition': <reach condition {lower,higher}>,
+'computation_mode': <target computation {manually,count,sum,python}>,
+'monetary': <{True,False}>,
+'suffix': <value suffix>,
+'action': <{True,False}>,
+'display_mode': <{progress,boolean}>,
+'target': <challenge line target>,
+'own_goal_id': <gamification.goal id where user_id == uid>,
+'goals': [
+{
+'id': <gamification.goal id>,
+'rank': <user ranking>,
+'user_id': <res.users id>,
+'name': <res.users name>,
+'state': <gamification.goal state {draft,inprogress,reached,failed,canceled}>,
+'completeness': <percentage>,
+'current': <current value>,
+}
+]
+},
+# if visibility_mode == 'personal'
+{
+'id': <gamification.goal id>,
+'name': <gamification.goal.description name>,
+'description': <gamification.goal.description description>,
+'condition': <reach condition {lower,higher}>,
+'computation_mode': <target computation {manually,count,sum,python}>,
+'monetary': <{True,False}>,
+'suffix': <value suffix>,
+'action': <{True,False}>,
+'display_mode': <{progress,boolean}>,
+'target': <challenge line target>,
+'state': <gamification.goal state {draft,inprogress,reached,failed,canceled}>,
+'completeness': <percentage>,
+'current': <current value>,
+}</pre></details><details><summary id="m-_get_topN_users">_get_topN_users(self, n) <span class="position">@ line 747</span></summary><pre>Get the top N users for a defined challenge
+
+Ranking criterias:
+1. succeed every goal of the challenge
+2. total completeness of each goal (can be over 100)
+
+Only users having reached every goal of the challenge will be returned
+unless the challenge ``reward_failure`` is set, in which case any user
+may be considered.
+
+:returns: an iterable of exactly N records, either User objects or
+False if there was no user for the rank. There can be no
+False between two users (if users[k] = False then
+users[k+1] = False</pre></details><details><summary id="m-_recompute_challenge_users">_recompute_challenge_users(self) <span class="position">@ line 321</span></summary><pre>Recompute the domain to add new users and remove the one no longer matching the domain</pre></details><details><summary id="m-_reward_user">_reward_user(self, user, badge) <span class="position">@ line 804</span></summary><pre>Create a badge user and send the badge to him
+
+:param user: the user to reward
+:param badge: the concerned badge</pre></details><details><summary id="m-_update_all">_update_all(self) <span class="position">@ line 266</span></summary><pre>Update the challenges and related goals.</pre></details><ul id="m-accept_challenge"><li>accept_challenge(self) <span class="position">@ line 640</span></li></ul><details><summary id="m-action_check">action_check(self) <span class="position">@ line 336</span></summary><pre>Check a challenge
+
+Create goals that haven't been created yet (eg: if added users)
+Recompute the current value for each goal related</pre></details><details><summary id="m-action_report_progress">action_report_progress(self) <span class="position">@ line 348</span></summary><pre>Manual report of a goal, does not influence automatic report frequency</pre></details><details><summary id="m-action_start">action_start(self) <span class="position">@ line 332</span></summary><pre>Start a challenge</pre></details><details><summary id="m-action_view_users">action_view_users(self) <span class="position">@ line 354</span></summary><pre>Redirect to the participants (users) list.</pre></details><details><summary id="m-discard_challenge">discard_challenge(self) <span class="position">@ line 647</span></summary><pre>The user discard the suggested challenge</pre></details><details><summary id="m-report_progress">report_progress(self, users, subset_goals) <span class="position">@ line 586</span></summary><pre>Post report about the progress of the goals
+
+:param users: users that are concerned by the report. If False, will
+send the report to every user concerned (goal users and
+group that receive a copy). Only used for challenge with
+a visibility mode set to 'personal'.
+:param subset_goals: goals to restrict the report</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 202</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.bank.statement - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.bank.statement</h1><p>Originally defined in: odoo/addons/account/models/account_bank_statement.py</p><hr/><h2>Original: odoo/addons/account/models/account_bank_statement.py</h2><h3>Fields</h3><details><summary id="f-attachment_ids">attachment_ids <span class="position">@ line 101</span></summary><pre>attachment_ids = fields.Many2many(
+        comodel_name='ir.attachment',
+        string="Attachments",
+    )</pre></details><details><summary id="f-balance_end">balance_end <span class="position">@ line 47</span></summary><pre>balance_end = fields.Monetary(
+        string='Computed Balance',
+        compute='_compute_balance_end', store=True,
+    )</pre></details><details><summary id="f-balance_end_real">balance_end_real <span class="position">@ line 52</span></summary><pre>balance_end_real = fields.Monetary(
+        string='Ending Balance',
+        compute='_compute_balance_end_real', store=True, readonly=False,
+    )</pre></details><details><summary id="f-balance_start">balance_start <span class="position">@ line 41</span></summary><pre>balance_start = fields.Monetary(
+        string='Starting Balance',
+        compute='_compute_balance_start', store=True, readonly=False,
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 57</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        related='journal_id.company_id', store=True,
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 62</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        compute='_compute_currency_id',
+    )</pre></details><details><summary id="f-date">date <span class="position">@ line 28</span></summary><pre>date = fields.Date(
+        compute='_compute_date_index', store=True,
+        index=True,
+    )</pre></details><details><summary id="f-first_line_index">first_line_index <span class="position">@ line 36</span></summary><pre>first_line_index = fields.Char(
+        comodel_name='account.bank.statement.line',
+        compute='_compute_date_index', store=True,
+    )</pre></details><details><summary id="f-is_complete">is_complete <span class="position">@ line 82</span></summary><pre>is_complete = fields.Boolean(
+        compute='_compute_is_complete', store=True,
+    )</pre></details><details><summary id="f-is_valid">is_valid <span class="position">@ line 92</span></summary><pre>is_valid = fields.Boolean(
+        compute='_compute_is_valid',
+        search='_search_is_valid',
+    )</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 67</span></summary><pre>journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        compute='_compute_journal_id', store=True,
+        check_company=True,
+    )</pre></details><details><summary id="f-line_ids">line_ids <span class="position">@ line 73</span></summary><pre>line_ids = fields.One2many(
+        comodel_name='account.bank.statement.line',
+        inverse_name='statement_id',
+        string='Statement lines',
+        required=True,
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 15</span></summary><pre>name = fields.Char(
+        string='Reference',
+        compute='_compute_name', store=True, readonly=False,
+        copy=False,
+    )</pre></details><details><summary id="f-problem_description">problem_description <span class="position">@ line 97</span></summary><pre>problem_description = fields.Text(
+        compute='_compute_problem_description',
+    )</pre></details><details><summary id="f-reference">reference <span class="position">@ line 23</span></summary><pre>reference = fields.Char(
+        string='External Reference',
+        copy=False,
+    )</pre></details><h3>Methods</h3><ul id="m-_check_attachments"><li>_check_attachments(self, container, values_list) <span class="position">@ line 327</span></li></ul><details><summary id="m-_get_invalid_statement_ids">_get_invalid_statement_ids(self, all_statements) <span class="position">@ line 238</span></summary><pre>Returns the statements that are invalid for _compute and _search methods.</pre></details><details><summary id="m-_get_statement_validity">_get_statement_validity(self) <span class="position">@ line 225</span></summary><pre>Compares the balance_start to the previous statements balance_end_real</pre></details><ul id="m-_search_is_valid"><li>_search_is_valid(self, operator, value) <span class="position">@ line 214</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 106</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 353</span></li></ul><script src="class.js"></script></body></html>

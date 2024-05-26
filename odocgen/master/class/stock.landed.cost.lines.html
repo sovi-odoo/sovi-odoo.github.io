@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>stock.landed.cost.lines - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>stock.landed.cost.lines</h1><p>Originally defined in: odoo/addons/stock_landed_costs/models/stock_landed_cost.py</p><hr/><h2>Original: odoo/addons/stock_landed_costs/models/stock_landed_cost.py</h2><h3>Fields</h3><details><summary id="f-account_id">account_id <span class="position">@ line 335</span></summary><pre>account_id = fields.Many2one('account.account', 'Account', domain=[('deprecated', '=', False)])</pre></details><details><summary id="f-cost_id">cost_id <span class="position">@ line 321</span></summary><pre>cost_id = fields.Many2one(
+        'stock.landed.cost', 'Landed Cost',
+        required=True, ondelete='cascade')</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 336</span></summary><pre>currency_id = fields.Many2one('res.currency', related='cost_id.currency_id')</pre></details><details><summary id="f-name">name <span class="position">@ line 320</span></summary><pre>name = fields.Char('Description')</pre></details><details><summary id="f-price_unit">price_unit <span class="position">@ line 325</span></summary><pre>price_unit = fields.Monetary('Cost', required=True)</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 324</span></summary><pre>product_id = fields.Many2one('product.product', 'Product', required=True)</pre></details><details><summary id="f-split_method">split_method <span class="position">@ line 326</span></summary><pre>split_method = fields.Selection(
+        SPLIT_METHOD,
+        string='Split Method',
+        required=True,
+        help="Equal: Cost will be equally divided.\n"
+             "By Quantity: Cost will be divided according to product's quantity.\n"
+             "By Current cost: Cost will be divided according to product's current cost.\n"
+             "By Weight: Cost will be divided depending on its weight.\n"
+             "By Volume: Cost will be divided depending on its volume.")</pre></details><script src="class.js"></script></body></html>

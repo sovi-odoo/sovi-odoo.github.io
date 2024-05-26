@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>calendar.alarm_manager - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>calendar.alarm_manager</h1><p>Originally defined in: odoo/addons/calendar/models/calendar_alarm_manager.py</p><p>Inherited in: odoo/addons/calendar_sms/models/calendar_alarm_manager.py<br/></p><hr/><h2>Original: odoo/addons/calendar/models/calendar_alarm_manager.py</h2><h3>Methods</h3><details><summary id="m-_get_events_by_alarm_to_notify">_get_events_by_alarm_to_notify(self, alarm_type) <span class="position">@ line 145</span></summary><pre>Get the events with an alarm of the given type between the cron
+last call and now.
+
+Please note that all new reminders created since the cron last
+call with an alarm prior to the cron last call are skipped by
+design. The attendees receive an invitation for any new event
+already.</pre></details><ul id="m-_get_next_potential_limit_alarm"><li>_get_next_potential_limit_alarm(self, alarm_type, seconds, partners) <span class="position">@ line 19</span></li></ul><details><summary id="m-_notify_next_alarm">_notify_next_alarm(self, partner_ids) <span class="position">@ line 248</span></summary><pre>Sends through the bus the next alarm of given partners</pre></details><details><summary id="m-do_check_alarm_for_one_date">do_check_alarm_for_one_date(self, one_date, event, event_maxdelta, in_the_next_X_seconds, alarm_type, after, missing) <span class="position">@ line 113</span></summary><pre>Search for some alarms in the interval of time determined by some parameters (after, in_the_next_X_seconds, ...)
+:param one_date: date of the event to check (not the same that in the event browse if recurrent)
+:param event: Event browse record
+:param event_maxdelta: biggest duration from alarms for this event
+:param in_the_next_X_seconds: looking in the future (in seconds)
+:param after: if not False: will return alert if after this date (date as string - todo: change in master)
+:param missing: if not False: will return alert even if we are too late
+:param notif: Looking for type notification
+:param mail: looking for type email</pre></details><ul id="m-do_notif_reminder"><li>do_notif_reminder(self, alert) <span class="position">@ line 227</span></li></ul><script src="class.js"></script></body></html>

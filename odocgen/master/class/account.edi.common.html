@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.edi.common - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.edi.common</h1><p>Originally defined in: odoo/addons/account_edi_ubl_cii/models/account_edi_common.py</p><p>Inherited in: odoo/addons/account_edi_ubl_cii/models/account_edi_xml_ubl_20.py<br/>Inherited in: odoo/addons/account_edi_ubl_cii/models/account_edi_xml_cii_facturx.py<br/></p><hr/><h2>Original: odoo/addons/account_edi_ubl_cii/models/account_edi_common.py</h2><h3>Methods</h3><details><summary id="m-_check_required_fields">_check_required_fields(self, record, field_names, custom_warning_message) <span class="position">@ line 225</span></summary><pre>Check if at least one of the field_names are set on the record/dict
+
+:param record: either a recordSet or a dict
+:param field_names: The field name or list of field name that has to
+be checked. If a list is provided, check that at
+least one of them is set.
+:return: an Error message or None</pre></details><ul id="m-_check_xml_ecosio"><li>_check_xml_ecosio(self, invoice, xml_content, ecosio_formats) <span class="position">@ line 767</span></li></ul><ul id="m-_correct_invoice_tax_amount"><li>_correct_invoice_tax_amount(self, tree, invoice) <span class="position">@ line 760</span></li></ul><ul id="m-_find_value"><li>_find_value(self, xpath, tree, nsmap) <span class="position">@ line 121</span></li></ul><ul id="m-_get_currency_decimal_places"><li>_get_currency_decimal_places(self, currency_id) <span class="position">@ line 107</span></li></ul><details><summary id="m-_get_tax_category_list">_get_tax_category_list(self, invoice, taxes) <span class="position">@ line 202</span></summary><pre>Full list: https://unece.org/fileadmin/DAM/trade/untdid/d16b/tred/tred5305.htm
+Subset: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/
+
+:param taxes:   account.tax records.
+:return:        A list of values to fill the TaxCategory foreach template.</pre></details><details><summary id="m-_get_tax_unece_codes">_get_tax_unece_codes(self, invoice, tax) <span class="position">@ line 140</span></summary><pre>Source: doc of Peppol (but the CEF norm is also used by factur-x, yet not detailed)
+https://docs.peppol.eu/poacc/billing/3.0/syntax/ubl-invoice/cac-TaxTotal/cac-TaxSubtotal/cac-TaxCategory/cbc-TaxExemptionReasonCode/
+https://docs.peppol.eu/poacc/billing/3.0/codelist/vatex/
+https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/
+:returns: {
+tax_category_code: str,
+tax_exemption_reason_code: str,
+tax_exemption_reason: str,
+}</pre></details><details><summary id="m-_get_uom_unece_code">_get_uom_unece_code(self, line) <span class="position">@ line 111</span></summary><pre>list of codes: https://docs.peppol.eu/poacc/billing/3.0/codelist/UNECERec20/
+or https://unece.org/fileadmin/DAM/cefact/recommendations/bkup_htm/add2c.htm (sorted by letter)</pre></details><ul id="m-_import_fill_invoice_allowance_charge"><li>_import_fill_invoice_allowance_charge(self, tree, invoice, qty_factor) <span class="position">@ line 412</span></li></ul><ul id="m-_import_fill_invoice_line_taxes"><li>_import_fill_invoice_line_taxes(self, tax_nodes, invoice_line, inv_line_vals, logs) <span class="position">@ line 700</span></li></ul><details><summary id="m-_import_fill_invoice_line_values">_import_fill_invoice_line_values(self, tree, xpath_dict, invoice_line, qty_factor) <span class="position">@ line 499</span></summary><pre>Read the xml invoice, extract the invoice line values, compute the odoo values
+to fill an invoice line form: quantity, price_unit, discount, product_uom_id.
+
+The way of computing invoice line is quite complicated:
+https://docs.peppol.eu/poacc/billing/3.0/bis/#_calculation_on_line_level (same as in factur-x documentation)
+
+line_net_subtotal = ( gross_unit_price - rebate ) * (billed_qty / basis_qty) - allow_charge_amount
+
+with (UBL | CII):
+* net_unit_price = 'Price/PriceAmount' | 'NetPriceProductTradePrice' (mandatory) (BT-146)
+* gross_unit_price = 'Price/AllowanceCharge/BaseAmount' | 'GrossPriceProductTradePrice' (optional) (BT-148)
+* basis_qty = 'Price/BaseQuantity' | 'BasisQuantity' (optional, either below net_price node or
+gross_price node) (BT-149)
+* billed_qty = 'InvoicedQuantity' | 'BilledQuantity' (mandatory) (BT-129)
+* allow_charge_amount = sum of 'AllowanceCharge' | 'SpecifiedTradeAllowanceCharge' (same level as Price)
+ON THE LINE level (optional) (BT-136 / BT-141)
+* line_net_subtotal = 'LineExtensionAmount' | 'LineTotalAmount' (mandatory) (BT-131)
+* rebate = 'Price/AllowanceCharge' | 'AppliedTradeAllowanceCharge' below gross_price node ! (BT-147)
+"item price discount" which is different from the usual allow_charge_amount
+gross_unit_price (BT-148) - rebate (BT-147) = net_unit_price (BT-146)
+
+In Odoo, we obtain:
+(1) = price_unit  =  gross_price_unit / basis_qty  =  (net_price_unit + rebate) / basis_qty
+(2) = quantity  =  billed_qty
+(3) = discount (converted into a percentage)  =  100 * (1 - price_subtotal / (billed_qty * price_unit))
+(4) = price_subtotal
+
+Alternatively, we could also set: quantity = billed_qty/basis_qty
+
+WARNING, the basis quantity parameter is annoying, for instance, an invoice with a line:
+item A  | price per unit of measure/unit price: 30  | uom = 3 pieces | billed qty = 3 | rebate = 2  | untaxed total = 28
+Indeed, 30 $ / 3 pieces = 10 $ / piece => 10 * 3 (billed quantity) - 2 (rebate) = 28
+
+UBL ROUNDING: "the result of Item line net
+amount = ((Item net price (BT-146)÷Item price base quantity (BT-149))×(Invoiced Quantity (BT-129))
+must be rounded to two decimals, and the allowance/charge amounts are also rounded separately."
+It is not possible to do it in Odoo.
+
+:params tree
+:params xpath_dict dict: {
+'basis_qty': list of str,
+'gross_price_unit': str,
+'rebate': str,
+'net_price_unit': str,
+'billed_qty': str,
+'allowance_charge': str, to be used in a findall !,
+'allowance_charge_indicator': str, relative xpath from allowance_charge,
+'allowance_charge_amount': str, relative xpath from allowance_charge,
+'line_total_amount': str,
+}
+:params: invoice_line
+:params: qty_factor
+:returns: {
+'quantity': float,
+'product_uom_id': (optional) uom.uom,
+'price_unit': float,
+'discount': float,
+}</pre></details><ul id="m-_import_invoice_ubl_cii"><li>_import_invoice_ubl_cii(self, invoice, file_data, new) <span class="position">@ line 276</span></li></ul><details><summary id="m-_import_log_prepaid_amount">_import_log_prepaid_amount(self, invoice_form, prepaid_node, qty_factor) <span class="position">@ line 486</span></summary><pre>Log a message in the chatter at import if prepaid_node (TotalPrepaidAmount in CII, PrepaidAmount in UBL) exists.</pre></details><details><summary id="m-_import_retrieve_and_fill_partner">_import_retrieve_and_fill_partner(self, invoice, name, phone, mail, vat, country_code, peppol_eas, peppol_endpoint) <span class="position">@ line 356</span></summary><pre>Retrieve the partner, if no matching partner is found, create it (only if he has a vat and a name)</pre></details><details><summary id="m-_import_retrieve_and_fill_partner_bank_details">_import_retrieve_and_fill_partner_bank_details(self, invoice, bank_details) <span class="position">@ line 376</span></summary><pre>Retrieve the bank account, if no matching bank account is found, create it</pre></details><details><summary id="m-_import_retrieve_fixed_tax">_import_retrieve_fixed_tax(self, invoice_line, fixed_tax_vals) <span class="position">@ line 678</span></summary><pre>Retrieve the fixed tax at import, iteratively search for a tax:
+1. not price_include matching the name and the amount
+2. not price_include matching the amount
+3. price_include matching the name and the amount
+4. price_include matching the amount</pre></details><ul id="m-_invoice_constraints_common"><li>_invoice_constraints_common(self, invoice) <span class="position">@ line 265</span></li></ul><details><summary id="m-_validate_taxes">_validate_taxes(self, invoice) <span class="position">@ line 130</span></summary><pre>Validate the structure of the tax repartition lines (invalid structure could lead to unexpected results)</pre></details><ul id="m-format_float"><li>format_float(self, amount, precision_digits) <span class="position">@ line 102</span></li></ul><h2>Inherited: odoo/addons/account_edi_ubl_cii/models/account_edi_xml_ubl_20.py</h2><h3>Methods</h3><details><summary id="m-_apply_invoice_line_filter">_apply_invoice_line_filter(self, invoice_line) <span class="position">@ line 409</span></summary><pre>To be overridden to apply a specific invoice line filter</pre></details><details><summary id="m-_apply_invoice_tax_filter">_apply_invoice_tax_filter(self, base_line, tax_values) <span class="position">@ line 403</span></summary><pre>To be overridden to apply a specific tax filter</pre></details><details><summary id="m-_correct_invoice_tax_amount">_correct_invoice_tax_amount(self, tree, invoice) <span class="position">@ line 764</span></summary><pre>The tax total may have been modified for rounding purpose, if so we should use the imported tax and not
+the computed one</pre></details><ul id="m-_export_invoice"><li>_export_invoice(self, invoice) <span class="position">@ line 587</span></li></ul><ul id="m-_export_invoice_constraints"><li>_export_invoice_constraints(self, invoice, vals) <span class="position">@ line 577</span></li></ul><ul id="m-_export_invoice_ecosio_schematrons"><li>_export_invoice_ecosio_schematrons(self) <span class="position">@ line 30</span></li></ul><ul id="m-_export_invoice_filename"><li>_export_invoice_filename(self, invoice) <span class="position">@ line 27</span></li></ul><ul id="m-_export_invoice_vals"><li>_export_invoice_vals(self, invoice) <span class="position">@ line 428</span></li></ul><ul id="m-_find_value"><li>_find_value(self, xpath, tree, nsmap) <span class="position">@ line 19</span></li></ul><ul id="m-_get_bank_address_vals"><li>_get_bank_address_vals(self, bank) <span class="position">@ line 114</span></li></ul><ul id="m-_get_country_vals"><li>_get_country_vals(self, country) <span class="position">@ line 36</span></li></ul><ul id="m-_get_delivery_vals_list"><li>_get_delivery_vals_list(self, invoice) <span class="position">@ line 105</span></li></ul><details><summary id="m-_get_document_allowance_charge_vals_list">_get_document_allowance_charge_vals_list(self, invoice) <span class="position">@ line 227</span></summary><pre>https://docs.peppol.eu/poacc/billing/3.0/bis/#_document_level_allowance_or_charge
+Usage for early payment discounts:
+* Add one document level Allowance per tax rate (VAT included)
+* Add one document level Charge (VAT excluded) with amount = the total sum of the early payment discount
+The difference between these is the cash discount in case of early payment.</pre></details><details><summary id="m-_get_document_type_code_vals">_get_document_type_code_vals(self, invoice, invoice_data) <span class="position">@ line 593</span></summary><pre>Returns the values used for the `DocumentTypeCode` node</pre></details><details><summary id="m-_get_early_payment_discount_grouped_by_tax_rate">_get_early_payment_discount_grouped_by_tax_rate(self, invoice) <span class="position">@ line 415</span></summary><pre>Get the early payment discounts grouped by the tax rate of the product it is linked to
+:returns {float: float}: mapping tax amounts to early payment discount amounts</pre></details><ul id="m-_get_financial_account_vals"><li>_get_financial_account_vals(self, partner_bank) <span class="position">@ line 142</span></li></ul><ul id="m-_get_financial_institution_branch_vals"><li>_get_financial_institution_branch_vals(self, bank) <span class="position">@ line 134</span></li></ul><ul id="m-_get_financial_institution_vals"><li>_get_financial_institution_vals(self, bank) <span class="position">@ line 125</span></li></ul><details><summary id="m-_get_import_document_amount_sign">_get_import_document_amount_sign(self, tree) <span class="position">@ line 790</span></summary><pre>In UBL, an invoice has tag 'Invoice' and a credit note has tag 'CreditNote'. However, a credit note can be
+expressed as an invoice with negative amounts. For this case, we need a factor to take the opposite
+of each quantity in the invoice.</pre></details><details><summary id="m-_get_invoice_line_allowance_vals_list">_get_invoice_line_allowance_vals_list(self, line, tax_values_list) <span class="position">@ line 270</span></summary><pre>Method used to fill the cac:{Invoice,CreditNote,DebitNote}Line>cac:AllowanceCharge node.
+
+Allowances are distinguished from charges using the ChargeIndicator node with 'false' as value.
+
+Note that allowance charges do not exist for credit notes in UBL 2.0, so if we apply discount in Odoo
+the net price will not be consistent with the unit price, but we cannot do anything about it
+
+:param line:    An invoice line.
+:return:        A list of python dictionaries.</pre></details><details><summary id="m-_get_invoice_line_item_vals">_get_invoice_line_item_vals(self, line, taxes_vals) <span class="position">@ line 208</span></summary><pre>Method used to fill the cac:InvoiceLine/cac:Item node.
+It provides information about what the product you are selling.
+
+:param line:        An invoice line.
+:param taxes_vals:  The tax details for the current invoice line.
+:return:            A python dictionary.</pre></details><details><summary id="m-_get_invoice_line_price_vals">_get_invoice_line_price_vals(self, line) <span class="position">@ line 322</span></summary><pre>Method used to fill the cac:InvoiceLine/cac:Price node.
+It provides information about the price applied for the goods and services invoiced.
+
+:param line:    An invoice line.
+:return:        A python dictionary.</pre></details><details><summary id="m-_get_invoice_line_tax_totals_vals_list">_get_invoice_line_tax_totals_vals_list(self, line, taxes_vals) <span class="position">@ line 355</span></summary><pre>Method used to fill the cac:TaxTotal node on a line level.
+Uses the same method as the invoice TaxTotal, but can be overridden in other formats.</pre></details><details><summary id="m-_get_invoice_line_vals">_get_invoice_line_vals(self, line, line_id, taxes_vals) <span class="position">@ line 361</span></summary><pre>Method used to fill the cac:{Invoice,CreditNote,DebitNote}Line node.
+It provides information about the document line.
+
+:param line:    A document line.
+:return:        A python dictionary.</pre></details><details><summary id="m-_get_invoice_monetary_total_vals">_get_invoice_monetary_total_vals(self, invoice, taxes_vals, line_extension_amount, allowance_total_amount, charge_total_amount) <span class="position">@ line 389</span></summary><pre>Method used to fill the cac:{Legal,Requested}MonetaryTotal node</pre></details><ul id="m-_get_invoice_payment_means_vals_list"><li>_get_invoice_payment_means_vals_list(self, invoice) <span class="position">@ line 153</span></li></ul><ul id="m-_get_invoice_payment_terms_vals_list"><li>_get_invoice_payment_terms_vals_list(self, invoice) <span class="position">@ line 167</span></li></ul><details><summary id="m-_get_invoice_period_vals_list">_get_invoice_period_vals_list(self, invoice) <span class="position">@ line 93</span></summary><pre>For now, we cannot fill this data from an invoice
+This corresponds to the 'delivery or invoice period'. For UBL Bis 3, in the case of intra-community supply,
+the Actual delivery date (BT-72) or the Invoicing period (BG-14) should be present under the form:
+{
+'start_date': str,
+'end_date': str,
+}.</pre></details><ul id="m-_get_invoice_tax_totals_vals_list"><li>_get_invoice_tax_totals_vals_list(self, invoice, taxes_vals) <span class="position">@ line 175</span></li></ul><ul id="m-_get_note_vals_list"><li>_get_note_vals_list(self, invoice) <span class="position">@ line 574</span></li></ul><ul id="m-_get_partner_address_vals"><li>_get_partner_address_vals(self, partner) <span class="position">@ line 47</span></li></ul><ul id="m-_get_partner_contact_vals"><li>_get_partner_contact_vals(self, partner) <span class="position">@ line 74</span></li></ul><ul id="m-_get_partner_party_identification_vals_list"><li>_get_partner_party_identification_vals_list(self, partner) <span class="position">@ line 44</span></li></ul><ul id="m-_get_partner_party_legal_entity_vals_list"><li>_get_partner_party_legal_entity_vals_list(self, partner) <span class="position">@ line 66</span></li></ul><ul id="m-_get_partner_party_tax_scheme_vals_list"><li>_get_partner_party_tax_scheme_vals_list(self, partner, role) <span class="position">@ line 58</span></li></ul><ul id="m-_get_partner_party_vals"><li>_get_partner_party_vals(self, partner, role) <span class="position">@ line 82</span></li></ul><ul id="m-_import_fill_invoice_form"><li>_import_fill_invoice_form(self, invoice, tree, qty_factor) <span class="position">@ line 612</span></li></ul><ul id="m-_import_fill_invoice_line_form"><li>_import_fill_invoice_line_form(self, tree, invoice_line, qty_factor) <span class="position">@ line 722</span></li></ul><details><summary id="m-_import_retrieve_partner_vals">_import_retrieve_partner_vals(self, tree, role) <span class="position">@ line 602</span></summary><pre>Returns a dict of values that will be used to retrieve the partner</pre></details><h2>Inherited: odoo/addons/account_edi_ubl_cii/models/account_edi_xml_cii_facturx.py</h2><h3>Methods</h3><ul id="m-_check_non_0_rate_tax"><li>_check_non_0_rate_tax(self, vals) <span class="position">@ line 90</span></li></ul><ul id="m-_check_required_tax"><li>_check_required_tax(self, vals) <span class="position">@ line 83</span></li></ul><ul id="m-_export_invoice"><li>_export_invoice(self, invoice) <span class="position">@ line 235</span></li></ul><ul id="m-_export_invoice_constraints"><li>_export_invoice_constraints(self, invoice, vals) <span class="position">@ line 29</span></li></ul><ul id="m-_export_invoice_ecosio_schematrons"><li>_export_invoice_ecosio_schematrons(self) <span class="position">@ line 23</span></li></ul><ul id="m-_export_invoice_filename"><li>_export_invoice_filename(self, invoice) <span class="position">@ line 20</span></li></ul><ul id="m-_export_invoice_vals"><li>_export_invoice_vals(self, invoice) <span class="position">@ line 115</span></li></ul><ul id="m-_get_exchanged_document_vals"><li>_get_exchanged_document_vals(self, invoice) <span class="position">@ line 107</span></li></ul><details><summary id="m-_get_import_document_amount_sign">_get_import_document_amount_sign(self, tree) <span class="position">@ line 395</span></summary><pre>In factur-x, an invoice has code 380 and a credit note has code 381. However, a credit note can be expressed
+as an invoice with negative amounts. For this case, we need a factor to take the opposite of each quantity
+in the invoice.</pre></details><ul id="m-_get_invoicing_period"><li>_get_invoicing_period(self, invoice) <span class="position">@ line 102</span></li></ul><ul id="m-_get_scheduled_delivery_time"><li>_get_scheduled_delivery_time(self, invoice) <span class="position">@ line 97</span></li></ul><ul id="m-_import_fill_invoice_form"><li>_import_fill_invoice_form(self, invoice, tree, qty_factor) <span class="position">@ line 245</span></li></ul><ul id="m-_import_fill_invoice_line_form"><li>_import_fill_invoice_line_form(self, journal, tree, invoice_form, invoice_line, qty_factor) <span class="position">@ line 356</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.activity.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.activity.mixin</h1><p>Originally defined in: odoo/addons/mail/models/mail_activity_mixin.py</p><p>Inherited in: odoo/addons/calendar/models/mail_activity_mixin.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_activity_mixin.py</h2><h3>Fields</h3><details><summary id="f-activity_date_deadline">activity_date_deadline <span class="position">@ line 74</span></summary><pre>activity_date_deadline = fields.Date(
+        'Next Activity Deadline',
+        compute='_compute_activity_date_deadline', search='_search_activity_date_deadline',
+        compute_sudo=False, readonly=True, store=False,
+        groups="base.group_user")</pre></details><details><summary id="f-activity_exception_decoration">activity_exception_decoration <span class="position">@ line 88</span></summary><pre>activity_exception_decoration = fields.Selection([
+        ('warning', 'Alert'),
+        ('danger', 'Error')],
+        compute='_compute_activity_exception_type',
+        search='_search_activity_exception_decoration',
+        help="Type of the exception activity on record.")</pre></details><details><summary id="f-activity_exception_icon">activity_exception_icon <span class="position">@ line 94</span></summary><pre>activity_exception_icon = fields.Char('Icon', help="Icon to indicate an exception activity.",
+        compute='_compute_activity_exception_type')</pre></details><details><summary id="f-activity_ids">activity_ids <span class="position">@ line 50</span></summary><pre>activity_ids = fields.One2many(
+        'mail.activity', 'res_id', 'Activities',
+        auto_join=True,
+        groups="base.group_user",)</pre></details><details><summary id="f-activity_state">activity_state <span class="position">@ line 54</span></summary><pre>activity_state = fields.Selection([
+        ('overdue', 'Overdue'),
+        ('today', 'Today'),
+        ('planned', 'Planned')], string='Activity State',
+        compute='_compute_activity_state',
+        search='_search_activity_state',
+        groups="base.group_user",
+        help='Status based on activities\nOverdue: Due date is already passed\n'
+             'Today: Activity date is today\nPlanned: Future activities.')</pre></details><details><summary id="f-activity_summary">activity_summary <span class="position">@ line 83</span></summary><pre>activity_summary = fields.Char(
+        'Next Activity Summary',
+        related='activity_ids.summary', readonly=False,
+        search='_search_activity_summary',
+        groups="base.group_user",)</pre></details><details><summary id="f-activity_type_icon">activity_type_icon <span class="position">@ line 73</span></summary><pre>activity_type_icon = fields.Char('Activity Type Icon', related='activity_ids.icon')</pre></details><details><summary id="f-activity_type_id">activity_type_id <span class="position">@ line 68</span></summary><pre>activity_type_id = fields.Many2one(
+        'mail.activity.type', 'Next Activity Type',
+        related='activity_ids.activity_type_id', readonly=False,
+        search='_search_activity_type_id',
+        groups="base.group_user")</pre></details><details><summary id="f-activity_user_id">activity_user_id <span class="position">@ line 63</span></summary><pre>activity_user_id = fields.Many2one(
+        'res.users', 'Responsible User',
+        compute='_compute_activity_user_id', readonly=True,
+        search='_search_activity_user_id',
+        groups="base.group_user")</pre></details><details><summary id="f-my_activity_date_deadline">my_activity_date_deadline <span class="position">@ line 79</span></summary><pre>my_activity_date_deadline = fields.Date(
+        'My Activity Deadline',
+        compute='_compute_my_activity_date_deadline', search='_search_my_activity_date_deadline',
+        compute_sudo=False, readonly=True, groups="base.group_user")</pre></details><h3>Methods</h3><details><summary id="m-_activity_schedule_with_view">_activity_schedule_with_view(self, act_type_xmlid, date_deadline, summary, views_or_xmlid, render_context) <span class="position">@ line 399</span></summary><pre>Helper method: Schedule an activity on each record of the current record set.
+This method allow to the same mecanism as `activity_schedule`, but provide
+2 additionnal parameters:
+:param views_or_xmlid: record of ir.ui.view or string representing the xmlid
+of the qweb template to render
+:type views_or_xmlid: string or recordset
+:param render_context: the values required to render the given qweb template
+:type render_context: dict</pre></details><details><summary id="m-_default_activity_type">_default_activity_type(self) <span class="position">@ line 42</span></summary><pre>Define a default fallback activity type when requested xml id wasn't found.
+
+Can be overriden to specify the default activity type of a model.
+It is only called in in activity_schedule() for now.</pre></details><ul id="m-_read_group_groupby"><li>_read_group_groupby(self, groupby_spec, query) <span class="position">@ line 258</span></li></ul><ul id="m-_search_activity_date_deadline"><li>_search_activity_date_deadline(self, operator, operand) <span class="position">@ line 206</span></li></ul><ul id="m-_search_activity_exception_decoration"><li>_search_activity_exception_decoration(self, operator, operand) <span class="position">@ line 119</span></li></ul><ul id="m-_search_activity_state"><li>_search_activity_state(self, operator, value) <span class="position">@ line 135</span></li></ul><ul id="m-_search_my_activity_date_deadline"><li>_search_my_activity_date_deadline(self, operator, operand) <span class="position">@ line 233</span></li></ul><details><summary id="m-activity_feedback">activity_feedback(self, act_type_xmlids, user_id, feedback, attachment_ids) <span class="position">@ line 447</span></summary><pre>Set activities as done, limiting to some activity types and
+optionally to a given user.</pre></details><details><summary id="m-activity_reschedule">activity_reschedule(self, act_type_xmlids, user_id, date_deadline, new_user_id) <span class="position">@ line 421</span></summary><pre>Reschedule some automated activities. Activities to reschedule are
+selected based on type xml ids and optionally by user. Purpose is to be
+able to
+
+* update the deadline to date_deadline;
+* update the responsible to new_user_id;</pre></details><details><summary id="m-activity_schedule">activity_schedule(self, act_type_xmlid, date_deadline, summary, note) <span class="position">@ line 351</span></summary><pre>Schedule an activity on each record of the current record set.
+This method allow to provide as parameter act_type_xmlid. This is an
+xml_id of activity type instead of directly giving an activity_type_id.
+It is useful to avoid having various "env.ref" in the code and allow
+to let the mixin handle access rights.
+
+Note that unless specified otherwise in act_values, the activities created
+will have their "automated" field set to True.
+
+:param date_deadline: the day the activity must be scheduled on
+the timezone of the user must be considered to set the correct deadline</pre></details><details><summary id="m-activity_search">activity_search(self, act_type_xmlids, user_id, additional_domain) <span class="position">@ line 319</span></summary><pre>Search automated activities on current record set, given a list of activity
+types xml IDs. It is useful when dealing with specific types involved in automatic
+activities management.
+
+:param act_type_xmlids: list of activity types xml IDs
+:param user_id: if set, restrict to activities of that user_id;
+:param additional_domain: if set, filter on that domain;</pre></details><details><summary id="m-activity_send_mail">activity_send_mail(self, template_id) <span class="position">@ line 307</span></summary><pre>Automatically send an email based on the given mail.template, given
+its ID.</pre></details><details><summary id="m-activity_unlink">activity_unlink(self, act_type_xmlids, user_id) <span class="position">@ line 463</span></summary><pre>Unlink activities, limiting to some activity types and optionally
+to a given user.</pre></details><details><summary id="m-toggle_active">toggle_active(self) <span class="position">@ line 294</span></summary><pre>Before archiving the record we should also remove its ongoing
+activities. Otherwise they stay in the systray and concerning archived
+records it makes no sense.</pre></details><details><summary id="m-unlink">unlink(self) <span class="position">@ line 249</span></summary><pre>Override unlink to delete records activities through (res_model, res_id).</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 241</span></li></ul><h2>Inherited: odoo/addons/calendar/models/mail_activity_mixin.py</h2><h3>Fields</h3><details><summary id="f-activity_calendar_event_id">activity_calendar_event_id <span class="position">@ line 9</span></summary><pre>activity_calendar_event_id = fields.Many2one(
+        'calendar.event', string="Next Activity Calendar Event",
+        compute='_compute_activity_calendar_event_id', groups="base.group_user")</pre></details><script src="class.js"></script></body></html>

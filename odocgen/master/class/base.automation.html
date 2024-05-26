@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>base.automation - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>base.automation</h1><p>Originally defined in: odoo/addons/base_automation/models/base_automation.py</p><hr/><h2>Original: odoo/addons/base_automation/models/base_automation.py</h2><h3>Fields</h3><details><summary id="f-CRITICAL_FIELDS">CRITICAL_FIELDS <span class="position">@ line 206</span></summary><pre>CRITICAL_FIELDS = ['model_id', 'active', 'trigger', 'on_change_field_ids']</pre></details><details><summary id="f-RANGE_FIELDS">RANGE_FIELDS <span class="position">@ line 207</span></summary><pre>RANGE_FIELDS = ['trg_date_range', 'trg_date_range_type']</pre></details><details><summary id="f-action_server_ids">action_server_ids <span class="position">@ line 90</span></summary><pre>action_server_ids = fields.One2many("ir.actions.server", "base_automation_id",
+        context={'default_usage': 'base_automation'},
+        string="Actions",
+        compute="_compute_action_server_ids",
+        store=True,
+        readonly=False,
+    )</pre></details><details><summary id="f-active">active <span class="position">@ line 102</span></summary><pre>active = fields.Boolean(default=True, help="When unchecked, the rule is hidden and will not be executed.")</pre></details><details><summary id="f-description">description <span class="position">@ line 84</span></summary><pre>description = fields.Html(string="Description")</pre></details><details><summary id="f-filter_domain">filter_domain <span class="position">@ line 183</span></summary><pre>filter_domain = fields.Char(
+        string='Apply on',
+        help="If present, this condition must be satisfied before executing the automation rule.",
+        compute='_compute_filter_domain',
+        readonly=False, store=True
+    )</pre></details><details><summary id="f-filter_pre_domain">filter_pre_domain <span class="position">@ line 178</span></summary><pre>filter_pre_domain = fields.Char(
+        string='Before Update Domain',
+        compute='_compute_filter_pre_domain',
+        readonly=False, store=True,
+        help="If present, this condition must be satisfied before the update of the record.")</pre></details><details><summary id="f-last_run">last_run <span class="position">@ line 189</span></summary><pre>last_run = fields.Datetime(readonly=True, copy=False)</pre></details><details><summary id="f-least_delay_msg">least_delay_msg <span class="position">@ line 203</span></summary><pre>least_delay_msg = fields.Char(compute='_compute_least_delay_msg')</pre></details><details><summary id="f-log_webhook_calls">log_webhook_calls <span class="position">@ line 101</span></summary><pre>log_webhook_calls = fields.Boolean(string="Log Calls", default=False)</pre></details><details><summary id="f-model_id">model_id <span class="position">@ line 85</span></summary><pre>model_id = fields.Many2one(
+        "ir.model", string="Model", required=True, ondelete="cascade", help="Model on which the automation rule runs."
+    )</pre></details><details><summary id="f-model_is_mail_thread">model_is_mail_thread <span class="position">@ line 89</span></summary><pre>model_is_mail_thread = fields.Boolean(related="model_id.is_mail_thread")</pre></details><details><summary id="f-model_name">model_name <span class="position">@ line 88</span></summary><pre>model_name = fields.Char(related="model_id.model", string="Model Name", readonly=True, inverse="_inverse_model_name")</pre></details><details><summary id="f-name">name <span class="position">@ line 83</span></summary><pre>name = fields.Char(string="Automation Rule Name", required=True, translate=True)</pre></details><details><summary id="f-on_change_field_ids">on_change_field_ids <span class="position">@ line 190</span></summary><pre>on_change_field_ids = fields.Many2many(
+        "ir.model.fields",
+        relation="base_automation_onchange_fields_rel",
+        compute='_compute_on_change_field_ids',
+        readonly=False, store=True,
+        string="On Change Fields Trigger",
+        help="Fields that trigger the onchange.",
+    )</pre></details><details><summary id="f-record_getter">record_getter <span class="position">@ line 99</span></summary><pre>record_getter = fields.Char(default="model.env[payload.get('_model')].browse(int(payload.get('_id')))",
+                                help="This code will be run to find on which record the automation rule should be run.")</pre></details><details><summary id="f-trg_date_calendar_id">trg_date_calendar_id <span class="position">@ line 172</span></summary><pre>trg_date_calendar_id = fields.Many2one(
+        "resource.calendar", string='Use Calendar',
+        compute='_compute_trg_date_calendar_id',
+        readonly=False, store=True,
+        help="When calculating a day-based timed condition, it is possible"
+             "to use a calendar to compute the date based on working days.")</pre></details><details><summary id="f-trg_date_id">trg_date_id <span class="position">@ line 153</span></summary><pre>trg_date_id = fields.Many2one(
+        'ir.model.fields', string='Trigger Date',
+        compute='_compute_trg_date_id',
+        readonly=False, store=True,
+        domain="[('model_id', '=', model_id), ('ttype', 'in', ('date', 'datetime'))]",
+        help="""When should the condition be triggered.
+                If present, will be checked by the scheduler. If empty, will be checked at creation and update.""")</pre></details><details><summary id="f-trg_date_range">trg_date_range <span class="position">@ line 160</span></summary><pre>trg_date_range = fields.Integer(
+        string='Delay after trigger date',
+        compute='_compute_trg_date_range_data',
+        readonly=False, store=True,
+        help="Delay after the trigger date. "
+        "You can put a negative number if you need a delay before the "
+        "trigger date, like sending a reminder 15 minutes before a meeting.")</pre></details><details><summary id="f-trg_date_range_type">trg_date_range_type <span class="position">@ line 167</span></summary><pre>trg_date_range_type = fields.Selection(
+        [('minutes', 'Minutes'), ('hour', 'Hours'), ('day', 'Days'), ('month', 'Months')],
+        string='Delay type',
+        compute='_compute_trg_date_range_data',
+        readonly=False, store=True)</pre></details><details><summary id="f-trg_field_ref">trg_field_ref <span class="position">@ line 146</span></summary><pre>trg_field_ref = fields.Many2oneReference(
+        model_field='trg_field_ref_model_name',
+        compute='_compute_trg_field_ref',
+        string='Trigger Reference',
+        readonly=False,
+        store=True,
+        help="Some triggers need a reference to another field. This field is used to store it.")</pre></details><details><summary id="f-trg_field_ref_model_name">trg_field_ref_model_name <span class="position">@ line 143</span></summary><pre>trg_field_ref_model_name = fields.Char(
+        string='Trigger Field Model',
+        compute='_compute_trg_field_ref_model_name')</pre></details><details><summary id="f-trg_selection_field_id">trg_selection_field_id <span class="position">@ line 136</span></summary><pre>trg_selection_field_id = fields.Many2one(
+        'ir.model.fields.selection',
+        string='Trigger Field',
+        domain="[('field_id', 'in', trigger_field_ids)]",
+        compute='_compute_trg_selection_field_id',
+        readonly=False, store=True,
+        help="Some triggers need a reference to a selection field. This field is used to store it.")</pre></details><details><summary id="f-trigger">trigger <span class="position">@ line 110</span></summary><pre>trigger = fields.Selection(
+        [
+            ('on_stage_set', "Stage is set to"),
+            ('on_user_set', "User is set"),
+            ('on_tag_set', "Tag is added"),
+            ('on_state_set', "State is set to"),
+            ('on_priority_set', "Priority is set to"),
+            ('on_archive', "On archived"),
+            ('on_unarchive', "On unarchived"),
+            ('on_create_or_write', "On save"),
+            ('on_create', "On creation"),  # deprecated, use 'on_create_or_write' instead
+            ('on_write', "On update"),  # deprecated, use 'on_create_or_write' instead
+
+            ('on_unlink', "On deletion"),
+            ('on_change', "On UI change"),
+
+            ('on_time', "Based on date field"),
+            ('on_time_created', "After creation"),
+            ('on_time_updated', "After last update"),
+
+            ("on_message_received", "On incoming message"),
+            ("on_message_sent", "On outgoing message"),
+
+            ('on_webhook', "On webhook"),
+        ], string='Trigger',
+        compute='_compute_trigger', readonly=False, store=True, required=True)</pre></details><details><summary id="f-trigger_field_ids">trigger_field_ids <span class="position">@ line 198</span></summary><pre>trigger_field_ids = fields.Many2many(
+        'ir.model.fields', string='Trigger Fields',
+        compute='_compute_trigger_field_ids', readonly=False, store=True,
+        help="The automation rule will be triggered if and only if one of these fields is updated."
+             "If empty, all fields are watched.")</pre></details><details><summary id="f-url">url <span class="position">@ line 97</span></summary><pre>url = fields.Char(compute='_compute_url')</pre></details><details><summary id="f-webhook_uuid">webhook_uuid <span class="position">@ line 98</span></summary><pre>webhook_uuid = fields.Char(string="Webhook UUID", readonly=True, copy=False, default=lambda self: str(uuid4()))</pre></details><h3>Methods</h3><details><summary id="m-_check_trigger_fields">_check_trigger_fields(self, record) <span class="position">@ line 663</span></summary><pre>Return whether any of the trigger fields has been modified on ``record``.</pre></details><ul id="m-_compute_least_delay_msg"><li>_compute_least_delay_msg(self) <span class="position">@ line 570</span></li></ul><details><summary id="m-_execute_webhook">_execute_webhook(self, payload) <span class="position">@ line 460</span></summary><pre>Execute the webhook for the given payload.
+The payload is a dictionnary that can be used by the `record_getter` to
+identify the record on which the automation should be run.</pre></details><ul id="m-_filter_post"><li>_filter_post(self, records, feedback) <span class="position">@ line 587</span></li></ul><details><summary id="m-_filter_post_export_domain">_filter_post_export_domain(self, records, feedback) <span class="position">@ line 590</span></summary><pre>Filter the records that satisfy the postcondition of automation ``self``.</pre></details><details><summary id="m-_filter_pre">_filter_pre(self, records, feedback) <span class="position">@ line 574</span></summary><pre>Filter the records that satisfy the precondition of automation ``self``.</pre></details><details><summary id="m-_get_actions">_get_actions(self, records, triggers) <span class="position">@ line 528</span></summary><pre>Return the automations of the given triggers for records' model. The
+returned automations' context contain an object to manage processing.</pre></details><details><summary id="m-_get_cron_interval">_get_cron_interval(self, automations) <span class="position">@ line 558</span></summary><pre>Return the expected time interval used by the cron, in minutes.</pre></details><details><summary id="m-_get_eval_context">_get_eval_context(self, payload) <span class="position">@ line 540</span></summary><pre>Prepare the context used when evaluating python code
+:returns: dict -- evaluation context given to safe_eval</pre></details><ul id="m-_inverse_model_name"><li>_inverse_model_name(self) <span class="position">@ line 229</span></li></ul><ul id="m-_prepare_loggin_values"><li>_prepare_loggin_values(self) <span class="position">@ line 446</span></li></ul><details><summary id="m-_process">_process(self, records, domain_post) <span class="position">@ line 613</span></summary><pre>Process automation ``self`` on the ``records`` that have not been done yet.</pre></details><details><summary id="m-_register_hook">_register_hook(self) <span class="position">@ line 686</span></summary><pre>Patch models that should trigger action rules based on creation,
+modification, deletion of records and form onchanges.</pre></details><details><summary id="m-_unregister_hook">_unregister_hook(self) <span class="position">@ line 885</span></summary><pre>Remove the patches installed by _register_hook()</pre></details><details><summary id="m-_update_cron">_update_cron(self) <span class="position">@ line 505</span></summary><pre>Activate the cron job depending on whether there exists automation rules
+based on time conditions.  Also update its frequency according to
+the smallest automation delay, or restore the default 4 hours if there
+is no time based automation.</pre></details><details><summary id="m-_update_registry">_update_registry(self) <span class="position">@ line 520</span></summary><pre>Update the registry after a modification on automation rules.</pre></details><ul id="m-action_rotate_webhook_uuid"><li>action_rotate_webhook_uuid(self) <span class="position">@ line 432</span></li></ul><ul id="m-action_view_webhook_logs"><li>action_view_webhook_logs(self) <span class="position">@ line 436</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 426</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 417</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.analytic.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.analytic.line</h1><p>Originally defined in: odoo/addons/analytic/models/analytic_line.py</p><p>Inherited in: odoo/addons/sale_timesheet/models/hr_timesheet.py<br/>Inherited in: odoo/addons/sale/models/analytic.py<br/>Inherited in: odoo/addons/project_timesheet_holidays/models/account_analytic.py<br/>Inherited in: odoo/addons/mrp_account/models/analytic_account.py<br/>Inherited in: odoo/addons/hr_timesheet/models/hr_timesheet.py<br/>Inherited in: odoo/addons/account/models/account_analytic_line.py<br/></p><hr/><h2>Original: odoo/addons/analytic/models/analytic_line.py</h2><h3>Fields</h3><details><summary id="f-account_id">account_id <span class="position">@ line 44</span></summary><pre>account_id = fields.Many2one(
+        'account.analytic.account',
+        'Project Account',
+        ondelete='restrict',
+        index=True,
+        check_company=True,
+    )</pre></details><details><summary id="f-amount">amount <span class="position">@ line 25</span></summary><pre>amount = fields.Monetary(
+        'Amount',
+        required=True,
+        default=0.0,
+    )</pre></details><details><summary id="f-auto_account_id">auto_account_id <span class="position">@ line 54</span></summary><pre>auto_account_id = fields.Many2one(
+        comodel_name='account.analytic.account',
+        string='Analytic Account',
+        compute='_compute_auto_account',
+        inverse='_inverse_auto_account',
+        search='_search_auto_account',
+    )</pre></details><details><summary id="f-category">category <span class="position">@ line 86</span></summary><pre>category = fields.Selection(
+        [('other', 'Other')],
+        default='other',
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 72</span></summary><pre>company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        required=True,
+        readonly=True,
+        default=lambda self: self.env.company,
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 79</span></summary><pre>currency_id = fields.Many2one(
+        related="company_id.currency_id",
+        string="Currency",
+        readonly=True,
+        store=True,
+        compute_sudo=True,
+    )</pre></details><details><summary id="f-date">date <span class="position">@ line 19</span></summary><pre>date = fields.Date(
+        'Date',
+        required=True,
+        index=True,
+        default=fields.Date.context_today,
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 15</span></summary><pre>name = fields.Char(
+        'Description',
+        required=True,
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 61</span></summary><pre>partner_id = fields.Many2one(
+        'res.partner',
+        string='Partner',
+        check_company=True,
+    )</pre></details><details><summary id="f-product_uom_category_id">product_uom_category_id <span class="position">@ line 39</span></summary><pre>product_uom_category_id = fields.Many2one(
+        related='product_uom_id.category_id',
+        string='UoM Category',
+        readonly=True,
+    )</pre></details><details><summary id="f-product_uom_id">product_uom_id <span class="position">@ line 34</span></summary><pre>product_uom_id = fields.Many2one(
+        'uom.uom',
+        string='Unit of Measure',
+        domain="[('category_id', '=', product_uom_category_id)]",
+    )</pre></details><details><summary id="f-unit_amount">unit_amount <span class="position">@ line 30</span></summary><pre>unit_amount = fields.Float(
+        'Quantity',
+        default=0.0,
+    )</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 66</span></summary><pre>user_id = fields.Many2one(
+        'res.users',
+        string='User',
+        default=lambda self: self.env.context.get('user_id', self.env.user.id),
+        index=True,
+    )</pre></details><h3>Methods</h3><ul id="m-_get_view"><li>_get_view(self, view_id, view_type) <span class="position">@ line 108</span></li></ul><ul id="m-_inverse_auto_account"><li>_inverse_auto_account(self) <span class="position">@ line 97</span></li></ul><ul id="m-_search_auto_account"><li>_search_auto_account(self, operator, value) <span class="position">@ line 101</span></li></ul><h2>Inherited: odoo/addons/sale_timesheet/models/hr_timesheet.py</h2><h3>Fields</h3><details><summary id="f-allow_billable">allow_billable <span class="position">@ line 36</span></summary><pre>allow_billable = fields.Boolean(related="project_id.allow_billable")</pre></details><details><summary id="f-commercial_partner_id">commercial_partner_id <span class="position">@ line 25</span></summary><pre>commercial_partner_id = fields.Many2one('res.partner', compute="_compute_commercial_partner")</pre></details><details><summary id="f-is_so_line_edited">is_so_line_edited <span class="position">@ line 35</span></summary><pre>is_so_line_edited = fields.Boolean("Is Sales Order Item Manually Edited")</pre></details><details><summary id="f-order_id">order_id <span class="position">@ line 34</span></summary><pre>order_id = fields.Many2one(related='so_line.order_id', store=True, readonly=True, index=True)</pre></details><details><summary id="f-sale_order_state">sale_order_state <span class="position">@ line 37</span></summary><pre>sale_order_state = fields.Selection(related='order_id.state')</pre></details><details><summary id="f-so_line">so_line <span class="position">@ line 27</span></summary><pre>so_line = fields.Many2one(compute="_compute_so_line", store=True, readonly=False,
+        domain=lambda self: self.env['sale.order.line']._domain_sale_line_service_str("""[
+            ('qty_delivered_method', 'in', ['analytic', 'timesheet']),
+            ('order_partner_id.commercial_partner_id', '=', commercial_partner_id)
+        ]""", check_is_downpayment=False),
+        help="Sales order item to which the time spent will be added in order to be invoiced to your customer. Remove the sales order item for the timesheet entry to be non-billable.")</pre></details><details><summary id="f-timesheet_invoice_id">timesheet_invoice_id <span class="position">@ line 26</span></summary><pre>timesheet_invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True, copy=False, help="Invoice created from the timesheet", index='btree_not_null')</pre></details><details><summary id="f-timesheet_invoice_type">timesheet_invoice_type <span class="position">@ line 23</span></summary><pre>timesheet_invoice_type = fields.Selection(TIMESHEET_INVOICE_TYPES, string="Billable Type",
+            compute='_compute_timesheet_invoice_type', compute_sudo=True, store=True, readonly=True)</pre></details><h3>Methods</h3><ul id="m-_check_can_write"><li>_check_can_write(self, values) <span class="position">@ line 93</span></li></ul><ul id="m-_check_timesheet_can_be_billed"><li>_check_timesheet_can_be_billed(self) <span class="position">@ line 90</span></li></ul><ul id="m-_get_employee_mapping_entry"><li>_get_employee_mapping_entry(self) <span class="position">@ line 164</span></li></ul><ul id="m-_get_timesheets_to_merge"><li>_get_timesheets_to_merge(self) <span class="position">@ line 155</span></li></ul><ul id="m-_hourly_cost"><li>_hourly_cost(self) <span class="position">@ line 168</span></li></ul><ul id="m-_is_not_billed"><li>_is_not_billed(self) <span class="position">@ line 86</span></li></ul><ul id="m-_is_readonly"><li>_is_readonly(self) <span class="position">@ line 83</span></li></ul><ul id="m-_timesheet_convert_sol_uom"><li>_timesheet_convert_sol_uom(self, sol, to_unit) <span class="position">@ line 197</span></li></ul><details><summary id="m-_timesheet_determine_sale_line">_timesheet_determine_sale_line(self) <span class="position">@ line 100</span></summary><pre>Deduce the SO line associated to the timesheet line:
+1/ timesheet on task rate: the so line will be the one from the task
+2/ timesheet on employee rate task: find the SO line in the map of the project (even for subtask), or fallback on the SO line of the task, or fallback
+on the one on the project</pre></details><details><summary id="m-_timesheet_get_portal_domain">_timesheet_get_portal_domain(self) <span class="position">@ line 129</span></summary><pre>Only the timesheets with a product invoiced on delivered quantity are concerned.
+since in ordered quantity, the timesheet quantity is not invoiced,
+thus there is no meaning of showing invoice with ordered quantity.</pre></details><ul id="m-action_invoice_from_timesheet"><li>action_invoice_from_timesheet(self) <span class="position">@ line 186</span></li></ul><ul id="m-action_sale_order_from_timesheet"><li>action_sale_order_from_timesheet(self) <span class="position">@ line 175</span></li></ul><h2>Inherited: odoo/addons/sale/models/analytic.py</h2><h3>Fields</h3><details><summary id="f-so_line">so_line <span class="position">@ line 10</span></summary><pre>so_line = fields.Many2one('sale.order.line', string='Sales Order Item', domain=[('qty_delivered_method', '=', 'analytic')], index='btree_not_null')</pre></details><h2>Inherited: odoo/addons/project_timesheet_holidays/models/account_analytic.py</h2><h3>Fields</h3><details><summary id="f-global_leave_id">global_leave_id <span class="position">@ line 13</span></summary><pre>global_leave_id = fields.Many2one("resource.calendar.leaves", string="Global Time Off", index='btree_not_null', ondelete='cascade', export_string_translation=False)</pre></details><details><summary id="f-holiday_id">holiday_id <span class="position">@ line 12</span></summary><pre>holiday_id = fields.Many2one("hr.leave", string='Time Off Request', copy=False, index='btree_not_null', export_string_translation=False)</pre></details><details><summary id="f-task_id">task_id <span class="position">@ line 14</span></summary><pre>task_id = fields.Many2one(domain="[('allow_timesheets', '=', True), ('project_id', '=?', project_id), ('is_timeoff_task', '=', False)]", export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_check_can_create"><li>_check_can_create(self) <span class="position">@ line 44</span></li></ul><ul id="m-_check_can_write"><li>_check_can_write(self, values) <span class="position">@ line 39</span></li></ul><ul id="m-_get_favorite_project_id_domain"><li>_get_favorite_project_id_domain(self, employee_id) <span class="position">@ line 49</span></li></ul><ul id="m-_get_redirect_action"><li>_get_redirect_action(self) <span class="position">@ line 16</span></li></ul><h2>Inherited: odoo/addons/mrp_account/models/analytic_account.py</h2><h3>Fields</h3><details><summary id="f-category">category <span class="position">@ line 79</span></summary><pre>category = fields.Selection(selection_add=[('manufacturing_order', 'Manufacturing Order')])</pre></details><h2>Inherited: odoo/addons/hr_timesheet/models/hr_timesheet.py</h2><h3>Fields</h3><details><summary id="f-department_id">department_id <span class="position">@ line 65</span></summary><pre>department_id = fields.Many2one('hr.department', "Department", compute='_compute_department_id', store=True, compute_sudo=True)</pre></details><details><summary id="f-employee_id">employee_id <span class="position">@ line 62</span></summary><pre>employee_id = fields.Many2one('hr.employee', "Employee", domain=_domain_employee_id, context={'active_test': False},
+        index=True, help="Define an 'hourly cost' on the employee to track the cost of their time.")</pre></details><details><summary id="f-encoding_uom_id">encoding_uom_id <span class="position">@ line 67</span></summary><pre>encoding_uom_id = fields.Many2one('uom.uom', compute='_compute_encoding_uom_id', export_string_translation=False)</pre></details><details><summary id="f-job_title">job_title <span class="position">@ line 64</span></summary><pre>job_title = fields.Char(related='employee_id.job_title', export_string_translation=False)</pre></details><details><summary id="f-manager_id">manager_id <span class="position">@ line 66</span></summary><pre>manager_id = fields.Many2one('hr.employee', "Manager", related='employee_id.parent_id', store=True)</pre></details><details><summary id="f-milestone_id">milestone_id <span class="position">@ line 70</span></summary><pre>milestone_id = fields.Many2one('project.milestone', related='task_id.milestone_id')</pre></details><details><summary id="f-parent_task_id">parent_task_id <span class="position">@ line 57</span></summary><pre>parent_task_id = fields.Many2one('project.task', related='task_id.parent_id', store=True)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 68</span></summary><pre>partner_id = fields.Many2one(compute='_compute_partner_id', store=True, readonly=False)</pre></details><details><summary id="f-project_id">project_id <span class="position">@ line 58</span></summary><pre>project_id = fields.Many2one(
+        'project.project', 'Project', domain=_domain_project_id, index=True,
+        compute='_compute_project_id', store=True, readonly=False)</pre></details><details><summary id="f-readonly_timesheet">readonly_timesheet <span class="position">@ line 69</span></summary><pre>readonly_timesheet = fields.Boolean(compute="_compute_readonly_timesheet", compute_sudo=True, export_string_translation=False)</pre></details><details><summary id="f-task_id">task_id <span class="position">@ line 53</span></summary><pre>task_id = fields.Many2one(
+        'project.task', 'Task', index='btree_not_null',
+        compute='_compute_task_id', store=True, readonly=False,
+        domain="[('allow_timesheets', '=', True), ('project_id', '=?', project_id)]")</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 61</span></summary><pre>user_id = fields.Many2one(compute='_compute_user_id', store=True, readonly=False)</pre></details><h3>Methods</h3><ul id="m-_check_can_create"><li>_check_can_create(self) <span class="position">@ line 144</span></li></ul><ul id="m-_check_can_write"><li>_check_can_write(self, values) <span class="position">@ line 136</span></li></ul><ul id="m-_compute_encoding_uom_id"><li>_compute_encoding_uom_id(self) <span class="position">@ line 97</span></li></ul><ul id="m-_compute_readonly_timesheet"><li>_compute_readonly_timesheet(self) <span class="position">@ line 87</span></li></ul><ul id="m-_default_user"><li>_default_user(self) <span class="position">@ line 420</span></li></ul><ul id="m-_domain_employee_id"><li>_domain_employee_id(self) <span class="position">@ line 48</span></li></ul><ul id="m-_domain_project_id"><li>_domain_project_id(self) <span class="position">@ line 40</span></li></ul><ul id="m-_get_favorite_project_id_domain"><li>_get_favorite_project_id_domain(self, employee_id) <span class="position">@ line 14</span></li></ul><ul id="m-_get_report_base_filename"><li>_get_report_base_filename(self) <span class="position">@ line 414</span></li></ul><ul id="m-_get_timesheet_time_day"><li>_get_timesheet_time_day(self) <span class="position">@ line 407</span></li></ul><ul id="m-_hourly_cost"><li>_hourly_cost(self) <span class="position">@ line 410</span></li></ul><ul id="m-_is_readonly"><li>_is_readonly(self) <span class="position">@ line 82</span></li></ul><ul id="m-_is_timesheet_encode_uom_day"><li>_is_timesheet_encode_uom_day(self) <span class="position">@ line 397</span></li></ul><ul id="m-_timesheet_get_portal_domain"><li>_timesheet_get_portal_domain(self) <span class="position">@ line 292</span></li></ul><details><summary id="m-_timesheet_postprocess">_timesheet_postprocess(self, values) <span class="position">@ line 367</span></summary><pre>Hook to update record one by one according to the values of a `write` or a `create`.</pre></details><details><summary id="m-_timesheet_postprocess_values">_timesheet_postprocess_values(self, values) <span class="position">@ line 376</span></summary><pre>Get the addionnal values to write on record
+:param dict values: values for the model's fields, as a dictionary::
+{'field_name': field_value, ...}
+:return: a dictionary mapping each record id to its corresponding
+dictionary values to write (may be empty).</pre></details><details><summary id="m-_timesheet_preprocess">_timesheet_preprocess(self, vals_list) <span class="position">@ line 310</span></summary><pre>Deduce other field values from the one given.
+Overrride this to compute on the fly some field that can not be computed fields.
+:param vals_list: list of dict from `create`or `write`.</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 238</span></li></ul><h2>Inherited: odoo/addons/account/models/account_analytic_line.py</h2><h3>Fields</h3><details><summary id="f-category">category <span class="position">@ line 45</span></summary><pre>category = fields.Selection(selection_add=[('invoice', 'Customer Invoice'), ('vendor_bill', 'Vendor Bill')])</pre></details><details><summary id="f-code">code <span class="position">@ line 43</span></summary><pre>code = fields.Char(size=8)</pre></details><details><summary id="f-general_account_id">general_account_id <span class="position">@ line 15</span></summary><pre>general_account_id = fields.Many2one(
+        'account.account',
+        string='Financial Account',
+        ondelete='restrict',
+        domain="[('deprecated', '=', False)]",
+        check_company=True,
+        compute='_compute_general_account_id', store=True, readonly=False
+    )</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 23</span></summary><pre>journal_id = fields.Many2one(
+        'account.journal',
+        string='Financial Journal',
+        check_company=True,
+        readonly=True,
+        related='move_line_id.journal_id',
+        store=True,
+    )</pre></details><details><summary id="f-move_line_id">move_line_id <span class="position">@ line 36</span></summary><pre>move_line_id = fields.Many2one(
+        'account.move.line',
+        string='Journal Item',
+        ondelete='cascade',
+        index=True,
+        check_company=True,
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 31</span></summary><pre>partner_id = fields.Many2one(
+        readonly=False,
+        compute="_compute_partner_id",
+        store=True,
+    )</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 10</span></summary><pre>product_id = fields.Many2one(
+        'product.product',
+        string='Product',
+        check_company=True,
+    )</pre></details><details><summary id="f-ref">ref <span class="position">@ line 44</span></summary><pre>ref = fields.Char(string='Ref.')</pre></details><script src="class.js"></script></body></html>

@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.bank.statement.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.bank.statement.line</h1><p>Inherited in: odoo/addons/point_of_sale/models/account_bank_statement.py<br/>Inherited in: odoo/addons/account/models/account_bank_statement_line.py<br/></p><hr/><h2>Inherited: odoo/addons/point_of_sale/models/account_bank_statement.py</h2><h3>Fields</h3><details><summary id="f-pos_session_id">pos_session_id <span class="position">@ line 11</span></summary><pre>pos_session_id = fields.Many2one('pos.session', string="Session", copy=False)</pre></details><h2>Inherited: odoo/addons/account/models/account_bank_statement_line.py</h2><h3>Fields</h3><details><summary id="f-account_number">account_number <span class="position">@ line 62</span></summary><pre>account_number = fields.Char(string='Bank Account Number')</pre></details><details><summary id="f-amount">amount <span class="position">@ line 76</span></summary><pre>amount = fields.Monetary()</pre></details><details><summary id="f-amount_currency">amount_currency <span class="position">@ line 89</span></summary><pre>amount_currency = fields.Monetary(
+        compute='_compute_amount_currency', store=True, readonly=False,
+        string="Amount in Currency",
+        currency_field='foreign_currency_id',
+        help="The amount expressed in an optional other currency if it is a multi-currency entry.",
+    )</pre></details><details><summary id="f-amount_residual">amount_residual <span class="position">@ line 99</span></summary><pre>amount_residual = fields.Float(
+        string="Residual Amount",
+        compute="_compute_is_reconciled",
+        store=True,
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 35</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        inherited=True,
+        related='move_id.company_id', store=True, readonly=False, precompute=True,
+        index=False,  # covered by account_bank_statement_line_main_idx
+    )</pre></details><details><summary id="f-country_code">country_code <span class="position">@ line 104</span></summary><pre>country_code = fields.Char(
+        related='company_id.account_fiscal_country_id.code'
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 71</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Journal Currency',
+        compute='_compute_currency_id', store=True,
+    )</pre></details><details><summary id="f-foreign_currency_id">foreign_currency_id <span class="position">@ line 84</span></summary><pre>foreign_currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string="Foreign Currency",
+        help="The optional other currency if it is a multi-currency entry.",
+    )</pre></details><details><summary id="f-internal_index">internal_index <span class="position">@ line 119</span></summary><pre>internal_index = fields.Char(
+        string='Internal Reference',
+        compute='_compute_internal_index', store=True,
+    )</pre></details><details><summary id="f-is_reconciled">is_reconciled <span class="position">@ line 125</span></summary><pre>is_reconciled = fields.Boolean(
+        string='Is Reconciled',
+        compute='_compute_is_reconciled', store=True,
+    )</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 29</span></summary><pre>journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        inherited=True,
+        related='move_id.journal_id', store=True, readonly=False, precompute=True,
+        index=False,  # covered by account_bank_statement_line_main_idx
+    )</pre></details><details><summary id="f-move_id">move_id <span class="position">@ line 23</span></summary><pre>move_id = fields.Many2one(
+        comodel_name='account.move',
+        auto_join=True,
+        string='Journal Entry', required=True, readonly=True, ondelete='cascade',
+        index=True,
+        check_company=True)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 55</span></summary><pre>partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner', ondelete='restrict',
+        domain="['|', ('parent_id','=', False), ('is_company','=',True)]",
+        check_company=True)</pre></details><details><summary id="f-partner_name">partner_name <span class="position">@ line 66</span></summary><pre>partner_name = fields.Char()</pre></details><details><summary id="f-payment_ids">payment_ids <span class="position">@ line 47</span></summary><pre>payment_ids = fields.Many2many(
+        comodel_name='account.payment',
+        relation='account_payment_account_bank_statement_line_rel',
+        string='Auto-generated Payments',
+    )</pre></details><details><summary id="f-payment_ref">payment_ref <span class="position">@ line 70</span></summary><pre>payment_ref = fields.Char(string='Label')</pre></details><details><summary id="f-running_balance">running_balance <span class="position">@ line 81</span></summary><pre>running_balance = fields.Monetary(
+        compute='_compute_running_balance'
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 54</span></summary><pre>sequence = fields.Integer(default=1)</pre></details><details><summary id="f-statement_balance_end_real">statement_balance_end_real <span class="position">@ line 135</span></summary><pre>statement_balance_end_real = fields.Monetary(
+        related='statement_id.balance_end_real',
+    )</pre></details><details><summary id="f-statement_complete">statement_complete <span class="position">@ line 129</span></summary><pre>statement_complete = fields.Boolean(
+        related='statement_id.is_complete',
+    )</pre></details><details><summary id="f-statement_id">statement_id <span class="position">@ line 41</span></summary><pre>statement_id = fields.Many2one(
+        comodel_name='account.bank.statement',
+        string='Statement',
+    )</pre></details><details><summary id="f-statement_name">statement_name <span class="position">@ line 138</span></summary><pre>statement_name = fields.Char(
+        string="Statement Name",
+        related='statement_id.name',
+    )</pre></details><details><summary id="f-statement_valid">statement_valid <span class="position">@ line 132</span></summary><pre>statement_valid = fields.Boolean(
+        related='statement_id.is_valid',
+    )</pre></details><details><summary id="f-transaction_details">transaction_details <span class="position">@ line 144</span></summary><pre>transaction_details = fields.Json(readonly=True)</pre></details><details><summary id="f-transaction_type">transaction_type <span class="position">@ line 69</span></summary><pre>transaction_type = fields.Char()</pre></details><h3>Methods</h3><ul id="m-_compute_running_balance"><li>_compute_running_balance(self) <span class="position">@ line 192</span></li></ul><ul id="m-_find_or_create_bank_account"><li>_find_or_create_bank_account(self) <span class="position">@ line 482</span></li></ul><details><summary id="m-_get_accounting_amounts_and_currencies">_get_accounting_amounts_and_currencies(self) <span class="position">@ line 544</span></summary><pre>Retrieve the transaction amount, journal amount and the company amount with their corresponding currencies
+from the journal entry linked to the statement line.
+All returned amounts will be positive for an inbound transaction, negative for an outbound one.
+
+:return: (
+transaction_amount, transaction_currency,
+journal_amount, journal_currency,
+company_amount, company_currency,
+)</pre></details><ul id="m-_get_default_amls_matching_domain"><li>_get_default_amls_matching_domain(self) <span class="position">@ line 501</span></li></ul><details><summary id="m-_prepare_counterpart_amounts_using_st_line_rate">_prepare_counterpart_amounts_using_st_line_rate(self, currency, balance, amount_currency) <span class="position">@ line 573</span></summary><pre>Convert the amounts passed as parameters to the statement line currency using the rates provided by the
+bank. The computed amounts are the one that could be set on the statement line as a counterpart journal item
+to fully paid the provided amounts as parameters.
+
+:param currency:        The currency in which is expressed 'amount_currency'.
+:param balance:         The amount expressed in company currency. Only needed when the currency passed as
+parameter is neither the statement line's foreign currency, neither the journal's
+currency.
+:param amount_currency: The amount expressed in the 'currency' passed as parameter.
+:return:                A python dictionary containing:
+* balance:          The amount to consider expressed in company's currency.
+* amount_currency:  The amount to consider expressed in statement line's foreign currency.</pre></details><details><summary id="m-_prepare_move_line_default_vals">_prepare_move_line_default_vals(self, counterpart_account_id) <span class="position">@ line 621</span></summary><pre>Prepare the dictionary to create the default account.move.lines for the current account.bank.statement.line
+record.
+:return: A list of python dictionary to be passed to the account.move.line's 'create' method.</pre></details><details><summary id="m-_seek_for_lines">_seek_for_lines(self) <span class="position">@ line 678</span></summary><pre>Helper used to dispatch the journal items between:
+- The lines using the liquidity account.
+- The lines using the transfer account.
+- The lines being not in one of the two previous categories.
+:return: (liquidity_lines, suspense_lines, other_lines)</pre></details><details><summary id="m-_synchronize_from_moves">_synchronize_from_moves(self, changed_fields) <span class="position">@ line 704</span></summary><pre>Update the account.bank.statement.line regarding its related account.move.
+Also, check both models are still consistent.
+:param changed_fields: A set containing all modified fields on account.move.</pre></details><details><summary id="m-_synchronize_to_moves">_synchronize_to_moves(self, changed_fields) <span class="position">@ line 788</span></summary><pre>Update the account.move regarding the modified account.bank.statement.line.
+:param changed_fields: A list containing all modified fields on account.bank.statement.line.</pre></details><details><summary id="m-action_undo_reconciliation">action_undo_reconciliation(self) <span class="position">@ line 464</span></summary><pre>Undo the reconciliation made on the statement line and reset their journal items
+to their original states.</pre></details><ul id="m-default_get"><li>default_get(self, fields_list) <span class="position">@ line 348</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 146</span></li></ul><ul id="m-new"><li>new(self, values, origin, ref) <span class="position">@ line 370</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 436</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 429</span></li></ul><script src="class.js"></script></body></html>

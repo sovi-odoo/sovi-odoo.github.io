@@ -1,0 +1,6 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>test_new_api.model_selection_required_for_write_override - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>test_new_api.model_selection_required_for_write_override</h1><p>Originally defined in: odoo/odoo/addons/test_new_api/models/test_new_api.py</p><p>Inherited in: odoo/odoo/addons/test_new_api/models/test_new_api.py<br/></p><hr/><h2>Original: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1429</span></summary><pre>my_selection = fields.Selection([
+        ('foo', "Foo"),
+        ('bar', "Bar"),
+    ], required=True, default='foo')</pre></details><h2>Inherited: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1438</span></summary><pre>my_selection = fields.Selection(selection_add=[
+        ('divinity', "Divinity: Original Sin 2"),
+    ], ondelete={'divinity': 'set default'})</pre></details><h3>Methods</h3><ul id="m-write"><li>write(self, vals) <span class="position">@ line 1442</span></li></ul><script src="class.js"></script></body></html>

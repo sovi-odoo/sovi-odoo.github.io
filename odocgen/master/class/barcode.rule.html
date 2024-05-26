@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>barcode.rule - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>barcode.rule</h1><p>Originally defined in: odoo/addons/barcodes/models/barcode_rule.py</p><p>Inherited in: odoo/addons/stock/models/barcode.py<br/>Inherited in: odoo/addons/pos_mercury/models/pos_mercury.py<br/>Inherited in: odoo/addons/pos_loyalty/models/barcode_rule.py<br/>Inherited in: odoo/addons/point_of_sale/models/barcode_rule.py<br/>Inherited in: odoo/addons/barcodes_gs1_nomenclature/models/barcode_rule.py<br/></p><hr/><h2>Original: odoo/addons/barcodes/models/barcode_rule.py</h2><h3>Fields</h3><details><summary id="f-alias">alias <span class="position">@ line 28</span></summary><pre>alias = fields.Char(string='Alias', default='0', help='The matched pattern will alias to this barcode', required=True)</pre></details><details><summary id="f-barcode_nomenclature_id">barcode_nomenclature_id <span class="position">@ line 13</span></summary><pre>barcode_nomenclature_id = fields.Many2one('barcode.nomenclature', string='Barcode Nomenclature')</pre></details><details><summary id="f-encoding">encoding <span class="position">@ line 15</span></summary><pre>encoding = fields.Selection(
+        string='Encoding', required=True, default='any', selection=[
+            ('any', 'Any'),
+            ('ean13', 'EAN-13'),
+            ('ean8', 'EAN-8'),
+            ('upca', 'UPC-A'),
+        ], help='This rule will apply only if the barcode is encoded with the specified encoding')</pre></details><details><summary id="f-name">name <span class="position">@ line 12</span></summary><pre>name = fields.Char(string='Rule Name', required=True, help='An internal identification for this barcode nomenclature rule')</pre></details><details><summary id="f-pattern">pattern <span class="position">@ line 27</span></summary><pre>pattern = fields.Char(string='Barcode Pattern', help="The barcode matching pattern", required=True, default='.*')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 14</span></summary><pre>sequence = fields.Integer(string='Sequence', help='Used to order rules such that rules with a smaller sequence match first')</pre></details><details><summary id="f-type">type <span class="position">@ line 22</span></summary><pre>type = fields.Selection(
+        string='Type', required=True, selection=[
+            ('alias', 'Alias'),
+            ('product', 'Unit Product'),
+        ], default='product')</pre></details><h2>Inherited: odoo/addons/stock/models/barcode.py</h2><h3>Fields</h3><details><summary id="f-type">type <span class="position">@ line 10</span></summary><pre>type = fields.Selection(selection_add=[
+        ('weight', 'Weighted Product'),
+        ('location', 'Location'),
+        ('lot', 'Lot'),
+        ('package', 'Package')
+    ], ondelete={
+        'weight': 'set default',
+        'location': 'set default',
+        'lot': 'set default',
+        'package': 'set default',
+    })</pre></details><h2>Inherited: odoo/addons/pos_mercury/models/pos_mercury.py</h2><h3>Fields</h3><details><summary id="f-type">type <span class="position">@ line 15</span></summary><pre>type = fields.Selection(selection_add=[
+        ('credit', 'Credit Card')
+    ], ondelete={'credit': 'set default'})</pre></details><h2>Inherited: odoo/addons/pos_loyalty/models/barcode_rule.py</h2><h3>Fields</h3><details><summary id="f-type">type <span class="position">@ line 10</span></summary><pre>type = fields.Selection(selection_add=[('coupon', 'Coupon')], ondelete={'coupon': 'set default'})</pre></details><h2>Inherited: odoo/addons/point_of_sale/models/barcode_rule.py</h2><h3>Fields</h3><details><summary id="f-type">type <span class="position">@ line 11</span></summary><pre>type = fields.Selection(selection_add=[
+        ('weight', 'Weighted Product'),
+        ('price', 'Priced Product'),
+        ('discount', 'Discounted Product'),
+        ('client', 'Client'),
+        ('cashier', 'Cashier')
+    ], ondelete={
+        'weight': 'set default',
+        'price': 'set default',
+        'discount': 'set default',
+        'client': 'set default',
+        'cashier': 'set default',
+    })</pre></details><h2>Inherited: odoo/addons/barcodes_gs1_nomenclature/models/barcode_rule.py</h2><h3>Fields</h3><details><summary id="f-associated_uom_id">associated_uom_id <span class="position">@ line 51</span></summary><pre>associated_uom_id = fields.Many2one('uom.uom')</pre></details><details><summary id="f-encoding">encoding <span class="position">@ line 13</span></summary><pre>encoding = fields.Selection(
+        selection_add=[('gs1-128', 'GS1-128')], default=_default_encoding,
+        ondelete={'gs1-128': 'set default'})</pre></details><details><summary id="f-gs1_content_type">gs1_content_type <span class="position">@ line 39</span></summary><pre>gs1_content_type = fields.Selection([
+        ('date', 'Date'),
+        ('measure', 'Measure'),
+        ('identifier', 'Numeric Identifier'),
+        ('alpha', 'Alpha-Numeric Name'),
+    ], string="GS1 Content Type",
+        help="The GS1 content type defines what kind of data the rule will process the barcode as:\
+        * Date: the barcode will be converted into a Odoo datetime;\
+        * Measure: the barcode's value is related to a specific UoM;\
+        * Numeric Identifier: fixed length barcode following a specific encoding;\
+        * Alpha-Numeric Name: variable length barcode.")</pre></details><details><summary id="f-gs1_decimal_usage">gs1_decimal_usage <span class="position">@ line 50</span></summary><pre>gs1_decimal_usage = fields.Boolean('Decimal', help="If True, use the last digit of AI to determine where the first decimal is")</pre></details><details><summary id="f-is_gs1_nomenclature">is_gs1_nomenclature <span class="position">@ line 38</span></summary><pre>is_gs1_nomenclature = fields.Boolean(related="barcode_nomenclature_id.is_gs1_nomenclature")</pre></details><details><summary id="f-type">type <span class="position">@ line 16</span></summary><pre>type = fields.Selection(
+        selection_add=[
+            ('quantity', 'Quantity'),
+            ('location', 'Location'),
+            ('location_dest', 'Destination location'),
+            ('lot', 'Lot number'),
+            ('package', 'Package'),
+            ('use_date', 'Best before Date'),
+            ('expiration_date', 'Expiration Date'),
+            ('package_type', 'Package Type'),
+            ('pack_date', 'Pack Date'),
+        ], ondelete={
+            'quantity': 'set default',
+            'location': 'set default',
+            'location_dest': 'set default',
+            'lot': 'set default',
+            'package': 'set default',
+            'use_date': 'set default',
+            'expiration_date': 'set default',
+            'package_type': 'set default',
+            'pack_date': 'set default',
+        })</pre></details><h3>Methods</h3><ul id="m-_default_encoding"><li>_default_encoding(self) <span class="position">@ line 10</span></li></ul><script src="class.js"></script></body></html>

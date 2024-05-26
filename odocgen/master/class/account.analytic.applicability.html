@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.analytic.applicability - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.analytic.applicability</h1><p>Originally defined in: odoo/addons/analytic/models/analytic_plan.py</p><p>Inherited in: odoo/addons/sale/models/analytic.py<br/>Inherited in: odoo/addons/purchase/models/analytic_applicability.py<br/>Inherited in: odoo/addons/mrp_account/models/analytic_account.py<br/>Inherited in: odoo/addons/hr_expense/models/analytic.py<br/>Inherited in: odoo/addons/account/models/account_analytic_plan.py<br/></p><hr/><h2>Original: odoo/addons/analytic/models/analytic_plan.py</h2><h3>Fields</h3><details><summary id="f-analytic_plan_id">analytic_plan_id <span class="position">@ line 285</span></summary><pre>analytic_plan_id = fields.Many2one('account.analytic.plan')</pre></details><details><summary id="f-applicability">applicability <span class="position">@ line 293</span></summary><pre>applicability = fields.Selection([
+        ('optional', 'Optional'),
+        ('mandatory', 'Mandatory'),
+        ('unavailable', 'Unavailable'),
+    ],
+        required=True,
+        string="Applicability",
+    )</pre></details><details><summary id="f-business_domain">business_domain <span class="position">@ line 286</span></summary><pre>business_domain = fields.Selection(
+        selection=[
+            ('general', 'Miscellaneous'),
+        ],
+        required=True,
+        string='Domain',
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 301</span></summary><pre>company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        default=lambda self: self.env.company,
+    )</pre></details><h3>Methods</h3><details><summary id="m-_get_score">_get_score(self) <span class="position">@ line 307</span></summary><pre>Gives the score of an applicability with the parameters of kwargs</pre></details><h2>Inherited: odoo/addons/sale/models/analytic.py</h2><h3>Fields</h3><details><summary id="f-business_domain">business_domain <span class="position">@ line 17</span></summary><pre>business_domain = fields.Selection(
+        selection_add=[
+            ('sale_order', 'Sale Order'),
+        ],
+        ondelete={'sale_order': 'cascade'},
+    )</pre></details><h2>Inherited: odoo/addons/purchase/models/analytic_applicability.py</h2><h3>Fields</h3><details><summary id="f-business_domain">business_domain <span class="position">@ line 10</span></summary><pre>business_domain = fields.Selection(
+        selection_add=[
+            ('purchase_order', 'Purchase Order'),
+        ],
+        ondelete={'purchase_order': 'cascade'},
+    )</pre></details><h2>Inherited: odoo/addons/mrp_account/models/analytic_account.py</h2><h3>Fields</h3><details><summary id="f-business_domain">business_domain <span class="position">@ line 85</span></summary><pre>business_domain = fields.Selection(
+        selection_add=[
+            ('manufacturing_order', 'Manufacturing Order'),
+        ],
+        ondelete={'manufacturing_order': 'cascade'},
+    )</pre></details><h2>Inherited: odoo/addons/hr_expense/models/analytic.py</h2><h3>Fields</h3><details><summary id="f-business_domain">business_domain <span class="position">@ line 13</span></summary><pre>business_domain = fields.Selection(
+        selection_add=[
+            ('expense', 'Expense'),
+        ],
+        ondelete={'expense': 'cascade'},
+    )</pre></details><h2>Inherited: odoo/addons/account/models/account_analytic_plan.py</h2><h3>Fields</h3><details><summary id="f-account_prefix">account_prefix <span class="position">@ line 20</span></summary><pre>account_prefix = fields.Char(
+        string='Financial Accounts Prefix',
+        help="Prefix that defines which accounts from the financial accounting this applicability should apply on.",
+    )</pre></details><details><summary id="f-business_domain">business_domain <span class="position">@ line 10</span></summary><pre>business_domain = fields.Selection(
+        selection_add=[
+            ('invoice', 'Invoice'),
+            ('bill', 'Vendor Bill'),
+        ],
+        ondelete={
+            'invoice': 'cascade',
+            'bill': 'cascade',
+        },
+    )</pre></details><details><summary id="f-display_account_prefix">display_account_prefix <span class="position">@ line 28</span></summary><pre>display_account_prefix = fields.Boolean(
+        compute='_compute_display_account_prefix',
+        help='Defines if the field account prefix should be displayed'
+    )</pre></details><details><summary id="f-product_categ_id">product_categ_id <span class="position">@ line 24</span></summary><pre>product_categ_id = fields.Many2one(
+        'product.category',
+        string='Product Category'
+    )</pre></details><h3>Methods</h3><ul id="m-_get_score"><li>_get_score(self) <span class="position">@ line 33</span></li></ul><script src="class.js"></script></body></html>

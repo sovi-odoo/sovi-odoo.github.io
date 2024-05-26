@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>resource.calendar.leaves - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>resource.calendar.leaves</h1><p>Originally defined in: odoo/addons/resource/models/resource_calendar_leaves.py</p><p>Inherited in: odoo/addons/project_timesheet_holidays/models/resource_calendar_leaves.py<br/>Inherited in: odoo/addons/hr_work_entry/models/resource.py<br/>Inherited in: odoo/addons/hr_holidays/models/resource.py<br/></p><hr/><h2>Original: odoo/addons/resource/models/resource_calendar_leaves.py</h2><h3>Fields</h3><details><summary id="f-calendar_id">calendar_id <span class="position">@ line 39</span></summary><pre>calendar_id = fields.Many2one('resource.calendar', 'Working Hours', domain="[('company_id', 'in', [company_id, False])]", check_company=True, index=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 36</span></summary><pre>company_id = fields.Many2one(
+        'res.company', string="Company", readonly=True, store=True,
+        default=lambda self: self.env.company, compute='_compute_company_id')</pre></details><details><summary id="f-date_from">date_from <span class="position">@ line 40</span></summary><pre>date_from = fields.Datetime('Start Date', required=True)</pre></details><details><summary id="f-date_to">date_to <span class="position">@ line 41</span></summary><pre>date_to = fields.Datetime('End Date', compute="_compute_date_to", readonly=False, required=True, store=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 35</span></summary><pre>name = fields.Char('Reason')</pre></details><details><summary id="f-resource_id">resource_id <span class="position">@ line 42</span></summary><pre>resource_id = fields.Many2one(
+        "resource.resource", 'Resource', index=True,
+        help="If empty, this is a generic time off for the company. If a resource is set, the time off is only for this resource")</pre></details><details><summary id="f-time_type">time_type <span class="position">@ line 45</span></summary><pre>time_type = fields.Selection([('leave', 'Time Off'), ('other', 'Other')], default='leave',
+                                 help="Whether this should be computed as a time off or as work time (eg: formation)")</pre></details><h3>Methods</h3><ul id="m-_copy_leave_vals"><li>_copy_leave_vals(self) <span class="position">@ line 72</span></li></ul><ul id="m-default_get"><li>default_get(self, fields_list) <span class="position">@ line 16</span></li></ul><h2>Inherited: odoo/addons/project_timesheet_holidays/models/resource_calendar_leaves.py</h2><h3>Fields</h3><details><summary id="f-timesheet_ids">timesheet_ids <span class="position">@ line 13</span></summary><pre>timesheet_ids = fields.One2many('account.analytic.line', 'global_leave_id', string="Analytic Lines", export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_generate_public_time_off_timesheets"><li>_generate_public_time_off_timesheets(self, employees) <span class="position">@ line 202</span></li></ul><ul id="m-_generate_timesheeets"><li>_generate_timesheeets(self) <span class="position">@ line 197</span></li></ul><ul id="m-_get_resource_calendars"><li>_get_resource_calendars(self) <span class="position">@ line 15</span></li></ul><details><summary id="m-_timesheet_create_lines">_timesheet_create_lines(self) <span class="position">@ line 114</span></summary><pre>Create timesheet leaves for each employee using the same calendar containing in self.calendar_id
+
+If the employee has already a time off in the same day then no timesheet should be created.</pre></details><ul id="m-_timesheet_prepare_line_values"><li>_timesheet_prepare_line_values(self, index, employee_id, work_hours_data, day_date, work_hours_count) <span class="position">@ line 182</span></li></ul><details><summary id="m-_work_time_per_day">_work_time_per_day(self, resource_calendars) <span class="position">@ line 23</span></summary><pre>Get work time per day based on the calendar and its attendances
+
+1) Gets all calendars with their characteristics (i.e.
+(a) the leaves in it,
+(b) the resources which have a leave,
+(c) the oldest and
+(d) the latest leave dates
+) for leaves in self (first for calendar's leaves, then for company's global leaves)
+2) Search the attendances based on the characteristics retrieved for each calendar.
+The attendances found are the ones between the date_from of the oldest leave
+and the date_to of the most recent leave.
+3) Create a dict as result of this method containing:
+{
+leave: {
+max(date_start of work hours, date_start of the leave):
+the duration in days of the work including the leave
+}
+}</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 242</span></li></ul><h2>Inherited: odoo/addons/hr_work_entry/models/resource.py</h2><h3>Fields</h3><details><summary id="f-work_entry_type_id">work_entry_type_id <span class="position">@ line 26</span></summary><pre>work_entry_type_id = fields.Many2one(
+        'hr.work.entry.type', 'Work Entry Type',
+        groups="hr.group_hr_user")</pre></details><h3>Methods</h3><ul id="m-_copy_leave_vals"><li>_copy_leave_vals(self) <span class="position">@ line 30</span></li></ul><h2>Inherited: odoo/addons/hr_holidays/models/resource.py</h2><h3>Fields</h3><details><summary id="f-holiday_id">holiday_id <span class="position">@ line 12</span></summary><pre>holiday_id = fields.Many2one("hr.leave", string='Time Off Request')</pre></details><h3>Methods</h3><details><summary id="m-_convert_timezone">_convert_timezone(self, utc_naive_datetime, tz_from, tz_to) <span class="position">@ line 86</span></summary><pre>Convert a naive date to another timezone that initial timezone
+used to generate the date.
+:param utc_naive_datetime: utc date without tzinfo
+:type utc_naive_datetime: datetime
+:param tz_from: timezone used to obtained `utc_naive_datetime`
+:param tz_to: timezone in which we want the date
+:return: datetime converted into tz_to without tzinfo
+:rtype: datetime</pre></details><details><summary id="m-_ensure_datetime">_ensure_datetime(self, datetime_representation, date_format) <span class="position">@ line 102</span></summary><pre>Be sure to get a datetime object if we have the necessary information.
+:param datetime_reprentation: object which should represent a datetime
+:rtype: datetime if a correct datetime_represtion, None otherwise</pre></details><ul id="m-_get_domain"><li>_get_domain(self, time_domain_dict) <span class="position">@ line 34</span></li></ul><ul id="m-_get_time_domain_dict"><li>_get_time_domain_dict(self) <span class="position">@ line 45</span></li></ul><ul id="m-_prepare_public_holidays_values"><li>_prepare_public_holidays_values(self, vals_list) <span class="position">@ line 115</span></li></ul><ul id="m-_reevaluate_leaves"><li>_reevaluate_leaves(self, time_domain_dict) <span class="position">@ line 52</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 149</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 141</span></li></ul><script src="class.js"></script></body></html>

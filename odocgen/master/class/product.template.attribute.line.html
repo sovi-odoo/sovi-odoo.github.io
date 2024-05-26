@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.template.attribute.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.template.attribute.line</h1><p>Originally defined in: odoo/addons/product/models/product_template_attribute_line.py</p><p>Inherited in: odoo/addons/website_sale_comparison/models/product_template_attribute_line.py<br/>Inherited in: odoo/addons/website_sale/models/product_template_attribute_line.py<br/>Inherited in: odoo/addons/point_of_sale/models/product.py<br/></p><hr/><h2>Original: odoo/addons/product/models/product_template_attribute_line.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 18</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-attribute_id">attribute_id <span class="position">@ line 26</span></summary><pre>attribute_id = fields.Many2one(
+        comodel_name='product.attribute',
+        string="Attribute",
+        ondelete='restrict',
+        required=True,
+        index=True)</pre></details><details><summary id="f-product_template_value_ids">product_template_value_ids <span class="position">@ line 39</span></summary><pre>product_template_value_ids = fields.One2many(
+        comodel_name='product.template.attribute.value',
+        inverse_name='attribute_line_id',
+        string="Product Attribute Values")</pre></details><details><summary id="f-product_tmpl_id">product_tmpl_id <span class="position">@ line 19</span></summary><pre>product_tmpl_id = fields.Many2one(
+        comodel_name='product.template',
+        string="Product Template",
+        ondelete='cascade',
+        required=True,
+        index=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 25</span></summary><pre>sequence = fields.Integer("Sequence", default=10)</pre></details><details><summary id="f-value_count">value_count <span class="position">@ line 38</span></summary><pre>value_count = fields.Integer(compute='_compute_value_count', store=True)</pre></details><details><summary id="f-value_ids">value_ids <span class="position">@ line 32</span></summary><pre>value_ids = fields.Many2many(
+        comodel_name='product.attribute.value',
+        relation='product_attribute_value_product_template_attribute_line_rel',
+        string="Values",
+        domain="[('attribute_id', '=', attribute_id)]",
+        ondelete='restrict')</pre></details><h3>Methods</h3><details><summary id="m-_update_product_template_attribute_values">_update_product_template_attribute_values(self) <span class="position">@ line 186</span></summary><pre>Create or unlink `product.template.attribute.value` for each line in
+`self` based on `value_ids`.
+
+The goal is to delete all values that are not in `value_ids`, to
+activate those in `value_ids` that are currently archived, and to create
+those in `value_ids` that didn't exist.
+
+This is a trick for the form view and for performance in general,
+because we don't want to generate in advance all possible values for all
+templates, but only those that will be selected.</pre></details><ul id="m-_without_no_variant_attributes"><li>_without_no_variant_attributes(self) <span class="position">@ line 252</span></li></ul><ul id="m-action_open_attribute_values"><li>action_open_attribute_values(self) <span class="position">@ line 255</span></li></ul><details><summary id="m-unlink">unlink(self) <span class="position">@ line 152</span></summary><pre>Override to:
+- Archive the line if unlink is not possible.
+- Clean up related values and related variants.
+
+Archiving is typically needed when the line has values that can't be
+deleted because they are referenced elsewhere (on a variant that can't
+be deleted, on a sales order line, ...).</pre></details><details><summary id="m-write">write(self, values) <span class="position">@ line 110</span></summary><pre>Override to:
+- Add constraints to prevent doing changes that are not supported such
+as modifying the template or the attribute of existing lines.
+- Clean up related values and related variants when archiving or when
+updating `value_ids`.</pre></details><h2>Inherited: odoo/addons/website_sale_comparison/models/product_template_attribute_line.py</h2><h3>Methods</h3><details><summary id="m-_prepare_categories_for_display">_prepare_categories_for_display(self) <span class="position">@ line 11</span></summary><pre>On the product page group together the attribute lines that concern
+attributes that are in the same category.
+
+The returned categories are ordered following their default order.
+
+:return: OrderedDict [{
+product.attribute.category: [product.template.attribute.line]
+}]</pre></details><h2>Inherited: odoo/addons/website_sale/models/product_template_attribute_line.py</h2><h3>Methods</h3><details><summary id="m-_prepare_single_value_for_display">_prepare_single_value_for_display(self) <span class="position">@ line 11</span></summary><pre>On the product page group together the attribute lines that concern
+the same attribute and that have only one value each.
+
+Indeed those are considered informative values, they do not generate
+choice for the user, so they are displayed below the configurator.
+
+The returned attributes are ordered as they appear in `self`, so based
+on the order of the attribute lines.</pre></details><script src="class.js"></script></body></html>

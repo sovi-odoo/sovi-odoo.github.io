@@ -1,0 +1,174 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.actions.server - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.actions.server</h1><p>Inherited in: odoo/odoo/addons/base/models/ir_actions.py<br/>Inherited in: odoo/addons/website/models/ir_actions_server.py<br/>Inherited in: odoo/addons/website/models/ir_actions_server.py<br/>Inherited in: odoo/addons/sms/models/ir_actions_server.py<br/>Inherited in: odoo/addons/mail/models/ir_actions_server.py<br/>Inherited in: odoo/addons/base_automation/models/ir_actions_server.py<br/></p><hr/><h2>Inherited: odoo/odoo/addons/base/models/ir_actions.py</h2><h3>Fields</h3><details><summary id="f-DEFAULT_PYTHON_CODE">DEFAULT_PYTHON_CODE <span class="position">@ line 488</span></summary><pre>DEFAULT_PYTHON_CODE = """# Available variables:
+#  - env: environment on which the action is triggered
+#  - model: model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: utility function to compare floats based on specific precision
+#  - b64encode, b64decode: functions to encode/decode binary data
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - _logger: _logger.info(message): logger to emit messages in server logs
+#  - UserError: exception class for raising user-facing warning messages
+#  - Command: x2many commands namespace
+# To return an action, assign: action = {...}\n\n\n\n"""</pre></details><details><summary id="f-available_model_ids">available_model_ids <span class="position">@ line 543</span></summary><pre>available_model_ids = fields.Many2many('ir.model', string='Available Models', compute='_compute_available_model_ids', store=False)</pre></details><details><summary id="f-child_ids">child_ids <span class="position">@ line 551</span></summary><pre>child_ids = fields.Many2many('ir.actions.server', 'rel_server_actions', 'server_id', 'action_id',
+                                 string='Child Actions', help='Child server actions that will be executed. Note that the last return returned action value will be used as global return value.')</pre></details><details><summary id="f-code">code <span class="position">@ line 546</span></summary><pre>code = fields.Text(string='Python Code', groups='base.group_system',
+                       default=DEFAULT_PYTHON_CODE,
+                       help="Write Python code that the action will execute. Some variables are "
+                            "available for use; help about python expression is given in the help tab.")</pre></details><details><summary id="f-crud_model_id">crud_model_id <span class="position">@ line 554</span></summary><pre>crud_model_id = fields.Many2one(
+        'ir.model', string='Record to Create',
+        compute='_compute_crud_relations', readonly=False, store=True,
+        help="Specify which kind of record should be created. Set this field only to specify a different model than the base model.")</pre></details><details><summary id="f-crud_model_name">crud_model_name <span class="position">@ line 558</span></summary><pre>crud_model_name = fields.Char(related='crud_model_id.model', string='Target Model Name', readonly=True)</pre></details><details><summary id="f-evaluation_type">evaluation_type <span class="position">@ line 584</span></summary><pre>evaluation_type = fields.Selection([
+        ('value', 'Update'),
+        ('equation', 'Compute')
+    ], 'Value Type', default='value', change_default=True)</pre></details><details><summary id="f-groups_id">groups_id <span class="position">@ line 563</span></summary><pre>groups_id = fields.Many2many('res.groups', 'ir_act_server_group_rel',
+                                 'act_id', 'gid', string='Allowed Groups', help='Groups that can execute the server action. Leave empty to allow everybody.')</pre></details><details><summary id="f-link_field_id">link_field_id <span class="position">@ line 559</span></summary><pre>link_field_id = fields.Many2one(
+        'ir.model.fields', string='Link Field',
+        compute='_compute_link_field_id', readonly=False, store=True,
+        help="Specify a field used to link the newly created record on the record used by the server action.")</pre></details><details><summary id="f-model_id">model_id <span class="position">@ line 541</span></summary><pre>model_id = fields.Many2one('ir.model', string='Model', required=True, ondelete='cascade', index=True,
+                               help="Model on which the server action runs.")</pre></details><details><summary id="f-model_name">model_name <span class="position">@ line 544</span></summary><pre>model_name = fields.Char(related='model_id.model', string='Model Name', readonly=True, store=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 514</span></summary><pre>name = fields.Char(required=True)</pre></details><details><summary id="f-resource_ref">resource_ref <span class="position">@ line 588</span></summary><pre>resource_ref = fields.Reference(
+        string='Record', selection='_selection_target_model', inverse='_set_resource_ref')</pre></details><details><summary id="f-selection_value">selection_value <span class="position">@ line 590</span></summary><pre>selection_value = fields.Many2one('ir.model.fields.selection', string="Custom Value", ondelete='cascade',
+                                      domain='[("field_id", "=", update_field_id)]', inverse='_set_selection_value')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 538</span></summary><pre>sequence = fields.Integer(default=5,
+                              help="When dealing with multiple actions, the execution order is "
+                                   "based on the sequence. Low number means high priority.")</pre></details><details><summary id="f-state">state <span class="position">@ line 520</span></summary><pre>state = fields.Selection([
+        ('object_write', 'Update Record'),
+        ('object_create', 'Create Record'),
+        ('code', 'Execute Code'),
+        ('webhook', 'Send Webhook Notification'),
+        ('multi', 'Execute Existing Actions')], string='Type',
+        default='object_write', required=True, copy=True,
+        help="Type of server action. The following values are available:\n"
+             "- 'Update a Record': update the values of a record\n"
+             "- 'Create Activity': create an activity (Discuss)\n"
+             "- 'Send Email': post a message, a note or send an email (Discuss)\n"
+             "- 'Send SMS': send SMS, log them on documents (SMS)"
+             "- 'Add/Remove Followers': add or remove followers to a record (Discuss)\n"
+             "- 'Create Record': create a new record with new values\n"
+             "- 'Execute Code': a block of Python code that will be executed\n"
+             "- 'Send Webhook Notification': send a POST request to an external system, also known as a Webhook\n"
+             "- 'Execute Existing Actions': define an action that triggers several other server actions\n")</pre></details><details><summary id="f-type">type <span class="position">@ line 515</span></summary><pre>type = fields.Char(default='ir.actions.server')</pre></details><details><summary id="f-update_boolean_value">update_boolean_value <span class="position">@ line 576</span></summary><pre>update_boolean_value = fields.Selection([('true', 'Yes (True)'), ('false', "No (False)")], string='Boolean Value', default='true')</pre></details><details><summary id="f-update_field_id">update_field_id <span class="position">@ line 566</span></summary><pre>update_field_id = fields.Many2one('ir.model.fields', string='Field to Update', ondelete='cascade', compute='_compute_crud_relations', store=True, readonly=False)</pre></details><details><summary id="f-update_field_type">update_field_type <span class="position">@ line 569</span></summary><pre>update_field_type = fields.Selection(related='update_field_id.ttype', readonly=True)</pre></details><details><summary id="f-update_m2m_operation">update_m2m_operation <span class="position">@ line 570</span></summary><pre>update_m2m_operation = fields.Selection([
+        ('add', 'Adding'),
+        ('remove', 'Removing'),
+        ('set', 'Setting it to'),
+        ('clear', 'Clearing it')
+    ], string='Many2many Operations', default='add')</pre></details><details><summary id="f-update_path">update_path <span class="position">@ line 567</span></summary><pre>update_path = fields.Char(string='Field to Update Path', help="Path to the field to update, e.g. 'partner_id.name'", default=_default_update_path)</pre></details><details><summary id="f-update_related_model_id">update_related_model_id <span class="position">@ line 568</span></summary><pre>update_related_model_id = fields.Many2one('ir.model', compute='_compute_crud_relations', store=True)</pre></details><details><summary id="f-usage">usage <span class="position">@ line 516</span></summary><pre>usage = fields.Selection([
+        ('ir_actions_server', 'Server Action'),
+        ('ir_cron', 'Scheduled Action')], string='Usage',
+        default='ir_actions_server', required=True)</pre></details><details><summary id="f-value">value <span class="position">@ line 578</span></summary><pre>value = fields.Text(help="For Python expressions, this field may hold a Python expression "
+                             "that can use the same values as for the code field on the server action,"
+                             "e.g. `env.user.name` to set the current user's name as the value "
+                             "or `record.id` to set the ID of the record on which the action is run.\n\n"
+                             "For Static values, the value will be used directly without evaluation, e.g."
+                             "`42` or `My custom name` or the selected record.")</pre></details><details><summary id="f-value_field_to_show">value_field_to_show <span class="position">@ line 593</span></summary><pre>value_field_to_show = fields.Selection([
+        ('value', 'value'),
+        ('resource_ref', 'reference'),
+        ('update_boolean_value', 'update_boolean_value'),
+        ('selection_value', 'selection_value'),
+    ], compute='_compute_value_field_to_show')</pre></details><details><summary id="f-webhook_field_ids">webhook_field_ids <span class="position">@ line 601</span></summary><pre>webhook_field_ids = fields.Many2many('ir.model.fields', 'ir_act_server_webhook_field_rel', 'server_id', 'field_id',
+                                         string='Webhook Fields',
+                                         help="Fields to send in the POST request. "
+                                              "The id and model of the record are always sent as '_id' and '_model'. "
+                                              "The name of the action that triggered the webhook is always sent as '_name'.")</pre></details><details><summary id="f-webhook_sample_payload">webhook_sample_payload <span class="position">@ line 606</span></summary><pre>webhook_sample_payload = fields.Text(string='Sample Payload', compute='_compute_webhook_sample_payload')</pre></details><details><summary id="f-webhook_url">webhook_url <span class="position">@ line 600</span></summary><pre>webhook_url = fields.Char(string='Webhook URL', help="URL to send the POST request to.")</pre></details><h3>Methods</h3><ul id="m-_eval_value"><li>_eval_value(self, eval_context) <span class="position">@ line 1028</span></li></ul><details><summary id="m-_get_eval_context">_get_eval_context(self, action) <span class="position">@ line 878</span></summary><pre>Prepare the context used when evaluating python code, like the
+python formulas or code server actions.
+
+:param action: the current server action
+:type action: browse record
+:returns: dict -- evaluation context given to (safe_)safe_eval</pre></details><ul id="m-_get_readable_fields"><li>_get_readable_fields(self) <span class="position">@ line 760</span></li></ul><ul id="m-_get_runner"><li>_get_runner(self) <span class="position">@ line 765</span></li></ul><ul id="m-_register_hook"><li>_register_hook(self) <span class="position">@ line 778</span></li></ul><ul id="m-_run_action_code_multi"><li>_run_action_code_multi(self, eval_context) <span class="position">@ line 802</span></li></ul><ul id="m-_run_action_multi"><li>_run_action_multi(self, eval_context) <span class="position">@ line 806</span></li></ul><details><summary id="m-_run_action_object_create">_run_action_object_create(self, eval_context) <span class="position">@ line 862</span></summary><pre>Create specified model object with specified name contained in value.
+
+If applicable, link active_id.<self.link_field_id> to the new record.</pre></details><details><summary id="m-_run_action_object_write">_run_action_object_write(self, eval_context) <span class="position">@ line 812</span></summary><pre>Apply specified write changes to active_id.</pre></details><details><summary id="m-_run_action_webhook">_run_action_webhook(self, eval_context) <span class="position">@ line 826</span></summary><pre>Send a post request with a read of the selected field on active_id.</pre></details><details><summary id="m-_stringify_path">_stringify_path(self) <span class="position">@ line 704</span></summary><pre>Returns a string representation of the update_path, with the field names
+separated by the `>` symbol.</pre></details><details><summary id="m-_traverse_path">_traverse_path(self, record) <span class="position">@ line 669</span></summary><pre>Traverse the update_path to find the target model and field, and optionally
+the target record of an action of type 'object_write'.
+
+:param record: optional record to use as starting point for the path traversal
+:return: a tuple (model, field, records) where model is the target model and field is the
+target field; if no record was provided, records is None, otherwise it is the
+recordset at the end of the path starting from the provided record</pre></details><details><summary id="m-create_action">create_action(self) <span class="position">@ line 789</span></summary><pre>Create a contextual action for each server action.</pre></details><details><summary id="m-run">run(self) <span class="position">@ line 918</span></summary><pre>Runs the server action. For each server action, the
+:samp:`_run_action_{TYPE}[_multi]` method is called. This allows easy
+overriding of the server actions.
+
+The ``_multi`` suffix means the runner can operate on multiple records,
+otherwise if there are multiple records the runner will be called once
+for each.
+
+The call context should contain the following keys:
+
+active_id
+id of the current object (single mode)
+active_model
+current model that should equal the action's model
+active_ids (optional)
+ids of the current records (mass mode). If ``active_ids`` and
+``active_id`` are present, ``active_ids`` is given precedence.
+:return: an ``action_id`` to be executed, or ``False`` is finished
+correctly without return action</pre></details><details><summary id="m-unlink_action">unlink_action(self) <span class="position">@ line 796</span></summary><pre>Remove the contextual actions created for the server actions.</pre></details><h2>Inherited: odoo/addons/website/models/ir_actions_server.py</h2><h3>Fields</h3><details><summary id="f-website_path">website_path <span class="position">@ line 17</span></summary><pre>website_path = fields.Char('Website Path')</pre></details><details><summary id="f-website_published">website_published <span class="position">@ line 19</span></summary><pre>website_published = fields.Boolean('Available on the Website', copy=False,
+                                       help='A code server action can be executed from the website, using a dedicated '
+                                            'controller. The address is <base>/website/action/<website_path>. '
+                                            'Set this field as True to allow users to run this action. If it '
+                                            'is set to False the action cannot be run through the website.')</pre></details><details><summary id="f-website_url">website_url <span class="position">@ line 18</span></summary><pre>website_url = fields.Char('Website Url', compute='_get_website_url', help='The full URL to access the server action through the website.')</pre></details><details><summary id="f-xml_id">xml_id <span class="position">@ line 16</span></summary><pre>xml_id = fields.Char('External ID', compute='_compute_xml_id', help="ID of the action if defined in a XML file")</pre></details><h3>Methods</h3><ul id="m-_compute_website_url"><li>_compute_website_url(self, website_path, xml_id) <span class="position">@ line 30</span></li></ul><ul id="m-_compute_xml_id"><li>_compute_xml_id(self) <span class="position">@ line 25</span></li></ul><h2>Inherited: odoo/addons/website/models/ir_actions_server.py</h2><h3>Fields</h3><details><summary id="f-website_path">website_path <span class="position">@ line 17</span></summary><pre>website_path = fields.Char('Website Path')</pre></details><details><summary id="f-website_published">website_published <span class="position">@ line 19</span></summary><pre>website_published = fields.Boolean('Available on the Website', copy=False,
+                                       help='A code server action can be executed from the website, using a dedicated '
+                                            'controller. The address is <base>/website/action/<website_path>. '
+                                            'Set this field as True to allow users to run this action. If it '
+                                            'is set to False the action cannot be run through the website.')</pre></details><details><summary id="f-website_url">website_url <span class="position">@ line 18</span></summary><pre>website_url = fields.Char('Website Url', compute='_get_website_url', help='The full URL to access the server action through the website.')</pre></details><details><summary id="f-xml_id">xml_id <span class="position">@ line 16</span></summary><pre>xml_id = fields.Char('External ID', compute='_compute_xml_id', help="ID of the action if defined in a XML file")</pre></details><h3>Methods</h3><ul id="m-_compute_website_url"><li>_compute_website_url(self, website_path, xml_id) <span class="position">@ line 30</span></li></ul><ul id="m-_compute_xml_id"><li>_compute_xml_id(self) <span class="position">@ line 25</span></li></ul><h2>Inherited: odoo/addons/sms/models/ir_actions_server.py</h2><h3>Fields</h3><details><summary id="f-sms_method">sms_method <span class="position">@ line 23</span></summary><pre>sms_method = fields.Selection(
+        selection=[('sms', 'SMS (without note)'), ('comment', 'SMS (with note)'), ('note', 'Note only')],
+        string='Send SMS As',
+        compute='_compute_sms_method',
+        readonly=False, store=True)</pre></details><details><summary id="f-sms_template_id">sms_template_id <span class="position">@ line 17</span></summary><pre>sms_template_id = fields.Many2one(
+        'sms.template', 'SMS Template',
+        compute='_compute_sms_template_id',
+        ondelete='set null', readonly=False, store=True,
+        domain="[('model_id', '=', model_id)]",
+    )</pre></details><details><summary id="f-state">state <span class="position">@ line 13</span></summary><pre>state = fields.Selection(selection_add=[
+        ('sms', 'Send SMS'), ('followers',),
+    ], ondelete={'sms': 'cascade'})</pre></details><h3>Methods</h3><ul id="m-_run_action_sms_multi"><li>_run_action_sms_multi(self, eval_context) <span class="position">@ line 72</span></li></ul><h2>Inherited: odoo/addons/mail/models/ir_actions_server.py</h2><h3>Fields</h3><details><summary id="f-activity_date_deadline_range">activity_date_deadline_range <span class="position">@ line 61</span></summary><pre>activity_date_deadline_range = fields.Integer(
+        string='Due Date In',
+        compute='_compute_activity_info', readonly=False, store=True)</pre></details><details><summary id="f-activity_date_deadline_range_type">activity_date_deadline_range_type <span class="position">@ line 64</span></summary><pre>activity_date_deadline_range_type = fields.Selection(
+        [('days', 'Days'),
+         ('weeks', 'Weeks'),
+         ('months', 'Months')],
+        string='Due type',
+        compute='_compute_activity_info', readonly=False, store=True)</pre></details><details><summary id="f-activity_note">activity_note <span class="position">@ line 58</span></summary><pre>activity_note = fields.Html(
+        'Note',
+        compute='_compute_activity_info', readonly=False, store=True)</pre></details><details><summary id="f-activity_summary">activity_summary <span class="position">@ line 55</span></summary><pre>activity_summary = fields.Char(
+        'Title',
+        compute='_compute_activity_info', readonly=False, store=True)</pre></details><details><summary id="f-activity_type_id">activity_type_id <span class="position">@ line 50</span></summary><pre>activity_type_id = fields.Many2one(
+        'mail.activity.type', string='Activity Type',
+        domain="['|', ('res_model', '=', False), ('res_model', '=', model_name)]",
+        compute='_compute_activity_type_id', readonly=False, store=True,
+        ondelete='restrict')</pre></details><details><summary id="f-activity_user_field_name">activity_user_field_name <span class="position">@ line 79</span></summary><pre>activity_user_field_name = fields.Char(
+        'User Field',
+        compute='_compute_activity_info', readonly=False, store=True)</pre></details><details><summary id="f-activity_user_id">activity_user_id <span class="position">@ line 76</span></summary><pre>activity_user_id = fields.Many2one(
+        'res.users', string='Responsible',
+        compute='_compute_activity_info', readonly=False, store=True)</pre></details><details><summary id="f-activity_user_type">activity_user_type <span class="position">@ line 70</span></summary><pre>activity_user_type = fields.Selection(
+        [('specific', 'Specific User'),
+         ('generic', 'Dynamic User (based on record)')],
+         string='User Type',
+        compute='_compute_activity_info', readonly=False, store=True,
+        help="Use 'Specific User' to always assign the same user on the next activity. Use 'Dynamic User' to specify the field name of the user to choose on the record.")</pre></details><details><summary id="f-mail_post_autofollow">mail_post_autofollow <span class="position">@ line 40</span></summary><pre>mail_post_autofollow = fields.Boolean(
+        'Subscribe Recipients', compute='_compute_mail_post_autofollow',
+        readonly=False, store=True)</pre></details><details><summary id="f-mail_post_method">mail_post_method <span class="position">@ line 43</span></summary><pre>mail_post_method = fields.Selection(
+        selection=[('email', 'Email'), ('comment', 'Message'), ('note', 'Note')],
+        string='Send Email As',
+        compute='_compute_mail_post_method',
+        readonly=False, store=True)</pre></details><details><summary id="f-partner_ids">partner_ids <span class="position">@ line 31</span></summary><pre>partner_ids = fields.Many2many('res.partner', compute='_compute_partner_ids', readonly=False, store=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 16</span></summary><pre>state = fields.Selection(
+        selection_add=[
+            ('next_activity', 'Create Activity'),
+            ('mail_post', 'Send Email'),
+            ('followers', 'Add Followers'),
+            ('remove_followers', 'Remove Followers'),
+            ('object_create',),
+        ],
+        ondelete={'mail_post': 'cascade',
+                  'followers': 'cascade',
+                  'remove_followers': 'cascade',
+                  'next_activity': 'cascade',
+        }
+    )</pre></details><details><summary id="f-template_id">template_id <span class="position">@ line 33</span></summary><pre>template_id = fields.Many2one(
+        'mail.template', 'Email Template',
+        domain="[('model_id', '=', model_id)]",
+        compute='_compute_template_id',
+        ondelete='set null', readonly=False, store=True,
+    )</pre></details><h3>Methods</h3><details><summary id="m-_is_recompute">_is_recompute(self) <span class="position">@ line 197</span></summary><pre>When an activity is set on update of a record,
+update might be triggered many times by recomputes.
+When need to know it to skip these steps.
+Except if the computed field is supposed to trigger the action</pre></details><ul id="m-_run_action_followers_multi"><li>_run_action_followers_multi(self, eval_context) <span class="position">@ line 183</span></li></ul><ul id="m-_run_action_mail_post_multi"><li>_run_action_mail_post_multi(self, eval_context) <span class="position">@ line 223</span></li></ul><ul id="m-_run_action_next_activity"><li>_run_action_next_activity(self, eval_context) <span class="position">@ line 257</span></li></ul><ul id="m-_run_action_remove_followers_multi"><li>_run_action_remove_followers_multi(self, eval_context) <span class="position">@ line 190</span></li></ul><h2>Inherited: odoo/addons/base_automation/models/ir_actions_server.py</h2><h3>Fields</h3><details><summary id="f-base_automation_id">base_automation_id <span class="position">@ line 17</span></summary><pre>base_automation_id = fields.Many2one('base.automation', string='Automation Rule', ondelete='cascade')</pre></details><details><summary id="f-name">name <span class="position">@ line 12</span></summary><pre>name = fields.Char(compute='_compute_name', store=True, readonly=False)</pre></details><details><summary id="f-usage">usage <span class="position">@ line 14</span></summary><pre>usage = fields.Selection(selection_add=[
+        ('base_automation', 'Automation Rule')
+    ], ondelete={'base_automation': 'cascade'})</pre></details><h3>Methods</h3><ul id="m-_get_eval_context"><li>_get_eval_context(self, action) <span class="position">@ line 87</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>im_livechat.channel.rule - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>im_livechat.channel.rule</h1><p>Originally defined in: odoo/addons/im_livechat/models/im_livechat_channel.py</p><hr/><h2>Original: odoo/addons/im_livechat/models/im_livechat_channel.py</h2><h3>Fields</h3><details><summary id="f-action">action <span class="position">@ line 354</span></summary><pre>action = fields.Selection([
+        ('display_button', 'Show'),
+        ('display_button_and_text', 'Show with notification'),
+        ('auto_popup', 'Open automatically'),
+        ('hide_button', 'Hide')], string='Live Chat Button', required=True, default='display_button',
+        help="* 'Show' displays the chat button on the pages.\n"\
+             "* 'Show with notification' is 'Show' in addition to a floating text just next to the button.\n"\
+             "* 'Open automatically' displays the button and automatically opens the conversation pane.\n"\
+             "* 'Hide' hides the chat button on the pages.\n")</pre></details><details><summary id="f-auto_popup_timer">auto_popup_timer <span class="position">@ line 363</span></summary><pre>auto_popup_timer = fields.Integer('Open automatically timer', default=0,
+        help="Delay (in seconds) to automatically open the conversation window. Note: the selected action must be 'Open automatically' otherwise this parameter will not be taken into account.")</pre></details><details><summary id="f-channel_id">channel_id <span class="position">@ line 368</span></summary><pre>channel_id = fields.Many2one('im_livechat.channel', 'Channel',
+        help="The channel of the rule")</pre></details><details><summary id="f-chatbot_only_if_no_operator">chatbot_only_if_no_operator <span class="position">@ line 366</span></summary><pre>chatbot_only_if_no_operator = fields.Boolean(
+        string='Enabled only if no operator', help='Enable the bot only if there is no operator available')</pre></details><details><summary id="f-chatbot_script_id">chatbot_script_id <span class="position">@ line 365</span></summary><pre>chatbot_script_id = fields.Many2one('chatbot.script', string='Chatbot')</pre></details><details><summary id="f-country_ids">country_ids <span class="position">@ line 370</span></summary><pre>country_ids = fields.Many2many('res.country', 'im_livechat_channel_country_rel', 'channel_id', 'country_id', 'Country',
+        help="The rule will only be applied for these countries. Example: if you select 'Belgium' and 'United States' and that you set the action to 'Hide', the chat button will be hidden on the specified URL from the visitors located in these 2 countries. This feature requires GeoIP installed on your server.")</pre></details><details><summary id="f-regex_url">regex_url <span class="position">@ line 352</span></summary><pre>regex_url = fields.Char('URL Regex',
+        help="Regular expression specifying the web pages this rule will be applied on.")</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 372</span></summary><pre>sequence = fields.Integer('Matching order', default=10,
+        help="Given the order to find a matching rule. If 2 rules are matching for the given url/country, the one with the lowest sequence will be chosen.")</pre></details><h3>Methods</h3><details><summary id="m-match_rule">match_rule(self, channel_id, url, country_id) <span class="position">@ line 375</span></summary><pre>determine if a rule of the given channel matches with the given url
+:param channel_id : the identifier of the channel_id
+:param url : the url to match with a rule
+:param country_id : the identifier of the country
+:returns the rule that matches the given condition. False otherwise.
+:rtype : im_livechat.channel.rule</pre></details><script src="class.js"></script></body></html>

@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>hr.expense - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>hr.expense</h1><p>Inherited in: odoo/addons/sale_expense/models/hr_expense.py<br/>Inherited in: odoo/addons/hr_expense/models/hr_expense.py<br/></p><hr/><h2>Inherited: odoo/addons/sale_expense/models/hr_expense.py</h2><h3>Fields</h3><details><summary id="f-can_be_reinvoiced">can_be_reinvoiced <span class="position">@ line 15</span></summary><pre>can_be_reinvoiced = fields.Boolean("Can be reinvoiced", compute='_compute_can_be_reinvoiced')</pre></details><details><summary id="f-sale_order_id">sale_order_id <span class="position">@ line 10</span></summary><pre>sale_order_id = fields.Many2one('sale.order', compute='_compute_sale_order_id', store=True, string='Customer to Reinvoice', readonly=False, tracking=True,
+        # NOTE: only confirmed SO can be selected, but this domain in activated throught the name search with the `sale_expense_all_order`
+        # context key. So, this domain is not the one applied.
+        domain="[('state', '=', 'sale'), ('company_id', '=', company_id)]",
+        help="If the category has an expense policy, it will be reinvoiced on this sales order")</pre></details><h3>Methods</h3><ul id="m-_compute_analytic_distribution"><li>_compute_analytic_distribution(self) <span class="position">@ line 27</span></li></ul><ul id="m-_get_split_values"><li>_get_split_values(self) <span class="position">@ line 39</span></li></ul><h2>Inherited: odoo/addons/hr_expense/models/hr_expense.py</h2><h3>Fields</h3><details><summary id="f-account_id">account_id <span class="position">@ line 179</span></summary><pre>account_id = fields.Many2one(
+        comodel_name='account.account',
+        string="Account",
+        compute='_compute_account_id', precompute=True, store=True, readonly=False,
+        domain="[('account_type', 'not in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card')), ('company_id', '=', company_id)]",
+        help="An expense account is expected",
+    )</pre></details><details><summary id="f-accounting_date">accounting_date <span class="position">@ line 196</span></summary><pre>accounting_date = fields.Date(  # The date used for the accounting entries or the one we'd like to use if not yet posted
+        related='sheet_id.accounting_date',
+        string="Accounting Date",
+        store=True,
+        groups='account.group_account_invoice,account.group_account_readonly',
+    )</pre></details><details><summary id="f-approved_by">approved_by <span class="position">@ line 108</span></summary><pre>approved_by = fields.Many2one(comodel_name='res.users', string="Approved By", related='sheet_id.user_id', tracking=False)</pre></details><details><summary id="f-approved_on">approved_on <span class="position">@ line 109</span></summary><pre>approved_on = fields.Datetime(string="Approved On", related='sheet_id.approval_date')</pre></details><details><summary id="f-attachment_ids">attachment_ids <span class="position">@ line 80</span></summary><pre>attachment_ids = fields.One2many(
+        comodel_name='ir.attachment',
+        inverse_name='res_id',
+        domain="[('res_model', '=', 'hr.expense')]",
+        string="Attachments",
+    )</pre></details><details><summary id="f-company_currency_id">company_currency_id <span class="position">@ line 155</span></summary><pre>company_currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        related='company_id.currency_id',
+        string="Report Company Currency",
+        readonly=True,
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 44</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        string="Company",
+        required=True,
+        readonly=True,
+        default=lambda self: self.env.company,
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 148</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string="Currency",
+        compute='_compute_currency_id', precompute=True, store=True, readonly=False,
+        required=True,
+        default=lambda self: self.env.company.currency_id,
+    )</pre></details><details><summary id="f-currency_rate">currency_rate <span class="position">@ line 165</span></summary><pre>currency_rate = fields.Float(compute='_compute_currency_rate', digits=(12, 6), readonly=True, tracking=True)</pre></details><details><summary id="f-date">date <span class="position">@ line 33</span></summary><pre>date = fields.Date(string="Expense Date", default=fields.Date.context_today)</pre></details><details><summary id="f-description">description <span class="position">@ line 77</span></summary><pre>description = fields.Text(string="Internal Notes")</pre></details><details><summary id="f-duplicate_expense_ids">duplicate_expense_ids <span class="position">@ line 110</span></summary><pre>duplicate_expense_ids = fields.Many2many(comodel_name='hr.expense', compute='_compute_duplicate_expense_ids')</pre></details><details><summary id="f-employee_id">employee_id <span class="position">@ line 34</span></summary><pre>employee_id = fields.Many2one(
+        comodel_name='hr.employee',
+        string="Employee",
+        compute='_compute_employee_id', precompute=True, store=True, readonly=False,
+        required=True,
+        default=_default_employee_id,
+        check_company=True,
+        domain=[('filter_for_expense', '=', True)],
+        tracking=True,
+    )</pre></details><details><summary id="f-is_editable">is_editable <span class="position">@ line 204</span></summary><pre>is_editable = fields.Boolean(string="Is Editable By Current User", compute='_compute_is_editable')</pre></details><details><summary id="f-is_multiple_currency">is_multiple_currency <span class="position">@ line 161</span></summary><pre>is_multiple_currency = fields.Boolean(
+        string="Is currency_id different from the company_currency_id",
+        compute='_compute_is_multiple_currency',
+    )</pre></details><details><summary id="f-label_currency_rate">label_currency_rate <span class="position">@ line 166</span></summary><pre>label_currency_rate = fields.Char(compute='_compute_currency_rate', readonly=True)</pre></details><details><summary id="f-message_main_attachment_checksum">message_main_attachment_checksum <span class="position">@ line 78</span></summary><pre>message_main_attachment_checksum = fields.Char(related='message_main_attachment_id.checksum')</pre></details><details><summary id="f-name">name <span class="position">@ line 27</span></summary><pre>name = fields.Char(
+        string="Description",
+        compute='_compute_name', precompute=True, store=True, readonly=False,
+        required=True,
+        copy=True,
+    )</pre></details><details><summary id="f-nb_attachment">nb_attachment <span class="position">@ line 79</span></summary><pre>nb_attachment = fields.Integer(string="Number of Attachments", compute='_compute_nb_attachment')</pre></details><details><summary id="f-payment_mode">payment_mode <span class="position">@ line 169</span></summary><pre>payment_mode = fields.Selection(
+        selection=[
+            ('own_account', "Employee (to reimburse)"),
+            ('company_account', "Company")
+        ],
+        string="Paid By",
+        default='own_account',
+        tracking=True,
+    )</pre></details><details><summary id="f-price_unit">price_unit <span class="position">@ line 142</span></summary><pre>price_unit = fields.Float(
+        string="Unit Price",
+        compute='_compute_price_unit', precompute=True, store=True, required=True, readonly=True,
+        copy=True,
+        digits='Product Price',
+    )</pre></details><details><summary id="f-product_description">product_description <span class="position">@ line 60</span></summary><pre>product_description = fields.Html(compute='_compute_product_description')</pre></details><details><summary id="f-product_has_cost">product_has_cost <span class="position">@ line 74</span></summary><pre>product_has_cost = fields.Boolean(compute='_compute_from_product')</pre></details><details><summary id="f-product_has_tax">product_has_tax <span class="position">@ line 75</span></summary><pre>product_has_tax = fields.Boolean(string="Whether tax is defined on a selected product", compute='_compute_from_product')</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 52</span></summary><pre>product_id = fields.Many2one(
+        comodel_name='product.product',
+        string="Category",
+        tracking=True,
+        check_company=True,
+        domain=[('can_be_expensed', '=', True)],
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-product_uom_category_id">product_uom_category_id <span class="position">@ line 68</span></summary><pre>product_uom_category_id = fields.Many2one(
+        comodel_name='uom.category',
+        string="UoM Category",
+        related='product_id.uom_id.category_id',
+        readonly=True,
+    )</pre></details><details><summary id="f-product_uom_id">product_uom_id <span class="position">@ line 61</span></summary><pre>product_uom_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string="Unit of Measure",
+        compute='_compute_uom_id', precompute=True, store=True,
+        domain="[('category_id', '=', product_uom_category_id)]",
+        copy=True,
+    )</pre></details><details><summary id="f-quantity">quantity <span class="position">@ line 76</span></summary><pre>quantity = fields.Float(required=True, digits='Product Unit of Measure', default=1)</pre></details><details><summary id="f-sheet_id">sheet_id <span class="position">@ line 101</span></summary><pre>sheet_id = fields.Many2one(
+        comodel_name='hr.expense.sheet',
+        string="Expense Report",
+        domain="[('employee_id', '=', employee_id), ('company_id', '=', company_id)]",
+        readonly=True,
+        copy=False,
+    )</pre></details><details><summary id="f-state">state <span class="position">@ line 86</span></summary><pre>state = fields.Selection(
+        selection=[
+            ('draft', 'To Report'),
+            ('reported', 'To Submit'),
+            ('submitted', 'Submitted'),
+            ('approved', 'Approved'),
+            ('done', 'Done'),
+            ('refused', 'Refused')
+        ],
+        string="Status",
+        compute='_compute_state', store=True, readonly=True,
+        index=True,
+        copy=False,
+        default='draft',
+    )</pre></details><details><summary id="f-tax_amount">tax_amount <span class="position">@ line 119</span></summary><pre>tax_amount = fields.Monetary(
+        string="Tax amount",
+        currency_field='company_currency_id',
+        compute='_compute_tax_amount', precompute=True, store=True,
+        help="Tax amount in company currency",
+    )</pre></details><details><summary id="f-tax_amount_currency">tax_amount_currency <span class="position">@ line 113</span></summary><pre>tax_amount_currency = fields.Monetary(
+        string="Tax amount in Currency",
+        currency_field='currency_id',
+        compute='_compute_tax_amount_currency', precompute=True, store=True,
+        help="Tax amount in currency",
+    )</pre></details><details><summary id="f-tax_ids">tax_ids <span class="position">@ line 186</span></summary><pre>tax_ids = fields.Many2many(
+        comodel_name='account.tax',
+        relation='expense_tax',
+        column1='expense_id',
+        column2='tax_id',
+        string="Included taxes",
+        compute='_compute_tax_ids', precompute=True, store=True, readonly=False,
+        domain="[('company_id', '=', company_id), ('type_tax_use', '=', 'purchase')]",
+        help="Both price-included and price-excluded taxes will behave as price-included taxes for expenses.",
+    )</pre></details><details><summary id="f-total_amount">total_amount <span class="position">@ line 136</span></summary><pre>total_amount = fields.Monetary(
+        string="Total",
+        currency_field='company_currency_id',
+        compute='_compute_total_amount', inverse='_inverse_total_amount', precompute=True, store=True, readonly=False,
+        tracking=True,
+    )</pre></details><details><summary id="f-total_amount_currency">total_amount_currency <span class="position">@ line 125</span></summary><pre>total_amount_currency = fields.Monetary(
+        string="Total In Currency",
+        currency_field='currency_id',
+        compute='_compute_total_amount_currency', precompute=True, store=True, readonly=False,
+        tracking=True,
+    )</pre></details><details><summary id="f-untaxed_amount_currency">untaxed_amount_currency <span class="position">@ line 131</span></summary><pre>untaxed_amount_currency = fields.Monetary(
+        string="Total Untaxed Amount In Currency",
+        currency_field='currency_id',
+        compute='_compute_tax_amount_currency', precompute=True, store=True,
+    )</pre></details><details><summary id="f-vendor_id">vendor_id <span class="position">@ line 178</span></summary><pre>vendor_id = fields.Many2one(comodel_name='res.partner', string="Vendor")</pre></details><h3>Methods</h3><ul id="m-_compute_nb_attachment"><li>_compute_nb_attachment(self) <span class="position">@ line 475</span></li></ul><ul id="m-_convert_to_tax_base_line_dict"><li>_convert_to_tax_base_line_dict(self, base_line, currency, price_unit, quantity, account) <span class="position">@ line 489</span></li></ul><ul id="m-_create_sheets_from_expense"><li>_create_sheets_from_expense(self) <span class="position">@ line 737</span></li></ul><details><summary id="m-_get_base_account">_get_base_account(self) <span class="position">@ line 888</span></summary><pre>Returns the expense account or forces default values if none was found
+We need to do this as the installation process may delete the original account, and it doesn't recompute properly after
+Returned expense accounts are the first expense account encountered in the following list:
+1. expense account of the expense itself
+2. expense account of the product
+3. expense account of the product category
+4. expense account on the purchase journal for employee expense</pre></details><ul id="m-_get_default_expense_sheet_values"><li>_get_default_expense_sheet_values(self) <span class="position">@ line 668</span></li></ul><ul id="m-_get_split_values"><li>_get_split_values(self) <span class="position">@ line 772</span></li></ul><details><summary id="m-_inverse_total_amount">_inverse_total_amount(self) <span class="position">@ line 344</span></summary><pre>Allows to set a custom rate on the expense, and avoid the override when it makes no sense</pre></details><ul id="m-_needs_product_price_computation"><li>_needs_product_price_computation(self) <span class="position">@ line 416</span></li></ul><ul id="m-_prepare_move_lines_vals"><li>_prepare_move_lines_vals(self) <span class="position">@ line 921</span></li></ul><ul id="m-_prepare_payments_vals"><li>_prepare_payments_vals(self) <span class="position">@ line 813</span></li></ul><ul id="m-_send_expense_success_mail"><li>_send_expense_success_mail(self, msg_dict, expense) <span class="position">@ line 1113</span></li></ul><ul id="m-action_approve_duplicates"><li>action_approve_duplicates(self) <span class="position">@ line 764</span></li></ul><ul id="m-action_get_attachment_view"><li>action_get_attachment_view(self) <span class="position">@ line 755</span></li></ul><ul id="m-action_split_wizard"><li>action_split_wizard(self) <span class="position">@ line 790</span></li></ul><ul id="m-action_submit_expenses"><li>action_submit_expenses(self) <span class="position">@ line 743</span></li></ul><ul id="m-action_view_sheet"><li>action_view_sheet(self) <span class="position">@ line 657</span></li></ul><details><summary id="m-attach_document">attach_document(self) <span class="position">@ line 503</span></summary><pre>When an attachment is uploaded as a receipt, set it as the main attachment.</pre></details><details><summary id="m-create_expense_from_attachments">create_expense_from_attachments(self, attachment_ids, view_type) <span class="position">@ line 507</span></summary><pre>Create the expenses from files.
+
+:return: An action redirecting to hr.expense tree view.</pre></details><ul id="m-get_expenses_to_submit"><li>get_expenses_to_submit(self) <span class="position">@ line 721</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 625</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 559</span></li></ul><script src="class.js"></script></body></html>

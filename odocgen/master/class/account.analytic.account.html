@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.analytic.account - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.analytic.account</h1><p>Inherited in: odoo/addons/stock_account/models/analytic_account.py<br/>Inherited in: odoo/addons/purchase/models/analytic_account.py<br/>Inherited in: odoo/addons/project/models/account_analytic_account.py<br/>Inherited in: odoo/addons/mrp_account/models/analytic_account.py<br/>Inherited in: odoo/addons/hr_expense/models/analytic.py<br/>Inherited in: odoo/addons/analytic/models/analytic_account.py<br/>Inherited in: odoo/addons/account/models/account_analytic_account.py<br/></p><hr/><h2>Inherited: odoo/addons/stock_account/models/analytic_account.py</h2><h3>Methods</h3><details><summary id="m-_perform_analytic_distribution">_perform_analytic_distribution(self, distribution, amount, unit_amount, lines, obj, additive) <span class="position">@ line 36</span></summary><pre>Redistributes the analytic lines to match the given distribution:
+- For account_ids where lines already exist, the amount and unit_amount of these lines get updated,
+lines where the updated amount becomes zero get unlinked.
+- For account_ids where lines don't exist yet, the line values to create them are returned,
+lines where the amount becomes zero are not included.
+
+:param distribution:    the desired distribution to match the analytic lines to
+:param amount:          the total amount to distribute over the analytic lines
+:param unit_amount:     the total unit amount (will not be distributed)
+:param lines:           the (current) analytic account lines that need to be matched to the new distribution
+:param obj:             the object on which _prepare_analytic_line_values(account_id, amount, unit_amount) will be
+called to get the template for the values of new analytic line objects
+:param additive:        if True, the unit_amount and (distributed) amount get added to the existing lines
+
+:returns: a list of dicts containing the values for new analytic lines that need to be created
+:rtype:   dict</pre></details><h2>Inherited: odoo/addons/purchase/models/analytic_account.py</h2><h3>Fields</h3><details><summary id="f-purchase_order_count">purchase_order_count <span class="position">@ line 10</span></summary><pre>purchase_order_count = fields.Integer("Purchase Order Count", compute='_compute_purchase_order_count')</pre></details><h3>Methods</h3><ul id="m-action_view_purchase_orders"><li>action_view_purchase_orders(self) <span class="position">@ line 19</span></li></ul><h2>Inherited: odoo/addons/project/models/account_analytic_account.py</h2><h3>Fields</h3><details><summary id="f-project_count">project_count <span class="position">@ line 13</span></summary><pre>project_count = fields.Integer("Project Count", compute='_compute_project_count', export_string_translation=False)</pre></details><details><summary id="f-project_ids">project_ids <span class="position">@ line 12</span></summary><pre>project_ids = fields.One2many('project.project', 'analytic_account_id', string='Projects', export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-action_view_projects"><li>action_view_projects(self) <span class="position">@ line 29</span></li></ul><h2>Inherited: odoo/addons/mrp_account/models/analytic_account.py</h2><h3>Fields</h3><details><summary id="f-bom_count">bom_count <span class="position">@ line 14</span></summary><pre>bom_count = fields.Integer("BoM Count", compute='_compute_bom_count')</pre></details><details><summary id="f-bom_ids">bom_ids <span class="position">@ line 13</span></summary><pre>bom_ids = fields.Many2many('mrp.bom')</pre></details><details><summary id="f-production_count">production_count <span class="position">@ line 12</span></summary><pre>production_count = fields.Integer("Manufacturing Orders Count", compute='_compute_production_count')</pre></details><details><summary id="f-production_ids">production_ids <span class="position">@ line 11</span></summary><pre>production_ids = fields.Many2many('mrp.production')</pre></details><details><summary id="f-workcenter_ids">workcenter_ids <span class="position">@ line 15</span></summary><pre>workcenter_ids = fields.Many2many('mrp.workcenter')</pre></details><details><summary id="f-workorder_count">workorder_count <span class="position">@ line 16</span></summary><pre>workorder_count = fields.Integer("Work Order Count", compute='_compute_workorder_count')</pre></details><h3>Methods</h3><ul id="m-action_view_mrp_bom"><li>action_view_mrp_bom(self) <span class="position">@ line 48</span></li></ul><ul id="m-action_view_mrp_production"><li>action_view_mrp_production(self) <span class="position">@ line 33</span></li></ul><ul id="m-action_view_workorder"><li>action_view_workorder(self) <span class="position">@ line 63</span></li></ul><h2>Inherited: odoo/addons/analytic/models/analytic_account.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 31</span></summary><pre>active = fields.Boolean(
+        'Active',
+        help="Deactivate the account.",
+        default=True,
+        tracking=True,
+    )</pre></details><details><summary id="f-balance">balance <span class="position">@ line 74</span></summary><pre>balance = fields.Monetary(
+        compute='_compute_debit_credit_balance',
+        string='Balance',
+    )</pre></details><details><summary id="f-code">code <span class="position">@ line 26</span></summary><pre>code = fields.Char(
+        string='Reference',
+        index='btree',
+        tracking=True,
+    )</pre></details><details><summary id="f-color">color <span class="position">@ line 48</span></summary><pre>color = fields.Integer(
+        'Color Index',
+        related='plan_id.color',
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 59</span></summary><pre>company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        default=lambda self: self.env.company,
+    )</pre></details><details><summary id="f-credit">credit <span class="position">@ line 82</span></summary><pre>credit = fields.Monetary(
+        compute='_compute_debit_credit_balance',
+        string='Credit',
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 87</span></summary><pre>currency_id = fields.Many2one(
+        related="company_id.currency_id",
+        string="Currency",
+    )</pre></details><details><summary id="f-debit">debit <span class="position">@ line 78</span></summary><pre>debit = fields.Monetary(
+        compute='_compute_debit_credit_balance',
+        string='Debit',
+    )</pre></details><details><summary id="f-line_ids">line_ids <span class="position">@ line 53</span></summary><pre>line_ids = fields.One2many(
+        'account.analytic.line',
+        'auto_account_id',  # magic link to the right column (plan) by using the context in the view
+        string="Analytic Lines",
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 19</span></summary><pre>name = fields.Char(
+        string='Analytic Account',
+        index='trigram',
+        required=True,
+        tracking=True,
+        translate=True,
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 66</span></summary><pre>partner_id = fields.Many2one(
+        'res.partner',
+        string='Customer',
+        auto_join=True,
+        tracking=True,
+        check_company=True,
+    )</pre></details><details><summary id="f-plan_id">plan_id <span class="position">@ line 37</span></summary><pre>plan_id = fields.Many2one(
+        'account.analytic.plan',
+        string='Plan',
+        required=True,
+    )</pre></details><details><summary id="f-root_plan_id">root_plan_id <span class="position">@ line 42</span></summary><pre>root_plan_id = fields.Many2one(
+        'account.analytic.plan',
+        string='Root Plan',
+        related="plan_id.root_id",
+        store=True,
+    )</pre></details><h3>Methods</h3><ul id="m-_read_group_postprocess_aggregate"><li>_read_group_postprocess_aggregate(self, aggregate_spec, raw_values) <span class="position">@ line 126</span></li></ul><ul id="m-_read_group_select"><li>_read_group_select(self, aggregate_spec, query) <span class="position">@ line 119</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 111</span></li></ul><h2>Inherited: odoo/addons/account/models/account_analytic_account.py</h2><h3>Fields</h3><details><summary id="f-credit">credit <span class="position">@ line 19</span></summary><pre>credit = fields.Monetary(groups='account.group_account_readonly')</pre></details><details><summary id="f-debit">debit <span class="position">@ line 18</span></summary><pre>debit = fields.Monetary(groups='account.group_account_readonly')</pre></details><details><summary id="f-invoice_count">invoice_count <span class="position">@ line 9</span></summary><pre>invoice_count = fields.Integer(
+        "Invoice Count",
+        compute='_compute_invoice_count',
+    )</pre></details><details><summary id="f-vendor_bill_count">vendor_bill_count <span class="position">@ line 13</span></summary><pre>vendor_bill_count = fields.Integer(
+        "Vendor Bill Count",
+        compute='_compute_vendor_bill_count',
+    )</pre></details><h3>Methods</h3><ul id="m-action_view_invoice"><li>action_view_invoice(self) <span class="position">@ line 53</span></li></ul><ul id="m-action_view_vendor_bill"><li>action_view_vendor_bill(self) <span class="position">@ line 68</span></li></ul><script src="class.js"></script></body></html>

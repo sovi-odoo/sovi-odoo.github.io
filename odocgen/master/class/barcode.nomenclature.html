@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>barcode.nomenclature - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>barcode.nomenclature</h1><p>Originally defined in: odoo/addons/barcodes/models/barcode_nomenclature.py</p><p>Inherited in: odoo/addons/barcodes_gs1_nomenclature/models/barcode_nomenclature.py<br/></p><hr/><h2>Original: odoo/addons/barcodes/models/barcode_nomenclature.py</h2><h3>Fields</h3><details><summary id="f-name">name <span class="position">@ line 19</span></summary><pre>name = fields.Char(string='Barcode Nomenclature', required=True, help='An internal identification of the barcode nomenclature')</pre></details><details><summary id="f-rule_ids">rule_ids <span class="position">@ line 20</span></summary><pre>rule_ids = fields.One2many('barcode.rule', 'barcode_nomenclature_id', string='Rules', help='The list of barcode rules')</pre></details><details><summary id="f-upc_ean_conv">upc_ean_conv <span class="position">@ line 21</span></summary><pre>upc_ean_conv = fields.Selection(
+        UPC_EAN_CONVERSIONS, string='UPC/EAN Conversion', required=True, default='always',
+        help="UPC Codes can be converted to EAN by prefixing them with a zero. This setting determines if a UPC/EAN barcode should be automatically converted in one way or another when trying to match a rule with the other encoding.")</pre></details><h3>Methods</h3><details><summary id="m-match_pattern">match_pattern(self, barcode, pattern) <span class="position">@ line 42</span></summary><pre>Checks barcode matches the pattern and retrieves the optional numeric value in barcode.
+
+:param barcode:
+:type barcode: str
+:param pattern:
+:type pattern: str
+:return: an object containing:
+- value: the numerical value encoded in the barcode (0 if no value encoded)
+- base_code: the barcode in which numerical content is replaced by 0's
+- match: boolean
+:rtype: dict</pre></details><details><summary id="m-parse_barcode">parse_barcode(self, barcode) <span class="position">@ line 85</span></summary><pre>Attempts to interpret and parse a barcode.
+
+:param barcode:
+:type barcode: str
+:return: A object containing various information about the barcode, like as:
+- code: the barcode
+- type: the barcode's type
+- value: if the id encodes a numerical value, it will be put there
+- base_code: the barcode code with all the encoding parts set to
+zero; the one put on the product in the backend
+:rtype: dict</pre></details><h2>Inherited: odoo/addons/barcodes_gs1_nomenclature/models/barcode_nomenclature.py</h2><h3>Fields</h3><details><summary id="f-gs1_separator_fnc1">gs1_separator_fnc1 <span class="position">@ line 18</span></summary><pre>gs1_separator_fnc1 = fields.Char(
+        string="FNC1 Separator", trim=False, default=r'(Alt029|#|\x1D)',
+        help="Alternative regex delimiter for the FNC1. The separator must not match the begin/end of any related rules pattern.")</pre></details><details><summary id="f-is_gs1_nomenclature">is_gs1_nomenclature <span class="position">@ line 15</span></summary><pre>is_gs1_nomenclature = fields.Boolean(
+        string="Is GS1 Nomenclature",
+        help="This Nomenclature use the GS1 specification, only GS1-128 encoding rules is accepted is this kind of nomenclature.")</pre></details><h3>Methods</h3><details><summary id="m-gs1_decompose_extanded">gs1_decompose_extanded(self, barcode) <span class="position">@ line 91</span></summary><pre>Try to decompose the gs1 extanded barcode into several unit of information using gs1 rules.
+
+Return a ordered list of dict</pre></details><ul id="m-parse_barcode"><li>parse_barcode(self, barcode) <span class="position">@ line 124</span></li></ul><ul id="m-parse_gs1_rule_pattern"><li>parse_gs1_rule_pattern(self, match, rule) <span class="position">@ line 57</span></li></ul><script src="class.js"></script></body></html>

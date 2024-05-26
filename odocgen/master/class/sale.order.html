@@ -1,0 +1,564 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sale.order - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sale.order</h1><p>Inherited in: odoo/addons/website_sale_stock/models/sale_order.py<br/>Inherited in: odoo/addons/website_sale_slides/models/sale_order.py<br/>Inherited in: odoo/addons/website_sale_mondialrelay/models/sale_order.py<br/>Inherited in: odoo/addons/website_sale_loyalty/models/sale_order.py<br/>Inherited in: odoo/addons/website_sale/models/sale_order.py<br/>Inherited in: odoo/addons/website_event_sale/models/sale_order.py<br/>Inherited in: odoo/addons/website_event_booth_sale/models/sale_order.py<br/>Inherited in: odoo/addons/stock_dropshipping/models/sale.py<br/>Inherited in: odoo/addons/stock_delivery/models/sale_order.py<br/>Inherited in: odoo/addons/sale_timesheet/models/sale_order.py<br/>Inherited in: odoo/addons/sale_stock/models/sale_order.py<br/>Inherited in: odoo/addons/sale_purchase_stock/models/sale_order.py<br/>Inherited in: odoo/addons/sale_purchase/models/sale_order.py<br/>Inherited in: odoo/addons/sale_project/models/sale_order.py<br/>Inherited in: odoo/addons/sale_product_matrix/models/sale_order.py<br/>Inherited in: odoo/addons/sale_mrp/models/sale_order.py<br/>Inherited in: odoo/addons/sale_margin/models/sale_order.py<br/>Inherited in: odoo/addons/sale_management/models/sale_order.py<br/>Inherited in: odoo/addons/sale_loyalty_delivery/models/sale_order.py<br/>Inherited in: odoo/addons/sale_loyalty/models/sale_order.py<br/>Inherited in: odoo/addons/sale_expense/models/sale_order.py<br/>Inherited in: odoo/addons/sale_crm/models/sale_order.py<br/>Inherited in: odoo/addons/sale_async_emails/models/sale_order.py<br/>Inherited in: odoo/addons/sale/models/sale_order.py<br/>Inherited in: odoo/addons/repair/models/sale_order.py<br/>Inherited in: odoo/addons/pos_sale/models/sale_order.py<br/>Inherited in: odoo/addons/mass_mailing_sale/models/sale_order.py<br/>Inherited in: odoo/addons/l10n_in_sale/models/sale_order.py<br/>Inherited in: odoo/addons/l10n_fi_sale/models/sale.py<br/>Inherited in: odoo/addons/l10n_ec_website_sale/models/sale_order.py<br/>Inherited in: odoo/addons/l10n_br_sales/models/sale_order.py<br/>Inherited in: odoo/addons/event_sale/models/sale_order.py<br/>Inherited in: odoo/addons/event_booth_sale/models/sale_order.py<br/>Inherited in: odoo/addons/delivery_mondialrelay/models/sale_order.py<br/>Inherited in: odoo/addons/delivery/models/sale_order.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale_stock/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_all_product_available"><li>_all_product_available(self) <span class="position">@ line 113</span></li></ul><ul id="m-_check_cart_is_ready_to_be_paid"><li>_check_cart_is_ready_to_be_paid(self) <span class="position">@ line 87</span></li></ul><ul id="m-_compute_warehouse_id"><li>_compute_warehouse_id(self) <span class="position">@ line 20</span></li></ul><details><summary id="m-_filter_can_send_abandoned_cart_mail">_filter_can_send_abandoned_cart_mail(self) <span class="position">@ line 107</span></summary><pre>Filter sale orders on their product availability.</pre></details><details><summary id="m-_get_cart_and_free_qty">_get_cart_and_free_qty(self, product, line) <span class="position">@ line 61</span></summary><pre>Get cart quantity and free quantity for given product or line's product.
+
+Note: self.ensure_one()
+
+:param ProductProduct product: The product
+:param SaleOrderLine line: The optional line</pre></details><details><summary id="m-_get_common_product_lines">_get_common_product_lines(self, line, product) <span class="position">@ line 76</span></summary><pre>Get the lines with the same product or line's product
+
+:param SaleOrderLine line: The optional line
+:param ProductProduct product: The optional product</pre></details><ul id="m-_get_warehouse_available"><li>_get_warehouse_available(self) <span class="position">@ line 11</span></li></ul><ul id="m-_set_shop_warning_stock"><li>_set_shop_warning_stock(self, desired_qty, new_qty) <span class="position">@ line 99</span></li></ul><ul id="m-_verify_updated_quantity"><li>_verify_updated_quantity(self, order_line, product_id, new_qty) <span class="position">@ line 26</span></li></ul><h2>Inherited: odoo/addons/website_sale_slides/models/sale_order.py</h2><h3>Methods</h3><details><summary id="m-_action_confirm">_action_confirm(self) <span class="position">@ line 10</span></summary><pre>If the product of an order line is a 'course', we add the client of the sale_order
+as a member of the channel(s) on which this product is configured (see slide.channel.product_id).</pre></details><details><summary id="m-_verify_updated_quantity">_verify_updated_quantity(self, order_line, product_id, new_qty) <span class="position">@ line 36</span></summary><pre>Forbid quantity updates on courses lines.</pre></details><h2>Inherited: odoo/addons/website_sale_mondialrelay/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_check_cart_is_ready_to_be_paid"><li>_check_cart_is_ready_to_be_paid(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/website_sale_loyalty/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-disabled_auto_rewards">disabled_auto_rewards <span class="position">@ line 17</span></summary><pre>disabled_auto_rewards = fields.Many2many("loyalty.reward", relation="sale_order_disabled_auto_rewards_rel")</pre></details><h3>Methods</h3><ul id="m-_allow_nominative_programs"><li>_allow_nominative_programs(self) <span class="position">@ line 190</span></li></ul><details><summary id="m-_auto_apply_rewards">_auto_apply_rewards(self) <span class="position">@ line 62</span></summary><pre>Tries to auto apply claimable rewards.
+
+It must answer to the following rules:
+- Must not be from a nominative program
+- The reward must be the only reward of the program
+- The reward may not be a multi product reward
+
+Returns True if any reward was claimed else False</pre></details><details><summary id="m-_cart_find_product_line">_cart_find_product_line(self, product_id, line_id) <span class="position">@ line 244</span></summary><pre>Override to filter out reward lines from the cart lines.
+
+These are handled by the _update_programs_and_rewards and _auto_apply_rewards methods.</pre></details><ul id="m-_cart_update"><li>_cart_update(self, *args, **args) <span class="position">@ line 172</span></li></ul><ul id="m-_compute_cart_info"><li>_compute_cart_info(self) <span class="position">@ line 144</span></li></ul><details><summary id="m-_compute_website_order_line">_compute_website_order_line(self) <span class="position">@ line 96</span></summary><pre>This method will merge multiple discount lines generated by a same program
+into a single one (temporary line with `new()`).
+This case will only occur when the program is a discount applied on multiple
+products with different taxes.
+In this case, each taxes will have their own discount line. This is required
+to have correct amount of taxes according to the discount.
+But we wan't these lines to be `visually` merged into a single one in the
+e-commerce since the end user should only see one discount line.
+This is only possible since we don't show taxes in cart.
+eg:
+line 1: 10% discount on product with tax `A` - $15
+line 2: 10% discount on product with tax `B` - $11.5
+line 3: 10% discount on product with tax `C` - $10
+would be `hidden` and `replaced` by
+line 1: 10% discount - $36.5
+
+Note: The line will be created without tax(es) and the amount will be computed
+depending if B2B or B2C is enabled.</pre></details><ul id="m-_get_claimable_and_showable_rewards"><li>_get_claimable_and_showable_rewards(self) <span class="position">@ line 211</span></li></ul><ul id="m-_get_free_shipping_lines"><li>_get_free_shipping_lines(self) <span class="position">@ line 186</span></li></ul><ul id="m-_get_program_domain"><li>_get_program_domain(self) <span class="position">@ line 19</span></li></ul><ul id="m-_get_trigger_domain"><li>_get_trigger_domain(self) <span class="position">@ line 30</span></li></ul><ul id="m-_remove_delivery_line"><li>_remove_delivery_line(self) <span class="position">@ line 168</span></li></ul><ul id="m-_set_delivery_method"><li>_set_delivery_method(self, *args, **args) <span class="position">@ line 164</span></li></ul><ul id="m-_try_pending_coupon"><li>_try_pending_coupon(self) <span class="position">@ line 41</span></li></ul><ul id="m-_update_programs_and_rewards"><li>_update_programs_and_rewards(self) <span class="position">@ line 57</span></li></ul><ul id="m-_validate_zero_amount_cart"><li>_validate_zero_amount_cart(self) <span class="position">@ line 253</span></li></ul><ul id="m-get_promo_code_error"><li>get_promo_code_error(self, delete) <span class="position">@ line 150</span></li></ul><ul id="m-get_promo_code_success_message"><li>get_promo_code_success_message(self, delete) <span class="position">@ line 156</span></li></ul><h2>Inherited: odoo/addons/website_sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-access_point_address">access_point_address <span class="position">@ line 26</span></summary><pre>access_point_address = fields.Json(string="Delivery Point Address")</pre></details><details><summary id="f-amount_delivery">amount_delivery <span class="position">@ line 36</span></summary><pre>amount_delivery = fields.Monetary(
+        string="Delivery Amount",
+        compute='_compute_amount_delivery',
+        help="Tax included or excluded depending on the website configuration.",
+    )</pre></details><details><summary id="f-cart_quantity">cart_quantity <span class="position">@ line 41</span></summary><pre>cart_quantity = fields.Integer(string="Cart Quantity", compute='_compute_cart_info')</pre></details><details><summary id="f-cart_recovery_email_sent">cart_recovery_email_sent <span class="position">@ line 27</span></summary><pre>cart_recovery_email_sent = fields.Boolean(string="Cart recovery email already sent")</pre></details><details><summary id="f-is_abandoned_cart">is_abandoned_cart <span class="position">@ line 43</span></summary><pre>is_abandoned_cart = fields.Boolean(
+        string="Abandoned Cart", compute='_compute_abandoned_cart', search='_search_abandoned_cart',
+    )</pre></details><details><summary id="f-only_services">only_services <span class="position">@ line 42</span></summary><pre>only_services = fields.Boolean(string="Only Services", compute='_compute_cart_info')</pre></details><details><summary id="f-shop_warning">shop_warning <span class="position">@ line 28</span></summary><pre>shop_warning = fields.Char(string="Warning")</pre></details><details><summary id="f-website_id">website_id <span class="position">@ line 20</span></summary><pre>website_id = fields.Many2one(
+        help="Website through which this order was placed for eCommerce orders.",
+        comodel_name='website',
+        readonly=True,
+    )</pre></details><details><summary id="f-website_order_line">website_order_line <span class="position">@ line 31</span></summary><pre>website_order_line = fields.One2many(
+        string="Order Lines displayed on Website",
+        comodel_name='sale.order.line',
+        compute='_compute_website_order_line',
+    )</pre></details><h3>Methods</h3><ul id="m-_action_confirm"><li>_action_confirm(self) <span class="position">@ line 171</span></li></ul><details><summary id="m-_cart_accessories">_cart_accessories(self) <span class="position">@ line 518</span></summary><pre>Suggest accessories based on 'Accessory Products' of products in cart</pre></details><details><summary id="m-_cart_find_product_line">_cart_find_product_line(self, product_id, line_id, linked_line_id, no_variant_attribute_value_ids) <span class="position">@ line 379</span></summary><pre>Find the cart line matching the given parameters.
+
+Custom attributes won't be matched (but no_variant & dynamic ones will be)
+
+:param int product_id: the product being added/removed, as a `product.product` id
+:param int line_id: optional, the line the customer wants to edit (/shop/cart page), as a
+`sale.order.line` id
+:param int linked_line_id: optional, the parent line (for optional products), as a
+`sale.order.line` id
+:param list optional_product_ids: optional, the optional products of the line, as a list
+of `product.product` ids
+:param list no_variant_attribute_value_ids: list of `product.template.attribute.value` ids
+whose attribute is configured as `no_variant`
+:param dict kwargs: unused parameters, maybe used in overrides or other cart update methods</pre></details><details><summary id="m-_cart_recovery_email_send">_cart_recovery_email_send(self) <span class="position">@ line 540</span></summary><pre>Send the cart recovery email on the current recordset,
+making sure that the portal token exists to avoid broken links, and marking the email as sent.
+Similar method to action_recovery_email_send, made to be called in automation rules.
+Contrary to the former, it will use the website-specific template for each order.</pre></details><details><summary id="m-_cart_update">_cart_update(self, product_id, line_id, add_qty, set_qty) <span class="position">@ line 304</span></summary><pre>Add or set product quantity, add_qty can be negative</pre></details><ul id="m-_cart_update_order_line"><li>_cart_update_order_line(self, product_id, quantity, order_line) <span class="position">@ line 272</span></li></ul><ul id="m-_cart_update_pricelist"><li>_cart_update_pricelist(self, pricelist_id, update_pricelist) <span class="position">@ line 290</span></li></ul><details><summary id="m-_check_cart_is_ready_to_be_paid">_check_cart_is_ready_to_be_paid(self) <span class="position">@ line 724</span></summary><pre>Whether the cart is valid and the user can proceed to the payment
+
+:rtype: bool</pre></details><ul id="m-_compute_payment_term_id"><li>_compute_payment_term_id(self) <span class="position">@ line 84</span></li></ul><details><summary id="m-_compute_user_id">_compute_user_id(self) <span class="position">@ line 125</span></summary><pre>Do not assign self.env.user as salesman for e-commerce orders.
+
+Leave salesman empty if no salesman is specified on partner or website.
+
+c/p of the logic in Website._prepare_sale_order_values</pre></details><ul id="m-_filter_can_send_abandoned_cart_mail"><li>_filter_can_send_abandoned_cart_mail(self) <span class="position">@ line 593</span></li></ul><details><summary id="m-_get_cart_recovery_template">_get_cart_recovery_template(self) <span class="position">@ line 251</span></summary><pre>Return the cart recovery template record for a set of orders.
+
+If they all belong to the same website, we return the website-specific template;
+otherwise we return the default template.
+If the default is not found, the empty ['mail.template'] is returned.</pre></details><ul id="m-_get_delivery_methods"><li>_get_delivery_methods(self) <span class="position">@ line 689</span></li></ul><ul id="m-_get_lang"><li>_get_lang(self) <span class="position">@ line 701</span></li></ul><details><summary id="m-_get_preferred_delivery_method">_get_preferred_delivery_method(self, available_delivery_methods) <span class="position">@ line 647</span></summary><pre>Get the preferred delivery method based on available delivery methods for the order.
+
+The preferred delivery method is selected as follows:
+
+1. The one that is already set if it is compatible.
+2. The default one if compatible.
+3. The first compatible one.
+
+:param delivery.carrier available_delivery_methods: The available delivery methods for
+the order.
+:return: The preferred delivery method for the order.
+:rtype: delivery.carrier</pre></details><ul id="m-_get_shop_warning"><li>_get_shop_warning(self, clear) <span class="position">@ line 710</span></li></ul><details><summary id="m-_has_deliverable_products">_has_deliverable_products(self) <span class="position">@ line 635</span></summary><pre>Return whether the order has lines with products that should be delivered.
+
+:return: Whether the order has deliverable products.
+:rtype: bool</pre></details><details><summary id="m-_is_cart_ready">_is_cart_ready(self) <span class="position">@ line 717</span></summary><pre>Whether the cart is valid and can be confirmed (and paid for)
+
+:rtype: bool</pre></details><ul id="m-_is_public_order"><li>_is_public_order(self) <span class="position">@ line 697</span></li></ul><ul id="m-_is_reorder_allowed"><li>_is_reorder_allowed(self) <span class="position">@ line 589</span></li></ul><details><summary id="m-_message_mail_after_hook">_message_mail_after_hook(self, mails) <span class="position">@ line 554</span></summary><pre>After sending recovery cart emails, update orders to avoid sending
+it again.</pre></details><details><summary id="m-_message_post_after_hook">_message_post_after_hook(self, message, msg_vals) <span class="position">@ line 564</span></summary><pre>After sending recovery cart emails, update orders to avoid sending
+it again.</pre></details><details><summary id="m-_notify_get_recipients_groups">_notify_get_recipients_groups(self, message, model_description, msg_vals) <span class="position">@ line 571</span></summary><pre>In case of cart recovery email, update link to redirect directly
+to the cart (like ``mail_template_sale_cart_recovery`` template).</pre></details><ul id="m-_prepare_order_line_update_values"><li>_prepare_order_line_update_values(self, order_line, quantity, linked_line_id) <span class="position">@ line 497</span></li></ul><ul id="m-_prepare_order_line_values"><li>_prepare_order_line_values(self, product_id, quantity, linked_line_id, no_variant_attribute_value_ids, product_custom_attribute_values) <span class="position">@ line 436</span></li></ul><ul id="m-_remove_delivery_line"><li>_remove_delivery_line(self) <span class="position">@ line 643</span></li></ul><ul id="m-_search_abandoned_cart"><li>_search_abandoned_cart(self, operator, value) <span class="position">@ line 106</span></li></ul><details><summary id="m-_set_delivery_method">_set_delivery_method(self, delivery_method, rate) <span class="position">@ line 671</span></summary><pre>Set the delivery method on the order and create a delivery line if the shipment rate can
+be retrieved.
+
+:param delivery.carrier delivery_method: The delivery_method to set on the order.
+:param dict rate: The rate of the delivery method.
+:return: None</pre></details><ul id="m-_update_cart_line_values"><li>_update_cart_line_values(self, order_line, update_values) <span class="position">@ line 511</span></li></ul><ul id="m-_validate_zero_amount_cart"><li>_validate_zero_amount_cart(self) <span class="position">@ line 515</span></li></ul><ul id="m-_verify_updated_quantity"><li>_verify_updated_quantity(self, order_line, product_id, new_qty) <span class="position">@ line 433</span></li></ul><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 164</span></li></ul><ul id="m-action_preview_sale_order"><li>action_preview_sale_order(self) <span class="position">@ line 221</span></li></ul><ul id="m-action_recovery_email_send"><li>action_recovery_email_send(self) <span class="position">@ line 228</span></li></ul><h2>Inherited: odoo/addons/website_event_sale/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_cart_find_product_line"><li>_cart_find_product_line(self, product_id, line_id, event_ticket_id) <span class="position">@ line 10</span></li></ul><details><summary id="m-_prepare_order_line_values">_prepare_order_line_values(self, product_id, quantity, event_ticket_id) <span class="position">@ line 62</span></summary><pre>Add corresponding event to the SOline creation values (if ticket is provided).</pre></details><details><summary id="m-_update_cart_line_values">_update_cart_line_values(self, order_line, update_values) <span class="position">@ line 79</span></summary><pre>Remove event registrations on quantity decrease.</pre></details><details><summary id="m-_verify_updated_quantity">_verify_updated_quantity(self, order_line, product_id, new_qty, event_ticket_id) <span class="position">@ line 19</span></summary><pre>Restrict quantity updates for event tickets according to available seats.</pre></details><h2>Inherited: odoo/addons/website_event_booth_sale/models/sale_order.py</h2><h3>Methods</h3><details><summary id="m-_cart_find_product_line">_cart_find_product_line(self, product_id, line_id, event_booth_pending_ids) <span class="position">@ line 11</span></summary><pre>Check if there is another sale order line which already contains the requested event_booth_pending_ids
+to overwrite it with the newly requested booths to avoid having multiple so_line related to the same booths</pre></details><details><summary id="m-_prepare_order_line_update_values">_prepare_order_line_update_values(self, order_line, quantity, event_booth_pending_ids, registration_values) <span class="position">@ line 57</span></summary><pre>Delete existing booth registrations and create new ones with the update values.</pre></details><details><summary id="m-_prepare_order_line_values">_prepare_order_line_values(self, product_id, quantity, event_booth_pending_ids, registration_values) <span class="position">@ line 33</span></summary><pre>Add corresponding event to the SOline creation values (if booths are provided).</pre></details><details><summary id="m-_verify_updated_quantity">_verify_updated_quantity(self, order_line, product_id, new_qty) <span class="position">@ line 26</span></summary><pre>Forbid quantity updates on event booth lines.</pre></details><h2>Inherited: odoo/addons/stock_dropshipping/models/sale.py</h2><h3>Fields</h3><details><summary id="f-dropship_picking_count">dropship_picking_count <span class="position">@ line 10</span></summary><pre>dropship_picking_count = fields.Integer("Dropship Count", compute='_compute_picking_ids')</pre></details><h3>Methods</h3><ul id="m-action_view_delivery"><li>action_view_delivery(self) <span class="position">@ line 20</span></li></ul><ul id="m-action_view_dropship"><li>action_view_dropship(self) <span class="position">@ line 23</span></li></ul><h2>Inherited: odoo/addons/stock_delivery/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_create_delivery_line"><li>_create_delivery_line(self, carrier, price_unit) <span class="position">@ line 21</span></li></ul><ul id="m-_format_currency_amount"><li>_format_currency_amount(self, amount) <span class="position">@ line 38</span></li></ul><ul id="m-set_delivery_line"><li>set_delivery_line(self, carrier, amount) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/sale_timesheet/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-project_id">project_id <span class="position">@ line 16</span></summary><pre>project_id = fields.Many2one(domain="[('pricing_type', '!=', 'employee_rate'), ('analytic_account_id', '!=', False), ('company_id', '=', company_id)]")</pre></details><details><summary id="f-show_hours_recorded_button">show_hours_recorded_button <span class="position">@ line 21</span></summary><pre>show_hours_recorded_button = fields.Boolean(compute="_compute_show_hours_recorded_button", groups="hr_timesheet.group_hr_timesheet_user", export_string_translation=False)</pre></details><details><summary id="f-timesheet_count">timesheet_count <span class="position">@ line 13</span></summary><pre>timesheet_count = fields.Float(string='Timesheet activities', compute='_compute_timesheet_count', groups="hr_timesheet.group_hr_timesheet_user", export_string_translation=False)</pre></details><details><summary id="f-timesheet_encode_uom_id">timesheet_encode_uom_id <span class="position">@ line 17</span></summary><pre>timesheet_encode_uom_id = fields.Many2one('uom.uom', related='company_id.timesheet_encode_uom_id', export_string_translation=False)</pre></details><details><summary id="f-timesheet_total_duration">timesheet_total_duration <span class="position">@ line 18</span></summary><pre>timesheet_total_duration = fields.Integer("Timesheet Total Duration", compute='_compute_timesheet_total_duration',
+        help="Total recorded duration, expressed in the encoding UoM, and rounded to the unit", compute_sudo=True,
+        groups="hr_timesheet.group_hr_timesheet_user", export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_compute_field_value"><li>_compute_field_value(self, field) <span class="position">@ line 48</span></li></ul><ul id="m-_compute_show_hours_recorded_button"><li>_compute_show_hours_recorded_button(self) <span class="position">@ line 68</span></li></ul><ul id="m-_compute_timesheet_count"><li>_compute_timesheet_count(self) <span class="position">@ line 24</span></li></ul><details><summary id="m-_create_invoices">_create_invoices(self, grouped, final, date) <span class="position">@ line 147</span></summary><pre>Link timesheets to the created invoices. Date interval is injected in the
+context in sale_make_invoice_advance_inv wizard.</pre></details><ul id="m-_get_order_with_valid_service_product"><li>_get_order_with_valid_service_product(self) <span class="position">@ line 73</span></li></ul><details><summary id="m-_get_prepaid_service_lines_to_upsell">_get_prepaid_service_lines_to_upsell(self) <span class="position">@ line 84</span></summary><pre>Retrieve all sols which need to display an upsell activity warning in the SO
+
+These SOLs should contain a product which has:
+- type="service",
+- service_policy="ordered_prepaid",</pre></details><ul id="m-_reset_has_displayed_warning_upsell_order_lines"><li>_reset_has_displayed_warning_upsell_order_lines(self) <span class="position">@ line 141</span></li></ul><ul id="m-action_view_timesheet"><li>action_view_timesheet(self) <span class="position">@ line 105</span></li></ul><h2>Inherited: odoo/addons/sale_stock/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-delivery_count">delivery_count <span class="position">@ line 31</span></summary><pre>delivery_count = fields.Integer(string='Delivery Orders', compute='_compute_picking_ids')</pre></details><details><summary id="f-delivery_status">delivery_status <span class="position">@ line 32</span></summary><pre>delivery_status = fields.Selection([
+        ('pending', 'Not Delivered'),
+        ('partial', 'Partially Delivered'),
+        ('full', 'Fully Delivered'),
+    ], string='Delivery Status', compute='_compute_delivery_status', store=True,
+       help="Red: Late\n\
+            Orange: To process today\n\
+            Green: On time")</pre></details><details><summary id="f-effective_date">effective_date <span class="position">@ line 41</span></summary><pre>effective_date = fields.Datetime("Effective Date", compute='_compute_effective_date', store=True, help="Completion date of the first delivery order.")</pre></details><details><summary id="f-expected_date">expected_date <span class="position">@ line 42</span></summary><pre>expected_date = fields.Datetime( help="Delivery date you can promise to the customer, computed from the minimum lead time of "
+                                          "the order lines in case of Service products. In case of shipping, the shipping policy of "
+                                          "the order will be taken into account to either use the minimum or maximum lead time of "
+                                          "the order lines.")</pre></details><details><summary id="f-incoterm">incoterm <span class="position">@ line 16</span></summary><pre>incoterm = fields.Many2one(
+        'account.incoterms', 'Incoterm',
+        help="International Commercial Terms are a series of predefined commercial terms used in international transactions.")</pre></details><details><summary id="f-incoterm_location">incoterm_location <span class="position">@ line 19</span></summary><pre>incoterm_location = fields.Char(string='Incoterm Location')</pre></details><details><summary id="f-json_popover">json_popover <span class="position">@ line 46</span></summary><pre>json_popover = fields.Char('JSON data for the popover widget', compute='_compute_json_popover')</pre></details><details><summary id="f-picking_ids">picking_ids <span class="position">@ line 30</span></summary><pre>picking_ids = fields.One2many('stock.picking', 'sale_id', string='Transfers')</pre></details><details><summary id="f-picking_policy">picking_policy <span class="position">@ line 20</span></summary><pre>picking_policy = fields.Selection([
+        ('direct', 'As soon as possible'),
+        ('one', 'When all products are ready')],
+        string='Shipping Policy', required=True, default='direct',
+        help="If you deliver all products at once, the delivery order will be scheduled based on the greatest "
+        "product lead time. Otherwise, it will be based on the shortest.")</pre></details><details><summary id="f-procurement_group_id">procurement_group_id <span class="position">@ line 40</span></summary><pre>procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group', copy=False)</pre></details><details><summary id="f-show_json_popover">show_json_popover <span class="position">@ line 47</span></summary><pre>show_json_popover = fields.Boolean('Has late picking', compute='_compute_json_popover')</pre></details><details><summary id="f-warehouse_id">warehouse_id <span class="position">@ line 26</span></summary><pre>warehouse_id = fields.Many2one(
+        'stock.warehouse', string='Warehouse', required=True,
+        compute='_compute_warehouse_id', store=True, readonly=False, precompute=True,
+        check_company=True)</pre></details><h3>Methods</h3><ul id="m-_action_cancel"><li>_action_cancel(self) <span class="position">@ line 191</span></li></ul><ul id="m-_action_confirm"><li>_action_confirm(self) <span class="position">@ line 152</span></li></ul><ul id="m-_compute_json_popover"><li>_compute_json_popover(self) <span class="position">@ line 138</span></li></ul><details><summary id="m-_get_action_view_picking">_get_action_view_picking(self, pickings) <span class="position">@ line 208</span></summary><pre>This function returns an action that display existing delivery orders
+of given sales order ids. It can either be a in a list or in a form
+view, if there is only one delivery order to show.</pre></details><details><summary id="m-_init_column">_init_column(self, column_name) <span class="position">@ line 49</span></summary><pre>Ensure the default warehouse_id is correctly assigned
+
+At column initialization, the ir.model.fields for res.users.property_warehouse_id isn't created,
+which means trying to read the property field to get the default value will crash.
+We therefore enforce the default here, without going through
+the default function on the warehouse_id field.</pre></details><ul id="m-_log_decrease_ordered_quantity"><li>_log_decrease_ordered_quantity(self, documents, cancel) <span class="position">@ line 239</span></li></ul><ul id="m-_prepare_invoice"><li>_prepare_invoice(self) <span class="position">@ line 234</span></li></ul><ul id="m-action_view_delivery"><li>action_view_delivery(self) <span class="position">@ line 188</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 100</span></li></ul><h2>Inherited: odoo/addons/sale_purchase_stock/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_get_purchase_orders"><li>_get_purchase_orders(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/sale_purchase/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-purchase_order_count">purchase_order_count <span class="position">@ line 10</span></summary><pre>purchase_order_count = fields.Integer(
+        "Number of Purchase Order Generated",
+        compute='_compute_purchase_order_count',
+        groups='purchase.group_purchase_user')</pre></details><h3>Methods</h3><ul id="m-_action_cancel"><li>_action_cancel(self) <span class="position">@ line 26</span></li></ul><ul id="m-_action_confirm"><li>_action_confirm(self) <span class="position">@ line 20</span></li></ul><details><summary id="m-_activity_cancel_on_purchase">_activity_cancel_on_purchase(self) <span class="position">@ line 57</span></summary><pre>If some SO are cancelled, we need to put an activity on their generated purchase. If sale lines of
+different sale orders impact different purchase, we only want one activity to be attached.</pre></details><ul id="m-_get_purchase_orders"><li>_get_purchase_orders(self) <span class="position">@ line 54</span></li></ul><ul id="m-action_view_purchase_orders"><li>action_view_purchase_orders(self) <span class="position">@ line 34</span></li></ul><h2>Inherited: odoo/addons/sale_project/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-is_product_milestone">is_product_milestone <span class="position">@ line 25</span></summary><pre>is_product_milestone = fields.Boolean(compute='_compute_is_product_milestone', export_string_translation=False)</pre></details><details><summary id="f-milestone_count">milestone_count <span class="position">@ line 24</span></summary><pre>milestone_count = fields.Integer(compute='_compute_milestone_count', export_string_translation=False)</pre></details><details><summary id="f-project_count">project_count <span class="position">@ line 23</span></summary><pre>project_count = fields.Integer(string='Number of Projects', compute='_compute_project_ids', groups='project.group_project_user', export_string_translation=False)</pre></details><details><summary id="f-project_id">project_id <span class="position">@ line 20</span></summary><pre>project_id = fields.Many2one('project.project', 'Project',
+        help='Select a non billable project on which tasks can be created.')</pre></details><details><summary id="f-project_ids">project_ids <span class="position">@ line 22</span></summary><pre>project_ids = fields.Many2many('project.project', compute="_compute_project_ids", string='Projects', copy=False, groups="project.group_project_user,project.group_project_milestone", export_string_translation=False)</pre></details><details><summary id="f-show_create_project_button">show_create_project_button <span class="position">@ line 26</span></summary><pre>show_create_project_button = fields.Boolean(compute='_compute_show_project_and_task_button', groups='project.group_project_user', export_string_translation=False)</pre></details><details><summary id="f-show_project_button">show_project_button <span class="position">@ line 27</span></summary><pre>show_project_button = fields.Boolean(compute='_compute_show_project_and_task_button', groups='project.group_project_user', export_string_translation=False)</pre></details><details><summary id="f-show_task_button">show_task_button <span class="position">@ line 28</span></summary><pre>show_task_button = fields.Boolean(compute='_compute_show_project_and_task_button', groups='project.group_project_user', export_string_translation=False)</pre></details><details><summary id="f-tasks_count">tasks_count <span class="position">@ line 17</span></summary><pre>tasks_count = fields.Integer(string='Tasks', compute='_compute_tasks_ids', groups="project.group_project_user", export_string_translation=False)</pre></details><details><summary id="f-tasks_ids">tasks_ids <span class="position">@ line 16</span></summary><pre>tasks_ids = fields.Many2many('project.task', compute='_compute_tasks_ids', search='_search_tasks_ids', string='Tasks associated with this sale', export_string_translation=False)</pre></details><details><summary id="f-visible_project">visible_project <span class="position">@ line 19</span></summary><pre>visible_project = fields.Boolean('Display project', compute='_compute_visible_project', readonly=True, export_string_translation=False)</pre></details><h3>Methods</h3><details><summary id="m-_action_confirm">_action_confirm(self) <span class="position">@ line 130</span></summary><pre>On SO confirmation, some lines should generate a task or a project.</pre></details><ul id="m-_compute_is_product_milestone"><li>_compute_is_product_milestone(self) <span class="position">@ line 40</span></li></ul><ul id="m-_compute_milestone_count"><li>_compute_milestone_count(self) <span class="position">@ line 30</span></li></ul><ul id="m-_compute_show_project_and_task_button"><li>_compute_show_project_and_task_button(self) <span class="position">@ line 44</span></li></ul><details><summary id="m-_generate_analytic_account">_generate_analytic_account(self) <span class="position">@ line 142</span></summary><pre>Generate Analytic Account for SO confirmed
+
+This override generates analytic account for the SO if the AA has not been
+generated in the parent method and the product contained in the SOLs will
+generate a project and/or task(s)</pre></details><ul id="m-_prepare_analytic_account_data"><li>_prepare_analytic_account_data(self, prefix) <span class="position">@ line 311</span></li></ul><ul id="m-_search_tasks_ids"><li>_search_tasks_ids(self, operator, value) <span class="position">@ line 56</span></li></ul><ul id="m-action_create_project"><li>action_create_project(self) <span class="position">@ line 215</span></li></ul><ul id="m-action_view_milestone"><li>action_view_milestone(self) <span class="position">@ line 268</span></li></ul><ul id="m-action_view_project_ids"><li>action_view_project_ids(self) <span class="position">@ line 243</span></li></ul><ul id="m-action_view_task"><li>action_view_task(self) <span class="position">@ line 180</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 306</span></li></ul><h2>Inherited: odoo/addons/sale_product_matrix/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-grid">grid <span class="position">@ line 29</span></summary><pre>grid = fields.Char(
+        "Matrix local storage", store=False,
+        help="Technical local storage of grid. "
+        "\nIf grid_update, will be loaded on the SO."
+        "\nIf not, represents the matrix to open.")</pre></details><details><summary id="f-grid_product_tmpl_id">grid_product_tmpl_id <span class="position">@ line 25</span></summary><pre>grid_product_tmpl_id = fields.Many2one(
+        'product.template', store=False)</pre></details><details><summary id="f-grid_update">grid_update <span class="position">@ line 28</span></summary><pre>grid_update = fields.Boolean(default=False, store=False)</pre></details><details><summary id="f-report_grids">report_grids <span class="position">@ line 13</span></summary><pre>report_grids = fields.Boolean(string="Print Variant Grids", default=True)</pre></details><h3>Methods</h3><details><summary id="m-_get_matrix">_get_matrix(self, product_template) <span class="position">@ line 119</span></summary><pre>Return the matrix of the given product, updated with current SOLines quantities.
+
+:param product.template product_template:
+:return: matrix to display
+:rtype dict:</pre></details><details><summary id="m-get_report_matrixes">get_report_matrixes(self) <span class="position">@ line 150</span></summary><pre>Reporting method.
+
+:return: array of matrices to display in the report
+:rtype: list</pre></details><h2>Inherited: odoo/addons/sale_mrp/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-mrp_production_count">mrp_production_count <span class="position">@ line 10</span></summary><pre>mrp_production_count = fields.Integer(
+        "Count of MO generated",
+        compute='_compute_mrp_production_ids',
+        groups='mrp.group_mrp_user')</pre></details><details><summary id="f-mrp_production_ids">mrp_production_ids <span class="position">@ line 14</span></summary><pre>mrp_production_ids = fields.Many2many(
+        'mrp.production',
+        compute='_compute_mrp_production_ids',
+        string='Manufacturing orders associated with this sales order.',
+        groups='mrp.group_mrp_user')</pre></details><h3>Methods</h3><ul id="m-action_view_mrp_production"><li>action_view_mrp_production(self) <span class="position">@ line 31</span></li></ul><h2>Inherited: odoo/addons/sale_margin/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-margin">margin <span class="position">@ line 10</span></summary><pre>margin = fields.Monetary("Margin", compute='_compute_margin', store=True)</pre></details><details><summary id="f-margin_percent">margin_percent <span class="position">@ line 11</span></summary><pre>margin_percent = fields.Float("Margin (%)", compute='_compute_margin', store=True, aggregator="avg")</pre></details><h2>Inherited: odoo/addons/sale_management/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-sale_order_option_ids">sale_order_option_ids <span class="position">@ line 20</span></summary><pre>sale_order_option_ids = fields.One2many(
+        comodel_name='sale.order.option', inverse_name='order_id',
+        string="Optional Products Lines",
+        copy=True)</pre></details><details><summary id="f-sale_order_template_id">sale_order_template_id <span class="position">@ line 14</span></summary><pre>sale_order_template_id = fields.Many2one(
+        comodel_name='sale.order.template',
+        string="Quotation Template",
+        compute='_compute_sale_order_template_id',
+        store=True, readonly=False, check_company=True, precompute=True,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")</pre></details><h3>Methods</h3><ul id="m-_can_be_edited_on_portal"><li>_can_be_edited_on_portal(self) <span class="position">@ line 151</span></li></ul><ul id="m-_compute_sale_order_template_id"><li>_compute_sale_order_template_id(self) <span class="position">@ line 29</span></li></ul><ul id="m-_recompute_prices"><li>_recompute_prices(self) <span class="position">@ line 142</span></li></ul><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 132</span></li></ul><h2>Inherited: odoo/addons/sale_loyalty_delivery/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_compute_amount_total_without_delivery"><li>_compute_amount_total_without_delivery(self) <span class="position">@ line 13</span></li></ul><ul id="m-_get_claimable_rewards"><li>_get_claimable_rewards(self, forced_coupons) <span class="position">@ line 61</span></li></ul><ul id="m-_get_no_effect_on_threshold_lines"><li>_get_no_effect_on_threshold_lines(self) <span class="position">@ line 23</span></li></ul><details><summary id="m-_get_not_rewarded_order_lines">_get_not_rewarded_order_lines(self) <span class="position">@ line 28</span></summary><pre>Exclude delivery lines from consideration for reward points.</pre></details><ul id="m-_get_reward_line_values"><li>_get_reward_line_values(self, reward, coupon) <span class="position">@ line 53</span></li></ul><ul id="m-_get_reward_values_free_shipping"><li>_get_reward_values_free_shipping(self, reward, coupon) <span class="position">@ line 33</span></li></ul><h2>Inherited: odoo/addons/sale_loyalty/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-applied_coupon_ids">applied_coupon_ids <span class="position">@ line 23</span></summary><pre>applied_coupon_ids = fields.Many2many(
+        comodel_name='loyalty.card', string="Manually Applied Coupons", copy=False)</pre></details><details><summary id="f-code_enabled_rule_ids">code_enabled_rule_ids <span class="position">@ line 25</span></summary><pre>code_enabled_rule_ids = fields.Many2many(
+        comodel_name='loyalty.rule', string="Manually Triggered Rules", copy=False)</pre></details><details><summary id="f-coupon_point_ids">coupon_point_ids <span class="position">@ line 27</span></summary><pre>coupon_point_ids = fields.One2many(
+        comodel_name='sale.order.coupon.points', inverse_name='order_id', copy=False)</pre></details><details><summary id="f-reward_amount">reward_amount <span class="position">@ line 29</span></summary><pre>reward_amount = fields.Float(compute='_compute_reward_total')</pre></details><h3>Methods</h3><ul id="m-__try_apply_program"><li>__try_apply_program(self, program, coupon, status) <span class="position">@ line 1061</span></li></ul><ul id="m-_action_cancel"><li>_action_cancel(self) <span class="position">@ line 78</span></li></ul><details><summary id="m-_add_points_for_coupon">_add_points_for_coupon(self, coupon_points) <span class="position">@ line 571</span></summary><pre>Updates (or creates) an entry in coupon_point_ids for the given coupons.</pre></details><details><summary id="m-_allow_nominative_programs">_allow_nominative_programs(self) <span class="position">@ line 763</span></summary><pre>Whether or not this order may use nominative programs.</pre></details><details><summary id="m-_apply_program_reward">_apply_program_reward(self, reward, coupon) <span class="position">@ line 693</span></summary><pre>Applies the reward to the order provided the given coupon has enough points.
+This method does not check for program rules.
+
+This method also assumes the points added by the program triggers have already been computed.
+The temporary points are used if the program is applicable to the current order.
+
+Returns a dict containing the error message or empty if everything went correctly.
+NOTE: A call to `_update_programs_and_rewards` is expected to reorder the discounts.</pre></details><details><summary id="m-_best_global_discount_already_applied">_best_global_discount_already_applied(self, current_reward, new_reward, discountable) <span class="position">@ line 619</span></summary><pre>Determine whether current_reward is better than new_reward.
+
+This function compares the discount amount of two rewards to determine whether the current
+one is better than another one.
+
+Notes
+-----
+
+If the discount amounts of both the current and the new rewards exceed the order total,
+the reward with the smaller discount amount is considered the best.
+This is to ensure that the most advantageous discount is applied for the customer,
+who will keep the most important voucher, having saved the same amount in the end.
+
+:param loyalty.reward current_reward: The reward currently applied on the sale order.
+:param loyalty.reward new_reward: The reward to compare with.
+:param float discountable: The total discountable amount of the sale order.
+If not provided, it will be calculated on the fly.
+:return: True if current_reward is considered better than new_reward.
+:rtype: bool</pre></details><ul id="m-_cheapest_line"><li>_cheapest_line(self) <span class="position">@ line 242</span></li></ul><details><summary id="m-_discountable_amount">_discountable_amount(self, rewards_to_ignore) <span class="position">@ line 157</span></summary><pre>Compute the `discountable` amount for the current order, ignoring the provided rewards.
+
+:param rewards_to_ignore: the rewards to ignore from the total amount (if they were already
+applied on the order)
+:type reward: `loyalty.reward` recordset
+
+:return: The discountable amount
+:rtype: float</pre></details><details><summary id="m-_discountable_cheapest">_discountable_cheapest(self, reward) <span class="position">@ line 252</span></summary><pre>Returns the discountable and discountable_per_tax for a discount that applies to the cheapest line</pre></details><details><summary id="m-_discountable_order">_discountable_order(self, reward) <span class="position">@ line 192</span></summary><pre>Compute the `discountable` amount (and amounts per tax group) for the current order.
+
+:param reward: if provided, the reward whose discountable amounts must be computed.
+It must be applicable at the order level.
+:type reward: `loyalty.reward` record, can be empty to compute the amounts regardless of the
+program configuration
+
+:return: A tuple with the first element being the total discountable amount of the order,
+and the second a dictionary mapping each non-fixed taxes group to its corresponding
+total untaxed amount of the eligible order lines.
+:rtype: tuple(float, dict(account.tax: float))</pre></details><details><summary id="m-_discountable_specific">_discountable_specific(self, reward) <span class="position">@ line 282</span></summary><pre>Special function to compute the discountable for 'specific' types of discount.
+The goal of this function is to make sure that applying a 5$ discount on an order with a
+5$ product and a 5% discount does not make the order go below 0.
+
+Returns the discountable and discountable_per_tax for a discount that only applies to specific products.</pre></details><details><summary id="m-_get_applicable_program_points">_get_applicable_program_points(self, domain) <span class="position">@ line 489</span></summary><pre>Returns a dict with the points per program for each (automatic) program that is applicable</pre></details><details><summary id="m-_get_applied_global_discount">_get_applied_global_discount(self) <span class="position">@ line 122</span></summary><pre>Returns the currently applied global discount reward or False</pre></details><details><summary id="m-_get_applied_global_discount_lines">_get_applied_global_discount_lines(self) <span class="position">@ line 115</span></summary><pre>Returns the first line of the currently applied global discount or False</pre></details><details><summary id="m-_get_applied_programs">_get_applied_programs(self) <span class="position">@ line 525</span></summary><pre>Returns all applied programs on current order.
+
+Applied programs is the combination of both new points for your order and the programs linked to rewards.</pre></details><details><summary id="m-_get_claimable_rewards">_get_claimable_rewards(self, forced_coupons) <span class="position">@ line 728</span></summary><pre>Fetch all rewards that are currently claimable from all concerned coupons,
+meaning coupons from applied programs and applied rewards or the coupons given as parameter.
+
+Returns a dict containing the all the claimable rewards grouped by coupon.
+Coupons that can not claim any reward are not contained in the result.</pre></details><details><summary id="m-_get_no_effect_on_threshold_lines">_get_no_effect_on_threshold_lines(self) <span class="position">@ line 45</span></summary><pre>Return the lines that have no effect on the minimum amount to reach.</pre></details><ul id="m-_get_not_rewarded_order_lines"><li>_get_not_rewarded_order_lines(self) <span class="position">@ line 943</span></li></ul><details><summary id="m-_get_point_changes">_get_point_changes(self) <span class="position">@ line 540</span></summary><pre>Returns the changes in points per coupon as a dict.
+
+Used when validating/cancelling an order</pre></details><details><summary id="m-_get_points_programs">_get_points_programs(self) <span class="position">@ line 504</span></summary><pre>Returns all programs that give points on the current order.</pre></details><details><summary id="m-_get_program_domain">_get_program_domain(self) <span class="position">@ line 464</span></summary><pre>Returns the base domain that all programs have to comply to.</pre></details><details><summary id="m-_get_real_points_for_coupon">_get_real_points_for_coupon(self, coupon, post_confirm) <span class="position">@ line 555</span></summary><pre>Returns the actual points usable for this coupon for this order. Set pos_confirm to True to include points for future orders.
+
+This is calculated by taking the points on the coupon, the points the order will give to the coupon (if applicable) and removing the points taken by already applied rewards.</pre></details><details><summary id="m-_get_reward_coupons">_get_reward_coupons(self) <span class="position">@ line 518</span></summary><pre>Returns all coupons that are a reward.</pre></details><ul id="m-_get_reward_line_values"><li>_get_reward_line_values(self, reward, coupon) <span class="position">@ line 593</span></li></ul><details><summary id="m-_get_reward_programs">_get_reward_programs(self) <span class="position">@ line 511</span></summary><pre>Returns all programs that are being used for rewards.</pre></details><ul id="m-_get_reward_values_discount"><li>_get_reward_values_discount(self, reward, coupon) <span class="position">@ line 359</span></li></ul><details><summary id="m-_get_reward_values_product">_get_reward_values_product(self, reward, coupon, product) <span class="position">@ line 128</span></summary><pre>Returns an array of dict containing the values required for the reward lines</pre></details><details><summary id="m-_get_specific_discountable_lines">_get_specific_discountable_lines(self, reward) <span class="position">@ line 268</span></summary><pre>Returns all lines to which `reward` can apply</pre></details><details><summary id="m-_get_trigger_domain">_get_trigger_domain(self) <span class="position">@ line 476</span></summary><pre>Returns the base domain that all triggers have to comply to.</pre></details><details><summary id="m-_program_check_compute_points">_program_check_compute_points(self, programs) <span class="position">@ line 946</span></summary><pre>Checks the program validity from the order lines aswell as computing the number of points to add.
+
+Returns a dict containing the error message or the points that will be given with the keys 'points'.</pre></details><details><summary id="m-_recompute_prices">_recompute_prices(self) <span class="position">@ line 534</span></summary><pre>Recompute coupons/promotions after pricelist prices reset.</pre></details><ul id="m-_remove_program_from_points"><li>_remove_program_from_points(self, programs) <span class="position">@ line 590</span></li></ul><ul id="m-_send_reward_coupon_mail"><li>_send_reward_coupon_mail(self) <span class="position">@ line 108</span></li></ul><details><summary id="m-_try_apply_code">_try_apply_code(self, code) <span class="position">@ line 1133</span></summary><pre>Tries to apply a promotional code to the sales order.
+It can be either from a coupon or a program rule.
+
+Returns a dict with the following possible keys:
+- 'not_found': Populated with True if the code did not yield any result.
+- 'error': Any error message that could occur.
+OR The result of `_get_claimable_rewards` with the found or newly created coupon, it will be empty if the coupon was consumed completely.</pre></details><details><summary id="m-_try_apply_program">_try_apply_program(self, program, coupon) <span class="position">@ line 1095</span></summary><pre>Tries to apply a program using the coupon if provided.
+
+This function provides the full routine to apply a program, it will check for applicability
+aswell as creating the necessary coupons and co-models to give the points to the customer.
+
+This function does not apply any reward to the order, rewards have to be given manually.
+
+Returns a dict containing the error message or containing the associated coupon(s).</pre></details><details><summary id="m-_update_programs_and_rewards">_update_programs_and_rewards(self) <span class="position">@ line 770</span></summary><pre>Updates applied programs's given points with the current state of the order.
+Checks automatic programs for applicability.
+Updates applied rewards using the new points and the current state of the order (for example with % discounts).</pre></details><details><summary id="m-_write_vals_from_reward_vals">_write_vals_from_reward_vals(self, reward_vals, old_lines, delete) <span class="position">@ line 602</span></summary><pre>Update, create new reward line and delete old lines in one write on `order_line`
+
+Returns the untouched old lines.</pre></details><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 57</span></li></ul><ul id="m-action_open_reward_wizard"><li>action_open_reward_wizard(self) <span class="position">@ line 94</span></li></ul><ul id="m-copy"><li>copy(self, default) <span class="position">@ line 50</span></li></ul><h2>Inherited: odoo/addons/sale_expense/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-expense_count">expense_count <span class="position">@ line 12</span></summary><pre>expense_count = fields.Integer("# of Expenses", compute='_compute_expense_count', compute_sudo=True)</pre></details><details><summary id="f-expense_ids">expense_ids <span class="position">@ line 11</span></summary><pre>expense_ids = fields.One2many('hr.expense', 'sale_order_id', string='Expenses', domain=[('state', '=', 'done')], readonly=True, copy=False)</pre></details><h2>Inherited: odoo/addons/sale_crm/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-opportunity_id">opportunity_id <span class="position">@ line 10</span></summary><pre>opportunity_id = fields.Many2one(
+        'crm.lead', string='Opportunity', check_company=True,
+        domain="[('type', '=', 'opportunity'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]")</pre></details><h3>Methods</h3><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/sale_async_emails/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-pending_email_template_id">pending_email_template_id <span class="position">@ line 10</span></summary><pre>pending_email_template_id = fields.Many2one(
+        string="Pending Email Template",
+        help="The template of the pending email that must be sent asynchronously.",
+        comodel_name='mail.template',
+        ondelete='set null',
+        readonly=True,
+    )</pre></details><h3>Methods</h3><details><summary id="m-_send_order_notification_mail">_send_order_notification_mail(self, mail_template) <span class="position">@ line 18</span></summary><pre>Override of `sale` to reschedule order status emails to be sent asynchronously.</pre></details><h2>Inherited: odoo/addons/sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-amount_invoiced">amount_invoiced <span class="position">@ line 218</span></summary><pre>amount_invoiced = fields.Monetary(string="Already invoiced", compute='_compute_amount_invoiced')</pre></details><details><summary id="f-amount_paid">amount_paid <span class="position">@ line 245</span></summary><pre>amount_paid = fields.Float(compute='_compute_amount_paid', compute_sudo=True)</pre></details><details><summary id="f-amount_tax">amount_tax <span class="position">@ line 215</span></summary><pre>amount_tax = fields.Monetary(string="Taxes", store=True, compute='_compute_amounts')</pre></details><details><summary id="f-amount_to_invoice">amount_to_invoice <span class="position">@ line 217</span></summary><pre>amount_to_invoice = fields.Monetary(string="Amount to invoice", store=True, compute='_compute_amount_to_invoice')</pre></details><details><summary id="f-amount_total">amount_total <span class="position">@ line 216</span></summary><pre>amount_total = fields.Monetary(string="Total", store=True, compute='_compute_amounts', tracking=4)</pre></details><details><summary id="f-amount_undiscounted">amount_undiscounted <span class="position">@ line 264</span></summary><pre>amount_undiscounted = fields.Float(
+        string="Amount Before Discount",
+        compute='_compute_amount_undiscounted', digits=0)</pre></details><details><summary id="f-amount_untaxed">amount_untaxed <span class="position">@ line 214</span></summary><pre>amount_untaxed = fields.Monetary(string="Untaxed Amount", store=True, compute='_compute_amounts', tracking=5)</pre></details><details><summary id="f-analytic_account_id">analytic_account_id <span class="position">@ line 253</span></summary><pre>analytic_account_id = fields.Many2one(
+        comodel_name='account.analytic.account',
+        string="Analytic Account",
+        copy=False, check_company=True,  # Unrequired company
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")</pre></details><details><summary id="f-authorized_transaction_ids">authorized_transaction_ids <span class="position">@ line 239</span></summary><pre>authorized_transaction_ids = fields.Many2many(
+        comodel_name='payment.transaction',
+        string="Authorized Transactions",
+        compute='_compute_authorized_transaction_ids',
+        copy=False,
+        compute_sudo=True)</pre></details><details><summary id="f-campaign_id">campaign_id <span class="position">@ line 248</span></summary><pre>campaign_id = fields.Many2one(ondelete='set null')</pre></details><details><summary id="f-client_order_ref">client_order_ref <span class="position">@ line 77</span></summary><pre>client_order_ref = fields.Char(string="Customer Reference", copy=False)</pre></details><details><summary id="f-commitment_date">commitment_date <span class="position">@ line 80</span></summary><pre>commitment_date = fields.Datetime(
+        string="Delivery Date", copy=False,
+        help="This is the delivery date promised to the customer. "
+             "If set, the delivery order will be scheduled based on "
+             "this date rather than product lead times.")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 58</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)</pre></details><details><summary id="f-country_code">country_code <span class="position">@ line 267</span></summary><pre>country_code = fields.Char(related='company_id.account_fiscal_country_id.code', string="Country code")</pre></details><details><summary id="f-create_date">create_date <span class="position">@ line 78</span></summary><pre>create_date = fields.Datetime(  # Override of default create_date field from ORM
+        string="Creation Date", index=True, readonly=True)</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 177</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        compute='_compute_currency_id',
+        store=True,
+        precompute=True,
+        ondelete='restrict'
+    )</pre></details><details><summary id="f-currency_rate">currency_rate <span class="position">@ line 184</span></summary><pre>currency_rate = fields.Float(
+        string="Currency Rate",
+        compute='_compute_currency_rate',
+        digits=0,
+        store=True, precompute=True)</pre></details><details><summary id="f-date_order">date_order <span class="position">@ line 85</span></summary><pre>date_order = fields.Datetime(
+        string="Order Date",
+        required=True, copy=False,
+        help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.",
+        default=fields.Datetime.now)</pre></details><details><summary id="f-expected_date">expected_date <span class="position">@ line 268</span></summary><pre>expected_date = fields.Datetime(
+        string="Expected Date",
+        compute='_compute_expected_date', store=False,  # Note: can not be stored since depends on today()
+        help="Delivery date you can promise to the customer, computed from the minimum lead time of the order lines.")</pre></details><details><summary id="f-fiscal_position_id">fiscal_position_id <span class="position">@ line 155</span></summary><pre>fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        string="Fiscal Position",
+        compute='_compute_fiscal_position_id',
+        store=True, readonly=False, precompute=True, check_company=True,
+        help="Fiscal positions are used to adapt taxes and accounts for particular customers or sales orders/invoices."
+            "The default value comes from the customer.",
+    )</pre></details><details><summary id="f-has_active_pricelist">has_active_pricelist <span class="position">@ line 291</span></summary><pre>has_active_pricelist = fields.Boolean(
+        compute='_compute_has_active_pricelist')</pre></details><details><summary id="f-has_archived_products">has_archived_products <span class="position">@ line 75</span></summary><pre>has_archived_products = fields.Boolean(compute="_compute_has_archived_products")</pre></details><details><summary id="f-invoice_count">invoice_count <span class="position">@ line 220</span></summary><pre>invoice_count = fields.Integer(string="Invoice Count", compute='_get_invoiced')</pre></details><details><summary id="f-invoice_ids">invoice_ids <span class="position">@ line 221</span></summary><pre>invoice_ids = fields.Many2many(
+        comodel_name='account.move',
+        string="Invoices",
+        compute='_get_invoiced',
+        search='_search_invoice_ids',
+        copy=False)</pre></details><details><summary id="f-invoice_status">invoice_status <span class="position">@ line 227</span></summary><pre>invoice_status = fields.Selection(
+        selection=INVOICE_STATUS,
+        string="Invoice Status",
+        compute='_compute_invoice_status',
+        store=True)</pre></details><details><summary id="f-is_expired">is_expired <span class="position">@ line 272</span></summary><pre>is_expired = fields.Boolean(string="Is Expired", compute='_compute_is_expired')</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 127</span></summary><pre>journal_id = fields.Many2one(
+        'account.journal', string="Invoicing Journal",
+        compute="_compute_journal_id", store=True, readonly=False, precompute=True,
+        domain=[('type', '=', 'sale')], check_company=True,
+        help="If set, the SO will invoice in this journal; "
+             "otherwise the sales journal with the lowest sequence is used.")</pre></details><details><summary id="f-locked">locked <span class="position">@ line 74</span></summary><pre>locked = fields.Boolean(default=False, copy=False, help="Locked orders cannot be modified.")</pre></details><details><summary id="f-medium_id">medium_id <span class="position">@ line 249</span></summary><pre>medium_id = fields.Many2one(ondelete='set null')</pre></details><details><summary id="f-name">name <span class="position">@ line 52</span></summary><pre>name = fields.Char(
+        string="Order Reference",
+        required=True, copy=False, readonly=False,
+        index='trigram',
+        default=lambda self: _('New'))</pre></details><details><summary id="f-note">note <span class="position">@ line 135</span></summary><pre>note = fields.Html(
+        string="Terms and conditions",
+        compute='_compute_note',
+        store=True, readonly=False, precompute=True)</pre></details><details><summary id="f-order_line">order_line <span class="position">@ line 208</span></summary><pre>order_line = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        string="Order Lines",
+        copy=True, auto_join=True)</pre></details><details><summary id="f-origin">origin <span class="position">@ line 90</span></summary><pre>origin = fields.Char(
+        string="Source Document",
+        help="Reference of the document that generated this sales order request")</pre></details><details><summary id="f-partner_credit_warning">partner_credit_warning <span class="position">@ line 273</span></summary><pre>partner_credit_warning = fields.Text(
+        compute='_compute_partner_credit_warning')</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 62</span></summary><pre>partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string="Customer",
+        required=True, change_default=True, index=True,
+        tracking=1,
+        domain="[('company_id', 'in', (False, company_id))]")</pre></details><details><summary id="f-partner_invoice_id">partner_invoice_id <span class="position">@ line 140</span></summary><pre>partner_invoice_id = fields.Many2one(
+        comodel_name='res.partner',
+        string="Invoice Address",
+        compute='_compute_partner_invoice_id',
+        store=True, readonly=False, required=True, precompute=True,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        index='btree_not_null')</pre></details><details><summary id="f-partner_shipping_id">partner_shipping_id <span class="position">@ line 147</span></summary><pre>partner_shipping_id = fields.Many2one(
+        comodel_name='res.partner',
+        string="Delivery Address",
+        compute='_compute_partner_shipping_id',
+        store=True, readonly=False, required=True, precompute=True,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        index='btree_not_null')</pre></details><details><summary id="f-payment_term_id">payment_term_id <span class="position">@ line 163</span></summary><pre>payment_term_id = fields.Many2one(
+        comodel_name='account.payment.term',
+        string="Payment Terms",
+        compute='_compute_payment_term_id',
+        store=True, readonly=False, precompute=True, check_company=True,  # Unrequired company
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")</pre></details><details><summary id="f-prepayment_percent">prepayment_percent <span class="position">@ line 108</span></summary><pre>prepayment_percent = fields.Float(
+        string="Prepayment percentage",
+        compute='_compute_prepayment_percent',
+        store=True, readonly=False, precompute=True,
+        help="The percentage of the amount needed that must be paid by the customer to confirm the order.")</pre></details><details><summary id="f-pricelist_id">pricelist_id <span class="position">@ line 169</span></summary><pre>pricelist_id = fields.Many2one(
+        comodel_name='product.pricelist',
+        string="Pricelist",
+        compute='_compute_pricelist_id',
+        store=True, readonly=False, precompute=True, check_company=True,  # Unrequired company
+        tracking=1,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        help="If you change the pricelist, only newly added lines will be affected.")</pre></details><details><summary id="f-reference">reference <span class="position">@ line 93</span></summary><pre>reference = fields.Char(
+        string="Payment Ref.",
+        help="The payment communication of this sale order.",
+        copy=False)</pre></details><details><summary id="f-require_payment">require_payment <span class="position">@ line 103</span></summary><pre>require_payment = fields.Boolean(
+        string="Online payment",
+        compute='_compute_require_payment',
+        store=True, readonly=False, precompute=True,
+        help="Request a online payment from the customer to confirm the order.")</pre></details><details><summary id="f-require_signature">require_signature <span class="position">@ line 98</span></summary><pre>require_signature = fields.Boolean(
+        string="Online signature",
+        compute='_compute_require_signature',
+        store=True, readonly=False, precompute=True,
+        help="Request a online signature from the customer to confirm the order.")</pre></details><details><summary id="f-show_update_fpos">show_update_fpos <span class="position">@ line 289</span></summary><pre>show_update_fpos = fields.Boolean(
+        string="Has Fiscal Position Changed", store=False)</pre></details><details><summary id="f-show_update_pricelist">show_update_pricelist <span class="position">@ line 293</span></summary><pre>show_update_pricelist = fields.Boolean(
+        string="Has Pricelist Changed", store=False)</pre></details><details><summary id="f-signature">signature <span class="position">@ line 114</span></summary><pre>signature = fields.Image(
+        string="Signature",
+        copy=False, attachment=True, max_width=1024, max_height=1024)</pre></details><details><summary id="f-signed_by">signed_by <span class="position">@ line 117</span></summary><pre>signed_by = fields.Char(
+        string="Signed By", copy=False)</pre></details><details><summary id="f-signed_on">signed_on <span class="position">@ line 119</span></summary><pre>signed_on = fields.Datetime(
+        string="Signed On", copy=False)</pre></details><details><summary id="f-source_id">source_id <span class="position">@ line 250</span></summary><pre>source_id = fields.Many2one(ondelete='set null')</pre></details><details><summary id="f-state">state <span class="position">@ line 68</span></summary><pre>state = fields.Selection(
+        selection=SALE_ORDER_STATE,
+        string="Status",
+        readonly=True, copy=False, index=True,
+        tracking=3,
+        default='draft')</pre></details><details><summary id="f-tag_ids">tag_ids <span class="position">@ line 258</span></summary><pre>tag_ids = fields.Many2many(
+        comodel_name='crm.tag',
+        relation='sale_order_tag_rel', column1='order_id', column2='tag_id',
+        string="Tags")</pre></details><details><summary id="f-tax_calculation_rounding_method">tax_calculation_rounding_method <span class="position">@ line 275</span></summary><pre>tax_calculation_rounding_method = fields.Selection(
+        related='company_id.tax_calculation_rounding_method',
+        depends=['company_id'])</pre></details><details><summary id="f-tax_country_id">tax_country_id <span class="position">@ line 278</span></summary><pre>tax_country_id = fields.Many2one(
+        comodel_name='res.country',
+        compute='_compute_tax_country_id',
+        # Avoid access error on fiscal position when reading a sale order with company != user.company_ids
+        compute_sudo=True)</pre></details><details><summary id="f-tax_totals">tax_totals <span class="position">@ line 283</span></summary><pre>tax_totals = fields.Binary(compute='_compute_tax_totals', exportable=False)</pre></details><details><summary id="f-team_id">team_id <span class="position">@ line 198</span></summary><pre>team_id = fields.Many2one(
+        comodel_name='crm.team',
+        string="Sales Team",
+        compute='_compute_team_id',
+        store=True, readonly=False, precompute=True, ondelete="set null",
+        change_default=True, check_company=True,  # Unrequired company
+        tracking=True,
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")</pre></details><details><summary id="f-terms_type">terms_type <span class="position">@ line 284</span></summary><pre>terms_type = fields.Selection(related='company_id.terms_type')</pre></details><details><summary id="f-transaction_ids">transaction_ids <span class="position">@ line 234</span></summary><pre>transaction_ids = fields.Many2many(
+        comodel_name='payment.transaction',
+        relation='sale_order_transaction_rel', column1='sale_order_id', column2='transaction_id',
+        string="Transactions",
+        copy=False, readonly=True)</pre></details><details><summary id="f-type_name">type_name <span class="position">@ line 285</span></summary><pre>type_name = fields.Char(string="Type Name", compute='_compute_type_name')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 189</span></summary><pre>user_id = fields.Many2one(
+        comodel_name='res.users',
+        string="Salesperson",
+        compute='_compute_user_id',
+        store=True, readonly=False, precompute=True, index=True,
+        tracking=2,
+        domain=lambda self: "[('groups_id', '=', {}), ('share', '=', False), ('company_ids', '=', company_id)]".format(
+            self.env.ref("sales_team.group_sale_salesman").id
+        ))</pre></details><details><summary id="f-validity_date">validity_date <span class="position">@ line 122</span></summary><pre>validity_date = fields.Date(
+        string="Expiration",
+        help="Validity of the order, after that you will not able to sign & pay the quotation.",
+        compute='_compute_validity_date',
+        store=True, readonly=False, copy=False, precompute=True)</pre></details><h3>Methods</h3><ul id="m-_action_cancel"><li>_action_cancel(self) <span class="position">@ line 1116</span></li></ul><details><summary id="m-_action_confirm">_action_confirm(self) <span class="position">@ line 1008</span></summary><pre>Implementation of additional mechanism of Sales Order confirmation.
+This method should be extended when the confirmation should generated
+other documents. In this method, the SO are in 'sale' state (not yet 'done').</pre></details><ul id="m-_can_be_confirmed"><li>_can_be_confirmed(self) <span class="position">@ line 991</span></li></ul><ul id="m-_compute_access_url"><li>_compute_access_url(self) <span class="position">@ line 693</span></li></ul><ul id="m-_compute_amount_undiscounted"><li>_compute_amount_undiscounted(self) <span class="position">@ line 599</span></li></ul><ul id="m-_compute_field_value"><li>_compute_field_value(self, field) <span class="position">@ line 1745</span></li></ul><ul id="m-_compute_is_expired"><li>_compute_is_expired(self) <span class="position">@ line 624</span></li></ul><ul id="m-_compute_journal_id"><li>_compute_journal_id(self) <span class="position">@ line 344</span></li></ul><details><summary id="m-_create_analytic_account">_create_analytic_account(self, prefix) <span class="position">@ line 1797</span></summary><pre>Create a new analytic account for the given orders.
+
+:param str prefix: if specified, the account name will be '<prefix>: <so_reference>'.
+If not, the account name will be the Sales Order reference.
+:return: None</pre></details><details><summary id="m-_create_invoices">_create_invoices(self, grouped, final, date) <span class="position">@ line 1308</span></summary><pre>Create invoice(s) for the given Sales Order(s).
+
+:param bool grouped: if True, invoices are grouped by SO id.
+If False, invoices are grouped by keys returned by :meth:`_get_invoice_grouping_keys`
+:param bool final: if True, refunds will be generated if necessary
+:param date: unused parameter
+:returns: created invoices
+:rtype: `account.move` recordset
+:raises: UserError if one of the orders has no invoiceable lines.</pre></details><ul id="m-_create_upsell_activity"><li>_create_upsell_activity(self) <span class="position">@ line 1760</span></li></ul><ul id="m-_default_order_line_values"><li>_default_order_line_values(self, child_field) <span class="position">@ line 1177</span></li></ul><ul id="m-_filter_product_documents"><li>_filter_product_documents(self, documents) <span class="position">@ line 1911</span></li></ul><details><summary id="m-_find_mail_template">_find_mail_template(self) <span class="position">@ line 904</span></summary><pre>Get the appropriate mail template for the current sales order based on its state.
+
+If the SO is confirmed, we return the mail template for the sale confirmation.
+Otherwise, we return the quotation email template.
+
+:return: The correct mail template based on the current status
+:rtype: record of `mail.template` or `None` if not found</pre></details><details><summary id="m-_force_lines_to_invoice_policy_order">_force_lines_to_invoice_policy_order(self) <span class="position">@ line 1597</span></summary><pre>Force the qty_to_invoice to be computed as if the invoice_policy
+was set to "Ordered quantities", independently of the product configuration.
+
+This is needed for the automatic invoice logic, as we want to automatically
+invoice the full SO when it's paid.</pre></details><details><summary id="m-_generate_analytic_account">_generate_analytic_account(self) <span class="position">@ line 1015</span></summary><pre>Generate an analytic account for the SO confirmed if at least an expense product</pre></details><details><summary id="m-_generate_downpayment_invoices">_generate_downpayment_invoices(self) <span class="position">@ line 1859</span></summary><pre>Generate invoices as down payments for sale order.
+
+:return: The generated down payment invoices.
+:rtype: recordset of `account.move`</pre></details><ul id="m-_get_action_add_from_catalog_extra_context"><li>_get_action_add_from_catalog_extra_context(self) <span class="position">@ line 1182</span></li></ul><details><summary id="m-_get_confirmation_template">_get_confirmation_template(self) <span class="position">@ line 919</span></summary><pre>Get the mail template sent on SO confirmation (or for confirmed SO's).
+
+:return: `mail.template` record or None if default template wasn't found</pre></details><ul id="m-_get_default_payment_link_values"><li>_get_default_payment_link_values(self) <span class="position">@ line 1647</span></li></ul><ul id="m-_get_invoice_grouping_keys"><li>_get_invoice_grouping_keys(self) <span class="position">@ line 1263</span></li></ul><details><summary id="m-_get_invoiceable_lines">_get_invoiceable_lines(self, final) <span class="position">@ line 1281</span></summary><pre>Return the invoiceable lines for order `self`.</pre></details><ul id="m-_get_lang"><li>_get_lang(self) <span class="position">@ line 1977</span></li></ul><details><summary id="m-_get_name_portal_content_view">_get_name_portal_content_view(self) <span class="position">@ line 1723</span></summary><pre>This method can be inherited by localizations who want to localize the online quotation view.</pre></details><details><summary id="m-_get_name_tax_totals_view">_get_name_tax_totals_view(self) <span class="position">@ line 1728</span></summary><pre>This method can be inherited by localizations who want to localize the taxes displayed on the portal and sale order report.</pre></details><ul id="m-_get_order_lines_to_report"><li>_get_order_lines_to_report(self) <span class="position">@ line 1628</span></li></ul><details><summary id="m-_get_portal_return_action">_get_portal_return_action(self) <span class="position">@ line 1718</span></summary><pre>Return the action used to display orders when returning from customer portal.</pre></details><details><summary id="m-_get_prepayment_required_amount">_get_prepayment_required_amount(self) <span class="position">@ line 1831</span></summary><pre>Return the minimum amount needed to confirm automatically the quotation.
+
+Note: self.ensure_one()
+
+:return: The minimum amount needed to confirm automatically the quotation.
+:rtype: float</pre></details><ul id="m-_get_product_catalog_domain"><li>_get_product_catalog_domain(self) <span class="position">@ line 1189</span></li></ul><ul id="m-_get_product_catalog_order_data"><li>_get_product_catalog_order_data(self, products) <span class="position">@ line 1877</span></li></ul><ul id="m-_get_product_catalog_record_lines"><li>_get_product_catalog_record_lines(self, product_ids) <span class="position">@ line 1894</span></li></ul><ul id="m-_get_product_documents"><li>_get_product_documents(self) <span class="position">@ line 1902</span></li></ul><ul id="m-_get_report_base_filename"><li>_get_report_base_filename(self) <span class="position">@ line 1732</span></li></ul><details><summary id="m-_get_update_prices_lines">_get_update_prices_lines(self) <span class="position">@ line 1277</span></summary><pre>Hook to exclude specific lines which should not be updated based on price list recomputation</pre></details><details><summary id="m-_has_to_be_paid">_has_to_be_paid(self) <span class="position">@ line 1695</span></summary><pre>A sale order has to be paid when:
+- its state is 'draft' or `sent`;
+- it's not expired;
+- it requires a payment;
+- the last transaction's state isn't `done`;
+- the total amount is strictly positive.
+
+Note: self.ensure_one()
+
+:return: Whether the sale order has to be paid.
+:rtype: bool</pre></details><details><summary id="m-_has_to_be_signed">_has_to_be_signed(self) <span class="position">@ line 1675</span></summary><pre>A sale order has to be signed when:
+- its state is 'draft' or `sent`
+- it's not expired;
+- it requires a signature;
+- it's not already signed.
+
+Note: self.ensure_one()
+
+:return: Whether the sale order has to be signed.
+:rtype: bool</pre></details><details><summary id="m-_is_confirmation_amount_reached">_is_confirmation_amount_reached(self) <span class="position">@ line 1845</span></summary><pre>Return whether `self.amount_paid` is higher than the prepayment required amount.
+
+Note: self.ensure_one()
+
+:return: Whether `self.amount_paid` is higher than the prepayment required amount.
+:rtype: bool</pre></details><details><summary id="m-_is_paid">_is_paid(self) <span class="position">@ line 1965</span></summary><pre>Return whether the sale order is paid or not based on the linked transactions.
+
+A sale order is considered paid if the sum of all the linked transaction is equal to or
+higher than `self.amount_total`.
+
+:return: Whether the sale order is paid or not.
+:rtype: bool</pre></details><details><summary id="m-_is_readonly">_is_readonly(self) <span class="position">@ line 1953</span></summary><pre>Return Whether the sale order is read-only or not based on the state or the lock status.
+
+A sale order is considered read-only if its state is 'cancel' or if the sale order is
+locked.
+
+:return: Whether the sale order is read-only or not.
+:rtype: bool</pre></details><ul id="m-_message_get_suggested_recipients"><li>_message_get_suggested_recipients(self) <span class="position">@ line 1587</span></li></ul><ul id="m-_nothing_to_invoice_error_message"><li>_nothing_to_invoice_error_message(self) <span class="position">@ line 1266</span></li></ul><ul id="m-_notify_by_email_prepare_rendering_context"><li>_notify_by_email_prepare_rendering_context(self, message, msg_vals, model_description, force_email_company, force_email_lang) <span class="position">@ line 1552</span></li></ul><details><summary id="m-_notify_get_recipients_groups">_notify_get_recipients_groups(self, message, model_description, msg_vals) <span class="position">@ line 1504</span></summary><pre>Give access button to users and portal customer as portal is integrated
+in sale. Customer and portal group have probably no right to see
+the document so they don't have the access button.</pre></details><details><summary id="m-_phone_get_number_fields">_phone_get_number_fields(self) <span class="position">@ line 1574</span></summary><pre>No phone or mobile field is available on sale model. Instead SMS will
+fallback on partner-based computation using ``_mail_get_partner_fields``.</pre></details><details><summary id="m-_prepare_analytic_account_data">_prepare_analytic_account_data(self, prefix) <span class="position">@ line 1773</span></summary><pre>Prepare SO analytic account creation values.
+
+:param str prefix: The prefix of the to-be-created analytic account name
+:return: `account.analytic.account` creation values
+:rtype: dict</pre></details><details><summary id="m-_prepare_confirmation_values">_prepare_confirmation_values(self) <span class="position">@ line 995</span></summary><pre>Prepare the sales order confirmation values.
+
+Note: self can contain multiple records.
+
+:return: Sales Order confirmation values
+:rtype: dict</pre></details><details><summary id="m-_prepare_down_payment_section_line">_prepare_down_payment_section_line(self) <span class="position">@ line 1808</span></summary><pre>Prepare the values to create a new down payment section.
+
+:param dict optional_values: any parameter that should be added to the returned down payment section
+:return: `account.move.line` creation values
+:rtype: dict</pre></details><details><summary id="m-_prepare_invoice">_prepare_invoice(self) <span class="position">@ line 1194</span></summary><pre>Prepare the dict of values to create the new invoice for a sales order. This method may be
+overridden to implement custom invoice generation (making sure to call super() to establish
+a clean extension chain).</pre></details><ul id="m-_rec_names_search"><li>_rec_names_search(self) <span class="position">@ line 45</span></li></ul><ul id="m-_recompute_prices"><li>_recompute_prices(self) <span class="position">@ line 1166</span></li></ul><ul id="m-_recompute_taxes"><li>_recompute_taxes(self) <span class="position">@ line 1149</span></li></ul><ul id="m-_search_invoice_ids"><li>_search_invoice_ids(self, operator, value) <span class="position">@ line 502</span></li></ul><details><summary id="m-_send_order_confirmation_mail">_send_order_confirmation_mail(self) <span class="position">@ line 1024</span></summary><pre>Send a mail to the SO customer to inform them that their order has been confirmed.
+
+:return: None</pre></details><details><summary id="m-_send_order_notification_mail">_send_order_notification_mail(self, mail_template) <span class="position">@ line 1044</span></summary><pre>Send a mail to the customer
+
+Note: self.ensure_one()
+
+:param mail.template mail_template: the template used to generate the mail
+:return: None</pre></details><details><summary id="m-_send_payment_succeeded_for_order_mail">_send_payment_succeeded_for_order_mail(self) <span class="position">@ line 1033</span></summary><pre>Send a mail to the SO customer to inform them that a payment has been initiated.
+
+:return: None</pre></details><ul id="m-_should_be_locked"><li>_should_be_locked(self) <span class="position">@ line 985</span></li></ul><details><summary id="m-_show_cancel_wizard">_show_cancel_wizard(self) <span class="position">@ line 1121</span></summary><pre>Decide whether the sale.order.cancel wizard should be shown to cancel specified orders.
+
+:return: True if there is any non-draft order in the given orders
+:rtype: bool</pre></details><ul id="m-_track_subtype"><li>_track_subtype(self, init_values) <span class="position">@ line 1579</span></li></ul><details><summary id="m-_update_order_line_info">_update_order_line_info(self, product_id, quantity) <span class="position">@ line 1918</span></summary><pre>Update sale order line information for a given product or create a
+new one if none exists yet.
+:param int product_id: The product, as a `product.product` id.
+:return: The unit price of the product, based on the pricelist of the
+sale order and the quantity selected.
+:rtype: float</pre></details><details><summary id="m-action_cancel">action_cancel(self) <span class="position">@ line 1078</span></summary><pre>Cancel SO after showing the cancel wizard when needed. (cfr :meth:`_show_cancel_wizard`)
+
+For post-cancel operations, please only override :meth:`_action_cancel`.
+
+note: self.ensure_one() if the wizard is shown.</pre></details><details><summary id="m-action_confirm">action_confirm(self) <span class="position">@ line 948</span></summary><pre>Confirm the given quotation(s) and set their confirmation date.
+
+If the corresponding setting is enabled, also locks the Sale Order.
+
+:return: True
+:rtype: bool
+:raise: UserError if trying to confirm cancelled SO's</pre></details><ul id="m-action_draft"><li>action_draft(self) <span class="position">@ line 852</span></li></ul><ul id="m-action_lock"><li>action_lock(self) <span class="position">@ line 1067</span></li></ul><ul id="m-action_open_discount_wizard"><li>action_open_discount_wizard(self) <span class="position">@ line 842</span></li></ul><ul id="m-action_preview_sale_order"><li>action_preview_sale_order(self) <span class="position">@ line 1131</span></li></ul><details><summary id="m-action_quotation_send">action_quotation_send(self) <span class="position">@ line 861</span></summary><pre>Opens a wizard to compose an email, with relevant mail template loaded by default</pre></details><details><summary id="m-action_quotation_sent">action_quotation_sent(self) <span class="position">@ line 935</span></summary><pre>Mark the given draft quotation(s) as sent.
+
+:raise: UserError if any given SO is not in draft state.</pre></details><ul id="m-action_unlock"><li>action_unlock(self) <span class="position">@ line 1075</span></li></ul><ul id="m-action_update_prices"><li>action_update_prices(self) <span class="position">@ line 1154</span></li></ul><ul id="m-action_update_taxes"><li>action_update_taxes(self) <span class="position">@ line 1139</span></li></ul><ul id="m-action_view_invoice"><li>action_view_invoice(self, invoices) <span class="position">@ line 1234</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 809</span></li></ul><ul id="m-get_portal_last_transaction"><li>get_portal_last_transaction(self) <span class="position">@ line 1624</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 296</span></li></ul><details><summary id="m-payment_action_capture">payment_action_capture(self) <span class="position">@ line 1609</span></summary><pre>Capture all transactions linked to this sale order.</pre></details><details><summary id="m-payment_action_void">payment_action_void(self) <span class="position">@ line 1617</span></summary><pre>Void all transactions linked to this sale order.</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 830</span></li></ul><h2>Inherited: odoo/addons/repair/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-repair_count">repair_count <span class="position">@ line 13</span></summary><pre>repair_count = fields.Integer(
+        "Repair Order(s)", compute='_compute_repair_count', groups='stock.group_stock_user')</pre></details><details><summary id="f-repair_order_ids">repair_order_ids <span class="position">@ line 10</span></summary><pre>repair_order_ids = fields.One2many(
+        comodel_name='repair.order', inverse_name='sale_order_id',
+        string='Repair Order', groups='stock.group_stock_user')</pre></details><h3>Methods</h3><ul id="m-_action_cancel"><li>_action_cancel(self) <span class="position">@ line 21</span></li></ul><ul id="m-_action_confirm"><li>_action_confirm(self) <span class="position">@ line 26</span></li></ul><ul id="m-action_show_repair"><li>action_show_repair(self) <span class="position">@ line 31</span></li></ul><h2>Inherited: odoo/addons/pos_sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-amount_unpaid">amount_unpaid <span class="position">@ line 13</span></summary><pre>amount_unpaid = fields.Monetary(string='Unpaid Amount', compute='_compute_amount_unpaid', store=True, help="The amount due from the sale order.")</pre></details><details><summary id="f-pos_order_count">pos_order_count <span class="position">@ line 12</span></summary><pre>pos_order_count = fields.Integer(string='Pos Order Count', compute='_count_pos_order', readonly=True, groups="point_of_sale.group_pos_user")</pre></details><details><summary id="f-pos_order_line_ids">pos_order_line_ids <span class="position">@ line 11</span></summary><pre>pos_order_line_ids = fields.One2many('pos.order.line', 'sale_order_origin_id', string="Order lines Transfered to Point of Sale", readonly=True, groups="point_of_sale.group_pos_user")</pre></details><h3>Methods</h3><ul id="m-_count_pos_order"><li>_count_pos_order(self) <span class="position">@ line 24</span></li></ul><ul id="m-action_view_pos_order"><li>action_view_pos_order(self) <span class="position">@ line 29</span></li></ul><h2>Inherited: odoo/addons/mass_mailing_sale/models/sale_order.py</h2><h3>Methods</h3><details><summary id="m-_mailing_get_default_domain">_mailing_get_default_domain(self, mailing) <span class="position">@ line 11</span></summary><pre>Exclude by default canceled orders when performing a mass mailing.</pre></details><h2>Inherited: odoo/addons/l10n_in_sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-l10n_in_gst_treatment">l10n_in_gst_treatment <span class="position">@ line 12</span></summary><pre>l10n_in_gst_treatment = fields.Selection([
+            ('regular', 'Registered Business - Regular'),
+            ('composition', 'Registered Business - Composition'),
+            ('unregistered', 'Unregistered Business'),
+            ('consumer', 'Consumer'),
+            ('overseas', 'Overseas'),
+            ('special_economic_zone', 'Special Economic Zone'),
+            ('deemed_export', 'Deemed Export'),
+            ('uin_holders', 'UIN Holders'),
+        ], string="GST Treatment", readonly=False, compute="_compute_l10n_in_gst_treatment", store=True)</pre></details><details><summary id="f-l10n_in_reseller_partner_id">l10n_in_reseller_partner_id <span class="position">@ line 10</span></summary><pre>l10n_in_reseller_partner_id = fields.Many2one('res.partner',
+        string='Reseller', domain="[('vat', '!=', False), '|', ('company_id', '=', False), ('company_id', '=', company_id)]", readonly=False)</pre></details><h3>Methods</h3><ul id="m-_prepare_invoice"><li>_prepare_invoice(self) <span class="position">@ line 36</span></li></ul><h2>Inherited: odoo/addons/l10n_fi_sale/models/sale.py</h2><h3>Methods</h3><ul id="m-write"><li>write(self, values) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/l10n_ec_website_sale/models/sale_order.py</h2><h3>Methods</h3><details><summary id="m-_create_invoices">_create_invoices(self, grouped, final, date) <span class="position">@ line 8</span></summary><pre>Create invoice(s) for the given Sales Order(s).
+
+:param bool grouped: if True, invoices are grouped by SO id.
+If False, invoices are grouped by keys returned by :meth:`_get_invoice_grouping_keys`
+:param bool final: if True, refunds will be generated if necessary
+:param date: unused parameter
+:returns: created invoices
+:rtype: `account.move` recordset
+:raises: UserError if one of the orders has no invoiceable lines.</pre></details><h2>Inherited: odoo/addons/l10n_br_sales/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_get_name_portal_content_view"><li>_get_name_portal_content_view(self) <span class="position">@ line 8</span></li></ul><ul id="m-_get_name_tax_totals_view"><li>_get_name_tax_totals_view(self) <span class="position">@ line 12</span></li></ul><h2>Inherited: odoo/addons/event_sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-attendee_count">attendee_count <span class="position">@ line 11</span></summary><pre>attendee_count = fields.Integer('Attendee Count', compute='_compute_attendee_count')</pre></details><h3>Methods</h3><ul id="m-_compute_attendee_count"><li>_compute_attendee_count(self) <span class="position">@ line 50</span></li></ul><details><summary id="m-_get_product_catalog_domain">_get_product_catalog_domain(self) <span class="position">@ line 62</span></summary><pre>Override of `_get_product_catalog_domain` to extend the domain.
+
+:returns: A list of tuples that represents a domain.
+:rtype: list</pre></details><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 23</span></li></ul><ul id="m-action_view_attendee_list"><li>action_view_attendee_list(self) <span class="position">@ line 45</span></li></ul><details><summary id="m-write">write(self, vals) <span class="position">@ line 13</span></summary><pre>Synchronize partner from SO to registrations. This is done notably
+in website_sale controller shop/address that updates customer, but not
+only.</pre></details><h2>Inherited: odoo/addons/event_booth_sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-event_booth_count">event_booth_count <span class="position">@ line 12</span></summary><pre>event_booth_count = fields.Integer(string='Booth Count', compute='_compute_event_booth_count')</pre></details><details><summary id="f-event_booth_ids">event_booth_ids <span class="position">@ line 11</span></summary><pre>event_booth_ids = fields.One2many('event.booth', 'sale_order_id', string='Booths')</pre></details><h3>Methods</h3><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 24</span></li></ul><ul id="m-action_view_booth_list"><li>action_view_booth_list(self) <span class="position">@ line 36</span></li></ul><h2>Inherited: odoo/addons/delivery_mondialrelay/models/sale_order.py</h2><h3>Methods</h3><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/delivery/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-carrier_id">carrier_id <span class="position">@ line 10</span></summary><pre>carrier_id = fields.Many2one('delivery.carrier', string="Delivery Method", check_company=True, help="Fill this field if you plan to invoice the shipping based on picking.")</pre></details><details><summary id="f-delivery_message">delivery_message <span class="position">@ line 11</span></summary><pre>delivery_message = fields.Char(readonly=True, copy=False)</pre></details><details><summary id="f-delivery_set">delivery_set <span class="position">@ line 12</span></summary><pre>delivery_set = fields.Boolean(compute='_compute_delivery_state')</pre></details><details><summary id="f-is_all_service">is_all_service <span class="position">@ line 14</span></summary><pre>is_all_service = fields.Boolean("Service Product", compute="_compute_is_service_products")</pre></details><details><summary id="f-recompute_delivery_price">recompute_delivery_price <span class="position">@ line 13</span></summary><pre>recompute_delivery_price = fields.Boolean('Delivery cost should be recomputed')</pre></details><details><summary id="f-shipping_weight">shipping_weight <span class="position">@ line 15</span></summary><pre>shipping_weight = fields.Float("Shipping Weight", compute="_compute_shipping_weight", store=True, readonly=False)</pre></details><h3>Methods</h3><ul id="m-_compute_amount_total_without_delivery"><li>_compute_amount_total_without_delivery(self) <span class="position">@ line 22</span></li></ul><ul id="m-_create_delivery_line"><li>_create_delivery_line(self, carrier, price_unit) <span class="position">@ line 127</span></li></ul><ul id="m-_get_estimated_weight"><li>_get_estimated_weight(self) <span class="position">@ line 136</span></li></ul><details><summary id="m-_get_update_prices_lines">_get_update_prices_lines(self) <span class="position">@ line 39</span></summary><pre>Exclude delivery lines from price list recomputation based on product instead of carrier</pre></details><ul id="m-_prepare_delivery_line_vals"><li>_prepare_delivery_line_vals(self, carrier, price_unit) <span class="position">@ line 90</span></li></ul><details><summary id="m-_remove_delivery_line">_remove_delivery_line(self) <span class="position">@ line 44</span></summary><pre>Remove delivery products from the sales orders</pre></details><details><summary id="m-_update_order_line_info">_update_order_line_info(self, product_id, quantity) <span class="position">@ line 143</span></summary><pre>Override of `sale` to recompute the delivery prices.
+
+:param int product_id: The product, as a `product.product` id.
+:return: The unit price price of the product, based on the pricelist of the sale order and
+the quantity selected.
+:rtype: float</pre></details><ul id="m-action_open_delivery_wizard"><li>action_open_delivery_wizard(self) <span class="position">@ line 64</span></li></ul><ul id="m-set_delivery_line"><li>set_delivery_line(self, carrier, amount) <span class="position">@ line 57</span></li></ul><script src="class.js"></script></body></html>

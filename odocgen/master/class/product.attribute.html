@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.attribute - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.attribute</h1><p>Originally defined in: odoo/addons/product/models/product_attribute.py</p><p>Inherited in: odoo/addons/website_sale_comparison/models/product_attribute.py<br/>Inherited in: odoo/addons/website_sale/models/product_attribute.py<br/>Inherited in: odoo/addons/point_of_sale/models/product.py<br/></p><hr/><h2>Original: odoo/addons/product/models/product_attribute.py</h2><h3>Fields</h3><details><summary id="f-attribute_line_ids">attribute_line_ids <span class="position">@ line 57</span></summary><pre>attribute_line_ids = fields.One2many(
+        comodel_name='product.template.attribute.line',
+        inverse_name='attribute_id',
+        string="Lines")</pre></details><details><summary id="f-create_variant">create_variant <span class="position">@ line 23</span></summary><pre>create_variant = fields.Selection(
+        selection=[
+            ('always', 'Instantly'),
+            ('dynamic', 'Dynamically'),
+            ('no_variant', 'Never (option)'),
+        ],
+        default='always',
+        string="Variants Creation Mode",
+        help="""- Instantly: All possible variants are created as soon as the attribute and its values are added to a product.
+        - Dynamically: Each variant is created only when its corresponding attributes and values are added to a sales order.
+        - Never: Variants are never created for the attribute.
+        Note: the variants creation mode cannot be changed once the attribute is used on at least one product.""",
+        required=True)</pre></details><details><summary id="f-display_type">display_type <span class="position">@ line 36</span></summary><pre>display_type = fields.Selection(
+        selection=[
+            ('radio', 'Radio'),
+            ('pills', 'Pills'),
+            ('select', 'Select'),
+            ('color', 'Color'),
+            ('multi', 'Multi-checkbox (option)'),
+        ],
+        default='radio',
+        required=True,
+        help="The display type used in the Product Configurator.")</pre></details><details><summary id="f-name">name <span class="position">@ line 22</span></summary><pre>name = fields.Char(string="Attribute", required=True, translate=True)</pre></details><details><summary id="f-number_related_products">number_related_products <span class="position">@ line 66</span></summary><pre>number_related_products = fields.Integer(compute='_compute_number_related_products')</pre></details><details><summary id="f-product_tmpl_ids">product_tmpl_ids <span class="position">@ line 61</span></summary><pre>product_tmpl_ids = fields.Many2many(
+        comodel_name='product.template',
+        string="Related Products",
+        compute='_compute_products',
+        store=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 47</span></summary><pre>sequence = fields.Integer(string="Sequence", help="Determine the display order", index=True)</pre></details><details><summary id="f-template_value_ids">template_value_ids <span class="position">@ line 53</span></summary><pre>template_value_ids = fields.One2many(
+        comodel_name='product.template.attribute.value',
+        inverse_name='attribute_id',
+        string="Template Values")</pre></details><details><summary id="f-value_ids">value_ids <span class="position">@ line 49</span></summary><pre>value_ids = fields.One2many(
+        comodel_name='product.attribute.value',
+        inverse_name='attribute_id',
+        string="Values", copy=True)</pre></details><h3>Methods</h3><ul id="m-_without_no_variant_attributes"><li>_without_no_variant_attributes(self) <span class="position">@ line 140</span></li></ul><ul id="m-action_open_product_template_attribute_lines"><li>action_open_product_template_attribute_lines(self) <span class="position">@ line 128</span></li></ul><details><summary id="m-write">write(self, vals) <span class="position">@ line 89</span></summary><pre>Override to make sure attribute type can't be changed if it's used on
+a product template.
+
+This is important to prevent because changing the type would make
+existing combinations invalid without recomputing them, and recomputing
+them might take too long and we don't want to change products without
+the user knowing about it.</pre></details><h2>Inherited: odoo/addons/website_sale_comparison/models/product_attribute.py</h2><h3>Fields</h3><details><summary id="f-category_id">category_id <span class="position">@ line 10</span></summary><pre>category_id = fields.Many2one(
+        comodel_name='product.attribute.category',
+        string="eCommerce Category",
+        index=True,
+        help="Set a category to regroup similar attributes under the same section in the Comparison"
+             " page of eCommerce.",
+    )</pre></details><h2>Inherited: odoo/addons/website_sale/models/product_attribute.py</h2><h3>Fields</h3><details><summary id="f-visibility">visibility <span class="position">@ line 9</span></summary><pre>visibility = fields.Selection(
+        selection=[('visible', "Visible"), ('hidden', "Hidden")],
+        default='visible',
+    )</pre></details><script src="class.js"></script></body></html>

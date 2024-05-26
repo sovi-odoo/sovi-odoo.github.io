@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.notification - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.notification</h1><p>Originally defined in: odoo/addons/mail/models/mail_notification.py</p><p>Inherited in: odoo/addons/snailmail/models/mail_notification.py<br/>Inherited in: odoo/addons/sms/models/mail_notification.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_notification.py</h2><h3>Fields</h3><details><summary id="f-author_id">author_id <span class="position">@ line 19</span></summary><pre>author_id = fields.Many2one('res.partner', 'Author', ondelete='set null')</pre></details><details><summary id="f-failure_reason">failure_reason <span class="position">@ line 50</span></summary><pre>failure_reason = fields.Text('Failure reason', copy=False)</pre></details><details><summary id="f-failure_type">failure_type <span class="position">@ line 39</span></summary><pre>failure_type = fields.Selection(selection=[
+        # generic
+        ("unknown", "Unknown error"),
+        # mail
+        ("mail_bounce", "Bounce"),
+        ("mail_email_invalid", "Invalid email address"),
+        ("mail_email_missing", "Missing email address"),
+        ("mail_from_invalid", "Invalid from address"),
+        ("mail_from_missing", "Missing from address"),
+        ("mail_smtp", "Connection failed (outgoing mail server problem)"),
+        ], string='Failure type')</pre></details><details><summary id="f-is_read">is_read <span class="position">@ line 37</span></summary><pre>is_read = fields.Boolean('Is Read', index=True)</pre></details><details><summary id="f-mail_mail_id">mail_mail_id <span class="position">@ line 21</span></summary><pre>mail_mail_id = fields.Many2one('mail.mail', 'Mail', index=True, help='Optional mail_mail ID. Used mainly to optimize searches.')</pre></details><details><summary id="f-mail_message_id">mail_message_id <span class="position">@ line 20</span></summary><pre>mail_message_id = fields.Many2one('mail.message', 'Message', index=True, ondelete='cascade', required=True)</pre></details><details><summary id="f-notification_status">notification_status <span class="position">@ line 28</span></summary><pre>notification_status = fields.Selection([
+        ('ready', 'Ready to Send'),
+        ('process', 'Processing'),  # being checked by intermediary like IAP for sms
+        ('pending', 'Sent'),  # used with SMS; mail does not differentiate sent from delivered
+        ('sent', 'Delivered'),
+        ('bounce', 'Bounced'),
+        ('exception', 'Exception'),
+        ('canceled', 'Cancelled')
+        ], string='Status', default='ready', index=True)</pre></details><details><summary id="f-notification_type">notification_type <span class="position">@ line 25</span></summary><pre>notification_type = fields.Selection([
+        ('inbox', 'Inbox'), ('email', 'Email')
+        ], string='Notification Type', default='inbox', index=True, required=True)</pre></details><details><summary id="f-read_date">read_date <span class="position">@ line 38</span></summary><pre>read_date = fields.Datetime('Read Date', copy=False)</pre></details><details><summary id="f-res_partner_id">res_partner_id <span class="position">@ line 23</span></summary><pre>res_partner_id = fields.Many2one('res.partner', 'Recipient', index=True, ondelete='cascade')</pre></details><h3>Methods</h3><details><summary id="m-_filtered_for_web_client">_filtered_for_web_client(self) <span class="position">@ line 119</span></summary><pre>Returns only the notifications to show on the web client.</pre></details><details><summary id="m-_notification_format">_notification_format(self) <span class="position">@ line 130</span></summary><pre>Returns the current notifications in the format expected by the web
+client.</pre></details><ul id="m-format_failure_reason"><li>format_failure_reason(self) <span class="position">@ line 108</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 63</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 87</span></li></ul><h2>Inherited: odoo/addons/snailmail/models/mail_notification.py</h2><h3>Fields</h3><details><summary id="f-failure_type">failure_type <span class="position">@ line 11</span></summary><pre>failure_type = fields.Selection(selection_add=[
+        ('sn_credit', "Snailmail Credit Error"),
+        ('sn_trial', "Snailmail Trial Error"),
+        ('sn_price', "Snailmail No Price Available"),
+        ('sn_fields', "Snailmail Missing Required Fields"),
+        ('sn_format', "Snailmail Format Error"),
+        ('sn_error', "Snailmail Unknown Error"),
+    ])</pre></details><details><summary id="f-letter_id">letter_id <span class="position">@ line 10</span></summary><pre>letter_id = fields.Many2one('snailmail.letter', string="Snailmail Letter", index='btree_not_null', ondelete='cascade')</pre></details><details><summary id="f-notification_type">notification_type <span class="position">@ line 9</span></summary><pre>notification_type = fields.Selection(selection_add=[('snail', 'Snailmail')], ondelete={'snail': 'cascade'})</pre></details><h2>Inherited: odoo/addons/sms/models/mail_notification.py</h2><h3>Fields</h3><details><summary id="f-failure_type">failure_type <span class="position">@ line 18</span></summary><pre>failure_type = fields.Selection(selection_add=[
+        ('sms_number_missing', 'Missing Number'),
+        ('sms_number_format', 'Wrong Number Format'),
+        ('sms_credit', 'Insufficient Credit'),
+        ('sms_country_not_supported', 'Country Not Supported'),
+        ('sms_registration_needed', 'Country-specific Registration Required'),
+        ('sms_server', 'Server Error'),
+        ('sms_acc', 'Unregistered Account'),
+        # delivery report errors
+        ('sms_expired', 'Expired'),
+        ('sms_invalid_destination', 'Invalid Destination'),
+        ('sms_not_allowed', 'Not Allowed'),
+        ('sms_not_delivered', 'Not Delivered'),
+        ('sms_rejected', 'Rejected'),
+    ])</pre></details><details><summary id="f-notification_type">notification_type <span class="position">@ line 10</span></summary><pre>notification_type = fields.Selection(selection_add=[
+        ('sms', 'SMS')
+    ], ondelete={'sms': 'cascade'})</pre></details><details><summary id="f-sms_id">sms_id <span class="position">@ line 15</span></summary><pre>sms_id = fields.Many2one('sms.sms', string='SMS', store=False, compute='_compute_sms_id')</pre></details><details><summary id="f-sms_id_int">sms_id_int <span class="position">@ line 13</span></summary><pre>sms_id_int = fields.Integer('SMS ID', index='btree_not_null')</pre></details><details><summary id="f-sms_number">sms_number <span class="position">@ line 17</span></summary><pre>sms_number = fields.Char('SMS Number')</pre></details><details><summary id="f-sms_tracker_ids">sms_tracker_ids <span class="position">@ line 16</span></summary><pre>sms_tracker_ids = fields.One2many('sms.tracker', 'mail_notification_id', string="SMS Trackers")</pre></details><script src="class.js"></script></body></html>

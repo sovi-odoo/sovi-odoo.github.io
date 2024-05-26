@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>l10n.in.ewaybill - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>l10n.in.ewaybill</h1><p>Inherited in: odoo/addons/l10n_in_ewaybill_stock/models/l10n_in_ewaybill.py<br/></p><hr/><h2>Inherited: odoo/addons/l10n_in_ewaybill_stock/models/l10n_in_ewaybill.py</h2><h3>Fields</h3><details><summary id="f-blocking_level">blocking_level <span class="position">@ line 138</span></summary><pre>blocking_level = fields.Selection([
+        ("warning", "Warning"),
+        ("error", "Error")],
+        string="Blocking Level", readonly=True)</pre></details><details><summary id="f-cancel_reason">cancel_reason <span class="position">@ line 144</span></summary><pre>cancel_reason = fields.Selection(selection=[
+        ("1", "Duplicate"),
+        ("2", "Data Entry Mistake"),
+        ("3", "Order Cancelled"),
+        ("4", "Others"),
+    ], string="Cancel reason", copy=False, tracking=True)</pre></details><details><summary id="f-cancel_remarks">cancel_remarks <span class="position">@ line 150</span></summary><pre>cancel_remarks = fields.Char("Cancel remarks", copy=False, tracking=True)</pre></details><details><summary id="f-company_currency_id">company_currency_id <span class="position">@ line 46</span></summary><pre>company_currency_id = fields.Many2one(related="company_id.currency_id")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 45</span></summary><pre>company_id = fields.Many2one("res.company", related="picking_id.company_id")</pre></details><details><summary id="f-content">content <span class="position">@ line 143</span></summary><pre>content = fields.Binary(compute='_compute_content', compute_sudo=True)</pre></details><details><summary id="f-distance">distance <span class="position">@ line 105</span></summary><pre>distance = fields.Integer("Distance", tracking=True)</pre></details><details><summary id="f-document_date">document_date <span class="position">@ line 43</span></summary><pre>document_date = fields.Datetime("Document Date", related="picking_id.date_done")</pre></details><details><summary id="f-document_number">document_number <span class="position">@ line 44</span></summary><pre>document_number = fields.Char("Document", related="picking_id.name")</pre></details><details><summary id="f-error_message">error_message <span class="position">@ line 137</span></summary><pre>error_message = fields.Html(readonly=True)</pre></details><details><summary id="f-ewaybill_date">ewaybill_date <span class="position">@ line 28</span></summary><pre>ewaybill_date = fields.Date("e-Waybill Date", copy=False, readonly=True, tracking=True)</pre></details><details><summary id="f-ewaybill_expiry_date">ewaybill_expiry_date <span class="position">@ line 29</span></summary><pre>ewaybill_expiry_date = fields.Date("e-Waybill Valid Upto", copy=False, readonly=True, tracking=True)</pre></details><details><summary id="f-fiscal_position_id">fiscal_position_id <span class="position">@ line 90</span></summary><pre>fiscal_position_id = fields.Many2one(
+        comodel_name="account.fiscal.position",
+        string="Fiscal Position",
+        compute="_compute_fiscal_position",
+        check_company=True,
+        store=True,
+        readonly=False
+    )</pre></details><details><summary id="f-is_bill_from_editable">is_bill_from_editable <span class="position">@ line 86</span></summary><pre>is_bill_from_editable = fields.Boolean(compute="_compute_is_editable")</pre></details><details><summary id="f-is_bill_to_editable">is_bill_to_editable <span class="position">@ line 85</span></summary><pre>is_bill_to_editable = fields.Boolean(compute="_compute_is_editable")</pre></details><details><summary id="f-is_ship_from_editable">is_ship_from_editable <span class="position">@ line 88</span></summary><pre>is_ship_from_editable = fields.Boolean(compute="_compute_is_editable")</pre></details><details><summary id="f-is_ship_to_editable">is_ship_to_editable <span class="position">@ line 87</span></summary><pre>is_ship_to_editable = fields.Boolean(compute="_compute_is_editable")</pre></details><details><summary id="f-mode">mode <span class="position">@ line 106</span></summary><pre>mode = fields.Selection([
+        ("1", "By Road"),
+        ("2", "Rail"),
+        ("3", "Air"),
+        ("4", "Ship or Ship Cum Road/Rail")
+    ], string="Transportation Mode", copy=False, tracking=True, default="1")</pre></details><details><summary id="f-move_ids">move_ids <span class="position">@ line 39</span></summary><pre>move_ids = fields.One2many(related="picking_id.move_ids")</pre></details><details><summary id="f-name">name <span class="position">@ line 27</span></summary><pre>name = fields.Char("e-Waybill Number", copy=False, readonly=True, tracking=True)</pre></details><details><summary id="f-partner_bill_from_id">partner_bill_from_id <span class="position">@ line 51</span></summary><pre>partner_bill_from_id = fields.Many2one(
+        "res.partner",
+        string='Bill From',
+        compute="_compute_document_partners_details",
+        check_company=True,
+        store=True,
+        readonly=False
+    )</pre></details><details><summary id="f-partner_bill_to_id">partner_bill_to_id <span class="position">@ line 59</span></summary><pre>partner_bill_to_id = fields.Many2one(
+        "res.partner",
+        string='Bill To',
+        compute="_compute_document_partners_details",
+        check_company=True,
+        store=True,
+        readonly=False
+    )</pre></details><details><summary id="f-partner_ship_from_id">partner_ship_from_id <span class="position">@ line 67</span></summary><pre>partner_ship_from_id = fields.Many2one(
+        "res.partner",
+        string='Dispatch From',
+        compute="_compute_document_partners_details",
+        check_company=True,
+        store=True,
+        readonly=False
+    )</pre></details><details><summary id="f-partner_ship_to_id">partner_ship_to_id <span class="position">@ line 75</span></summary><pre>partner_ship_to_id = fields.Many2one(
+        'res.partner',
+        string='Ship To',
+        compute='_compute_document_partners_details',
+        check_company=True,
+        store=True,
+        readonly=False
+    )</pre></details><details><summary id="f-picking_id">picking_id <span class="position">@ line 38</span></summary><pre>picking_id = fields.Many2one("stock.picking", "Stock Transfer", copy=False)</pre></details><details><summary id="f-picking_type_code">picking_type_code <span class="position">@ line 40</span></summary><pre>picking_type_code = fields.Selection(related='picking_id.picking_type_id.code')</pre></details><details><summary id="f-state">state <span class="position">@ line 31</span></summary><pre>state = fields.Selection(string='Status', selection=[
+        ('pending', 'Pending'),
+        ('generated', 'Generated'),
+        ('cancel', 'Cancelled'),
+    ], required=True, readonly=True, copy=False, tracking=True, default='pending')</pre></details><details><summary id="f-sub_type_code">sub_type_code <span class="position">@ line 101</span></summary><pre>sub_type_code = fields.Char(related="type_id.sub_type_code")</pre></details><details><summary id="f-supply_type">supply_type <span class="position">@ line 47</span></summary><pre>supply_type = fields.Selection(string="Supply Type", selection=[
+        ("O", "Outward"),
+        ("I", "Inward")
+    ], compute="_compute_supply_type")</pre></details><details><summary id="f-transportation_doc_date">transportation_doc_date <span class="position">@ line 130</span></summary><pre>transportation_doc_date = fields.Date(
+        string="Transporter Doc Date",
+        copy=False,
+        tracking=True)</pre></details><details><summary id="f-transportation_doc_no">transportation_doc_no <span class="position">@ line 127</span></summary><pre>transportation_doc_no = fields.Char(
+        string="Transporter Doc No",
+        copy=False, tracking=True)</pre></details><details><summary id="f-transporter_id">transporter_id <span class="position">@ line 135</span></summary><pre>transporter_id = fields.Many2one("res.partner", "Transporter", copy=False, tracking=True)</pre></details><details><summary id="f-type_description">type_description <span class="position">@ line 102</span></summary><pre>type_description = fields.Char(string="Description")</pre></details><details><summary id="f-type_id">type_id <span class="position">@ line 100</span></summary><pre>type_id = fields.Many2one("l10n.in.ewaybill.type", "Document Type", tracking=True, required=True)</pre></details><details><summary id="f-vehicle_no">vehicle_no <span class="position">@ line 114</span></summary><pre>vehicle_no = fields.Char("Vehicle Number", copy=False, tracking=True)</pre></details><details><summary id="f-vehicle_type">vehicle_type <span class="position">@ line 115</span></summary><pre>vehicle_type = fields.Selection([
+        ("R", "Regular"),
+        ("O", "Over Dimensional Cargo")],
+        string="Vehicle Type",
+        compute="_compute_vehicle_type",
+        store=True,
+        copy=False,
+        tracking=True,
+        readonly=False
+    )</pre></details><h3>Methods</h3><ul id="m-_check_configuration"><li>_check_configuration(self) <span class="position">@ line 255</span></li></ul><ul id="m-_check_document_number"><li>_check_document_number(self) <span class="position">@ line 304</span></li></ul><ul id="m-_check_gst_treatment"><li>_check_gst_treatment(self) <span class="position">@ line 323</span></li></ul><ul id="m-_check_lines"><li>_check_lines(self) <span class="position">@ line 309</span></li></ul><ul id="m-_check_partners"><li>_check_partners(self) <span class="position">@ line 276</span></li></ul><ul id="m-_check_transporter"><li>_check_transporter(self) <span class="position">@ line 268</span></li></ul><ul id="m-_compute_content"><li>_compute_content(self) <span class="position">@ line 201</span></li></ul><ul id="m-_compute_supply_type"><li>_compute_supply_type(self) <span class="position">@ line 152</span></li></ul><ul id="m-_ewaybill_cancel"><li>_ewaybill_cancel(self) <span class="position">@ line 380</span></li></ul><ul id="m-_ewaybill_generate_direct_json"><li>_ewaybill_generate_direct_json(self) <span class="position">@ line 596</span></li></ul><ul id="m-_generate_ewaybill_direct"><li>_generate_ewaybill_direct(self) <span class="position">@ line 396</span></li></ul><ul id="m-_get_gst_treatment"><li>_get_gst_treatment(self) <span class="position">@ line 329</span></li></ul><ul id="m-_get_l10n_in_ewaybill_line_details"><li>_get_l10n_in_ewaybill_line_details(self, line, tax_details) <span class="position">@ line 476</span></li></ul><ul id="m-_handle_error"><li>_handle_error(self, ewaybill_error) <span class="position">@ line 372</span></li></ul><ul id="m-_handle_internal_warning_if_present"><li>_handle_internal_warning_if_present(self, response) <span class="position">@ line 360</span></li></ul><ul id="m-_is_overseas"><li>_is_overseas(self) <span class="position">@ line 251</span></li></ul><ul id="m-_l10n_in_tax_details"><li>_l10n_in_tax_details(self) <span class="position">@ line 441</span></li></ul><ul id="m-_l10n_in_tax_details_by_line"><li>_l10n_in_tax_details_by_line(self, move) <span class="position">@ line 458</span></li></ul><ul id="m-_lock_ewaybill"><li>_lock_ewaybill(self) <span class="position">@ line 349</span></li></ul><ul id="m-_prepare_ewaybill_base_json_payload"><li>_prepare_ewaybill_base_json_payload(self) <span class="position">@ line 502</span></li></ul><ul id="m-_prepare_ewaybill_tax_details_json_payload"><li>_prepare_ewaybill_tax_details_json_payload(self) <span class="position">@ line 578</span></li></ul><ul id="m-_prepare_ewaybill_transportation_json_payload"><li>_prepare_ewaybill_transportation_json_payload(self) <span class="position">@ line 564</span></li></ul><ul id="m-_write_error"><li>_write_error(self, error_message, blocking_level) <span class="position">@ line 336</span></li></ul><ul id="m-_write_successfully_response"><li>_write_successfully_response(self, response_vals) <span class="position">@ line 342</span></li></ul><ul id="m-action_export_json"><li>action_export_json(self) <span class="position">@ line 216</span></li></ul><ul id="m-cancel_ewaybill"><li>cancel_ewaybill(self) <span class="position">@ line 229</span></li></ul><ul id="m-generate_ewaybill"><li>generate_ewaybill(self) <span class="position">@ line 223</span></li></ul><ul id="m-reset_to_pending"><li>reset_to_pending(self) <span class="position">@ line 242</span></li></ul><script src="class.js"></script></body></html>

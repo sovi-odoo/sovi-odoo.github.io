@@ -1,0 +1,126 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>survey.user_input - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>survey.user_input</h1><p>Inherited in: odoo/addons/website_slides_survey/models/survey_user.py<br/>Inherited in: odoo/addons/survey/models/survey_user_input.py<br/>Inherited in: odoo/addons/hr_skills_survey/models/survey_user.py<br/>Inherited in: odoo/addons/hr_recruitment_survey/models/survey_user_input.py<br/></p><hr/><h2>Inherited: odoo/addons/website_slides_survey/models/survey_user.py</h2><h3>Fields</h3><details><summary id="f-slide_id">slide_id <span class="position">@ line 11</span></summary><pre>slide_id = fields.Many2one('slide.slide', 'Related course slide',
+        help="The related course slide when there is no membership information")</pre></details><details><summary id="f-slide_partner_id">slide_partner_id <span class="position">@ line 13</span></summary><pre>slide_partner_id = fields.Many2one('slide.slide.partner', 'Subscriber information',
+        help="Slide membership information for the logged in user",
+        index='btree_not_null')</pre></details><h3>Methods</h3><details><summary id="m-_check_for_failed_attempt">_check_for_failed_attempt(self) <span class="position">@ line 29</span></summary><pre>If the user fails their last attempt at a course certification,
+we remove them from the members of the course (and they have to enroll again).
+They receive an email in the process notifying them of their failure and suggesting
+they enroll to the course again.
+
+The purpose is to have a 'certification flow' where the user can re-purchase the
+certification when they have failed it.</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 23</span></li></ul><h2>Inherited: odoo/addons/survey/models/survey_user_input.py</h2><h3>Fields</h3><details><summary id="f-access_token">access_token <span class="position">@ line 44</span></summary><pre>access_token = fields.Char('Identification token', default=lambda self: str(uuid.uuid4()), readonly=True, required=True, copy=False)</pre></details><details><summary id="f-attempts_count">attempts_count <span class="position">@ line 40</span></summary><pre>attempts_count = fields.Integer("Attempts Count", compute='_compute_attempts_info')</pre></details><details><summary id="f-attempts_limit">attempts_limit <span class="position">@ line 39</span></summary><pre>attempts_limit = fields.Integer("Number of attempts", related='survey_id.attempts_limit')</pre></details><details><summary id="f-attempts_number">attempts_number <span class="position">@ line 41</span></summary><pre>attempts_number = fields.Integer("Attempt n°", compute='_compute_attempts_info')</pre></details><details><summary id="f-deadline">deadline <span class="position">@ line 30</span></summary><pre>deadline = fields.Datetime('Deadline', help="Datetime until customer can open the survey and submit answers")</pre></details><details><summary id="f-email">email <span class="position">@ line 47</span></summary><pre>email = fields.Char('Email', readonly=True)</pre></details><details><summary id="f-end_datetime">end_datetime <span class="position">@ line 29</span></summary><pre>end_datetime = fields.Datetime('End date and time', readonly=True)</pre></details><details><summary id="f-invite_token">invite_token <span class="position">@ line 45</span></summary><pre>invite_token = fields.Char('Invite token', readonly=True, copy=False)</pre></details><details><summary id="f-is_attempts_limited">is_attempts_limited <span class="position">@ line 38</span></summary><pre>is_attempts_limited = fields.Boolean("Limited number of attempts", related='survey_id.is_attempts_limited')</pre></details><details><summary id="f-is_session_answer">is_session_answer <span class="position">@ line 57</span></summary><pre>is_session_answer = fields.Boolean('Is in a Session', help="Is that user input part of a survey session or not.")</pre></details><details><summary id="f-last_displayed_page_id">last_displayed_page_id <span class="position">@ line 36</span></summary><pre>last_displayed_page_id = fields.Many2one('survey.question', string='Last displayed question/page')</pre></details><details><summary id="f-nickname">nickname <span class="position">@ line 48</span></summary><pre>nickname = fields.Char('Nickname', help="Attendee nickname, mainly used to identify them in the survey session leaderboard.")</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 46</span></summary><pre>partner_id = fields.Many2one('res.partner', string='Contact', readonly=True, index='btree_not_null')</pre></details><details><summary id="f-predefined_question_ids">predefined_question_ids <span class="position">@ line 51</span></summary><pre>predefined_question_ids = fields.Many2many('survey.question', string='Predefined Questions', readonly=True)</pre></details><details><summary id="f-question_time_limit_reached">question_time_limit_reached <span class="position">@ line 58</span></summary><pre>question_time_limit_reached = fields.Boolean("Question Time Limit Reached", compute='_compute_question_time_limit_reached')</pre></details><details><summary id="f-scoring_percentage">scoring_percentage <span class="position">@ line 52</span></summary><pre>scoring_percentage = fields.Float("Score (%)", compute="_compute_scoring_values", store=True, compute_sudo=True)</pre></details><details><summary id="f-scoring_success">scoring_success <span class="position">@ line 54</span></summary><pre>scoring_success = fields.Boolean('Quizz Passed', compute='_compute_scoring_success', store=True, compute_sudo=True)</pre></details><details><summary id="f-scoring_total">scoring_total <span class="position">@ line 53</span></summary><pre>scoring_total = fields.Float("Total Score", compute="_compute_scoring_values", store=True, compute_sudo=True, digits=(10, 2))</pre></details><details><summary id="f-scoring_type">scoring_type <span class="position">@ line 27</span></summary><pre>scoring_type = fields.Selection(string="Scoring", related="survey_id.scoring_type")</pre></details><details><summary id="f-start_datetime">start_datetime <span class="position">@ line 28</span></summary><pre>start_datetime = fields.Datetime('Start date and time', readonly=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 31</span></summary><pre>state = fields.Selection([
+        ('new', 'New'),
+        ('in_progress', 'In Progress'),
+        ('done', 'Completed')], string='Status', default='new', readonly=True)</pre></details><details><summary id="f-survey_first_submitted">survey_first_submitted <span class="position">@ line 55</span></summary><pre>survey_first_submitted = fields.Boolean(string='Survey First Submitted')</pre></details><details><summary id="f-survey_id">survey_id <span class="position">@ line 26</span></summary><pre>survey_id = fields.Many2one('survey.survey', string='Survey', required=True, readonly=True, index=True, ondelete='cascade')</pre></details><details><summary id="f-survey_time_limit_reached">survey_time_limit_reached <span class="position">@ line 42</span></summary><pre>survey_time_limit_reached = fields.Boolean("Survey Time Limit Reached", compute='_compute_survey_time_limit_reached')</pre></details><details><summary id="f-test_entry">test_entry <span class="position">@ line 35</span></summary><pre>test_entry = fields.Boolean(readonly=True)</pre></details><details><summary id="f-user_input_line_ids">user_input_line_ids <span class="position">@ line 50</span></summary><pre>user_input_line_ids = fields.One2many('survey.user_input.line', 'user_input_id', string='Answers', copy=True)</pre></details><h3>Methods</h3><details><summary id="m-_clear_inactive_conditional_answers">_clear_inactive_conditional_answers(self) <span class="position">@ line 573</span></summary><pre>Clean eventual answers on conditional questions that should not have been displayed to user.
+This method is used mainly for page per question survey, a similar method does the same treatment
+at client side for the other survey layouts.
+E.g.: if depending answer was uncheck after answering conditional question, we need to clear answers
+of that conditional question, for two reasons:
+- ensure correct scoring
+- if the selected answer triggers another question later in the survey, if the answer is not cleared,
+a question that should not be displayed to the user will be.
+
+TODO DBE: Maybe this can be the only cleaning method, even for section_per_page or one_page where
+conditional questions are, for now, cleared in JS directly. But this can be annoying if user typed a long
+answer, changed their mind unchecking depending answer and changed again their mind by rechecking the depending
+answer -> For now, the long answer will be lost. If we use this as the master cleaning method,
+long answer will be cleared only during submit.</pre></details><details><summary id="m-_get_conditional_values">_get_conditional_values(self) <span class="position">@ line 526</span></summary><pre>For survey containing conditional questions, we need a triggered_questions_by_answer map that contains
+{key: answer, value: the question that the answer triggers, if selected},
+The idea is to be able to verify, on every answer check, if this answer is triggering the display
+of another question.
+If answer is not in the conditional map:
+- nothing happens.
+If the answer is in the conditional map:
+- If we are in ONE PAGE survey : (handled at CLIENT side)
+-> display immediately the depending question
+- If we are in PAGE PER SECTION : (handled at CLIENT side)
+- If related question is on the same page :
+-> display immediately the depending question
+- If the related question is not on the same page :
+-> keep the answers in memory and check at next page load if the depending question is in there and
+display it, if so.
+- If we are in PAGE PER QUESTION : (handled at SERVER side)
+-> During submit, determine which is the next question to display getting the next question
+that is the next in sequence and that is either not triggered by another question's answer, or that
+is triggered by an already selected answer.
+To do all this, we need to return:
+- triggering_answers_by_question: dict -> for a given question, the answers that triggers it
+Used mainly to ease template rendering
+- triggered_questions_by_answer: dict -> for a given answer, list of questions triggered by this answer;
+Used mainly for dynamic show/hide behaviour at client side
+- list of all selected answers: [answer_id1, answer_id2, ...] (for survey reloading, otherwise, this list is
+updated at client side)</pre></details><ul id="m-_get_inactive_conditional_questions"><li>_get_inactive_conditional_questions(self) <span class="position">@ line 596</span></li></ul><ul id="m-_get_line_answer_values"><li>_get_line_answer_values(self, question, answer, answer_type) <span class="position">@ line 355</span></li></ul><ul id="m-_get_line_comment_values"><li>_get_line_comment_values(self, question, comment) <span class="position">@ line 376</span></li></ul><details><summary id="m-_get_next_skipped_page_or_question">_get_next_skipped_page_or_question(self) <span class="position">@ line 619</span></summary><pre>Get next skipped question or page in case the option 'can_go_back' is set on the survey
+It loops to the first skipped question or page if 'last_displayed_page_id' is the last
+skipped question or page.</pre></details><details><summary id="m-_get_print_questions">_get_print_questions(self) <span class="position">@ line 606</span></summary><pre>Get the questions to display : the ones that should have been answered = active questions
+In case of session, active questions are based on most voted answers
+:return: active survey.question browse records</pre></details><details><summary id="m-_get_selected_suggested_answers">_get_selected_suggested_answers(self) <span class="position">@ line 563</span></summary><pre>For now, only simple and multiple choices question type are handled by the conditional questions feature.
+Mapping all the suggested answers selected by the user will also include answers from matrix question type,
+Those ones won't be used.
+Maybe someday, conditional questions feature will be extended to work with matrix question.
+:return: all the suggested answer selected by the user.</pre></details><ul id="m-_get_skipped_questions"><li>_get_skipped_questions(self) <span class="position">@ line 640</span></li></ul><details><summary id="m-_is_last_skipped_page_or_question">_is_last_skipped_page_or_question(self, page_or_question) <span class="position">@ line 646</span></summary><pre>In case of a submitted survey tells if the question or page is the last
+skipped page or question.
+
+This is used to :
+
+- Display a Submit button if the actual question is the last skipped question.
+- Avoid displaying a Submit button on the last survey question if there are
+still skipped questions before.
+- Avoid displaying the next page if submitting the latest skipped question.
+
+:param page_or_question: page if survey's layout is page_per_section, question if page_per_question.</pre></details><details><summary id="m-_mark_done">_mark_done(self) <span class="position">@ line 231</span></summary><pre>This method will:
+1. mark the state as 'done'
+2. send the certification email with attached document if
+- The survey is a certification
+- It has a certification_mail_template_id set
+- The user succeeded the test
+3. Notify survey subtype subscribers of the newly completed input
+Will also run challenge Cron to give the certification badge if any.</pre></details><details><summary id="m-_mark_in_progress">_mark_in_progress(self) <span class="position">@ line 224</span></summary><pre>marks the state as 'in_progress' and updates the start_datetime accordingly.</pre></details><ul id="m-_message_get_suggested_recipients"><li>_message_get_suggested_recipients(self) <span class="position">@ line 672</span></li></ul><ul id="m-_multiple_choice_question_answer_result"><li>_multiple_choice_question_answer_result(self, user_input_lines, question_correct_suggested_answers) <span class="position">@ line 491</span></li></ul><ul id="m-_notify_new_participation_subscribers"><li>_notify_new_participation_subscribers(self) <span class="position">@ line 682</span></li></ul><details><summary id="m-_prepare_statistics">_prepare_statistics(self) <span class="position">@ line 389</span></summary><pre>Prepares survey.user_input's statistics to display various charts on the frontend.
+Returns a structure containing answers statistics "by section" and "totals" for every input in self.
+
+e.g returned structure:
+{
+survey.user_input(1,): {
+'by_section': {
+'Uncategorized': {
+'question_count': 2,
+'correct': 2,
+'partial': 0,
+'incorrect': 0,
+'skipped': 0,
+},
+'Mathematics': {
+'question_count': 3,
+'correct': 1,
+'partial': 1,
+'incorrect': 0,
+'skipped': 1,
+},
+'Geography': {
+'question_count': 4,
+'correct': 2,
+'partial': 0,
+'incorrect': 2,
+'skipped': 0,
+}
+},
+'totals' [{
+'text': 'Correct',
+'count': 5,
+}, {
+'text': 'Partially',
+'count': 1,
+}, {
+'text': 'Incorrect',
+'count': 2,
+}, {
+'text': 'Unanswered',
+'count': 1,
+}]
+}
+}</pre></details><ul id="m-_save_line_choice"><li>_save_line_choice(self, question, old_answers, answers, comment) <span class="position">@ line 311</span></li></ul><ul id="m-_save_line_matrix"><li>_save_line_matrix(self, question, old_answers, answers, comment) <span class="position">@ line 334</span></li></ul><ul id="m-_save_line_simple_answer"><li>_save_line_simple_answer(self, question, old_answers, answer) <span class="position">@ line 303</span></li></ul><details><summary id="m-_save_lines">_save_lines(self, question, answer, comment, overwrite_existing) <span class="position">@ line 275</span></summary><pre>Save answers to questions, depending on question type.
+
+:param bool overwrite_existing: if an answer already exists for question and user_input_id
+it will be overwritten (or deleted for 'choice' questions) in order to maintain data consistency.
+:raises UserError: if line exists and overwrite_existing is False</pre></details><ul id="m-_simple_choice_question_answer_result"><li>_simple_choice_question_answer_result(self, user_input_line, question_correct_suggested_answers, question_incorrect_scored_answers) <span class="position">@ line 503</span></li></ul><ul id="m-_simple_question_answer_result"><li>_simple_question_answer_result(self, user_input_line) <span class="position">@ line 514</span></li></ul><details><summary id="m-action_print_answers">action_print_answers(self) <span class="position">@ line 193</span></summary><pre>Open the website page with the survey form</pre></details><ul id="m-action_redirect_to_attempts"><li>action_redirect_to_attempts(self) <span class="position">@ line 203</span></li></ul><ul id="m-action_resend"><li>action_resend(self) <span class="position">@ line 178</span></li></ul><ul id="m-get_print_url"><li>get_print_url(self) <span class="position">@ line 267</span></li></ul><ul id="m-get_start_url"><li>get_start_url(self) <span class="position">@ line 263</span></li></ul><h2>Inherited: odoo/addons/hr_skills_survey/models/survey_user.py</h2><h3>Methods</h3><details><summary id="m-_mark_done">_mark_done(self) <span class="position">@ line 14</span></summary><pre>Will add certification to employee's resume if
+- The survey is a certification
+- The user is linked to an employee
+- The user succeeded the test</pre></details><h2>Inherited: odoo/addons/hr_recruitment_survey/models/survey_user_input.py</h2><h3>Fields</h3><details><summary id="f-applicant_id">applicant_id <span class="position">@ line 9</span></summary><pre>applicant_id = fields.Many2one('hr.applicant', string='Applicant')</pre></details><h3>Methods</h3><ul id="m-_mark_done"><li>_mark_done(self) <span class="position">@ line 11</span></li></ul><script src="class.js"></script></body></html>

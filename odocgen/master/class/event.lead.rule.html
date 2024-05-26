@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>event.lead.rule - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>event.lead.rule</h1><p>Originally defined in: odoo/addons/event_crm/models/event_lead_rule.py</p><hr/><h2>Original: odoo/addons/event_crm/models/event_lead_rule.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 72</span></summary><pre>active = fields.Boolean('Active', default=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 98</span></summary><pre>company_id = fields.Many2one(
+        'res.company', string='Company',
+        help="Restrict the trigger of this rule to events belonging to a specific company.\nIf not set, no company restriction will be applied.")</pre></details><details><summary id="f-event_id">event_id <span class="position">@ line 94</span></summary><pre>event_id = fields.Many2one(
+        'event.event', string='Event',
+        domain="[('company_id', 'in', [company_id or current_company_id, False])]",
+        help='Filter the attendees to include those of this specific event. If not set, no event restriction will be applied.')</pre></details><details><summary id="f-event_registration_filter">event_registration_filter <span class="position">@ line 101</span></summary><pre>event_registration_filter = fields.Text(string="Registrations Domain", help="Filter the attendees that will or not generate leads.")</pre></details><details><summary id="f-event_type_ids">event_type_ids <span class="position">@ line 91</span></summary><pre>event_type_ids = fields.Many2many(
+        'event.type', string='Event Templates',
+        help='Filter the attendees to include those of this specific event category. If not set, no event category restriction will be applied.')</pre></details><details><summary id="f-lead_creation_basis">lead_creation_basis <span class="position">@ line 77</span></summary><pre>lead_creation_basis = fields.Selection([
+        ('attendee', 'Per Attendee'), ('order', 'Per Order')],
+        string='Create', default='attendee', required=True,
+        help='Per Attendee: A Lead is created for each Attendee (B2C).\n'
+             'Per Order: A single Lead is created per Ticket Batch/Sale Order (B2B)')</pre></details><details><summary id="f-lead_creation_trigger">lead_creation_trigger <span class="position">@ line 82</span></summary><pre>lead_creation_trigger = fields.Selection([
+        ('create', 'Attendees are created'),
+        ('confirm', 'Attendees are registered'),
+        ('done', 'Attendees attended')],
+        string='When', default='create', required=True,
+        help='Creation: at attendee creation;\n'
+             'Registered: at attendee registration, manually or automatically;\n'
+             'Attended: when attendance is confirmed and registration set to done;')</pre></details><details><summary id="f-lead_ids">lead_ids <span class="position">@ line 73</span></summary><pre>lead_ids = fields.One2many(
+        'crm.lead', 'event_lead_rule_id', string='Created Leads',
+        groups='sales_team.group_sale_salesman')</pre></details><details><summary id="f-lead_sales_team_id">lead_sales_team_id <span class="position">@ line 107</span></summary><pre>lead_sales_team_id = fields.Many2one(
+        'crm.team', string='Sales Team', ondelete="set null",
+        help="Automatically assign the created leads to this Sales Team.")</pre></details><details><summary id="f-lead_tag_ids">lead_tag_ids <span class="position">@ line 111</span></summary><pre>lead_tag_ids = fields.Many2many('crm.tag', string='Tags', help="Automatically add these tags to the created leads.")</pre></details><details><summary id="f-lead_type">lead_type <span class="position">@ line 103</span></summary><pre>lead_type = fields.Selection([
+        ('lead', 'Lead'), ('opportunity', 'Opportunity')], string="Lead Type", required=True,
+        default=lambda self: 'lead' if self.env.user.has_group('crm.group_use_lead') else 'opportunity',
+        help="Default lead type when this rule is applied.")</pre></details><details><summary id="f-lead_user_id">lead_user_id <span class="position">@ line 110</span></summary><pre>lead_user_id = fields.Many2one('res.users', string='Salesperson', help="Automatically assign the created leads to this Salesperson.")</pre></details><details><summary id="f-name">name <span class="position">@ line 71</span></summary><pre>name = fields.Char('Rule Name', required=True, translate=True)</pre></details><h3>Methods</h3><details><summary id="m-_filter_registrations">_filter_registrations(self, registrations) <span class="position">@ line 189</span></summary><pre>Keep registrations matching rule conditions. Those are
+
+* if a filter is set: filter registrations based on this filter. This is
+done like a search, and filter is a domain;
+* if a company is set on the rule, it must match event's company. Note
+that multi-company rules apply on event_lead_rule;
+* if an event category it set, it must match;
+* if an event is set, it must match;
+* if both event and category are set, one of them must match (OR). If none
+of those are set, it is considered as OK;
+
+:param registrations: event.registration recordset on which rule filters
+will be evaluated;
+:return: subset of registrations matching rules</pre></details><details><summary id="m-_run_on_registrations">_run_on_registrations(self, registrations) <span class="position">@ line 113</span></summary><pre>Create or update leads based on rule configuration. Two main lead
+management type exists
+
+* per attendee: each registration creates a lead;
+* per order: registrations are grouped per group and one lead is created
+or updated with the batch (used mainly with sale order configuration
+in event_sale);
+
+Heuristic
+
+* first, check existing lead linked to registrations to ensure no
+duplication. Indeed for example attendee status change may trigger
+the same rule several times;
+* then for each rule, get the subset of registrations matching its
+filters;
+* then for each order-based rule, get the grouping information. This
+give a list of registrations by group (event, sale_order), with maybe
+an already-existing lead to update instead of creating a new one;
+* finally apply rules. Attendee-based rules create a lead for each
+attendee, group-based rules use the grouping information to create
+or update leads;
+
+:param registrations: event.registration recordset on which rules given by
+self have to run. Triggers should already be checked, only filters are
+applied here.
+
+:return leads: newly-created leads. Updated leads are not returned.</pre></details><script src="class.js"></script></body></html>

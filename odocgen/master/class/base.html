@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>base - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>base</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_model.py</p><p>Inherited in: odoo/odoo/addons/base/models/ir_ui_view.py<br/>Inherited in: odoo/addons/website/models/ir_model.py<br/>Inherited in: odoo/addons/web_hierarchy/models/models.py<br/>Inherited in: odoo/addons/web_editor/models/models.py<br/>Inherited in: odoo/addons/web_editor/models/models.py<br/>Inherited in: odoo/addons/web/models/models.py<br/>Inherited in: odoo/addons/transifex/models/models.py<br/>Inherited in: odoo/addons/phone_validation/models/models.py<br/>Inherited in: odoo/addons/mail/models/models.py<br/>Inherited in: odoo/addons/hr/models/models.py<br/>Inherited in: odoo/addons/base_sparse_field/models/models.py<br/>Inherited in: odoo/addons/base_import/models/base_import.py<br/></p><hr/><h2>Inherited: odoo/odoo/addons/base/models/ir_ui_view.py</h2><h3>Methods</h3><details><summary id="m-_get_access_action">_get_access_action(self, access_uid, force_website) <span class="position">@ line 2363</span></summary><pre>Return an action to open the document. This method is meant to be
+overridden in addons that want to give specific access to the document.
+By default, it opens the formview of the document.
+
+:param integer access_uid: optional access_uid being the user that
+accesses the document. May be different from the current user as we
+may compute an access for someone else.
+:param integer force_website: force frontend redirection if available
+on self. Used in overrides, notably with portal / website addons.</pre></details><details><summary id="m-_get_records_action">_get_records_action(self) <span class="position">@ line 2826</span></summary><pre>Return an action to open given records.
+If there's more than one record, it will be a List, otherwise it's a Form.
+Given keyword arguments will overwrite default ones.</pre></details><details><summary id="m-get_formview_action">get_formview_action(self, access_uid) <span class="position">@ line 2809</span></summary><pre>Return an action to open the document ``self``. This method is meant
+to be overridden in addons that want to give specific view ids for
+example.
+
+An optional access_uid holds the user that will access the document
+that could be different from the current user.</pre></details><details><summary id="m-get_formview_id">get_formview_id(self, access_uid) <span class="position">@ line 2799</span></summary><pre>Return a view id to open the document ``self`` with. This method is
+meant to be overridden in addons that want to give specific view ids
+for example.
+
+Optional access_uid holds the user that would access the form view
+id different from the current environment user.</pre></details><h2>Inherited: odoo/addons/website/models/ir_model.py</h2><h3>Methods</h3><details><summary id="m-_get_base_lang">_get_base_lang(self) <span class="position">@ line 43</span></summary><pre>Returns the default language of the website as the base language if the record is bound to it</pre></details><details><summary id="m-get_base_url">get_base_url(self) <span class="position">@ line 11</span></summary><pre>Returns the base url for a given record, given the following priority:
+1. If the record has a `website_id` field, we use the url from this
+website as base url, if set.
+2. If the record has a `company_id` field, we use the website from that
+company (if set). Note that a company doesn't really have a website,
+it is retrieve through some heuristic in its `website_id`'s compute.
+3. Use the ICP `web.base.url` (super)
+
+:return: the base url for this record
+:rtype: string</pre></details><ul id="m-get_website_meta"><li>get_website_meta(self) <span class="position">@ line 38</span></li></ul><h2>Inherited: odoo/addons/web_editor/models/models.py</h2><h3>Methods</h3><ul id="m-update_field_translations_sha"><li>update_field_translations_sha(self, fname, translations) <span class="position">@ line 22</span></li></ul><h2>Inherited: odoo/addons/web/models/models.py</h2><h3>Methods</h3><ul id="m-_format_web_search_read_results"><li>_format_web_search_read_results(self, domain, records, offset, limit, count_limit) <span class="position">@ line 50</span></li></ul><details><summary id="m-onchange">onchange(self, values, field_names, fields_spec) <span class="position">@ line 826</span></summary><pre>Perform an onchange on the given fields, and return the result.
+
+:param values: dictionary mapping field names to values on the form view,
+giving the current state of modification
+:param field_names: names of the modified fields
+:param fields_spec: dictionary specifying the fields in the view,
+just like the one used by :meth:`web_read`; it is used to format
+the resulting values
+
+When creating a record from scratch, the client should call this with an
+empty list as ``field_names``. In that case, the method first adds
+default values to ``values``, computes the remaining fields, applies
+onchange methods to them, and return all the fields in ``fields_spec``.
+
+The result is a dictionary with two optional keys. The key ``"value"``
+is used to return field values that should be modified on the caller.
+The corresponding value is a dict mapping field names to their value,
+in the format of :meth:`web_read`, except for x2many fields, where the
+value is a list of commands to be applied on the caller's field value.
+
+The key ``"warning"`` provides a warning message to the caller. The
+corresponding value is a dictionary like::
+
+{
+"title": "Be careful!",         # subject of message
+"message": "Blah blah blah.",   # full warning message
+"type": "dialog",               # how to display the warning
+}</pre></details><details><summary id="m-web_override_translations">web_override_translations(self, values) <span class="position">@ line 1038</span></summary><pre>This method is used to override all the modal translations of the given fields
+with the provided value for each field.
+
+:param values: dictionary of the translations to apply for each field name
+ex: { "field_name": "new_value" }</pre></details><ul id="m-web_save"><li>web_save(self, vals, specification, next_id) <span class="position">@ line 69</span></li></ul><h2>Inherited: odoo/addons/transifex/models/models.py</h2><h3>Methods</h3><details><summary id="m-get_field_translations">get_field_translations(self, field_name, langs) <span class="position">@ line 9</span></summary><pre>get model/model_term translations for records with transifex url
+:param str field_name: field name
+:param list langs: languages
+
+:return: (translations, context) where
+translations: list of dicts like [{"lang": lang, "source": source_term, "value": value_term,
+"module": module, "transifexURL": transifex_url}]
+context: {"translation_type": "text"/"char", "translation_show_source": True/False}</pre></details><h2>Inherited: odoo/addons/phone_validation/models/models.py</h2><h3>Methods</h3><details><summary id="m-_phone_format">_phone_format(self, fname, number, country, force_format, raise_exception) <span class="position">@ line 29</span></summary><pre>Format and return number. This number can be found using a field
+(in which case self should be a singleton recordet), or directly given
+if the formatting itself is what matter. Field name can be found
+automatically using '_phone_get_number_fields'
+
+:param str fname: if number is not given, fname indicates the field to
+use to find the number; otherwise use '_phone_get_number_fields';
+:param str number: number to format (in which case fields-based computation
+is skipped);
+:param <res.country> country: country used for formatting number; otherwise
+it is fetched based on record, using '_phone_get_country_field';
+:param str force_format: stringified version of format globals; should be
+one of 'E164', 'INTERNATIONAL', 'NATIONAL' or 'RFC3966';
+:param bool raise_exception: raise if formatting is not possible (notably
+wrong formatting, invalid country information, ...). Otherwise False
+is returned;
+
+:return str: formatted number. If formatting is not possible False is
+returned.</pre></details><details><summary id="m-_phone_format_number">_phone_format_number(self, number, country, force_format, raise_exception) <span class="position">@ line 74</span></summary><pre>Format and return number according to the asked format. This is
+mainly a small helper around 'phone_validation.phone_format'.</pre></details><h2>Inherited: odoo/addons/mail/models/models.py</h2><h3>Methods</h3><details><summary id="m-_alias_get_error">_alias_get_error(self, message, message_dict, alias) <span class="position">@ line 341</span></summary><pre>Generic method that takes a record not necessarily inheriting from
+mail.alias.mixin.
+
+:return AliasError: error if any, False otherwise</pre></details><details><summary id="m-_get_html_link">_get_html_link(self, title) <span class="position">@ line 408</span></summary><pre>Generate the record html reference for chatter use.
+
+:param str title: optional reference title, the record display_name
+is used if not provided. The title/display_name will be escaped.
+:returns: generated html reference,
+in the format <a href data-oe-model="..." data-oe-id="...">title</a>
+:rtype: str</pre></details><details><summary id="m-_mail_get_alias_domains">_mail_get_alias_domains(self, default_company) <span class="position">@ line 29</span></summary><pre>Return alias domain linked to each record in self. It is based
+on the company (record's company, environment company) and fallback
+on the first found alias domain if configuration is not correct.
+
+:param <res.company> default_company: default company in case records
+have no company (or no company field); defaults to env.company;
+
+:return: for each record ID in self, found <mail.alias.domain></pre></details><details><summary id="m-_mail_get_companies">_mail_get_companies(self, default) <span class="position">@ line 59</span></summary><pre>Return company linked to each record in self.
+
+:param <res.company> default: default value if no company field is found
+or if it holds a void value. Defaults to a void recordset;
+
+:return: for each record ID in self, found <res.company></pre></details><ul id="m-_mail_get_message_subtypes"><li>_mail_get_message_subtypes(self) <span class="position">@ line 381</span></li></ul><details><summary id="m-_mail_get_partners">_mail_get_partners(self, introspect_fields) <span class="position">@ line 96</span></summary><pre>Give the default partners (customers) associated to customers.
+
+:param bool introspect_fields: see '_mail_get_partner_fields';
+
+:return: for each record ID, a res.partner recordsets being default
+customers to contact;</pre></details><details><summary id="m-_mail_track">_mail_track(self, tracked_fields, initial_values) <span class="position">@ line 123</span></summary><pre>For a given record, fields to check (tuple column name, column info)
+and initial values, return a valid command to create tracking values.
+
+:param dict tracked_fields: fields_get of updated fields on which
+tracking is checked and performed;
+:param dict initial_values: dict of initial values for each updated
+fields;
+
+:return: a tuple (changes, tracking_value_ids) where
+changes: set of updated column names; contains onchange tracked fields
+that changed;
+tracking_value_ids: a list of ORM (0, 0, values) commands to create
+``mail.tracking.value`` records;
+
+Override this method on a specific model to implement model-specific
+behavior. Also consider inheriting from ``mail.thread``.</pre></details><details><summary id="m-_mail_track_get_field_sequence">_mail_track_get_field_sequence(self, fname) <span class="position">@ line 176</span></summary><pre>Find tracking sequence of a given field, given their name. Current
+parameter 'tracking' should be an integer, but attributes with True
+are still supported; old naming 'track_sequence' also.</pre></details><details><summary id="m-_mail_track_order_fields">_mail_track_order_fields(self, tracked_fields) <span class="position">@ line 162</span></summary><pre>Order tracking, based on sequence found on field definition. When
+having several identical sequences, field name is used.</pre></details><details><summary id="m-_message_get_default_recipients">_message_get_default_recipients(self) <span class="position">@ line 188</span></summary><pre>Generic implementation for finding default recipient to mail on
+a recordset. This method is a generic implementation available for
+all models as we could send an email through mail templates on models
+not inheriting from mail.thread.
+
+Override this method on a specific model to implement model-specific
+behavior. Also consider inheriting from ``mail.thread``.</pre></details><details><summary id="m-_notify_by_email_get_headers">_notify_by_email_get_headers(self, headers) <span class="position">@ line 390</span></summary><pre>Generate the email headers based on record. Each header not already
+present in 'headers' will be added in it.</pre></details><details><summary id="m-_notify_get_reply_to">_notify_get_reply_to(self, default) <span class="position">@ line 218</span></summary><pre>Returns the preferred reply-to email address when replying to a thread
+on documents. This method is a generic implementation available for
+all models as we could send an email through mail templates on models
+not inheriting from mail.thread.
+
+Reply-to is formatted like "MyCompany MyDocument <reply.to@domain>".
+Heuristic it the following:
+* search for specific aliases as they always have priority; it is limited
+to aliases linked to documents (like project alias for task for example);
+* use catchall address;
+* use default;
+
+This method can be used as a generic tools if self is a void recordset.
+
+Override this method on a specific model to implement model-specific
+behavior. Also consider inheriting from ``mail.thread``.
+An example would be tasks taking their reply-to alias from their project.
+
+:param default: default email if no alias or catchall is found;
+:return result: dictionary. Keys are record IDs and value is formatted
+like an email "Company_name Document_name <reply_to@email>"/</pre></details><details><summary id="m-_notify_get_reply_to_formatted_email">_notify_get_reply_to_formatted_email(self, record_email, record_name, company) <span class="position">@ line 290</span></summary><pre>Compute formatted email for reply_to and try to avoid refold issue
+with python that splits the reply-to over multiple lines. It is due to
+a bad management of quotes (missing quotes after refold). This appears
+therefore only when having quotes (aka not simple names, and not when
+being unicode encoded).
+Another edge-case produces a linebreak (CRLF) immediately after the
+colon character separating the header name from the header value.
+This creates an issue in certain DKIM tech stacks that will
+incorrectly read the reply-to value as empty and fail the verification.
+
+To avoid that issue when formataddr would return more than 68 chars we
+return a simplified name/email to try to stay under 68 chars. If not
+possible we return only the email and skip the formataddr which causes
+the issue in python. We do not use hacks like crop the name part as
+encoding and quoting would be error prone.
+
+:param <res.company> company: if given, setup the company used to
+complete name in formataddr. Otherwise fallback on 'company_id'
+of self or environment company;</pre></details><ul id="m-_valid_field_parameter"><li>_valid_field_parameter(self, field, name) <span class="position">@ line 18</span></li></ul><h2>Inherited: odoo/addons/hr/models/models.py</h2><h3>Methods</h3><ul id="m-_alias_get_error"><li>_alias_get_error(self, message, message_dict, alias) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/base_sparse_field/models/models.py</h2><h3>Methods</h3><ul id="m-_valid_field_parameter"><li>_valid_field_parameter(self, field, name) <span class="position">@ line 12</span></li></ul><script src="class.js"></script></body></html>

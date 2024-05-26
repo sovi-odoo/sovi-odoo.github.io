@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>payment.method - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>payment.method</h1><p>Originally defined in: odoo/addons/payment/models/payment_method.py</p><p>Inherited in: odoo/addons/l10n_ec_website_sale/models/payment_method.py<br/></p><hr/><h2>Original: odoo/addons/payment/models/payment_method.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 43</span></summary><pre>active = fields.Boolean(string="Active", default=True)</pre></details><details><summary id="f-brand_ids">brand_ids <span class="position">@ line 27</span></summary><pre>brand_ids = fields.One2many(
+        string="Brands",
+        help="The brands of the payment methods that will be displayed on the payment form.",
+        comodel_name='payment.method',
+        inverse_name='primary_payment_method_id',
+    )</pre></details><details><summary id="f-code">code <span class="position">@ line 17</span></summary><pre>code = fields.Char(
+        string="Code", help="The technical code of this payment method.", required=True
+    )</pre></details><details><summary id="f-image">image <span class="position">@ line 44</span></summary><pre>image = fields.Image(
+        string="Image",
+        help="The base image used for this payment method; in a 64x64 px format.",
+        max_width=64,
+        max_height=64,
+        required=True,
+    )</pre></details><details><summary id="f-image_payment_form">image_payment_form <span class="position">@ line 51</span></summary><pre>image_payment_form = fields.Image(
+        string="The resized image displayed on the payment form.",
+        related='image',
+        store=True,
+        max_width=45,
+        max_height=30,
+    )</pre></details><details><summary id="f-is_primary">is_primary <span class="position">@ line 33</span></summary><pre>is_primary = fields.Boolean(
+        string="Is Primary Payment Method",
+        compute='_compute_is_primary',
+        search='_search_is_primary',
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 16</span></summary><pre>name = fields.Char(string="Name", required=True)</pre></details><details><summary id="f-primary_payment_method_id">primary_payment_method_id <span class="position">@ line 21</span></summary><pre>primary_payment_method_id = fields.Many2one(
+        string="Primary Payment Method",
+        help="The primary payment method of the current payment method, if the latter is a brand."
+             "\nFor example, \"Card\" is the primary payment method of the card brand \"VISA\".",
+        comodel_name='payment.method',
+    )</pre></details><details><summary id="f-provider_ids">provider_ids <span class="position">@ line 38</span></summary><pre>provider_ids = fields.Many2many(
+        string="Providers",
+        help="The list of providers supporting this payment method.",
+        comodel_name='payment.provider',
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 20</span></summary><pre>sequence = fields.Integer(string="Sequence", default=1)</pre></details><details><summary id="f-support_express_checkout">support_express_checkout <span class="position">@ line 65</span></summary><pre>support_express_checkout = fields.Boolean(
+        string="Express Checkout Supported",
+        help="Express checkout allows customers to pay faster by using a payment method that"
+             " provides all required billing and shipping information, thus allowing to skip the"
+             " checkout process.",
+    )</pre></details><details><summary id="f-support_refund">support_refund <span class="position">@ line 71</span></summary><pre>support_refund = fields.Selection(
+        string="Type of Refund Supported",
+        selection=[('full_only', "Full Only"), ('partial', "Partial")],
+        help="Refund is a feature allowing to refund customers directly from the payment in Odoo.",
+    )</pre></details><details><summary id="f-support_tokenization">support_tokenization <span class="position">@ line 60</span></summary><pre>support_tokenization = fields.Boolean(
+        string="Tokenization Supported",
+        help="Tokenization is the process of saving the payment details as a token that can later"
+             " be reused without having to enter the payment details again.",
+    )</pre></details><details><summary id="f-supported_country_ids">supported_country_ids <span class="position">@ line 76</span></summary><pre>supported_country_ids = fields.Many2many(
+        string="Supported Countries",
+        comodel_name='res.country',
+        help="The list of countries in which this payment method can be used (if the provider"
+             " allows it). In other countries, this payment method is not available to customers."
+    )</pre></details><details><summary id="f-supported_currency_ids">supported_currency_ids <span class="position">@ line 82</span></summary><pre>supported_currency_ids = fields.Many2many(
+        string="Supported Currencies",
+        comodel_name='res.currency',
+        help="The list of currencies for that are supported by this payment method (if the provider"
+             " allows it). When paying with another currency, this payment method is not available "
+             "to customers.",
+        context={'active_test': False},
+    )</pre></details><h3>Methods</h3><ul id="m-_compute_is_primary"><li>_compute_is_primary(self) <span class="position">@ line 93</span></li></ul><details><summary id="m-_get_compatible_payment_methods">_get_compatible_payment_methods(self, provider_ids, partner_id, currency_id, force_tokenization, is_express_checkout, report) <span class="position">@ line 197</span></summary><pre>Search and return the payment methods matching the compatibility criteria.
+
+The compatibility criteria are that payment methods must: be supported by at least one of
+the providers; support the country of the partner if it exists; be primary payment methods
+(not a brand). If provided, the optional keyword arguments further refine the criteria.
+
+:param list provider_ids: The list of providers by which the payment methods must be at
+least partially supported to be considered compatible, as a list
+of `payment.provider` ids.
+:param int partner_id: The partner making the payment, as a `res.partner` id.
+:param int currency_id: The payment currency, if known beforehand, as a `res.currency` id.
+:param bool force_tokenization: Whether only payment methods supporting tokenization can be
+matched.
+:param bool is_express_checkout: Whether the payment is made through express checkout.
+:param dict report: The report in which each provider's availability status and reason must
+be logged.
+:param dict kwargs: Optional data. This parameter is not used here.
+:return: The compatible payment methods.
+:rtype: payment.method</pre></details><details><summary id="m-_get_from_code">_get_from_code(self, code, mapping) <span class="position">@ line 294</span></summary><pre>Get the payment method corresponding to the given provider-specific code.
+
+If a mapping is given, the search uses the generic payment method code that corresponds to
+the given provider-specific code.
+
+:param str code: The provider-specific code of the payment method to get.
+:param dict mapping: A non-exhaustive mapping of generic payment method codes to
+provider-specific codes.
+:return: The corresponding payment method, if any.
+:type: payment.method</pre></details><ul id="m-_search_is_primary"><li>_search_is_primary(self, operator, value) <span class="position">@ line 97</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 164</span></li></ul><h2>Inherited: odoo/addons/l10n_ec_website_sale/models/payment_method.py</h2><h3>Fields</h3><details><summary id="f-fiscal_country_codes">fiscal_country_codes <span class="position">@ line 16</span></summary><pre>fiscal_country_codes = fields.Char(store=False, default=_get_fiscal_country_codes)</pre></details><details><summary id="f-l10n_ec_sri_payment_id">l10n_ec_sri_payment_id <span class="position">@ line 11</span></summary><pre>l10n_ec_sri_payment_id = fields.Many2one(
+        comodel_name="l10n_ec.sri.payment",
+        string="SRI Payment Method",
+    )</pre></details><h3>Methods</h3><ul id="m-_get_fiscal_country_codes"><li>_get_fiscal_country_codes(self) <span class="position">@ line 8</span></li></ul><script src="class.js"></script></body></html>

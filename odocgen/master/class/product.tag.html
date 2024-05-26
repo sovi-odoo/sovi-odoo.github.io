@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.tag - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.tag</h1><p>Originally defined in: odoo/addons/product/models/product_tag.py</p><p>Inherited in: odoo/addons/website_sale/models/product_tag.py<br/></p><hr/><h2>Original: odoo/addons/product/models/product_tag.py</h2><h3>Fields</h3><details><summary id="f-color">color <span class="position">@ line 20</span></summary><pre>color = fields.Char(string="Color", default='#3C3C3C')</pre></details><details><summary id="f-name">name <span class="position">@ line 18</span></summary><pre>name = fields.Char(string="Name", required=True, translate=True)</pre></details><details><summary id="f-product_ids">product_ids <span class="position">@ line 34</span></summary><pre>product_ids = fields.Many2many(
+        'product.product', string='All Product Variants using this Tag',
+        compute='_compute_product_ids', search='_search_product_ids'
+    )</pre></details><details><summary id="f-product_product_ids">product_product_ids <span class="position">@ line 27</span></summary><pre>product_product_ids = fields.Many2many(
+        string="Product Variants",
+        comodel_name='product.product',
+        relation='product_tag_product_product_rel',
+        domain="[('attribute_line_ids', '!=', False), ('product_tmpl_id', 'not in', product_template_ids)]",
+        default=_get_default_variant_id,
+    )</pre></details><details><summary id="f-product_template_ids">product_template_ids <span class="position">@ line 21</span></summary><pre>product_template_ids = fields.Many2many(
+        string="Product Templates",
+        comodel_name='product.template',
+        relation='product_tag_product_template_rel',
+        default=_get_default_template_id,
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 19</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><h3>Methods</h3><ul id="m-_get_default_template_id"><li>_get_default_template_id(self) <span class="position">@ line 12</span></li></ul><ul id="m-_get_default_variant_id"><li>_get_default_variant_id(self) <span class="position">@ line 15</span></li></ul><ul id="m-_search_product_ids"><li>_search_product_ids(self, operator, operand) <span class="position">@ line 52</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 48</span></li></ul><h2>Inherited: odoo/addons/website_sale/models/product_tag.py</h2><h3>Fields</h3><details><summary id="f-image">image <span class="position">@ line 15</span></summary><pre>image = fields.Image(string="Image", max_width=200, max_height=200)</pre></details><details><summary id="f-visible_on_ecommerce">visible_on_ecommerce <span class="position">@ line 10</span></summary><pre>visible_on_ecommerce = fields.Boolean(
+        string="Visible on eCommerce",
+        help="Whether the tag is displayed on the eCommerce.",
+        default=True,
+    )</pre></details><script src="class.js"></script></body></html>

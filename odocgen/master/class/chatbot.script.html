@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>chatbot.script - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>chatbot.script</h1><p>Inherited in: odoo/addons/website_livechat/models/chatbot_script.py<br/>Inherited in: odoo/addons/im_livechat/models/chatbot_script.py<br/>Inherited in: odoo/addons/crm_livechat/models/chatbot_script.py<br/></p><hr/><h2>Inherited: odoo/addons/website_livechat/models/chatbot_script.py</h2><h3>Methods</h3><ul id="m-action_test_script"><li>action_test_script(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/im_livechat/models/chatbot_script.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 18</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-first_step_warning">first_step_warning <span class="position">@ line 26</span></summary><pre>first_step_warning = fields.Selection([
+        ('first_step_operator', 'First Step Operator'),
+        ('first_step_invalid', 'First Step Invalid'),
+    ], compute="_compute_first_step_warning")</pre></details><details><summary id="f-image_1920">image_1920 <span class="position">@ line 19</span></summary><pre>image_1920 = fields.Image(related='operator_partner_id.image_1920', readonly=False)</pre></details><details><summary id="f-livechat_channel_count">livechat_channel_count <span class="position">@ line 25</span></summary><pre>livechat_channel_count = fields.Integer(string='Livechat Channel Count', compute='_compute_livechat_channel_count')</pre></details><details><summary id="f-operator_partner_id">operator_partner_id <span class="position">@ line 23</span></summary><pre>operator_partner_id = fields.Many2one('res.partner', string='Bot Operator',
+        ondelete='restrict', required=True, copy=False)</pre></details><details><summary id="f-script_step_ids">script_step_ids <span class="position">@ line 21</span></summary><pre>script_step_ids = fields.One2many('chatbot.script.step', 'chatbot_script_id',
+        copy=True, string='Script Steps')</pre></details><details><summary id="f-title">title <span class="position">@ line 17</span></summary><pre>title = fields.Char('Title', required=True, translate=True, default="Chatbot")</pre></details><h3>Methods</h3><ul id="m-_compute_livechat_channel_count"><li>_compute_livechat_channel_count(self) <span class="position">@ line 31</span></li></ul><details><summary id="m-_format_for_frontend">_format_for_frontend(self) <span class="position">@ line 186</span></summary><pre>Small utility method that formats the script into a dict usable by the frontend code.</pre></details><ul id="m-_get_chatbot_language"><li>_get_chatbot_language(self) <span class="position">@ line 220</span></li></ul><details><summary id="m-_get_welcome_steps">_get_welcome_steps(self) <span class="position">@ line 120</span></summary><pre>Returns a sub-set of script_step_ids that only contains the "welcoming steps".
+We consider those as all the steps the bot will say before expecting a first answer from
+the end user.
+
+Example 1:
+- step 1 (question_selection): What do you want to do? - Create a Lead, -Create a Ticket
+- step 2 (text): Thank you for visiting our website!
+-> The welcoming steps will only contain step 1, since directly after that we expect an
+input from the user
+
+Example 2:
+- step 1 (text): Hello! I'm a bot!
+- step 2 (text): I am here to help lost users.
+- step 3 (question_selection): What do you want to do? - Create a Lead, -Create a Ticket
+- step 4 (text): Thank you for visiting our website!
+-> The welcoming steps will contain steps 1, 2 and 3.
+Meaning the bot will have a small monologue with himself before expecting an input from the
+end user.
+
+This is important because we need to display those welcoming steps in a special fashion on
+the frontend, since those are not inserted into the discuss.channel as actual mail.messages,
+to avoid bloating the channels with bot messages if the end-user never interacts with it.</pre></details><details><summary id="m-_post_welcome_steps">_post_welcome_steps(self, discuss_channel) <span class="position">@ line 153</span></summary><pre>Welcome messages are only posted after the visitor's first interaction with the chatbot.
+See 'chatbot.script#_get_welcome_steps()' for more details.
+
+Side note: it is important to set the 'chatbot_current_step_id' on each iteration so that
+it's correctly set when going into 'discuss_channel#_message_post_after_hook()'.</pre></details><ul id="m-_validate_email"><li>_validate_email(self, email_address, discuss_channel) <span class="position">@ line 200</span></li></ul><ul id="m-action_view_livechat_channels"><li>action_view_livechat_channels(self) <span class="position">@ line 176</span></li></ul><details><summary id="m-copy">copy(self, default) <span class="position">@ line 60</span></summary><pre>Correctly copy the 'triggering_answer_ids' field from the original script_step_ids to the clone.
+This needs to be done in post-processing to make sure we get references to the newly created
+answers from the copy instead of references to the answers of the original.
+
+This implementation assumes that the order of created steps and answers will be kept between
+the original and the clone, using 'zip()' to match the records between the two.</pre></details><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 56</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 112</span></li></ul><h2>Inherited: odoo/addons/crm_livechat/models/chatbot_script.py</h2><h3>Fields</h3><details><summary id="f-lead_count">lead_count <span class="position">@ line 10</span></summary><pre>lead_count = fields.Integer(
+        string='Generated Lead Count', compute='_compute_lead_count')</pre></details><h3>Methods</h3><ul id="m-_compute_lead_count"><li>_compute_lead_count(self) <span class="position">@ line 13</span></li></ul><ul id="m-action_view_leads"><li>action_view_leads(self) <span class="position">@ line 20</span></li></ul><script src="class.js"></script></body></html>

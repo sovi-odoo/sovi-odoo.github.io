@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>event.track - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>event.track</h1><p>Inherited in: odoo/addons/website_event_track_live/models/event_track.py<br/>Inherited in: odoo/addons/website_event_track/models/event_track.py<br/>Inherited in: odoo/addons/mass_mailing_event_track/models/event_track.py<br/></p><hr/><h2>Inherited: odoo/addons/website_event_track_live/models/event_track.py</h2><h3>Fields</h3><details><summary id="f-is_youtube_chat_available">is_youtube_chat_available <span class="position">@ line 17</span></summary><pre>is_youtube_chat_available = fields.Boolean('Is Chat Available', compute='_compute_is_youtube_chat_available')</pre></details><details><summary id="f-is_youtube_replay">is_youtube_replay <span class="position">@ line 15</span></summary><pre>is_youtube_replay = fields.Boolean('Is YouTube Replay',
+        help="Check this option if the video is already available on YouTube to avoid showing 'Direct' options (Chat, ...)")</pre></details><details><summary id="f-youtube_video_id">youtube_video_id <span class="position">@ line 13</span></summary><pre>youtube_video_id = fields.Char('YouTube video ID', compute='_compute_youtube_video_id',
+        help="Extracted from the video URL and used to infer various links (embed/thumbnail/...)")</pre></details><details><summary id="f-youtube_video_url">youtube_video_url <span class="position">@ line 12</span></summary><pre>youtube_video_url = fields.Char('YouTube Video Link')</pre></details><h2>Inherited: odoo/addons/website_event_track/models/event_track.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 28</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-color">color <span class="position">@ line 33</span></summary><pre>color = fields.Integer('Agenda Color')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 30</span></summary><pre>company_id = fields.Many2one('res.company', related='event_id.company_id')</pre></details><details><summary id="f-contact_email">contact_email <span class="position">@ line 91</span></summary><pre>contact_email = fields.Char(
+        string='Contact Email', compute='_compute_contact_email',
+        readonly=False, store=True, tracking=20)</pre></details><details><summary id="f-contact_phone">contact_phone <span class="position">@ line 94</span></summary><pre>contact_phone = fields.Char(
+        string='Contact Phone', compute='_compute_contact_phone',
+        readonly=False, store=True, tracking=30)</pre></details><details><summary id="f-date">date <span class="position">@ line 99</span></summary><pre>date = fields.Datetime('Track Date')</pre></details><details><summary id="f-date_end">date_end <span class="position">@ line 100</span></summary><pre>date_end = fields.Datetime('Track End Date', compute='_compute_end_date', store=True)</pre></details><details><summary id="f-description">description <span class="position">@ line 32</span></summary><pre>description = fields.Html(translate=html_translate, sanitize_attributes=False, sanitize_form=False)</pre></details><details><summary id="f-duration">duration <span class="position">@ line 101</span></summary><pre>duration = fields.Float('Duration', default=0.5)</pre></details><details><summary id="f-event_id">event_id <span class="position">@ line 27</span></summary><pre>event_id = fields.Many2one('event.event', 'Event', required=True)</pre></details><details><summary id="f-event_track_visitor_ids">event_track_visitor_ids <span class="position">@ line 124</span></summary><pre>event_track_visitor_ids = fields.One2many(
+        'event.track.visitor', 'track_id', string="Track Visitors",
+        groups="event.group_event_user")</pre></details><details><summary id="f-image">image <span class="position">@ line 86</span></summary><pre>image = fields.Image(
+        string="Speaker Photo", compute="_compute_partner_image",
+        readonly=False, store=True,
+        max_width=256, max_height=256)</pre></details><details><summary id="f-is_reminder_on">is_reminder_on <span class="position">@ line 127</span></summary><pre>is_reminder_on = fields.Boolean('Is Reminder On', compute='_compute_is_reminder_on')</pre></details><details><summary id="f-is_track_done">is_track_done <span class="position">@ line 110</span></summary><pre>is_track_done = fields.Boolean(
+        'Is Track Done', compute='_compute_track_time_data')</pre></details><details><summary id="f-is_track_live">is_track_live <span class="position">@ line 102</span></summary><pre>is_track_live = fields.Boolean(
+        'Is Track Live', compute='_compute_track_time_data')</pre></details><details><summary id="f-is_track_soon">is_track_soon <span class="position">@ line 104</span></summary><pre>is_track_soon = fields.Boolean(
+        'Is Track Soon', compute='_compute_track_time_data')</pre></details><details><summary id="f-is_track_today">is_track_today <span class="position">@ line 106</span></summary><pre>is_track_today = fields.Boolean(
+        'Is Track Today', compute='_compute_track_time_data')</pre></details><details><summary id="f-is_track_upcoming">is_track_upcoming <span class="position">@ line 108</span></summary><pre>is_track_upcoming = fields.Boolean(
+        'Is Track Upcoming', compute='_compute_track_time_data')</pre></details><details><summary id="f-is_website_cta_live">is_website_cta_live <span class="position">@ line 147</span></summary><pre>is_website_cta_live = fields.Boolean(
+        'Is CTA Live', compute='_compute_cta_time_data',
+        help="CTA button is available")</pre></details><details><summary id="f-kanban_state">kanban_state <span class="position">@ line 50</span></summary><pre>kanban_state = fields.Selection([
+        ('normal', 'Grey'),
+        ('done', 'Green'),
+        ('blocked', 'Red')], string='Kanban State',
+        copy=False, default='normal', required=True,
+        help="A track's kanban state indicates special situations affecting it:\n"
+             " * Grey is the default situation\n"
+             " * Red indicates something is preventing the progress of this track\n"
+             " * Green indicates the track is ready to be pulled to the next stage")</pre></details><details><summary id="f-kanban_state_label">kanban_state_label <span class="position">@ line 59</span></summary><pre>kanban_state_label = fields.Char(
+        string='Kanban State Label', compute='_compute_kanban_state_label', store=True,
+        tracking=True)</pre></details><details><summary id="f-legend_blocked">legend_blocked <span class="position">@ line 44</span></summary><pre>legend_blocked = fields.Char(related='stage_id.legend_blocked',
+        string='Kanban Blocked Explanation', readonly=True)</pre></details><details><summary id="f-legend_done">legend_done <span class="position">@ line 46</span></summary><pre>legend_done = fields.Char(related='stage_id.legend_done',
+        string='Kanban Valid Explanation', readonly=True)</pre></details><details><summary id="f-legend_normal">legend_normal <span class="position">@ line 48</span></summary><pre>legend_normal = fields.Char(related='stage_id.legend_normal',
+        string='Kanban Ongoing Explanation', readonly=True)</pre></details><details><summary id="f-location_id">location_id <span class="position">@ line 97</span></summary><pre>location_id = fields.Many2one('event.track.location', 'Location')</pre></details><details><summary id="f-name">name <span class="position">@ line 26</span></summary><pre>name = fields.Char('Title', required=True, translate=True)</pre></details><details><summary id="f-partner_biography">partner_biography <span class="position">@ line 73</span></summary><pre>partner_biography = fields.Html(
+        string='Biography', compute='_compute_partner_biography',
+        sanitize_attributes=False,
+        readonly=False, store=True)</pre></details><details><summary id="f-partner_company_name">partner_company_name <span class="position">@ line 80</span></summary><pre>partner_company_name = fields.Char(
+        'Company Name', compute='_compute_partner_company_name',
+        readonly=False, store=True)</pre></details><details><summary id="f-partner_email">partner_email <span class="position">@ line 67</span></summary><pre>partner_email = fields.Char(
+        string='Email', compute='_compute_partner_email',
+        readonly=False, store=True, tracking=20)</pre></details><details><summary id="f-partner_function">partner_function <span class="position">@ line 77</span></summary><pre>partner_function = fields.Char(
+        'Job Position', compute='_compute_partner_function',
+        store=True, readonly=False)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 62</span></summary><pre>partner_id = fields.Many2one('res.partner', 'Contact')</pre></details><details><summary id="f-partner_name">partner_name <span class="position">@ line 64</span></summary><pre>partner_name = fields.Char(
+        string='Name', compute='_compute_partner_name',
+        readonly=False, store=True, tracking=10)</pre></details><details><summary id="f-partner_phone">partner_phone <span class="position">@ line 70</span></summary><pre>partner_phone = fields.Char(
+        string='Phone', compute='_compute_partner_phone',
+        readonly=False, store=True, tracking=30)</pre></details><details><summary id="f-partner_tag_line">partner_tag_line <span class="position">@ line 83</span></summary><pre>partner_tag_line = fields.Char(
+        'Tag Line', compute='_compute_partner_tag_line',
+        help='Description of the partner (name, function and company name)')</pre></details><details><summary id="f-priority">priority <span class="position">@ line 34</span></summary><pre>priority = fields.Selection([
+        ('0', 'Low'), ('1', 'Medium'),
+        ('2', 'High'), ('3', 'Highest')],
+        'Priority', required=True, default='1')</pre></details><details><summary id="f-stage_id">stage_id <span class="position">@ line 39</span></summary><pre>stage_id = fields.Many2one(
+        'event.track.stage', string='Stage', ondelete='restrict',
+        index=True, copy=False, default=_get_default_stage_id,
+        group_expand='_read_group_expand_full',  # Always display all stages
+        required=True, tracking=True)</pre></details><details><summary id="f-tag_ids">tag_ids <span class="position">@ line 31</span></summary><pre>tag_ids = fields.Many2many('event.track.tag', string='Tags')</pre></details><details><summary id="f-track_start_relative">track_start_relative <span class="position">@ line 115</span></summary><pre>track_start_relative = fields.Integer(
+        'Minutes compare to track start', compute='_compute_track_time_data',
+        help="Relative time compared to track start (seconds)")</pre></details><details><summary id="f-track_start_remaining">track_start_remaining <span class="position">@ line 112</span></summary><pre>track_start_remaining = fields.Integer(
+        'Minutes before track starts', compute='_compute_track_time_data',
+        help="Remaining time before track starts (seconds)")</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 29</span></summary><pre>user_id = fields.Many2one('res.users', 'Responsible', tracking=True, default=lambda self: self.env.user)</pre></details><details><summary id="f-website_cta">website_cta <span class="position">@ line 141</span></summary><pre>website_cta = fields.Boolean('Magic Button',
+                                 help="Display a Call to Action button to your Attendees while they watch your Track.")</pre></details><details><summary id="f-website_cta_delay">website_cta_delay <span class="position">@ line 145</span></summary><pre>website_cta_delay = fields.Integer('Show Button')</pre></details><details><summary id="f-website_cta_start_remaining">website_cta_start_remaining <span class="position">@ line 150</span></summary><pre>website_cta_start_remaining = fields.Integer(
+        'Minutes before CTA starts', compute='_compute_cta_time_data',
+        help="Remaining time before CTA starts (seconds)")</pre></details><details><summary id="f-website_cta_title">website_cta_title <span class="position">@ line 143</span></summary><pre>website_cta_title = fields.Char('Button Title')</pre></details><details><summary id="f-website_cta_url">website_cta_url <span class="position">@ line 144</span></summary><pre>website_cta_url = fields.Char('Button Target URL')</pre></details><details><summary id="f-website_image">website_image <span class="position">@ line 119</span></summary><pre>website_image = fields.Image(string="Website Image", max_width=1024, max_height=1024)</pre></details><details><summary id="f-website_image_url">website_image_url <span class="position">@ line 120</span></summary><pre>website_image_url = fields.Char(
+        string='Image URL', compute='_compute_website_image_url',
+        compute_sudo=True, store=False)</pre></details><details><summary id="f-wishlist_visitor_count">wishlist_visitor_count <span class="position">@ line 133</span></summary><pre>wishlist_visitor_count = fields.Integer(
+        string="# Wishlisted",
+        compute="_compute_wishlist_visitor_ids", compute_sudo=True,
+        groups="event.group_event_user")</pre></details><details><summary id="f-wishlist_visitor_ids">wishlist_visitor_ids <span class="position">@ line 128</span></summary><pre>wishlist_visitor_ids = fields.Many2many(
+        'website.visitor', string="Visitor Wishlist",
+        compute="_compute_wishlist_visitor_ids", compute_sudo=True,
+        search="_search_wishlist_visitor_ids",
+        groups="event.group_event_user")</pre></details><details><summary id="f-wishlisted_by_default">wishlisted_by_default <span class="position">@ line 137</span></summary><pre>wishlisted_by_default = fields.Boolean(
+        string='Always Wishlisted',
+        help="""If set, the talk will be set as favorite for each attendee registered to the event.""")</pre></details><h3>Methods</h3><ul id="m-_get_event_track_visitors"><li>_get_event_track_visitors(self, force_create) <span class="position">@ line 525</span></li></ul><details><summary id="m-_get_track_suggestions">_get_track_suggestions(self, restrict_domain, limit) <span class="position">@ line 557</span></summary><pre>Returns the next tracks suggested after going to the current one
+given by self. Tracks always belong to the same event.
+
+Heuristic is
+
+* live first;
+* then ordered by start date, finished being sent to the end;
+* wishlisted (manually or by default);
+* tag matching with current track;
+* location matching with current track;
+* finally a random to have an "equivalent wave" randomly given;
+
+:param restrict_domain: an additional domain to restrict candidates;
+:param limit: number of tracks to return;</pre></details><ul id="m-_message_get_default_recipients"><li>_message_get_default_recipients(self) <span class="position">@ line 439</span></li></ul><ul id="m-_message_get_suggested_recipients"><li>_message_get_suggested_recipients(self) <span class="position">@ line 448</span></li></ul><ul id="m-_message_post_after_hook"><li>_message_post_after_hook(self, message, msg_vals) <span class="position">@ line 461</span></li></ul><ul id="m-_search_wishlist_visitor_ids"><li>_search_wishlist_visitor_ids(self, operator, operand) <span class="position">@ line 336</span></li></ul><ul id="m-_synchronize_with_stage"><li>_synchronize_with_stage(self, stage) <span class="position">@ line 429</span></li></ul><ul id="m-_track_subtype"><li>_track_subtype(self, init_values) <span class="position">@ line 496</span></li></ul><ul id="m-_track_template"><li>_track_template(self, changes) <span class="position">@ line 484</span></li></ul><ul id="m-get_backend_menu_id"><li>get_backend_menu_id(self) <span class="position">@ line 518</span></li></ul><ul id="m-open_track_speakers_list"><li>open_track_speakers_list(self) <span class="position">@ line 508</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 418</span></li></ul><h2>Inherited: odoo/addons/mass_mailing_event_track/models/event_track.py</h2><h3>Methods</h3><ul id="m-_mailing_get_default_domain"><li>_mailing_get_default_domain(self, mailing) <span class="position">@ line 11</span></li></ul><script src="class.js"></script></body></html>

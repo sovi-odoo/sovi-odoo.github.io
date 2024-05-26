@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mailing.trace - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mailing.trace</h1><p>Originally defined in: odoo/addons/mass_mailing/models/mailing_trace.py</p><p>Inherited in: odoo/addons/mass_mailing_sms/models/mailing_trace.py<br/></p><hr/><h2>Original: odoo/addons/mass_mailing/models/mailing_trace.py</h2><h3>Fields</h3><details><summary id="f-campaign_id">campaign_id <span class="position">@ line 78</span></summary><pre>campaign_id = fields.Many2one(
+        related='mass_mailing_id.campaign_id',
+        string='Campaign',
+        store=True, readonly=True, index='btree_not_null')</pre></details><details><summary id="f-email">email <span class="position">@ line 69</span></summary><pre>email = fields.Char(string="Email", help="Normalized email address")</pre></details><details><summary id="f-failure_reason">failure_reason <span class="position">@ line 111</span></summary><pre>failure_reason = fields.Text('Failure reason', copy=False, readonly=True)</pre></details><details><summary id="f-failure_type">failure_type <span class="position">@ line 96</span></summary><pre>failure_type = fields.Selection(selection=[
+        # generic
+        ("unknown", "Unknown error"),
+        # mail
+        ("mail_bounce", "Bounce"),
+        ("mail_email_invalid", "Invalid email address"),
+        ("mail_email_missing", "Missing email address"),
+        ("mail_from_invalid", "Invalid from address"),
+        ("mail_from_missing", "Missing from address"),
+        ("mail_smtp", "Connection failed (outgoing mail server problem)"),
+        # mass mode
+        ("mail_bl", "Blacklisted Address"),
+        ("mail_dup", "Duplicated Email"),
+        ("mail_optout", "Opted Out"),
+    ], string='Failure type')</pre></details><details><summary id="f-links_click_datetime">links_click_datetime <span class="position">@ line 114</span></summary><pre>links_click_datetime = fields.Datetime('Clicked On', help='Stores last click datetime in case of multi clicks.')</pre></details><details><summary id="f-links_click_ids">links_click_ids <span class="position">@ line 113</span></summary><pre>links_click_ids = fields.One2many('link.tracker.click', 'mailing_trace_id', string='Links click')</pre></details><details><summary id="f-mail_mail_id">mail_mail_id <span class="position">@ line 61</span></summary><pre>mail_mail_id = fields.Many2one('mail.mail', string='Mail', index='btree_not_null')</pre></details><details><summary id="f-mail_mail_id_int">mail_mail_id_int <span class="position">@ line 62</span></summary><pre>mail_mail_id_int = fields.Integer(
+        string='Mail ID (tech)',
+        help='ID of the related mail_mail. This field is an integer field because '
+             'the related mail_mail can be deleted separately from its statistics. '
+             'However the ID is needed for several action and controllers.',
+        index='btree_not_null',
+    )</pre></details><details><summary id="f-mass_mailing_id">mass_mailing_id <span class="position">@ line 77</span></summary><pre>mass_mailing_id = fields.Many2one('mailing.mailing', string='Mailing', index=True, ondelete='cascade')</pre></details><details><summary id="f-medium_id">medium_id <span class="position">@ line 71</span></summary><pre>medium_id = fields.Many2one(related='mass_mailing_id.medium_id')</pre></details><details><summary id="f-message_id">message_id <span class="position">@ line 70</span></summary><pre>message_id = fields.Char(string='Message-ID')</pre></details><details><summary id="f-model">model <span class="position">@ line 74</span></summary><pre>model = fields.Char(string='Document model', required=True)</pre></details><details><summary id="f-open_datetime">open_datetime <span class="position">@ line 84</span></summary><pre>open_datetime = fields.Datetime('Opened On')</pre></details><details><summary id="f-reply_datetime">reply_datetime <span class="position">@ line 85</span></summary><pre>reply_datetime = fields.Datetime('Replied On')</pre></details><details><summary id="f-res_id">res_id <span class="position">@ line 75</span></summary><pre>res_id = fields.Many2oneReference(string='Document ID', model_field='model')</pre></details><details><summary id="f-sent_datetime">sent_datetime <span class="position">@ line 83</span></summary><pre>sent_datetime = fields.Datetime('Sent On')</pre></details><details><summary id="f-source_id">source_id <span class="position">@ line 72</span></summary><pre>source_id = fields.Many2one(related='mass_mailing_id.source_id')</pre></details><details><summary id="f-trace_status">trace_status <span class="position">@ line 86</span></summary><pre>trace_status = fields.Selection(selection=[
+        ('outgoing', 'Outgoing'),
+        ('process', 'Processing'),
+        ('pending', 'Sent'),
+        ('sent', 'Delivered'),
+        ('open', 'Opened'),
+        ('reply', 'Replied'),
+        ('bounce', 'Bounced'),
+        ('error', 'Exception'),
+        ('cancel', 'Cancelled')], string='Status', default='outgoing')</pre></details><details><summary id="f-trace_type">trace_type <span class="position">@ line 59</span></summary><pre>trace_type = fields.Selection([('mail', 'Email')], string='Type', default='mail', required=True)</pre></details><h3>Methods</h3><ul id="m-action_view_contact"><li>action_view_contact(self) <span class="position">@ line 137</span></li></ul><ul id="m-set_bounced"><li>set_bounced(self, domain, bounce_message) <span class="position">@ line 170</span></li></ul><ul id="m-set_canceled"><li>set_canceled(self, domain) <span class="position">@ line 184</span></li></ul><ul id="m-set_clicked"><li>set_clicked(self, domain) <span class="position">@ line 160</span></li></ul><ul id="m-set_failed"><li>set_failed(self, domain, failure_type) <span class="position">@ line 179</span></li></ul><details><summary id="m-set_opened">set_opened(self, domain) <span class="position">@ line 152</span></summary><pre>Reply / Open are a bit shared in various processes: reply implies
+open, click implies open. Let us avoid status override by skipping traces
+that are not already opened or replied.</pre></details><ul id="m-set_replied"><li>set_replied(self, domain) <span class="position">@ line 165</span></li></ul><ul id="m-set_sent"><li>set_sent(self, domain) <span class="position">@ line 147</span></li></ul><h2>Inherited: odoo/addons/mass_mailing_sms/models/mailing_trace.py</h2><h3>Fields</h3><details><summary id="f-CODE_SIZE">CODE_SIZE <span class="position">@ line 14</span></summary><pre>CODE_SIZE = 3</pre></details><details><summary id="f-failure_type">failure_type <span class="position">@ line 29</span></summary><pre>failure_type = fields.Selection(selection_add=[
+        ('sms_number_missing', 'Missing Number'),
+        ('sms_number_format', 'Wrong Number Format'),
+        ('sms_credit', 'Insufficient Credit'),
+        ('sms_country_not_supported', 'Country Not Supported'),
+        ('sms_registration_needed', 'Country-specific Registration Required'),
+        ('sms_server', 'Server Error'),
+        ('sms_acc', 'Unregistered Account'),
+        # mass mode specific codes
+        ('sms_blacklist', 'Blacklisted'),
+        ('sms_duplicate', 'Duplicate'),
+        ('sms_optout', 'Opted Out'),
+        # delivery report errors
+        ('sms_expired', 'Expired'),
+        ('sms_invalid_destination', 'Invalid Destination'),
+        ('sms_not_allowed', 'Not Allowed'),
+        ('sms_not_delivered', 'Not Delivered'),
+        ('sms_rejected', 'Rejected'),
+    ])</pre></details><details><summary id="f-sms_code">sms_code <span class="position">@ line 28</span></summary><pre>sms_code = fields.Char('Code')</pre></details><details><summary id="f-sms_id">sms_id <span class="position">@ line 19</span></summary><pre>sms_id = fields.Many2one('sms.sms', string='SMS', store=False, compute='_compute_sms_id')</pre></details><details><summary id="f-sms_id_int">sms_id_int <span class="position">@ line 20</span></summary><pre>sms_id_int = fields.Integer(
+        string='SMS ID',
+        index='btree_not_null'
+        # Integer because the related sms.sms can be deleted separately from its statistics.
+        # However, the ID is needed for several action and controllers.
+    )</pre></details><details><summary id="f-sms_number">sms_number <span class="position">@ line 27</span></summary><pre>sms_number = fields.Char('Number')</pre></details><details><summary id="f-sms_tracker_ids">sms_tracker_ids <span class="position">@ line 26</span></summary><pre>sms_tracker_ids = fields.One2many('sms.tracker', 'mailing_trace_id', string='SMS Trackers')</pre></details><details><summary id="f-trace_type">trace_type <span class="position">@ line 16</span></summary><pre>trace_type = fields.Selection(selection_add=[
+        ('sms', 'SMS')
+    ], ondelete={'sms': 'set default'})</pre></details><h3>Methods</h3><details><summary id="m-_get_random_code">_get_random_code(self) <span class="position">@ line 68</span></summary><pre>Generate a random code for trace. Uniqueness is not really necessary
+as it serves as obfuscation when unsubscribing. A valid trio
+code / mailing_id / number will be requested.</pre></details><script src="class.js"></script></body></html>

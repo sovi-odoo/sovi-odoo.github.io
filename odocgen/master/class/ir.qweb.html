@@ -1,0 +1,259 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.qweb - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.qweb</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_qweb.py</p><p>Inherited in: odoo/odoo/addons/test_assetsbundle/models/ir_qweb.py<br/>Inherited in: odoo/addons/website/models/ir_qweb.py<br/>Inherited in: odoo/addons/web_editor/models/ir_qweb_fields.py<br/>Inherited in: odoo/addons/web_editor/models/ir_qweb.py<br/>Inherited in: odoo/addons/test_mass_mailing/models/ir_qweb.py<br/>Inherited in: odoo/addons/portal/models/ir_qweb.py<br/>Inherited in: odoo/addons/mail/models/ir_qweb.py<br/>Inherited in: odoo/addons/http_routing/models/ir_qweb.py<br/></p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_qweb.py</h2><h3>Methods</h3><details><summary id="m-__prepare_globals">__prepare_globals(self) <span class="position">@ line 951</span></summary><pre>Prepare the global context that will sent to eval the qweb
+generated code.</pre></details><details><summary id="m-_append_text">_append_text(self, text, compile_context) <span class="position">@ line 977</span></summary><pre>Add an item (converts to a string) to the list.
+This will be concatenated and added during a call to the
+`_flush_text` method. This makes it possible to return only one
+yield containing all the parts.</pre></details><ul id="m-_compile"><li>_compile(self, template) <span class="position">@ line 620</span></li></ul><details><summary id="m-_compile_bool">_compile_bool(self, attr, default) <span class="position">@ line 1228</span></summary><pre>Convert the statements as a boolean.</pre></details><ul id="m-_compile_directive"><li>_compile_directive(self, el, compile_context, directive, level) <span class="position">@ line 1447</span></li></ul><details><summary id="m-_compile_directive_as">_compile_directive_as(self, el, compile_context, level) <span class="position">@ line 1935</span></summary><pre>Compile `t-as` expressions into a python code as a list of strings.
+
+This method only check if this attributes is on the same node of a
+`t-foreach` attribute.</pre></details><details><summary id="m-_compile_directive_att">_compile_directive_att(self, el, compile_context, level) <span class="position">@ line 1498</span></summary><pre>Compile the attributes of the given elements.
+
+The compiled function will create the ``values['__qweb_attrs__']``
+dictionary. Then the dictionary will be output.
+
+
+The new namespaces of the current element.
+
+The static attributes (not prefixed by ``t-``) are add to the
+dictionary in first.
+
+The dynamic attributes values will be add after. The dynamic
+attributes has different origins.
+- value from key equal to ``t-att``: python dictionary expression;
+- value from keys that start with ``t-att-``: python expression;
+- value from keys that start with ``t-attf-``: format string
+expression.</pre></details><details><summary id="m-_compile_directive_cache">_compile_directive_cache(self, el, compile_context, level) <span class="position">@ line 2242</span></summary><pre>Compile the `t-cache` tuple expression into a key cache.
+
+The `t-cache` directive allows you to keep the rendered result
+of a template part. The supplied key must be a tuple. This tuple
+can contain recordset in this case the zone will be invalidated
+each time the write_date of these records changes.
+The values are scoped into the `t-cache` and are not available
+outside.
+see: `t-nocache`</pre></details><details><summary id="m-_compile_directive_call">_compile_directive_call(self, el, compile_context, level) <span class="position">@ line 2121</span></summary><pre>Compile `t-call` expressions into a python code as a list of
+strings.
+
+`t-call` allow formating string dynamic at rendering time.
+Can use `t-options` used to call and render the sub-template at
+rendering time.
+The sub-template is called with a copy of the rendering values
+dictionary. The dictionary contains the key 0 coming from the
+compilation of the contents of this element
+
+The code will contain the call of the template and a function from the
+compilation of the content of this element.</pre></details><details><summary id="m-_compile_directive_call_assets">_compile_directive_call_assets(self, el, compile_context, level) <span class="position">@ line 2194</span></summary><pre>This special 't-call-assets' tag can be used in order to aggregate/minify javascript and css assets</pre></details><ul id="m-_compile_directive_consumed_options"><li>_compile_directive_consumed_options(self, el, compile_context, level) <span class="position">@ line 1495</span></li></ul><details><summary id="m-_compile_directive_debug">_compile_directive_debug(self, el, compile_context, level) <span class="position">@ line 1453</span></summary><pre>Compile `t-debug` expressions into a python code as a list of
+strings.
+
+The code will contains the call to the debugger chosen from the valid
+list.</pre></details><details><summary id="m-_compile_directive_elif">_compile_directive_elif(self, el, compile_context, level) <span class="position">@ line 1816</span></summary><pre>Compile `t-elif` expressions into a python code as a list of
+strings. This method is linked with the `t-if` directive.
+
+Check if this directive is valide, the t-qweb-skip flag and call
+`t-if` directive</pre></details><details><summary id="m-_compile_directive_else">_compile_directive_else(self, el, compile_context, level) <span class="position">@ line 1828</span></summary><pre>Compile `t-else` expressions into a python code as a list of strings.
+This method is linked with the `t-if` directive.
+
+Check if this directive is valide and add the t-qweb-skip flag.</pre></details><ul id="m-_compile_directive_esc"><li>_compile_directive_esc(self, el, compile_context, level) <span class="position">@ line 2076</span></li></ul><details><summary id="m-_compile_directive_field">_compile_directive_field(self, el, compile_context, level) <span class="position">@ line 2097</span></summary><pre>Compile `t-field` expressions into a python code as a list of
+strings.
+
+The compiled code will call ``_get_field`` method at rendering time
+using the type of value supplied by the field. This behavior can be
+changed with `t-options-widget` or `t-options={'widget': ...}.
+
+The code will contain evalution and rendering of the compiled value
+value from the record field. If the compiled value is None or False,
+the tag is not added to the render
+(Except if the widget forces rendering or there is default content.).</pre></details><details><summary id="m-_compile_directive_foreach">_compile_directive_foreach(self, el, compile_context, level) <span class="position">@ line 1859</span></summary><pre>Compile `t-foreach` expressions into a python code as a list of
+strings.
+
+`t-as` is used to define the key name.
+`t-foreach` compiled value can be an iterable, an dictionary or a
+number.
+
+The code will contain loop `for` that wrap the rest of the compiled
+code of this element.
+Some key into values dictionary are create automatically:
+*_size, *_index, *_value, *_first, *_last, *_odd, *_even, *_parity</pre></details><details><summary id="m-_compile_directive_groups">_compile_directive_groups(self, el, compile_context, level) <span class="position">@ line 1839</span></summary><pre>Compile `t-groups` expressions into a python code as a list of
+strings.
+
+The code will contain the condition `if self.env.user.has_groups(groups)`
+part that wrap the rest of the compiled code of this element.</pre></details><details><summary id="m-_compile_directive_if">_compile_directive_if(self, el, compile_context, level) <span class="position">@ line 1745</span></summary><pre>Compile `t-if` expressions into a python code as a list of strings.
+
+The code will contain the condition `if`, `else` and `elif` part that
+wrap the rest of the compiled code of this element.</pre></details><details><summary id="m-_compile_directive_inner_content">_compile_directive_inner_content(self, el, compile_context, level) <span class="position">@ line 1711</span></summary><pre>Compiles the content of the element (is the technical `t-inner-content`
+directive created by QWeb) into a python code as a list of
+strings.
+
+The code will contains the text content of the node or the compliled
+code from the recursive call of ``_compile_node``.</pre></details><ul id="m-_compile_directive_lang"><li>_compile_directive_lang(self, el, compile_context, level) <span class="position">@ line 2188</span></li></ul><details><summary id="m-_compile_directive_nocache">_compile_directive_nocache(self, el, compile_context, level) <span class="position">@ line 2311</span></summary><pre>The `t-nocache` directive makes it possible to force rendering
+of a part even if it is in a `t-cache`. The values available in
+the `t-nocache` are the one provided when calling the template
+(and therefore ignores any t-set that could have been done).
+
+The `t-nocache-*` are the values whose result of the
+expression will be cached and added to the root's values when
+rendering the no cache part. Only primitive types can be cached.
+
+see: `t-cache`</pre></details><details><summary id="m-_compile_directive_options">_compile_directive_options(self, el, compile_context, level) <span class="position">@ line 1468</span></summary><pre>compile t-options and add to the dict the t-options-xxx. Will create
+the dictionary ``values['__qweb_options__']`` in compiled code.</pre></details><details><summary id="m-_compile_directive_out">_compile_directive_out(self, el, compile_context, level) <span class="position">@ line 1945</span></summary><pre>Compile `t-out` expressions into a python code as a list of
+strings.
+
+The code will contain evalution and rendering of the compiled value. If
+the compiled value is None or False, the tag is not added to the render
+(Except if the widget forces rendering or there is default content).
+(eg: `<t t-out="my_value">Default content if falsy</t>`)
+
+The output can have some rendering option with `t-options-widget` or
+`t-options={'widget': ...}. At rendering time, The compiled code will
+call ``_get_widget`` method or ``_get_field`` method for `t-field`.
+
+A `t-field` will necessarily be linked to the value of a record field
+(eg: `<span t-field="record.field_name"/>`), a t-out` can be applied
+to any value (eg: `<span t-out="10" t-options-widget="'float'"/>`).</pre></details><ul id="m-_compile_directive_raw"><li>_compile_directive_raw(self, el, compile_context, level) <span class="position">@ line 2086</span></li></ul><details><summary id="m-_compile_directive_set">_compile_directive_set(self, el, compile_context, level) <span class="position">@ line 1630</span></summary><pre>Compile `t-set` expressions into a python code as a list of
+strings.
+
+There are 3 kinds of `t-set`:
+* `t-value` containing python code;
+* `t-valuef` containing strings to format;
+* whose value is the content of the tag (being Markup safe).
+
+The code will contain the assignment of the dynamically generated value.</pre></details><details><summary id="m-_compile_directive_tag_close">_compile_directive_tag_close(self, el, compile_context, level) <span class="position">@ line 1621</span></summary><pre>Compile the closing tag of the given element into string.
+Returns an empty list because it's use only `_append_text`.</pre></details><details><summary id="m-_compile_directive_tag_open">_compile_directive_tag_open(self, el, compile_context, level) <span class="position">@ line 1570</span></summary><pre>Compile the opening tag with attributes of the given element into
+a list of python code line.
+
+The compiled function will fill the ``attrs`` dictionary. Then the
+``attrs`` dictionary will be output and reset the value of ``attrs``.
+
+The static attributes (not prefixed by ``t-``) are add to the
+``attrs`` dictionary in first.
+
+The dynamic attributes values will be add after. The dynamic
+attributes has different origins.
+- value from key equal to ``t-att``: python dictionary expression;
+- value from keys that start with ``t-att-``: python expression;
+- value from keys that start with ``t-attf-``: format string
+expression.</pre></details><details><summary id="m-_compile_directive_value">_compile_directive_value(self, el, compile_context, level) <span class="position">@ line 1695</span></summary><pre>Compile `t-value` expressions into a python code as a list of strings.
+
+This method only check if this attributes is on the same node of a
+`t-set` attribute.</pre></details><details><summary id="m-_compile_directive_valuef">_compile_directive_valuef(self, el, compile_context, level) <span class="position">@ line 1703</span></summary><pre>Compile `t-valuef` expressions into a python code as a list of strings.
+
+This method only check if this attributes is on the same node of a
+`t-set` attribute.</pre></details><details><summary id="m-_compile_directives">_compile_directives(self, el, compile_context, level) <span class="position">@ line 1404</span></summary><pre>Compile the given element, following the directives given in the
+iterator ``compile_context['iter_directives']`` create by
+`_compile_node`` method.
+
+:return: list of code lines</pre></details><details><summary id="m-_compile_expr">_compile_expr(self, expr, raise_on_missing) <span class="position">@ line 1201</span></summary><pre>Transform string coming into a python instruction in textual form by
+adding the namepaces for the dynamic values.
+This method tokenize the string and call ``_compile_expr_tokens``
+method.
+
+:param expr: string: python expression
+:param [raise_on_missing]: boolean:
+Compile has `values['product'].price` instead of
+`values.get('product').price` to raise an error when get the
+'product' value and not an 'NoneType' object has no attribute
+'price' error.</pre></details><details><summary id="m-_compile_expr_tokens">_compile_expr_tokens(self, tokens, allowed_keys, argument_names, raise_on_missing) <span class="position">@ line 1045</span></summary><pre>Transform the list of token coming into a python instruction in
+textual form by adding the namepaces for the dynamic values.
+
+Example: `5 + a + b.c` to be `5 + values.get('a') + values['b'].c`
+Unknown values are considered to be None, but using `values['b']`
+gives a clear error message in cases where there is an attribute for
+example (have a `KeyError: 'b'`, instead of `AttributeError: 'NoneType'
+object has no attribute 'c'`).
+
+@returns str</pre></details><details><summary id="m-_compile_format">_compile_format(self, expr) <span class="position">@ line 1028</span></summary><pre>Parses the provided format string and compiles it to a single
+expression python, uses string with format method.
+Use format is faster to concat string and values.</pre></details><details><summary id="m-_compile_node">_compile_node(self, el, compile_context, level) <span class="position">@ line 1284</span></summary><pre>Compile the given element into python code.
+
+The t-* attributes (directives) will be converted to a python instruction. If there
+are no t-* attributes, the element will be considered static.
+
+Directives are compiled using the order provided by the
+``_directives_eval_order`` method (an create the
+``compile_context['iter_directives']`` iterator).
+For compilation, the directives supported are those with a
+compilation method ``_compile_directive_*``
+
+:return: list of string</pre></details><details><summary id="m-_compile_static_node">_compile_static_node(self, el, compile_context, level) <span class="position">@ line 1338</span></summary><pre>Compile a purely static element into a list of string.</pre></details><details><summary id="m-_compile_to_str">_compile_to_str(self, expr) <span class="position">@ line 1240</span></summary><pre>Generates a text value (an instance of text_type) from an arbitrary
+source.</pre></details><details><summary id="m-_debug_trace">_debug_trace(self, debugger, values) <span class="position">@ line 2381</span></summary><pre>Method called at running time to load debugger.</pre></details><details><summary id="m-_directives_eval_order">_directives_eval_order(self) <span class="position">@ line 1248</span></summary><pre>List all supported directives in the order in which they should be
+evaluated on a given element. For instance, a node bearing both
+``foreach`` and ``if`` should see ``foreach`` executed before ``if`` aka
+.. code-block:: xml
+<el t-foreach="foo" t-as="bar" t-if="bar">
+should be equivalent to
+.. code-block:: xml
+<t t-foreach="foo" t-as="bar">
+<t t-if="bar">
+<el>
+then this method should return ``['foreach', 'if']``.</pre></details><details><summary id="m-_flush_text">_flush_text(self, compile_context, level, rstrip) <span class="position">@ line 998</span></summary><pre>Concatenate all the textual chunks added by the `_append_text`
+method into a single yield.
+If no text to flush, return an empty list
+
+If rstrip the text is right stripped.
+
+@returns list(str)</pre></details><ul id="m-_generate_asset_links"><li>_generate_asset_links(self, bundle, css, js, debug_assets, assets_params, rtl) <span class="position">@ line 2617</span></li></ul><ul id="m-_generate_asset_links_cache"><li>_generate_asset_links_cache(self, bundle, css, js, assets_params, rtl) <span class="position">@ line 2541</span></li></ul><details><summary id="m-_generate_code">_generate_code(self, template) <span class="position">@ line 668</span></summary><pre>Compile the given template into a rendering function (generator)::
+
+render_template(qweb, values)
+This method can be called only by the IrQweb `_render` method or by
+the compiled code of t-call from an other template.
+
+An `options` dictionary is created and attached to the function. It
+contains rendering options that are part of the cache key in
+addition to template references.
+
+where ``qweb`` is a QWeb instance and ``values`` are the values to
+render.
+
+:returns: tuple containing code, options and main method name</pre></details><ul id="m-_get_asset_bundle"><li>_get_asset_bundle(self, bundle_name, css, js, debug_assets, rtl, assets_params) <span class="position">@ line 2562</span></li></ul><ul id="m-_get_asset_content"><li>_get_asset_content(self, bundle, assets_params) <span class="position">@ line 2544</span></li></ul><ul id="m-_get_asset_link_urls"><li>_get_asset_link_urls(self, bundle, debug) <span class="position">@ line 2621</span></li></ul><details><summary id="m-_get_asset_links">_get_asset_links(self, bundle, css, js, debug) <span class="position">@ line 2476</span></summary><pre>Generates asset nodes.
+If debug=assets, the assets will be regenerated when a file which composes them has been modified.
+Else, the assets will be generated only once and then stored in cache.</pre></details><details><summary id="m-_get_asset_nodes">_get_asset_nodes(self, bundle, css, js, debug, defer_load, lazy_load, media) <span class="position">@ line 2467</span></summary><pre>Generates asset nodes.
+If debug=assets, the assets will be regenerated when a file which composes them has been modified.
+Else, the assets will be generated only once and then stored in cache.</pre></details><details><summary id="m-_get_bundles_to_pregenarate">_get_bundles_to_pregenarate(self) <span class="position">@ line 2650</span></summary><pre>Returns the list of bundles to pregenerate.</pre></details><details><summary id="m-_get_cache_key">_get_cache_key(self, cache_key) <span class="position">@ line 2492</span></summary><pre>Convert the template cache key item into a hashable key.
+:param cache_key: tuple
+:returns: tuple of hashable items</pre></details><details><summary id="m-_get_cached_values">_get_cached_values(self, cache_key, get_value) <span class="position">@ line 2530</span></summary><pre>generate value from the function if the result is not cached.</pre></details><ul id="m-_get_converted_image_data_uri"><li>_get_converted_image_data_uri(self, base64_source) <span class="position">@ line 886</span></li></ul><details><summary id="m-_get_field">_get_field(self, record, field_name, expression, tagName, field_options, values) <span class="position">@ line 2409</span></summary><pre>Method called at compile time to return the field value.
+
+:returns: tuple:
+* dict: attributes
+* string or None: content
+* boolean: force_display display the tag if the content and default_content are None</pre></details><details><summary id="m-_get_template">_get_template(self, template) <span class="position">@ line 796</span></summary><pre>Retrieve the given template, and return it as a tuple ``(etree,
+xml, ref)``, where ``element`` is an etree, ``document`` is the
+string document that contains ``element``, and ``ref`` if the uniq
+reference of the template (id, t-name or template).
+
+:param template: template identifier or etree</pre></details><details><summary id="m-_get_template_cache_keys">_get_template_cache_keys(self) <span class="position">@ line 605</span></summary><pre>Return the list of context keys to use for caching ``_compile``.</pre></details><ul id="m-_get_view_id"><li>_get_view_id(self, template) <span class="position">@ line 613</span></li></ul><details><summary id="m-_get_widget">_get_widget(self, value, expression, tagName, field_options, values) <span class="position">@ line 2441</span></summary><pre>Method called at compile time to return the widget value.
+
+:returns: tuple:
+* dict: attributes
+* string or None: content
+* boolean: force_display display the tag if the content and default_content are None</pre></details><details><summary id="m-_is_static_node">_is_static_node(self, el, compile_context) <span class="position">@ line 1016</span></summary><pre>Test whether the given element is purely static, i.e. (there
+are no t-* attributes), does not require dynamic rendering for its
+attributes.</pre></details><ul id="m-_link_to_node"><li>_link_to_node(self, path, defer_load, lazy_load, media) <span class="position">@ line 2571</span></li></ul><ul id="m-_links_to_nodes"><li>_links_to_nodes(self, paths, defer_load, lazy_load, media) <span class="position">@ line 2568</span></li></ul><details><summary id="m-_load">_load(self, ref) <span class="position">@ line 850</span></summary><pre>Load the template referenced by ``ref``.
+
+:returns: The loaded template (as string or etree) and its
+identifier
+:rtype: Tuple[Union[etree, str], Optional[str, int]]</pre></details><details><summary id="m-_load_values">_load_values(self, cache_key, get_value, loaded_values) <span class="position">@ line 2513</span></summary><pre>generate value from the function if the result is not cached.</pre></details><details><summary id="m-_post_processing_att">_post_processing_att(self, tagName, atts) <span class="position">@ line 2397</span></summary><pre>Method called at compile time for the static node and called at
+runing time for the dynamic attributes.
+
+This method may be overwrited to filter or modify the attributes
+(during compilation for static node or after they compilation in
+the case of dynamic elements).
+
+@returns dict</pre></details><details><summary id="m-_pregenerate_assets_bundles">_pregenerate_assets_bundles(self) <span class="position">@ line 2625</span></summary><pre>Pregenerates all assets that may be used in web pages to speedup first loading.
+This may is mainly usefull for tests.
+
+The current version is looking for all t-call-assets in view to generate the minimal
+set of bundles to generate.
+
+Current version only generate assets without extra, not taking care of rtl.</pre></details><details><summary id="m-_prepare_environment">_prepare_environment(self, values) <span class="position">@ line 910</span></summary><pre>Prepare the values and context that will sent to the
+compiled and evaluated function.
+
+:param values: template values to be used for rendering
+
+:returns self (with new context)</pre></details><details><summary id="m-_rstrip_text">_rstrip_text(self, compile_context) <span class="position">@ line 984</span></summary><pre>The text to flush is right stripped, and the stripped content are
+returned.</pre></details><h2>Inherited: odoo/odoo/addons/test_assetsbundle/models/ir_qweb.py</h2><h3>Methods</h3><ul id="m-_register_hook"><li>_register_hook(self) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/website/models/ir_qweb.py</h2><h3>Fields</h3><details><summary id="f-URL_ATTRS">URL_ATTRS <span class="position">@ line 26</span></summary><pre>URL_ATTRS = {
+        'form': 'action',
+        'a': 'href',
+        'link': 'href',
+        'script': 'src',
+        'img': 'src',
+    }</pre></details><h3>Methods</h3><ul id="m-_adapt_style_background_image"><li>_adapt_style_background_image(self, atts, url_adapter) <span class="position">@ line 134</span></li></ul><ul id="m-_get_bundles_to_pregenarate"><li>_get_bundles_to_pregenarate(self) <span class="position">@ line 139</span></li></ul><details><summary id="m-_get_template_cache_keys">_get_template_cache_keys(self) <span class="position">@ line 35</span></summary><pre>Return the list of context keys to use for caching ``_compile``.</pre></details><ul id="m-_post_processing_att"><li>_post_processing_att(self, tagName, atts) <span class="position">@ line 94</span></li></ul><details><summary id="m-_prepare_frontend_environment">_prepare_frontend_environment(self, values) <span class="position">@ line 39</span></summary><pre>Update the values and context with website specific value
+(required to render website layout template)</pre></details><h2>Inherited: odoo/addons/web_editor/models/ir_qweb_fields.py</h2><h3>Methods</h3><ul id="m-_compile_directive_install"><li>_compile_directive_install(self, el, compile_context, indent) <span class="position">@ line 104</span></li></ul><ul id="m-_compile_directive_placeholder"><li>_compile_directive_placeholder(self, el, compile_context, indent) <span class="position">@ line 120</span></li></ul><ul id="m-_compile_directive_snippet"><li>_compile_directive_snippet(self, el, compile_context, indent) <span class="position">@ line 71</span></li></ul><ul id="m-_compile_directive_snippet_call"><li>_compile_directive_snippet_call(self, el, compile_context, indent) <span class="position">@ line 98</span></li></ul><ul id="m-_compile_node"><li>_compile_node(self, el, compile_context, indent) <span class="position">@ line 44</span></li></ul><ul id="m-_directives_eval_order"><li>_directives_eval_order(self) <span class="position">@ line 126</span></li></ul><ul id="m-_get_template_cache_keys"><li>_get_template_cache_keys(self) <span class="position">@ line 137</span></li></ul><h2>Inherited: odoo/addons/web_editor/models/ir_qweb.py</h2><h3>Methods</h3><ul id="m-_get_bundles_to_pregenarate"><li>_get_bundles_to_pregenarate(self) <span class="position">@ line 7</span></li></ul><h2>Inherited: odoo/addons/test_mass_mailing/models/ir_qweb.py</h2><h3>Methods</h3><ul id="m-_get_bundles_to_pregenarate"><li>_get_bundles_to_pregenarate(self) <span class="position">@ line 7</span></li></ul><h2>Inherited: odoo/addons/portal/models/ir_qweb.py</h2><h3>Methods</h3><details><summary id="m-_prepare_frontend_environment">_prepare_frontend_environment(self, values) <span class="position">@ line 11</span></summary><pre>Returns ir.qweb with context and update values with portal specific
+value (required to render portal layout template)</pre></details><h2>Inherited: odoo/addons/mail/models/ir_qweb.py</h2><h3>Methods</h3><ul id="m-_compile_directives"><li>_compile_directives(self, el, compile_context, indent) <span class="position">@ line 13</span></li></ul><ul id="m-_get_template_cache_keys"><li>_get_template_cache_keys(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/http_routing/models/ir_qweb.py</h2><h3>Methods</h3><ul id="m-_prepare_environment"><li>_prepare_environment(self, values) <span class="position">@ line 37</span></li></ul><ul id="m-_prepare_frontend_environment"><li>_prepare_frontend_environment(self, values) <span class="position">@ line 50</span></li></ul><script src="class.js"></script></body></html>

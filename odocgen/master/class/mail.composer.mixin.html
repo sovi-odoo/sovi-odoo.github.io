@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.composer.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.composer.mixin</h1><p>Inherited in: odoo/addons/mail/models/mail_composer_mixin.py<br/></p><hr/><h2>Inherited: odoo/addons/mail/models/mail_composer_mixin.py</h2><h3>Fields</h3><details><summary id="f-body">body <span class="position">@ line 25</span></summary><pre>body = fields.Html(
+        'Contents', compute='_compute_body', readonly=False, store=True, compute_sudo=False,
+        render_engine='qweb', render_options={'post_process': True}, sanitize=False)</pre></details><details><summary id="f-body_has_template_value">body_has_template_value <span class="position">@ line 28</span></summary><pre>body_has_template_value = fields.Boolean(
+        'Body content is the same as the template',
+        compute='_compute_body_has_template_value',
+    )</pre></details><details><summary id="f-can_edit_body">can_edit_body <span class="position">@ line 37</span></summary><pre>can_edit_body = fields.Boolean('Can Edit Body', compute='_compute_can_edit_body')</pre></details><details><summary id="f-is_mail_template_editor">is_mail_template_editor <span class="position">@ line 36</span></summary><pre>is_mail_template_editor = fields.Boolean('Is Editor', compute='_compute_is_mail_template_editor')</pre></details><details><summary id="f-lang">lang <span class="position">@ line 34</span></summary><pre>lang = fields.Char(compute='_compute_lang', precompute=True, readonly=False, store=True, compute_sudo=False)</pre></details><details><summary id="f-subject">subject <span class="position">@ line 24</span></summary><pre>subject = fields.Char('Subject', compute='_compute_subject', readonly=False, store=True, compute_sudo=False)</pre></details><details><summary id="f-template_id">template_id <span class="position">@ line 32</span></summary><pre>template_id = fields.Many2one('mail.template', 'Mail Template', domain="[('model', '=', render_model)]")</pre></details><h3>Methods</h3><details><summary id="m-_render_field">_render_field(self, field, *args, **args) <span class="position">@ line 99</span></summary><pre>Render the given field on the given records. This method enters
+sudo mode to allow qweb rendering (which is otherwise reserved for
+the 'mail template editor' group') if we consider it safe. Safe
+means content comes from the template which is a validated master
+data. As a summary the heuristic is :
+
+* if no template, do not bypass the check;
+* if current user is a template editor, do not bypass the check;
+* if record value and template value are the same (or equals the
+sanitized value in case of an HTML field), bypass the check;
+* for body: if current user cannot edit it, force template value back
+then bypass the check;
+
+Also provide support to fetch translations on the remote template.
+Indeed translations are often done on the master template, not on the
+specific composer itself. In that case we need to work on template
+value when it has not been modified in the composer.</pre></details><script src="class.js"></script></body></html>

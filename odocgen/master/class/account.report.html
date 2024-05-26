@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.report - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.report</h1><p>Originally defined in: odoo/addons/account/models/account_report.py</p><hr/><h2>Original: odoo/addons/account/models/account_report.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 33</span></summary><pre>active = fields.Boolean(string="Active", default=True)</pre></details><details><summary id="f-availability_condition">availability_condition <span class="position">@ line 51</span></summary><pre>availability_condition = fields.Selection(
+        string="Availability",
+        selection=[('country', "Country Matches"), ('coa', "Chart of Accounts Matches"), ('always', "Always")],
+        compute='_compute_default_availability_condition', readonly=False, store=True,
+    )</pre></details><details><summary id="f-chart_template">chart_template <span class="position">@ line 45</span></summary><pre>chart_template = fields.Selection(string="Chart of Accounts", selection=lambda self: self.env['account.chart.template']._select_chart_template())</pre></details><details><summary id="f-column_ids">column_ids <span class="position">@ line 35</span></summary><pre>column_ids = fields.One2many(string="Columns", comodel_name='account.report.column', inverse_name='report_id')</pre></details><details><summary id="f-country_id">country_id <span class="position">@ line 46</span></summary><pre>country_id = fields.Many2one(string="Country", comodel_name='res.country')</pre></details><details><summary id="f-default_opening_date_filter">default_opening_date_filter <span class="position">@ line 61</span></summary><pre>default_opening_date_filter = fields.Selection(
+        string="Default Opening",
+        selection=[
+            ('this_year', "This Year"),
+            ('this_quarter', "This Quarter"),
+            ('this_month', "This Month"),
+            ('today', "Today"),
+            ('last_month', "Last Month"),
+            ('last_quarter', "Last Quarter"),
+            ('last_year', "Last Year"),
+            ('this_tax_period', "This Tax Period"),
+            ('last_tax_period', "Last Tax Period"),
+        ],
+        compute=lambda x: x._compute_report_option_filter('default_opening_date_filter', 'last_month'),
+        readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_account_type">filter_account_type <span class="position">@ line 128</span></summary><pre>filter_account_type = fields.Selection(
+        string="Account Types",
+        selection=[('both', "Payable and receivable"), ('payable', "Payable"), ('receivable', "Receivable"), ('disabled', 'Disabled')],
+        compute=lambda x: x._compute_report_option_filter('filter_account_type', 'disabled'), readonly=False, store=True, depends=['root_report_id'],
+    )</pre></details><details><summary id="f-filter_aml_ir_filters">filter_aml_ir_filters <span class="position">@ line 141</span></summary><pre>filter_aml_ir_filters = fields.Boolean(
+        string="Favorite Filters", help="If activated, user-defined filters on journal items can be selected on this report",
+        compute=lambda x: x._compute_report_option_filter('filter_aml_ir_filters'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_analytic">filter_analytic <span class="position">@ line 119</span></summary><pre>filter_analytic = fields.Boolean(
+        string="Analytic Filter",
+        compute=lambda x: x._compute_report_option_filter('filter_analytic'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_date_range">filter_date_range <span class="position">@ line 86</span></summary><pre>filter_date_range = fields.Boolean(
+        string="Date Range",
+        compute=lambda x: x._compute_report_option_filter('filter_date_range', True), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_fiscal_position">filter_fiscal_position <span class="position">@ line 137</span></summary><pre>filter_fiscal_position = fields.Boolean(
+        string="Filter Multivat",
+        compute=lambda x: x._compute_report_option_filter('filter_fiscal_position'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_growth_comparison">filter_growth_comparison <span class="position">@ line 111</span></summary><pre>filter_growth_comparison = fields.Boolean(
+        string="Growth Comparison",
+        compute=lambda x: x._compute_report_option_filter('filter_growth_comparison', True), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_hide_0_lines">filter_hide_0_lines <span class="position">@ line 102</span></summary><pre>filter_hide_0_lines = fields.Selection(
+        string="Hide lines at 0",
+        selection=[('by_default', "Enabled by Default"), ('optional', "Optional"), ('never', "Never")],
+        compute=lambda x: x._compute_report_option_filter('filter_hide_0_lines', 'optional'), readonly=False, store=True, depends=['root_report_id'],
+    )</pre></details><details><summary id="f-filter_hierarchy">filter_hierarchy <span class="position">@ line 123</span></summary><pre>filter_hierarchy = fields.Selection(
+        string="Account Groups",
+        selection=[('by_default', "Enabled by Default"), ('optional', "Optional"), ('never', "Never")],
+        compute=lambda x: x._compute_report_option_filter('filter_hierarchy', 'optional'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_journals">filter_journals <span class="position">@ line 115</span></summary><pre>filter_journals = fields.Boolean(
+        string="Journals",
+        compute=lambda x: x._compute_report_option_filter('filter_journals'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_multi_company">filter_multi_company <span class="position">@ line 81</span></summary><pre>filter_multi_company = fields.Selection(
+        string="Multi-Company",
+        selection=[('disabled', "Disabled"), ('selector', "Use Company Selector"), ('tax_units', "Use Tax Units")],
+        compute=lambda x: x._compute_report_option_filter('filter_multi_company', 'disabled'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_partner">filter_partner <span class="position">@ line 133</span></summary><pre>filter_partner = fields.Boolean(
+        string="Partners",
+        compute=lambda x: x._compute_report_option_filter('filter_partner'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_period_comparison">filter_period_comparison <span class="position">@ line 107</span></summary><pre>filter_period_comparison = fields.Boolean(
+        string="Period Comparison",
+        compute=lambda x: x._compute_report_option_filter('filter_period_comparison', True), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_show_draft">filter_show_draft <span class="position">@ line 90</span></summary><pre>filter_show_draft = fields.Boolean(
+        string="Draft Entries",
+        compute=lambda x: x._compute_report_option_filter('filter_show_draft', True), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_unfold_all">filter_unfold_all <span class="position">@ line 98</span></summary><pre>filter_unfold_all = fields.Boolean(
+        string="Unfold All",
+        compute=lambda x: x._compute_report_option_filter('filter_unfold_all'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-filter_unreconciled">filter_unreconciled <span class="position">@ line 94</span></summary><pre>filter_unreconciled = fields.Boolean(
+        string="Unreconciled Entries",
+        compute=lambda x: x._compute_report_option_filter('filter_unreconciled', False), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-integer_rounding">integer_rounding <span class="position">@ line 59</span></summary><pre>integer_rounding = fields.Selection(string="Integer Rounding", selection=[('HALF-UP', "Half-up (away from 0)"), ('UP', "Up"), ('DOWN', "Down")])</pre></details><details><summary id="f-line_ids">line_ids <span class="position">@ line 34</span></summary><pre>line_ids = fields.One2many(string="Lines", comodel_name='account.report.line', inverse_name='report_id')</pre></details><details><summary id="f-load_more_limit">load_more_limit <span class="position">@ line 56</span></summary><pre>load_more_limit = fields.Integer(string="Load More Limit")</pre></details><details><summary id="f-name">name <span class="position">@ line 31</span></summary><pre>name = fields.Char(string="Name", required=True, translate=True)</pre></details><details><summary id="f-only_tax_exigible">only_tax_exigible <span class="position">@ line 47</span></summary><pre>only_tax_exigible = fields.Boolean(
+        string="Only Tax Exigible Lines",
+        compute=lambda x: x._compute_report_option_filter('only_tax_exigible'), readonly=False, store=True, depends=['root_report_id', 'section_main_report_ids'],
+    )</pre></details><details><summary id="f-prefix_groups_threshold">prefix_groups_threshold <span class="position">@ line 58</span></summary><pre>prefix_groups_threshold = fields.Integer(string="Prefix Groups Threshold")</pre></details><details><summary id="f-root_report_id">root_report_id <span class="position">@ line 36</span></summary><pre>root_report_id = fields.Many2one(string="Root Report", comodel_name='account.report', help="The report this report is a variant of.")</pre></details><details><summary id="f-search_bar">search_bar <span class="position">@ line 57</span></summary><pre>search_bar = fields.Boolean(string="Search Bar")</pre></details><details><summary id="f-section_main_report_ids">section_main_report_ids <span class="position">@ line 39</span></summary><pre>section_main_report_ids = fields.Many2many(string="Section Of", comodel_name='account.report', relation="account_report_section_rel", column1="sub_report_id", column2="main_report_id")</pre></details><details><summary id="f-section_report_ids">section_report_ids <span class="position">@ line 38</span></summary><pre>section_report_ids = fields.Many2many(string="Sections", comodel_name='account.report', relation="account_report_section_rel", column1="main_report_id", column2="sub_report_id")</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 32</span></summary><pre>sequence = fields.Integer(string="Sequence")</pre></details><details><summary id="f-use_sections">use_sections <span class="position">@ line 40</span></summary><pre>use_sections = fields.Boolean(
+        string="Composite Report",
+        compute="_compute_use_sections", store=True, readonly=False,
+        help="Create a structured report with multiple sections for convenient navigation and simultaneous printing.",
+    )</pre></details><details><summary id="f-variant_report_ids">variant_report_ids <span class="position">@ line 37</span></summary><pre>variant_report_ids = fields.One2many(string="Variants", comodel_name='account.report', inverse_name='root_report_id')</pre></details><h3>Methods</h3><ul id="m-_compute_report_option_filter"><li>_compute_report_option_filter(self, field_name, default_value) <span class="position">@ line 146</span></li></ul><details><summary id="m-_get_copied_name">_get_copied_name(self) <span class="position">@ line 257</span></summary><pre>Return a copied name of the account.report record by adding the suffix (copy) at the end
+until the name is unique.
+
+:return: an unique name for the copied account.report</pre></details><details><summary id="m-copy">copy(self, default) <span class="position">@ line 229</span></summary><pre>Copy the whole financial report hierarchy by duplicating each line recursively.
+
+:param default: Default values.
+:return: The copied account.report record.</pre></details><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 225</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 201</span></li></ul><script src="class.js"></script></body></html>

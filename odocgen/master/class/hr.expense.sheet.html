@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>hr.expense.sheet - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>hr.expense.sheet</h1><p>Inherited in: odoo/addons/sale_expense/models/hr_expense_sheet.py<br/>Inherited in: odoo/addons/hr_expense/models/hr_expense_sheet.py<br/></p><hr/><h2>Inherited: odoo/addons/sale_expense/models/hr_expense_sheet.py</h2><h3>Fields</h3><details><summary id="f-sale_order_count">sale_order_count <span class="position">@ line 10</span></summary><pre>sale_order_count = fields.Integer(compute='_compute_sale_order_count')</pre></details><h3>Methods</h3><ul id="m-_compute_sale_order_count"><li>_compute_sale_order_count(self) <span class="position">@ line 12</span></li></ul><details><summary id="m-_do_create_moves">_do_create_moves(self) <span class="position">@ line 107</span></summary><pre>When posting expense, if the AA is given, we will track cost in that
+If a SO is set, this means we want to reinvoice the expense. But to do so, we
+need the analytic entries to be generated, so a AA is required to reinvoice. So,
+we ensure the AA if a SO is given.</pre></details><details><summary id="m-_get_sale_order_lines">_get_sale_order_lines(self) <span class="position">@ line 16</span></summary><pre>This method is used to try to find the sale order lines created by expense sheets.
+It is used to reset the quantities of the sale order lines when the expense sheet is reset.
+It uses several shared fields to try to find the sale order lines:
+- order_id
+- product_id
+- product_uom_qty
+- sale order line's price_unit (computed from the product_id, then rounded to the currency's rounding)
+- name</pre></details><ul id="m-_sale_expense_reset_sol_quantities"><li>_sale_expense_reset_sol_quantities(self) <span class="position">@ line 76</span></li></ul><ul id="m-action_open_sale_orders"><li>action_open_sale_orders(self) <span class="position">@ line 85</span></li></ul><ul id="m-action_reset_expense_sheets"><li>action_reset_expense_sheets(self) <span class="position">@ line 80</span></li></ul><h2>Inherited: odoo/addons/hr_expense/models/hr_expense_sheet.py</h2><h3>Fields</h3><details><summary id="f-account_move_ids">account_move_ids <span class="position">@ line 206</span></summary><pre>account_move_ids = fields.One2many(
+        string="Journal Entries",
+        comodel_name='account.move', inverse_name='expense_sheet_id', readonly=True,
+    )</pre></details><details><summary id="f-accounting_date">accounting_date <span class="position">@ line 205</span></summary><pre>accounting_date = fields.Date(string="Expense Report Date", help="Specify the bill date of the related vendor bill.")</pre></details><details><summary id="f-amount_residual">amount_residual <span class="position">@ line 145</span></summary><pre>amount_residual = fields.Monetary(
+        string="Amount Due",
+        currency_field='company_currency_id',
+        compute='_compute_from_account_move_ids', store=True, readonly=True,
+    )</pre></details><details><summary id="f-approval_date">approval_date <span class="position">@ line 86</span></summary><pre>approval_date = fields.Datetime(string="Approval Date", readonly=True)</pre></details><details><summary id="f-approval_state">approval_state <span class="position">@ line 78</span></summary><pre>approval_state = fields.Selection(
+        selection=[
+            ('submit', 'Submitted'),
+            ('approve', 'Approved'),
+            ('cancel', 'Refused'),
+        ],
+        copy=False,
+    )</pre></details><details><summary id="f-attachment_ids">attachment_ids <span class="position">@ line 198</span></summary><pre>attachment_ids = fields.One2many(
+        comodel_name='ir.attachment',
+        inverse_name='res_id',
+        domain="[('res_model', '=', 'hr.expense.sheet')]",
+        string='Attachments of expenses',
+    )</pre></details><details><summary id="f-can_approve">can_approve <span class="position">@ line 220</span></summary><pre>can_approve = fields.Boolean(string='Can Approve', compute='_compute_can_approve')</pre></details><details><summary id="f-can_reset">can_reset <span class="position">@ line 219</span></summary><pre>can_reset = fields.Boolean(string='Can Reset', compute='_compute_can_reset')</pre></details><details><summary id="f-cannot_approve_reason">cannot_approve_reason <span class="position">@ line 221</span></summary><pre>cannot_approve_reason = fields.Char(string='Cannot Approve Reason', compute='_compute_can_approve')</pre></details><details><summary id="f-company_currency_id">company_currency_id <span class="position">@ line 155</span></summary><pre>company_currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        related='company_id.currency_id',
+        string="Report Company Currency"
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 87</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        string="Company",
+        required=True,
+        readonly=True,
+        default=lambda self: self.env.company,
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 150</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string="Currency",
+        compute='_compute_currency_id', store=True, readonly=True,
+    )</pre></details><details><summary id="f-department_id">department_id <span class="position">@ line 105</span></summary><pre>department_id = fields.Many2one(
+        comodel_name='hr.department',
+        related='employee_id.department_id',
+        string="Department",
+        store=True,
+        copy=False,
+    )</pre></details><details><summary id="f-employee_id">employee_id <span class="position">@ line 94</span></summary><pre>employee_id = fields.Many2one(
+        comodel_name='hr.employee',
+        string="Employee",
+        required=True,
+        readonly=True,
+        default=_default_employee_id,
+        domain=[('filter_for_expense', '=', True)],
+        check_company=True,
+        tracking=True,
+    )</pre></details><details><summary id="f-employee_journal_id">employee_journal_id <span class="position">@ line 179</span></summary><pre>employee_journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string="Journal",
+        default=_default_journal_id,
+        check_company=True,
+        domain=[('type', '=', 'purchase')],
+        help="The journal used when the expense is paid by employee.",
+    )</pre></details><details><summary id="f-expense_line_ids">expense_line_ids <span class="position">@ line 55</span></summary><pre>expense_line_ids = fields.One2many(
+        comodel_name='hr.expense', inverse_name='sheet_id',
+        string="Expense Lines",
+        copy=False,
+    )</pre></details><details><summary id="f-is_editable">is_editable <span class="position">@ line 222</span></summary><pre>is_editable = fields.Boolean(string="Expense Lines Are Editable By Current User", compute='_compute_is_editable')</pre></details><details><summary id="f-is_multiple_currency">is_multiple_currency <span class="position">@ line 160</span></summary><pre>is_multiple_currency = fields.Boolean(
+        string="Handle lines with different currencies",
+        compute='_compute_is_multiple_currency',
+    )</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 211</span></summary><pre>journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string="Expense Journal",
+        compute='_compute_journal_id', store=True,
+        check_company=True,
+    )</pre></details><details><summary id="f-message_main_attachment_id">message_main_attachment_id <span class="position">@ line 204</span></summary><pre>message_main_attachment_id = fields.Many2one(compute='_compute_main_attachment', store=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 54</span></summary><pre>name = fields.Char(string="Expense Report Summary", required=True, tracking=True)</pre></details><details><summary id="f-nb_account_move">nb_account_move <span class="position">@ line 210</span></summary><pre>nb_account_move = fields.Integer(string="Number of Journal Entries", compute='_compute_nb_account_move')</pre></details><details><summary id="f-nb_expense">nb_expense <span class="position">@ line 60</span></summary><pre>nb_expense = fields.Integer(compute='_compute_nb_expense', string="Number of Expenses")</pre></details><details><summary id="f-payment_method_line_id">payment_method_line_id <span class="position">@ line 191</span></summary><pre>payment_method_line_id = fields.Many2one(
+        comodel_name='account.payment.method.line',
+        string="Payment Method",
+        compute='_compute_payment_method_line_id', store=True, readonly=False,
+        domain="[('id', 'in', selectable_payment_method_line_ids)]",
+        help="The payment method used when the expense is paid by the company.",
+    )</pre></details><details><summary id="f-payment_mode">payment_mode <span class="position">@ line 173</span></summary><pre>payment_mode = fields.Selection(
+        related='expense_line_ids.payment_mode',
+        string="Paid By",
+        tracking=True,
+        readonly=True,
+    )</pre></details><details><summary id="f-payment_state">payment_state <span class="position">@ line 166</span></summary><pre>payment_state = fields.Selection(
+        selection=lambda self: self.env["account.move"]._fields["payment_state"]._description_selection(self.env),
+        string="Payment Status",
+        compute='_compute_from_account_move_ids', store=True, readonly=True,
+        copy=False,
+        tracking=True,
+    )</pre></details><details><summary id="f-product_ids">product_ids <span class="position">@ line 120</span></summary><pre>product_ids = fields.Many2many(
+        comodel_name='product.product',
+        string="Categories",
+        compute='_compute_product_ids',
+        search='_search_product_ids',
+        check_company=True,
+    )</pre></details><details><summary id="f-selectable_payment_method_line_ids">selectable_payment_method_line_ids <span class="position">@ line 187</span></summary><pre>selectable_payment_method_line_ids = fields.Many2many(
+        comodel_name='account.payment.method.line',
+        compute='_compute_selectable_payment_method_line_ids',
+    )</pre></details><details><summary id="f-state">state <span class="position">@ line 61</span></summary><pre>state = fields.Selection(
+        selection=[
+            ('draft', 'To Submit'),
+            ('submit', 'Submitted'),
+            ('approve', 'Approved'),
+            ('post', 'Posted'),
+            ('done', 'Done'),
+            ('cancel', 'Refused')
+        ],
+        string="Status",
+        compute='_compute_state', store=True, readonly=True,
+        index=True,
+        required=True,
+        default='draft',
+        tracking=True,
+        copy=False,
+    )</pre></details><details><summary id="f-total_amount">total_amount <span class="position">@ line 129</span></summary><pre>total_amount = fields.Monetary(
+        string="Total",
+        currency_field='company_currency_id',
+        compute='_compute_amount', store=True, readonly=True,
+        tracking=True,
+    )</pre></details><details><summary id="f-total_tax_amount">total_tax_amount <span class="position">@ line 140</span></summary><pre>total_tax_amount = fields.Monetary(
+        string="Taxes",
+        currency_field='company_currency_id',
+        compute='_compute_amount', store=True, readonly=True,
+    )</pre></details><details><summary id="f-untaxed_amount">untaxed_amount <span class="position">@ line 135</span></summary><pre>untaxed_amount = fields.Monetary(
+        string="Untaxed Amount",
+        currency_field='company_currency_id',
+        compute='_compute_amount', store=True, readonly=True,
+    )</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 112</span></summary><pre>user_id = fields.Many2one(
+        comodel_name='res.users',
+        string="Manager",
+        compute='_compute_from_employee_id', store=True, readonly=True,
+        domain=lambda self: [('groups_id', 'in', self.env.ref('hr_expense.group_hr_expense_team_approver').id)],
+        copy=False,
+        tracking=True,
+    )</pre></details><h3>Methods</h3><details><summary id="m-_calculate_default_accounting_date">_calculate_default_accounting_date(self) <span class="position">@ line 721</span></summary><pre>Calculate the default accounting date for the expenses paid by employees</pre></details><ul id="m-_check_can_approve"><li>_check_can_approve(self) <span class="position">@ line 625</span></li></ul><ul id="m-_check_can_create_move"><li>_check_can_create_move(self) <span class="position">@ line 639</span></li></ul><ul id="m-_check_can_refuse"><li>_check_can_refuse(self) <span class="position">@ line 630</span></li></ul><ul id="m-_check_can_reset_approval"><li>_check_can_reset_approval(self) <span class="position">@ line 635</span></li></ul><ul id="m-_do_approve"><li>_do_approve(self) <span class="position">@ line 659</span></li></ul><ul id="m-_do_create_moves"><li>_do_create_moves(self) <span class="position">@ line 684</span></li></ul><ul id="m-_do_refuse"><li>_do_refuse(self, reason) <span class="position">@ line 673</span></li></ul><ul id="m-_do_reset_approval"><li>_do_reset_approval(self) <span class="position">@ line 668</span></li></ul><ul id="m-_do_reverse_moves"><li>_do_reverse_moves(self) <span class="position">@ line 710</span></li></ul><ul id="m-_do_submit"><li>_do_submit(self) <span class="position">@ line 655</span></li></ul><ul id="m-_get_expense_account_destination"><li>_get_expense_account_destination(self) <span class="position">@ line 797</span></li></ul><ul id="m-_get_responsible_for_approval"><li>_get_responsible_for_approval(self) <span class="position">@ line 788</span></li></ul><ul id="m-_message_auto_subscribe_followers"><li>_message_auto_subscribe_followers(self, updated_values, subtype_ids) <span class="position">@ line 501</span></li></ul><ul id="m-_prepare_bills_vals"><li>_prepare_bills_vals(self) <span class="position">@ line 747</span></li></ul><ul id="m-_prepare_move_vals"><li>_prepare_move_vals(self) <span class="position">@ line 765</span></li></ul><ul id="m-_read_format"><li>_read_format(self, fnames, load) <span class="position">@ line 449</span></li></ul><ul id="m-_track_subtype"><li>_track_subtype(self, init_values) <span class="position">@ line 487</span></li></ul><ul id="m-_validate_analytic_distribution"><li>_validate_analytic_distribution(self) <span class="position">@ line 784</span></li></ul><ul id="m-action_approve_expense_sheets"><li>action_approve_expense_sheets(self) <span class="position">@ line 533</span></li></ul><ul id="m-action_open_account_moves"><li>action_open_account_moves(self) <span class="position">@ line 587</span></li></ul><ul id="m-action_open_expense_view"><li>action_open_expense_view(self) <span class="position">@ line 569</span></li></ul><ul id="m-action_refuse_expense_sheets"><li>action_refuse_expense_sheets(self) <span class="position">@ line 543</span></li></ul><details><summary id="m-action_register_payment">action_register_payment(self) <span class="position">@ line 559</span></summary><pre>Open the account.payment.register wizard to pay the selected journal entries.
+There can be more than one bank_account_id in the expense sheet when registering payment for multiple expenses.
+The default_partner_bank_id is set only if there is one available, if more than one the field is left empty.
+:return: An action opening the account.payment.register wizard.</pre></details><ul id="m-action_reset_approval_expense_sheets"><li>action_reset_approval_expense_sheets(self) <span class="position">@ line 547</span></li></ul><ul id="m-action_reset_expense_sheets"><li>action_reset_expense_sheets(self) <span class="position">@ line 555</span></li></ul><ul id="m-action_sheet_move_create"><li>action_sheet_move_create(self) <span class="position">@ line 551</span></li></ul><ul id="m-action_submit_sheet"><li>action_submit_sheet(self) <span class="position">@ line 530</span></li></ul><ul id="m-activity_update"><li>activity_update(self) <span class="position">@ line 509</span></li></ul><ul id="m-set_to_paid"><li>set_to_paid(self) <span class="position">@ line 617</span></li></ul><ul id="m-set_to_posted"><li>set_to_posted(self) <span class="position">@ line 621</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 465</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.attribute.value - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.attribute.value</h1><p>Originally defined in: odoo/addons/product/models/product_attribute_value.py</p><hr/><h2>Original: odoo/addons/product/models/product_attribute_value.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 53</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-attribute_id">attribute_id <span class="position">@ line 21</span></summary><pre>attribute_id = fields.Many2one(
+        comodel_name='product.attribute',
+        string="Attribute",
+        help="The attribute cannot be changed once the value is used on at least one product.",
+        ondelete='cascade',
+        required=True,
+        index=True)</pre></details><details><summary id="f-color">color <span class="position">@ line 46</span></summary><pre>color = fields.Integer(string="Color Index", default=_get_default_color)</pre></details><details><summary id="f-default_extra_price">default_extra_price <span class="position">@ line 37</span></summary><pre>default_extra_price = fields.Float()</pre></details><details><summary id="f-display_type">display_type <span class="position">@ line 45</span></summary><pre>display_type = fields.Selection(related='attribute_id.display_type')</pre></details><details><summary id="f-html_color">html_color <span class="position">@ line 41</span></summary><pre>html_color = fields.Char(
+        string="Color",
+        help="Here you can set a specific HTML color index (e.g. #ff0000)"
+            " to display the color if the attribute type is 'Color'.")</pre></details><details><summary id="f-image">image <span class="position">@ line 47</span></summary><pre>image = fields.Image(
+        string="Image",
+        help="You can upload an image that will be used as the color of the attribute value.",
+        max_width=70,
+        max_height=70,
+    )</pre></details><details><summary id="f-is_custom">is_custom <span class="position">@ line 38</span></summary><pre>is_custom = fields.Boolean(
+        string="Free text",
+        help="Allow customers to set their own value")</pre></details><details><summary id="f-is_used_on_products">is_used_on_products <span class="position">@ line 34</span></summary><pre>is_used_on_products = fields.Boolean(
+        string="Used on Products", compute='_compute_is_used_on_products')</pre></details><details><summary id="f-name">name <span class="position">@ line 19</span></summary><pre>name = fields.Char(string="Value", required=True, translate=True)</pre></details><details><summary id="f-pav_attribute_line_ids">pav_attribute_line_ids <span class="position">@ line 29</span></summary><pre>pav_attribute_line_ids = fields.Many2many(
+        comodel_name='product.template.attribute.line',
+        relation='product_attribute_value_product_template_attribute_line_rel',
+        string="Lines",
+        copy=False)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 20</span></summary><pre>sequence = fields.Integer(string="Sequence", help="Determine the display order", index=True)</pre></details><h3>Methods</h3><ul id="m-_get_default_color"><li>_get_default_color(self) <span class="position">@ line 16</span></li></ul><ul id="m-_without_no_variant_attributes"><li>_without_no_variant_attributes(self) <span class="position">@ line 126</span></li></ul><ul id="m-action_open_product_template_attribute_value"><li>action_open_product_template_attribute_value(self) <span class="position">@ line 129</span></li></ul><ul id="m-check_is_used_on_products"><li>check_is_used_on_products(self) <span class="position">@ line 96</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 111</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 76</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.partial.reconcile - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.partial.reconcile</h1><p>Originally defined in: odoo/addons/account/models/account_partial_reconcile.py</p><hr/><h2>Original: odoo/addons/account/models/account_partial_reconcile.py</h2><h3>Fields</h3><details><summary id="f-amount">amount <span class="position">@ line 43</span></summary><pre>amount = fields.Monetary(
+        currency_field='company_currency_id',
+        help="Always positive amount concerned by this matching expressed in the company currency.")</pre></details><details><summary id="f-company_currency_id">company_currency_id <span class="position">@ line 26</span></summary><pre>company_currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string="Company Currency",
+        related='company_id.currency_id',
+        help="Utility field to express amount currency")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 54</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        string="Company", store=True, readonly=False,
+        precompute=True,
+        compute='_compute_company_id')</pre></details><details><summary id="f-credit_amount_currency">credit_amount_currency <span class="position">@ line 49</span></summary><pre>credit_amount_currency = fields.Monetary(
+        currency_field='credit_currency_id',
+        help="Always positive amount concerned by this matching expressed in the credit line foreign currency.")</pre></details><details><summary id="f-credit_currency_id">credit_currency_id <span class="position">@ line 36</span></summary><pre>credit_currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        store=True,
+        related='credit_move_id.currency_id', precompute=True,
+        string="Currency of the credit journal item.")</pre></details><details><summary id="f-credit_move_id">credit_move_id <span class="position">@ line 17</span></summary><pre>credit_move_id = fields.Many2one(
+        comodel_name='account.move.line',
+        index=True, required=True)</pre></details><details><summary id="f-debit_amount_currency">debit_amount_currency <span class="position">@ line 46</span></summary><pre>debit_amount_currency = fields.Monetary(
+        currency_field='debit_currency_id',
+        help="Always positive amount concerned by this matching expressed in the debit line foreign currency.")</pre></details><details><summary id="f-debit_currency_id">debit_currency_id <span class="position">@ line 31</span></summary><pre>debit_currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        store=True,
+        related='debit_move_id.currency_id', precompute=True,
+        string="Currency of the debit journal item.")</pre></details><details><summary id="f-debit_move_id">debit_move_id <span class="position">@ line 14</span></summary><pre>debit_move_id = fields.Many2one(
+        comodel_name='account.move.line',
+        index=True, required=True)</pre></details><details><summary id="f-exchange_move_id">exchange_move_id <span class="position">@ line 23</span></summary><pre>exchange_move_id = fields.Many2one(comodel_name='account.move', index='btree_not_null')</pre></details><details><summary id="f-full_reconcile_id">full_reconcile_id <span class="position">@ line 20</span></summary><pre>full_reconcile_id = fields.Many2one(
+        comodel_name='account.full.reconcile',
+        string="Full Reconcile", copy=False, index='btree_not_null')</pre></details><details><summary id="f-max_date">max_date <span class="position">@ line 59</span></summary><pre>max_date = fields.Date(
+        string="Max Date of Matched Lines", store=True,
+        precompute=True,
+        compute='_compute_max_date')</pre></details><h3>Methods</h3><details><summary id="m-_collect_tax_cash_basis_values">_collect_tax_cash_basis_values(self) <span class="position">@ line 192</span></summary><pre>Collect all information needed to create the tax cash basis journal entries on the current partials.
+:return:    A dictionary mapping each move_id to the result of 'account_move._collect_tax_cash_basis_values'.
+Also, add the 'partials' keys being a list of dictionary, one for each partial to process:
+* partial:          The account.partial.reconcile record.
+* percentage:       The reconciled percentage represented by the partial.
+* payment_rate:     The applied rate of this partial.</pre></details><details><summary id="m-_create_tax_cash_basis_moves">_create_tax_cash_basis_moves(self) <span class="position">@ line 471</span></summary><pre>Create the tax cash basis journal entries.
+:return: The newly created journal entries.</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 100</span></li></ul><script src="class.js"></script></body></html>

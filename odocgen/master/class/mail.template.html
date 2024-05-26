@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.template - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.template</h1><p>Inherited in: odoo/addons/mail/models/mail_template.py<br/>Inherited in: odoo/addons/event/models/mail_template.py<br/></p><hr/><h2>Inherited: odoo/addons/mail/models/mail_template.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 38</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-attachment_ids">attachment_ids <span class="position">@ line 66</span></summary><pre>attachment_ids = fields.Many2many('ir.attachment', 'email_template_attachment_rel', 'email_template_id',
+                                      'attachment_id', 'Attachments',
+                                      help="You may attach files to this template, to be added to all "
+                                           "emails created from this template")</pre></details><details><summary id="f-auto_delete">auto_delete <span class="position">@ line 82</span></summary><pre>auto_delete = fields.Boolean(
+        'Auto Delete', default=True,
+        help="This option permanently removes any track of email after it's been sent, including from the Technical menu in the Settings, in order to preserve storage space of your Odoo database.")</pre></details><details><summary id="f-body_html">body_html <span class="position">@ line 63</span></summary><pre>body_html = fields.Html(
+        'Body', render_engine='qweb', render_options={'post_process': True},
+        prefetch=True, translate=True, sanitize=False)</pre></details><details><summary id="f-can_write">can_write <span class="position">@ line 91</span></summary><pre>can_write = fields.Boolean(compute='_compute_can_write',
+                               help='The current user can edit the template.')</pre></details><details><summary id="f-description">description <span class="position">@ line 35</span></summary><pre>description = fields.Text(
+        'Template description', translate=True,
+        help="This field is used for internal description of the template's usage.")</pre></details><details><summary id="f-email_cc">email_cc <span class="position">@ line 60</span></summary><pre>email_cc = fields.Char('Cc', help="Carbon copy recipients (placeholders may be used here)")</pre></details><details><summary id="f-email_from">email_from <span class="position">@ line 47</span></summary><pre>email_from = fields.Char('From',
+                             help="Sender address (placeholders may be used here). If not set, the default "
+                                  "value will be the author's email alias if configured, or email address.")</pre></details><details><summary id="f-email_layout_xmlid">email_layout_xmlid <span class="position">@ line 76</span></summary><pre>email_layout_xmlid = fields.Char('Email Notification Layout', copy=False)</pre></details><details><summary id="f-email_to">email_to <span class="position">@ line 57</span></summary><pre>email_to = fields.Char('To (Emails)', help="Comma-separated recipient addresses (placeholders may be used here)")</pre></details><details><summary id="f-is_template_editor">is_template_editor <span class="position">@ line 93</span></summary><pre>is_template_editor = fields.Boolean(compute="_compute_is_template_editor")</pre></details><details><summary id="f-mail_server_id">mail_server_id <span class="position">@ line 78</span></summary><pre>mail_server_id = fields.Many2one('ir.mail_server', 'Outgoing Mail Server', readonly=False,
+                                     help="Optional preferred server for outgoing mails. If not set, the highest "
+                                          "priority one will be used.")</pre></details><details><summary id="f-model">model <span class="position">@ line 45</span></summary><pre>model = fields.Char('Related Document Model', related='model_id.model', index=True, store=True, readonly=True)</pre></details><details><summary id="f-model_id">model_id <span class="position">@ line 44</span></summary><pre>model_id = fields.Many2one('ir.model', 'Applies to')</pre></details><details><summary id="f-name">name <span class="position">@ line 34</span></summary><pre>name = fields.Char('Name', translate=True)</pre></details><details><summary id="f-partner_to">partner_to <span class="position">@ line 58</span></summary><pre>partner_to = fields.Char('To (Partners)',
+                             help="Comma-separated ids of recipient partners (placeholders may be used here)")</pre></details><details><summary id="f-ref_ir_act_window">ref_ir_act_window <span class="position">@ line 86</span></summary><pre>ref_ir_act_window = fields.Many2one('ir.actions.act_window', 'Sidebar action', readonly=True, copy=False,
+                                        help="Sidebar action to make this template available on records "
+                                             "of the related document model")</pre></details><details><summary id="f-reply_to">reply_to <span class="position">@ line 61</span></summary><pre>reply_to = fields.Char('Reply To', help="Email address to which replies will be redirected when sending emails in mass; only used when the reply is not logged in the original discussion thread.")</pre></details><details><summary id="f-report_template_ids">report_template_ids <span class="position">@ line 70</span></summary><pre>report_template_ids = fields.Many2many(
+        'ir.actions.report', relation='mail_template_ir_actions_report_rel',
+        column1='mail_template_id',
+        column2='ir_actions_report_id',
+        string='Dynamic Reports',
+        domain="[('model', '=', model)]")</pre></details><details><summary id="f-scheduled_date">scheduled_date <span class="position">@ line 81</span></summary><pre>scheduled_date = fields.Char('Scheduled Date', help="If set, the queue manager will send the email after the date. If not set, the email will be send as soon as possible. You can use dynamic expression.")</pre></details><details><summary id="f-subject">subject <span class="position">@ line 46</span></summary><pre>subject = fields.Char('Subject', translate=True, prefetch=True, help="Subject (placeholders may be used here)")</pre></details><details><summary id="f-template_category">template_category <span class="position">@ line 39</span></summary><pre>template_category = fields.Selection(
+        [('base_template', 'Base Template'),
+         ('hidden_template', 'Hidden Template'),
+         ('custom_template', 'Custom Template')],
+         compute="_compute_template_category", search="_search_template_category")</pre></details><details><summary id="f-use_default_to">use_default_to <span class="position">@ line 52</span></summary><pre>use_default_to = fields.Boolean(
+        'Default recipients',
+        help="Default recipients of the record:\n"
+             "- partner (using id on a partner or the partner_id field) OR\n"
+             "- email (using email_from or email field)")</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 50</span></summary><pre>user_id = fields.Many2one('res.users', string='User', domain="[('share', '=', False)]", help='The template belongs to this user')</pre></details><h3>Methods</h3><ul id="m-_check_abstract_models"><li>_check_abstract_models(self, vals_list) <span class="position">@ line 156</span></li></ul><ul id="m-_fix_attachment_ownership"><li>_fix_attachment_ownership(self) <span class="position">@ line 151</span></li></ul><details><summary id="m-_generate_template">_generate_template(self, res_ids, render_fields, find_or_create_partners) <span class="position">@ line 475</span></summary><pre>Render values from template 'self' on records given by 'res_ids'.
+Those values are generally used to create a mail.mail or a mail.message.
+Model of records is the one defined on template.
+
+:param list res_ids: list of record IDs on which template is rendered;
+:param list render_fields: list of fields to render on template;
+:param boolean find_or_create_partners: transform emails into partners
+(see ``_generate_template_recipients``);
+
+:returns: a dict of (res_ids, values) where values contains all rendered
+fields asked in ``render_fields``. Asking for attachments adds an
+'attachments' key using the format [(report_name, data)] where data
+is base64 encoded. Asking for recipients adds a 'partner_ids' key.
+Note that 2many fields contain a list of IDs, not commands.</pre></details><details><summary id="m-_generate_template_attachments">_generate_template_attachments(self, res_ids, render_fields, render_results) <span class="position">@ line 240</span></summary><pre>Render attachments of template 'self', returning values for records
+given by 'res_ids'. Note that ``report_template_ids`` returns values for
+'attachments', as we have a list of tuple (report_name, base64 value)
+for those reports. It is considered as being the job of callers to
+transform those attachments into valid ``ir.attachment`` records.
+
+:param list res_ids: list of record IDs on which template is rendered;
+:param list render_fields: list of fields to render on template which
+are specific to attachments, e.g. attachment_ids or report_template_ids;
+:param dict render_results: res_ids-based dictionary of render values.
+For each res_id, a dict of values based on render_fields is given
+
+:return: updated (or new) render_results;</pre></details><details><summary id="m-_generate_template_recipients">_generate_template_recipients(self, res_ids, render_fields, find_or_create_partners, render_results) <span class="position">@ line 315</span></summary><pre>Render recipients of the template 'self', returning values for records
+given by 'res_ids'. Default values can be generated instead of the template
+values if requested by template (see 'use_default_to' field). Email fields
+('email_cc', 'email_to') are transformed into partners if requested
+(finding or creating partners). 'partner_to' field is transformed into
+'partner_ids' field.
+
+Note: for performance reason, information from records are transferred to
+created partners no matter the company. For example, if we have a record of
+company A and one of B with the same email and no related partner, a partner
+will be created with company A or B but populated with information from the 2
+records. So some info might be leaked from one company to the other through
+the partner.
+
+:param list res_ids: list of record IDs on which template is rendered;
+:param list render_fields: list of fields to render on template which
+are specific to recipients, e.g. email_cc, email_to, partner_to);
+:param boolean find_or_create_partners: transform emails into partners
+(calling ``find_or_create`` on partner model);
+:param dict render_results: res_ids-based dictionary of render values.
+For each res_id, a dict of values based on render_fields is given;
+
+:return: updated (or new) render_results. It holds a 'partner_ids' key
+holding partners given by ``_message_get_default_recipients`` and/or
+generated based on 'partner_to'. If ``find_or_create_partners`` is
+False emails are present, otherwise they are included as partners
+contained in ``partner_ids``.</pre></details><details><summary id="m-_generate_template_scheduled_date">_generate_template_scheduled_date(self, res_ids, render_results) <span class="position">@ line 420</span></summary><pre>Render scheduled date based on template 'self'. Specific parsing is
+done to ensure value matches ORM expected value: UTC but without
+timezone set in value.
+
+:param list res_ids: list of record IDs on which template is rendered;
+:param dict render_results: res_ids-based dictionary of render values.
+For each res_id, a dict of values based on render_fields is given;
+
+:return: updated (or new) render_results;</pre></details><details><summary id="m-_generate_template_static_values">_generate_template_static_values(self, res_ids, render_fields, render_results) <span class="position">@ line 442</span></summary><pre>Return values based on template 'self'. Those are not rendered nor
+dynamic, just static values used for configuration of emails.
+
+:param list res_ids: list of record IDs on which template is rendered;
+:param list render_fields: list of fields to render, currently limited
+to a subset (i.e. auto_delete, mail_server_id, model, res_id);
+:param dict render_results: res_ids-based dictionary of render values.
+For each res_id, a dict of values based on render_fields is given;
+
+:return: updated (or new) render_results;</pre></details><ul id="m-_parse_partner_to"><li>_parse_partner_to(cls, partner_to) <span class="position">@ line 556</span></li></ul><ul id="m-_send_check_access"><li>_send_check_access(self, res_ids) <span class="position">@ line 572</span></li></ul><ul id="m-cancel_unlink"><li>cancel_unlink(self) <span class="position">@ line 192</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 202</span></li></ul><ul id="m-create_action"><li>create_action(self) <span class="position">@ line 212</span></li></ul><ul id="m-open_delete_confirmation_modal"><li>open_delete_confirmation_modal(self) <span class="position">@ line 176</span></li></ul><details><summary id="m-send_mail">send_mail(self, res_id, force_send, raise_exception, email_values, email_layout_xmlid) <span class="position">@ line 577</span></summary><pre>Generates a new mail.mail. Template is rendered on record given by
+res_id and model coming from template.
+
+:param int res_id: id of the record to render the template
+:param bool force_send: send email immediately; otherwise use the mail
+queue (recommended);
+:param dict email_values: update generated mail with those values to further
+customize the mail;
+:param str email_layout_xmlid: optional notification layout to encapsulate the
+generated email;
+:returns: id of the mail.mail that was created</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 188</span></li></ul><ul id="m-unlink_action"><li>unlink_action(self) <span class="position">@ line 206</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 170</span></li></ul><h2>Inherited: odoo/addons/event/models/mail_template.py</h2><h3>Methods</h3><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 24</span></li></ul><script src="class.js"></script></body></html>

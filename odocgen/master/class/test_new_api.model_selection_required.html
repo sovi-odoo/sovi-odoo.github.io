@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>test_new_api.model_selection_required - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>test_new_api.model_selection_required</h1><p>Originally defined in: odoo/odoo/addons/test_new_api/models/test_new_api.py</p><p>Inherited in: odoo/odoo/addons/test_new_api/models/test_new_api.py<br/>Inherited in: odoo/odoo/addons/test_new_api/models/test_new_api.py<br/>Inherited in: odoo/odoo/addons/test_new_api/models/test_new_api.py<br/>Inherited in: odoo/odoo/addons/test_new_api/models/test_new_api.py<br/>Inherited in: odoo/odoo/addons/test_new_api/models/test_new_api.py<br/></p><hr/><h2>Original: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 1360</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-my_selection">my_selection <span class="position">@ line 1361</span></summary><pre>my_selection = fields.Selection([
+        ('foo', "Foo"),
+        ('bar', "Bar"),
+    ], required=True, default='foo')</pre></details><h2>Inherited: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1408</span></summary><pre>my_selection = fields.Selection(selection_add=[
+        ('knickers', "Oh la la"),
+    ], ondelete={
+        'knickers': lambda recs: recs.write({'active': False, 'my_selection': 'foo'}),
+    })</pre></details><h2>Inherited: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1398</span></summary><pre>my_selection = fields.Selection(selection_add=[
+        ('pikachu', "Pikachu"),
+        ('eevee', "Eevee"),
+    ], ondelete={'pikachu': 'set default', 'eevee': lambda r: r.write({'my_selection': 'bar'})})</pre></details><h2>Inherited: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1389</span></summary><pre>my_selection = fields.Selection(selection_add=[
+        ('bacon', "Bacon"),
+    ], ondelete={'bacon': 'set bar'})</pre></details><h2>Inherited: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1380</span></summary><pre>my_selection = fields.Selection(selection_add=[
+        ('eggs', "Eggs"),
+    ], ondelete={'eggs': 'cascade'})</pre></details><h2>Inherited: odoo/odoo/addons/test_new_api/models/test_new_api.py</h2><h3>Fields</h3><details><summary id="f-my_selection">my_selection <span class="position">@ line 1371</span></summary><pre>my_selection = fields.Selection(selection_add=[
+        ('baz', "Baz"),
+    ], ondelete={'baz': 'set default'})</pre></details><script src="class.js"></script></body></html>

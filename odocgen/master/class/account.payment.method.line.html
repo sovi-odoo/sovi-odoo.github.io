@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.payment.method.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.payment.method.line</h1><p>Originally defined in: odoo/addons/account/models/account_payment_method.py</p><p>Inherited in: odoo/addons/account_payment/models/account_payment_method_line.py<br/></p><hr/><h2>Original: odoo/addons/account/models/account_payment_method.py</h2><h3>Fields</h3><details><summary id="f-available_payment_method_ids">available_payment_method_ids <span class="position">@ line 124</span></summary><pre>available_payment_method_ids = fields.Many2many(related='journal_id.available_payment_method_ids')</pre></details><details><summary id="f-code">code <span class="position">@ line 121</span></summary><pre>code = fields.Char(related='payment_method_id.code')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 123</span></summary><pre>company_id = fields.Many2one(related='journal_id.company_id')</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 114</span></summary><pre>journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        ondelete="cascade",
+        check_company=True,
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 97</span></summary><pre>name = fields.Char(compute='_compute_name', readonly=False, store=True)</pre></details><details><summary id="f-payment_account_id">payment_account_id <span class="position">@ line 106</span></summary><pre>payment_account_id = fields.Many2one(
+        comodel_name='account.account',
+        check_company=True,
+        copy=False,
+        ondelete='restrict',
+        domain="[('deprecated', '=', False), "
+                "'|', ('account_type', 'in', ('asset_current', 'liability_current')), ('id', '=', parent.default_account_id)]"
+    )</pre></details><details><summary id="f-payment_method_id">payment_method_id <span class="position">@ line 99</span></summary><pre>payment_method_id = fields.Many2one(
+        string='Payment Method',
+        comodel_name='account.payment.method',
+        domain="[('payment_type', '=?', payment_type), ('id', 'in', available_payment_method_ids)]",
+        required=True,
+        ondelete='cascade'
+    )</pre></details><details><summary id="f-payment_type">payment_type <span class="position">@ line 122</span></summary><pre>payment_type = fields.Selection(related='payment_method_id.payment_type')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 98</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><h3>Methods</h3><details><summary id="m-unlink">unlink(self) <span class="position">@ line 158</span></summary><pre>Payment method lines which are used in a payment should not be deleted from the database,
+only the link betweend them and the journals must be broken.</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 191</span></li></ul><h2>Inherited: odoo/addons/account_payment/models/account_payment_method_line.py</h2><h3>Fields</h3><details><summary id="f-payment_provider_id">payment_provider_id <span class="position">@ line 12</span></summary><pre>payment_provider_id = fields.Many2one(
+        comodel_name='payment.provider',
+        compute='_compute_payment_provider_id',
+        store=True
+    )</pre></details><details><summary id="f-payment_provider_state">payment_provider_state <span class="position">@ line 17</span></summary><pre>payment_provider_state = fields.Selection(
+        related='payment_provider_id.state'
+    )</pre></details><h3>Methods</h3><ul id="m-action_open_provider_form"><li>action_open_provider_form(self) <span class="position">@ line 72</span></li></ul><script src="class.js"></script></body></html>

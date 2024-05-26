@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>calendar.alarm - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>calendar.alarm</h1><p>Originally defined in: odoo/addons/calendar/models/calendar_alarm.py</p><p>Inherited in: odoo/addons/calendar_sms/models/calendar_alarm.py<br/></p><hr/><h2>Original: odoo/addons/calendar/models/calendar_alarm.py</h2><h3>Fields</h3><details><summary id="f-alarm_type">alarm_type <span class="position">@ line 14</span></summary><pre>alarm_type = fields.Selection(
+        [('notification', 'Notification'), ('email', 'Email')],
+        string='Type', required=True, default='email')</pre></details><details><summary id="f-body">body <span class="position">@ line 28</span></summary><pre>body = fields.Text("Additional Message", help="Additional message that would be sent with the notification for the reminder")</pre></details><details><summary id="f-duration">duration <span class="position">@ line 17</span></summary><pre>duration = fields.Integer('Remind Before', required=True, default=1)</pre></details><details><summary id="f-duration_minutes">duration_minutes <span class="position">@ line 20</span></summary><pre>duration_minutes = fields.Integer(
+        'Duration in minutes', store=True,
+        search='_search_duration_minutes', compute='_compute_duration_minutes')</pre></details><details><summary id="f-interval">interval <span class="position">@ line 18</span></summary><pre>interval = fields.Selection(
+        list(_interval_selection.items()), 'Unit', required=True, default='hours')</pre></details><details><summary id="f-mail_template_id">mail_template_id <span class="position">@ line 23</span></summary><pre>mail_template_id = fields.Many2one(
+        'mail.template', string="Email Template",
+        domain=[('model', 'in', ['calendar.attendee'])],
+        compute='_compute_mail_template_id', readonly=False, store=True,
+        help="Template used to render mail reminder content.")</pre></details><details><summary id="f-name">name <span class="position">@ line 13</span></summary><pre>name = fields.Char('Name', translate=True, required=True)</pre></details><h3>Methods</h3><ul id="m-_search_duration_minutes"><li>_search_duration_minutes(self, operator, value) <span class="position">@ line 50</span></li></ul><h2>Inherited: odoo/addons/calendar_sms/models/calendar_alarm.py</h2><h3>Fields</h3><details><summary id="f-alarm_type">alarm_type <span class="position">@ line 10</span></summary><pre>alarm_type = fields.Selection(selection_add=[
+        ('sms', 'SMS Text Message')
+    ], ondelete={'sms': 'set default'})</pre></details><details><summary id="f-sms_notify_responsible">sms_notify_responsible <span class="position">@ line 18</span></summary><pre>sms_notify_responsible = fields.Boolean("Notify Responsible")</pre></details><details><summary id="f-sms_template_id">sms_template_id <span class="position">@ line 13</span></summary><pre>sms_template_id = fields.Many2one(
+        'sms.template', string="SMS Template",
+        domain=[('model', 'in', ['calendar.event'])],
+        compute='_compute_sms_template_id', readonly=False, store=True,
+        help="Template used to render SMS reminder content.")</pre></details><script src="class.js"></script></body></html>

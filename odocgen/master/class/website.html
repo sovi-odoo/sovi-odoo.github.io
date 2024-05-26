@@ -1,0 +1,281 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>website - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>website</h1><p>Originally defined in: odoo/addons/website/models/website.py</p><p>Inherited in: odoo/addons/website_twitter/models/website_twitter.py<br/>Inherited in: odoo/addons/website_slides/models/website.py<br/>Inherited in: odoo/addons/website_sale_stock/models/website.py<br/>Inherited in: odoo/addons/website_sale_slides/models/website.py<br/>Inherited in: odoo/addons/website_sale_picking/models/website.py<br/>Inherited in: odoo/addons/website_sale_mondialrelay/models/website.py<br/>Inherited in: odoo/addons/website_sale_mass_mailing/models/website.py<br/>Inherited in: odoo/addons/website_sale_autocomplete/models/website.py<br/>Inherited in: odoo/addons/website_sale/models/website.py<br/>Inherited in: odoo/addons/website_profile/models/website.py<br/>Inherited in: odoo/addons/website_membership/models/website.py<br/>Inherited in: odoo/addons/website_livechat/models/website.py<br/>Inherited in: odoo/addons/website_hr_recruitment/models/website.py<br/>Inherited in: odoo/addons/website_forum/models/website.py<br/>Inherited in: odoo/addons/website_event_track/models/website.py<br/>Inherited in: odoo/addons/website_event_sale/models/website.py<br/>Inherited in: odoo/addons/website_event_booth_sale/models/website.py<br/>Inherited in: odoo/addons/website_event/models/website.py<br/>Inherited in: odoo/addons/website_customer/models/website.py<br/>Inherited in: odoo/addons/website_crm_partner_assign/models/website.py<br/>Inherited in: odoo/addons/website_crm/models/website.py<br/>Inherited in: odoo/addons/website_blog/models/website.py<br/>Inherited in: odoo/addons/website/models/website_form.py<br/>Inherited in: odoo/addons/test_website/models/website.py<br/>Inherited in: odoo/addons/test_website/models/model.py<br/>Inherited in: odoo/addons/l10n_pe_website_sale/models/website.py<br/>Inherited in: odoo/addons/l10n_br_website_sale/models/website.py<br/>Inherited in: odoo/addons/l10n_ar_website_sale/models/website.py<br/></p><hr/><h2>Original: odoo/addons/website/models/website.py</h2><h3>Fields</h3><details><summary id="f-auth_signup_uninvited">auth_signup_uninvited <span class="position">@ line 143</span></summary><pre>auth_signup_uninvited = fields.Selection([
+        ('b2b', 'On invitation'),
+        ('b2c', 'Free sign up'),
+    ], string='Customer Account', default='b2b')</pre></details><details><summary id="f-auto_redirect_lang">auto_redirect_lang <span class="position">@ line 75</span></summary><pre>auto_redirect_lang = fields.Boolean('Autoredirect Language', default=True, help="Should users be redirected to their browser's language")</pre></details><details><summary id="f-cdn_activated">cdn_activated <span class="position">@ line 124</span></summary><pre>cdn_activated = fields.Boolean('Content Delivery Network (CDN)')</pre></details><details><summary id="f-cdn_filters">cdn_filters <span class="position">@ line 126</span></summary><pre>cdn_filters = fields.Text('CDN Filters', default=lambda s: '\n'.join(DEFAULT_CDN_FILTERS), help="URL matching those filters will be rewritten using the CDN Base URL")</pre></details><details><summary id="f-cdn_url">cdn_url <span class="position">@ line 125</span></summary><pre>cdn_url = fields.Char('CDN Base URL', default='')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 69</span></summary><pre>company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company, required=True)</pre></details><details><summary id="f-configurator_done">configurator_done <span class="position">@ line 77</span></summary><pre>configurator_done = fields.Boolean(help='True if configurator has been completed or ignored')</pre></details><details><summary id="f-cookies_bar">cookies_bar <span class="position">@ line 76</span></summary><pre>cookies_bar = fields.Boolean('Cookies Bar', help="Display a customizable cookies bar on your website.")</pre></details><details><summary id="f-custom_code_footer">custom_code_footer <span class="position">@ line 131</span></summary><pre>custom_code_footer = fields.Html('Custom end of <body> code', sanitize=False)</pre></details><details><summary id="f-custom_code_head">custom_code_head <span class="position">@ line 130</span></summary><pre>custom_code_head = fields.Html('Custom <head> code', sanitize=False)</pre></details><details><summary id="f-default_lang_id">default_lang_id <span class="position">@ line 74</span></summary><pre>default_lang_id = fields.Many2one('res.lang', string="Default Language", default=_default_language, required=True)</pre></details><details><summary id="f-domain">domain <span class="position">@ line 68</span></summary><pre>domain = fields.Char('Website Domain', help='E.g. https://www.mydomain.com')</pre></details><details><summary id="f-favicon">favicon <span class="position">@ line 139</span></summary><pre>favicon = fields.Binary(string="Website Favicon", help="This field holds the image used to display a favicon on the website.", default=_default_favicon)</pre></details><details><summary id="f-google_analytics_key">google_analytics_key <span class="position">@ line 115</span></summary><pre>google_analytics_key = fields.Char('Google Analytics Key')</pre></details><details><summary id="f-google_maps_api_key">google_maps_api_key <span class="position">@ line 118</span></summary><pre>google_maps_api_key = fields.Char('Google Maps API Key')</pre></details><details><summary id="f-google_search_console">google_search_console <span class="position">@ line 116</span></summary><pre>google_search_console = fields.Char(help='Google key, or Enable to access first reply')</pre></details><details><summary id="f-has_social_default_image">has_social_default_image <span class="position">@ line 113</span></summary><pre>has_social_default_image = fields.Boolean(compute='_compute_has_social_default_image', store=True)</pre></details><details><summary id="f-homepage_url">homepage_url <span class="position">@ line 129</span></summary><pre>homepage_url = fields.Char(help='E.g. /contactus or /shop')</pre></details><details><summary id="f-language_count">language_count <span class="position">@ line 73</span></summary><pre>language_count = fields.Integer('Number of languages', compute='_compute_language_count')</pre></details><details><summary id="f-language_ids">language_ids <span class="position">@ line 70</span></summary><pre>language_ids = fields.Many2many(
+        'res.lang', 'website_lang_rel', 'website_id', 'lang_id', string="Languages",
+        default=_active_languages, required=True)</pre></details><details><summary id="f-logo">logo <span class="position">@ line 104</span></summary><pre>logo = fields.Binary('Website Logo', default=_default_logo, help="Display this logo on the website.")</pre></details><details><summary id="f-menu_id">menu_id <span class="position">@ line 128</span></summary><pre>menu_id = fields.Many2one('website.menu', compute='_compute_menu', string='Main Menu')</pre></details><details><summary id="f-name">name <span class="position">@ line 66</span></summary><pre>name = fields.Char('Website Name', required=True)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 127</span></summary><pre>partner_id = fields.Many2one(related='user_id.partner_id', string='Public Partner', readonly=False)</pre></details><details><summary id="f-plausible_shared_key">plausible_shared_key <span class="position">@ line 120</span></summary><pre>plausible_shared_key = fields.Char()</pre></details><details><summary id="f-plausible_site">plausible_site <span class="position">@ line 121</span></summary><pre>plausible_site = fields.Char()</pre></details><details><summary id="f-robots_txt">robots_txt <span class="position">@ line 133</span></summary><pre>robots_txt = fields.Html('Robots.txt', translate=False, groups='website.group_website_designer', sanitize=False)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 67</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><details><summary id="f-social_default_image">social_default_image <span class="position">@ line 112</span></summary><pre>social_default_image = fields.Binary(string="Default Social Share Image", help="If set, replaces the website logo as the default social share image.")</pre></details><details><summary id="f-social_facebook">social_facebook <span class="position">@ line 106</span></summary><pre>social_facebook = fields.Char('Facebook Account', default=_default_social_facebook)</pre></details><details><summary id="f-social_github">social_github <span class="position">@ line 107</span></summary><pre>social_github = fields.Char('GitHub Account', default=_default_social_github)</pre></details><details><summary id="f-social_instagram">social_instagram <span class="position">@ line 110</span></summary><pre>social_instagram = fields.Char('Instagram Account', default=_default_social_instagram)</pre></details><details><summary id="f-social_linkedin">social_linkedin <span class="position">@ line 108</span></summary><pre>social_linkedin = fields.Char('LinkedIn Account', default=_default_social_linkedin)</pre></details><details><summary id="f-social_tiktok">social_tiktok <span class="position">@ line 111</span></summary><pre>social_tiktok = fields.Char('TikTok Account', default=_default_social_tiktok)</pre></details><details><summary id="f-social_twitter">social_twitter <span class="position">@ line 105</span></summary><pre>social_twitter = fields.Char('X Account', default=_default_social_twitter)</pre></details><details><summary id="f-social_youtube">social_youtube <span class="position">@ line 109</span></summary><pre>social_youtube = fields.Char('Youtube Account', default=_default_social_youtube)</pre></details><details><summary id="f-specific_user_account">specific_user_account <span class="position">@ line 142</span></summary><pre>specific_user_account = fields.Boolean('Specific User Account', help='If True, new accounts will be associated to the current website')</pre></details><details><summary id="f-theme_id">theme_id <span class="position">@ line 140</span></summary><pre>theme_id = fields.Many2one('ir.module.module', help='Installed theme')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 123</span></summary><pre>user_id = fields.Many2one('res.users', string='Public User', required=True)</pre></details><h3>Methods</h3><ul id="m-_OLG_api_rpc"><li>_OLG_api_rpc(self, route, params) <span class="position">@ line 355</span></li></ul><ul id="m-_active_languages"><li>_active_languages(self) <span class="position">@ line 58</span></li></ul><ul id="m-_api_rpc"><li>_api_rpc(self, route, params, endpoint_param_name, default_endpoint) <span class="position">@ line 345</span></li></ul><details><summary id="m-_basic_enumerate_words">_basic_enumerate_words(self, search_details, search, limit) <span class="position">@ line 1854</span></summary><pre>Browses through all words that need to be compared to the search term.
+It extracts all words of every field associated to models in the fields_per_model parameter.
+
+:param search_details: obtained from `_search_get_details()`
+:param search: search term to which words must be matched against
+:param limit: maximum number of records fetched per model to build the word list
+:return: yields words</pre></details><ul id="m-_bootstrap_homepage"><li>_bootstrap_homepage(self) <span class="position">@ line 792</span></li></ul><ul id="m-_check_snippet_used"><li>_check_snippet_used(self, snippet_occurences, asset_type, asset_version) <span class="position">@ line 1524</span></li></ul><ul id="m-_compute_menu"><li>_compute_menu(self) <span class="position">@ line 168</span></li></ul><ul id="m-_default_favicon"><li>_default_favicon(self) <span class="position">@ line 135</span></li></ul><ul id="m-_default_language"><li>_default_language(self) <span class="position">@ line 61</span></li></ul><ul id="m-_default_logo"><li>_default_logo(self) <span class="position">@ line 100</span></li></ul><ul id="m-_default_social_facebook"><li>_default_social_facebook(self) <span class="position">@ line 79</span></li></ul><ul id="m-_default_social_github"><li>_default_social_github(self) <span class="position">@ line 82</span></li></ul><ul id="m-_default_social_instagram"><li>_default_social_instagram(self) <span class="position">@ line 91</span></li></ul><ul id="m-_default_social_linkedin"><li>_default_social_linkedin(self) <span class="position">@ line 85</span></li></ul><ul id="m-_default_social_tiktok"><li>_default_social_tiktok(self) <span class="position">@ line 97</span></li></ul><ul id="m-_default_social_twitter"><li>_default_social_twitter(self) <span class="position">@ line 94</span></li></ul><ul id="m-_default_social_youtube"><li>_default_social_youtube(self) <span class="position">@ line 88</span></li></ul><ul id="m-_disable_unused_snippets_assets"><li>_disable_unused_snippets_assets(self) <span class="position">@ line 1534</span></li></ul><details><summary id="m-_enumerate_pages">_enumerate_pages(self, query_string, force) <span class="position">@ line 1241</span></summary><pre>Available pages in the website/CMS. This is mostly used for links
+generation and can be overridden by modules setting up new HTML
+controllers for dynamic pages (e.g. blog).
+By default, returns template views marked as pages.
+:param str query_string: a (user-provided) string, fetches pages
+matching the string
+:returns: a list of mappings with two keys: ``name`` is the displayable
+name of the resource (page), ``url`` is the absolute URL
+of the same.
+:rtype: list({name: str, url: str})</pre></details><ul id="m-_force"><li>_force(self) <span class="position">@ line 1139</span></li></ul><ul id="m-_force_website"><li>_force_website(self, website_id) <span class="position">@ line 1142</span></li></ul><ul id="m-_get_cached"><li>_get_cached(self, field) <span class="position">@ line 1468</span></li></ul><ul id="m-_get_cached_values"><li>_get_cached_values(self) <span class="position">@ line 1459</span></li></ul><ul id="m-_get_html_fields_attributes"><li>_get_html_fields_attributes(self) <span class="position">@ line 1476</span></li></ul><ul id="m-_get_html_fields_attributes_blacklist"><li>_get_html_fields_attributes_blacklist(self) <span class="position">@ line 1471</span></li></ul><ul id="m-_get_menu_ids"><li>_get_menu_ids(self) <span class="position">@ line 188</span></li></ul><ul id="m-_get_plausible_script_url"><li>_get_plausible_script_url(self) <span class="position">@ line 929</span></li></ul><ul id="m-_get_plausible_server"><li>_get_plausible_server(self) <span class="position">@ line 935</span></li></ul><ul id="m-_get_plausible_share_url"><li>_get_plausible_share_url(self) <span class="position">@ line 941</span></li></ul><ul id="m-_get_website_pages"><li>_get_website_pages(self, domain, order, limit) <span class="position">@ line 1361</span></li></ul><details><summary id="m-_is_canonical_url">_is_canonical_url(self) <span class="position">@ line 1444</span></summary><pre>Returns whether the current request URL is canonical.</pre></details><details><summary id="m-_is_indexable_url">_is_indexable_url(self, url) <span class="position">@ line 327</span></summary><pre>Returns True if the given url has to be indexed by search engines.
+It is considered that the website must be indexed if the domain name
+matches the URL. We check if they are equal while ignoring the www. and
+http(s). This is to index the site even if the user put the www. in the
+settings while he has a configuration that redirects the www. to the
+naked domain for example (same thing for http and https).
+
+:param url: the url to check
+:return: True if the url has to be indexed, False otherwise</pre></details><ul id="m-_is_snippet_used"><li>_is_snippet_used(self, snippet_module, snippet_id, asset_version, asset_type, html_fields_attributes) <span class="position">@ line 1498</span></li></ul><ul id="m-_remove_attachments_on_website_unlink"><li>_remove_attachments_on_website_unlink(self) <span class="position">@ line 311</span></li></ul><details><summary id="m-_search_build_domain">_search_build_domain(self, domain, search, fields, extra) <span class="position">@ line 1558</span></summary><pre>Builds a search domain AND-combining a base domain with partial matches of each term in
+the search expression in any of the fields.
+
+:param domain: base domain combined in the search expression
+:param search: search expression string
+:param fields: list of field names to match the terms of the search expression with
+:param extra: function that returns an additional subdomain for a search term
+
+:return: domain limited to the matches of the search expression</pre></details><details><summary id="m-_search_exact">_search_exact(self, search_details, search, limit, order) <span class="position">@ line 1640</span></summary><pre>Performs a search with a search text
+
+:param search_details: see :meth:`_search_get_details`
+:param search: text against which to match results
+:param limit: maximum number of results per model type involved in the result
+:param order: order on which to sort results within a model type
+
+:return: tuple containing:
+- total number of results across all involved models
+- list of results per model made of:
+- initial search_detail for the model
+- count: number of results for the model
+- results: model list equivalent to a `model.search()`</pre></details><details><summary id="m-_search_find_fuzzy_term">_search_find_fuzzy_term(self, search_details, search, limit, word_list) <span class="position">@ line 1686</span></summary><pre>Returns the "closest" match of the search parameter within available words.
+
+:param search_details: obtained from `_search_get_details()`
+:param search: search term to which words must be matched against
+:param limit: maximum number of records fetched per model to build the word list
+:param word_list: if specified, this list of words is used as possible targets instead of
+the words contained in the match fields of each involved model
+
+:return: term on which a search can be performed instead of the initial search</pre></details><details><summary id="m-_search_get_details">_search_get_details(self, search_type, order, options) <span class="position">@ line 1593</span></summary><pre>Returns indications on how to perform the searches
+
+:param search_type: type of search
+:param order: order in which the results are to be returned
+:param options: search options
+
+:return: list of search details obtained from the `website.searchable.mixin`'s `_search_get_detail()`</pre></details><details><summary id="m-_search_get_indirect_fields">_search_get_indirect_fields(self, fields, model) <span class="position">@ line 1717</span></summary><pre>Returns the list of indirect fields amongst the requested fields.
+
+:param fields: list of field names to be searched
+:param model: model within which to search
+:return: dict of indirect field details per indirect field name</pre></details><details><summary id="m-_search_render_results">_search_render_results(self, search_details, limit) <span class="position">@ line 1667</span></summary><pre>Prepares data for the autocomplete and hybrid list rendering
+
+:param search_details: obtained from `_search_exact()`
+:param limit: maximum number or rows to render
+
+:return: the updated `search_details` containing an additional `results_data` field equivalent
+to the result of a `model.read()`</pre></details><details><summary id="m-_search_text_from_html">_search_text_from_html(self, html_fragment) <span class="position">@ line 1581</span></summary><pre>Returns the plain non-tag text from an html
+
+:param html_fragment: document from which text must be extracted
+
+:return text extracted from the html</pre></details><details><summary id="m-_search_with_fuzzy">_search_with_fuzzy(self, search_type, search, limit, order, options) <span class="position">@ line 1608</span></summary><pre>Performs a search with a search text or with a resembling word
+
+:param search_type: indicates what to search within, 'all' matches all available types
+:param search: text against which to match results
+:param limit: maximum number of results per model type involved in the result
+:param order: order on which to sort results within a model type
+:param options: search options from the submitted form containing:
+- allowFuzzy: boolean indicating whether the fuzzy matching must be done
+- other options used by `_search_get_details()`
+
+:return: tuple containing:
+- count: total number of results across all involved models
+- results: list of results per model (see _search_exact)
+- fuzzy_term: similar word against which results were obtained, indicates there were
+no results for the initially requested search</pre></details><details><summary id="m-_trigram_enumerate_words">_trigram_enumerate_words(self, search_details, search, limit) <span class="position">@ line 1755</span></summary><pre>Browses through all words that need to be compared to the search term.
+It extracts all words of every field associated to models in the fields_per_model parameter.
+The search is restricted to a records having the non-zero pg_trgm.word_similarity() score.
+
+:param search_details: obtained from `_search_get_details()`
+:param search: search term to which words must be matched against
+:param limit: maximum number of records fetched per model to build the word list
+:return: yields words</pre></details><ul id="m-_website_api_rpc"><li>_website_api_rpc(self, route, params) <span class="position">@ line 351</span></li></ul><ul id="m-button_go_website"><li>button_go_website(self, path, mode_edit) <span class="position">@ line 1436</span></li></ul><ul id="m-configurator_get_footer_links"><li>configurator_get_footer_links(self) <span class="position">@ line 374</span></li></ul><ul id="m-configurator_set_menu_links"><li>configurator_set_menu_links(self, menu_company, module_data) <span class="position">@ line 369</span></li></ul><ul id="m-copy_menu_hierarchy"><li>copy_menu_hierarchy(self, top_menu) <span class="position">@ line 826</span></li></ul><ul id="m-create_and_redirect_configurator"><li>create_and_redirect_configurator(self) <span class="position">@ line 322</span></li></ul><ul id="m-get_cdn_url"><li>get_cdn_url(self, uri) <span class="position">@ line 1398</span></li></ul><ul id="m-get_client_action"><li>get_client_action(self, url, mode_edit, website_id) <span class="position">@ line 1425</span></li></ul><ul id="m-get_client_action_url"><li>get_client_action_url(self, url, mode_edit) <span class="position">@ line 1416</span></li></ul><ul id="m-get_cta_data"><li>get_cta_data(self, website_purpose, website_type) <span class="position">@ line 359</span></li></ul><details><summary id="m-get_suggested_controllers">get_suggested_controllers(self) <span class="position">@ line 1379</span></summary><pre>Returns a tuple (name, url, icon).
+Where icon can be a module name, or a path</pre></details><details><summary id="m-get_unique_key">get_unique_key(self, string, template_module) <span class="position">@ line 945</span></summary><pre>Given a string, return an unique key including module prefix.
+It will be suffixed by a counter if it already exists to garantee uniqueness.
+:param string : the key to be checked for uniqueness, you can pass it with 'website.' or not
+:param template_module : the module to be prefixed on the key, if not set, we will use website</pre></details><details><summary id="m-get_unique_path">get_unique_path(self, page_url) <span class="position">@ line 913</span></summary><pre>Given an url, return that url suffixed by counter if it already exists
+:param page_url : the url to be checked for uniqueness</pre></details><ul id="m-get_website_page_ids"><li>get_website_page_ids(self) <span class="position">@ line 1342</span></li></ul><details><summary id="m-is_menu_cache_disabled">is_menu_cache_disabled(self) <span class="position">@ line 192</span></summary><pre>Checks if the website menu contains a record like url.
+:return: True if the menu contains a record like url</pre></details><details><summary id="m-rule_is_enumerable">rule_is_enumerable(self, rule) <span class="position">@ line 1214</span></summary><pre>Checks that it is possible to generate sensible GET queries for
+a given rule (if the endpoint matches its own requirements)
+:type rule: werkzeug.routing.Rule
+:rtype: bool</pre></details><ul id="m-search_pages"><li>search_pages(self, needle, limit) <span class="position">@ line 1370</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 303</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 222</span></li></ul><h2>Inherited: odoo/addons/website_twitter/models/website_twitter.py</h2><h3>Fields</h3><details><summary id="f-twitter_api_key">twitter_api_key <span class="position">@ line 22</span></summary><pre>twitter_api_key = fields.Char(string='X API key', help='X API Key', groups='base.group_system')</pre></details><details><summary id="f-twitter_api_secret">twitter_api_secret <span class="position">@ line 23</span></summary><pre>twitter_api_secret = fields.Char(string='X API secret', help='X API Secret', groups='base.group_system')</pre></details><details><summary id="f-twitter_screen_name">twitter_screen_name <span class="position">@ line 24</span></summary><pre>twitter_screen_name = fields.Char(string='Get favorites from this screen name')</pre></details><h3>Methods</h3><details><summary id="m-_get_access_token">_get_access_token(self, website) <span class="position">@ line 78</span></summary><pre>Obtain a bearer token.</pre></details><ul id="m-fetch_favorite_tweets"><li>fetch_favorite_tweets(self) <span class="position">@ line 48</span></li></ul><h2>Inherited: odoo/addons/website_slides/models/website.py</h2><h3>Fields</h3><details><summary id="f-website_slide_google_app_key">website_slide_google_app_key <span class="position">@ line 11</span></summary><pre>website_slide_google_app_key = fields.Char('Google Doc Key', groups='base.group_system')</pre></details><h3>Methods</h3><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 18</span></li></ul><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 13</span></li></ul><h2>Inherited: odoo/addons/website_sale_stock/models/website.py</h2><h3>Fields</h3><details><summary id="f-warehouse_id">warehouse_id <span class="position">@ line 9</span></summary><pre>warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse')</pre></details><h3>Methods</h3><ul id="m-_get_product_available_qty"><li>_get_product_available_qty(self, product) <span class="position">@ line 32</span></li></ul><ul id="m-_get_warehouse_available"><li>_get_warehouse_available(self) <span class="position">@ line 19</span></li></ul><ul id="m-_prepare_sale_order_values"><li>_prepare_sale_order_values(self, partner_sudo) <span class="position">@ line 11</span></li></ul><ul id="m-sale_get_order"><li>sale_get_order(self, *args, **args) <span class="position">@ line 28</span></li></ul><h2>Inherited: odoo/addons/website_sale_slides/models/website.py</h2><h3>Methods</h3><ul id="m-sale_product_domain"><li>sale_product_domain(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/website_sale_picking/models/website.py</h2><h3>Fields</h3><details><summary id="f-picking_site_ids">picking_site_ids <span class="position">@ line 10</span></summary><pre>picking_site_ids = fields.Many2many('delivery.carrier', string='Picking sites',
+                                        compute='_compute_picking_sites')</pre></details><h3>Methods</h3><ul id="m-_compute_picking_sites"><li>_compute_picking_sites(self) <span class="position">@ line 13</span></li></ul><h2>Inherited: odoo/addons/website_sale_mondialrelay/models/website.py</h2><h3>Methods</h3><ul id="m-_prepare_sale_order_values"><li>_prepare_sale_order_values(self, partner_sudo) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/website_sale_mass_mailing/models/website.py</h2><h3>Fields</h3><details><summary id="f-newsletter_id">newsletter_id <span class="position">@ line 9</span></summary><pre>newsletter_id = fields.Many2one(string="Newsletter List", comodel_name='mailing.list')</pre></details><h2>Inherited: odoo/addons/website_sale_autocomplete/models/website.py</h2><h3>Fields</h3><details><summary id="f-google_places_api_key">google_places_api_key <span class="position">@ line 9</span></summary><pre>google_places_api_key = fields.Char(
+        string='Google Places API Key',
+        groups="base.group_system")</pre></details><h3>Methods</h3><ul id="m-has_google_places_api_key"><li>has_google_places_api_key(self) <span class="position">@ line 13</span></li></ul><h2>Inherited: odoo/addons/website_sale/models/website.py</h2><h3>Fields</h3><details><summary id="f-account_on_checkout">account_on_checkout <span class="position">@ line 58</span></summary><pre>account_on_checkout = fields.Selection(
+        string="Customer Accounts",
+        selection=[
+            ('optional', "Optional"),
+            ('disabled', "Disabled (buy as guest)"),
+            ('mandatory', "Mandatory (no guest checkout)"),
+        ],
+        default='optional',
+    )</pre></details><details><summary id="f-add_to_cart_action">add_to_cart_action <span class="position">@ line 49</span></summary><pre>add_to_cart_action = fields.Selection(
+        selection=[
+            ('stay', "Stay on Product Page"),
+            ('go_to_cart', "Go to cart"),
+            ('force_dialog', "Let the user decide (dialog)"),
+        ],
+        default='stay',
+    )</pre></details><details><summary id="f-all_pricelist_ids">all_pricelist_ids <span class="position">@ line 160</span></summary><pre>all_pricelist_ids = fields.One2many(
+        string="All pricelists",
+        comodel_name='product.pricelist',
+        inverse_name='website_id',
+    )</pre></details><details><summary id="f-auth_signup_uninvited">auth_signup_uninvited <span class="position">@ line 57</span></summary><pre>auth_signup_uninvited = fields.Selection(default='b2c')</pre></details><details><summary id="f-cart_abandoned_delay">cart_abandoned_delay <span class="position">@ line 76</span></summary><pre>cart_abandoned_delay = fields.Float(string="Abandoned Delay", default=10.0)</pre></details><details><summary id="f-cart_recovery_mail_template_id">cart_recovery_mail_template_id <span class="position">@ line 67</span></summary><pre>cart_recovery_mail_template_id = fields.Many2one(
+        string="Cart Recovery Email",
+        comodel_name='mail.template',
+        domain=[('model', '=', 'sale.order')],
+        default=_default_recovery_mail_template,
+    )</pre></details><details><summary id="f-contact_us_button_url">contact_us_button_url <span class="position">@ line 73</span></summary><pre>contact_us_button_url = fields.Char(
+        string="Contact Us Button URL", translate=True, default="/contactus",
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 149</span></summary><pre>currency_id = fields.Many2one(
+        string="Default Currency",
+        comodel_name='res.currency',
+        compute='_compute_currency_id',
+    )</pre></details><details><summary id="f-ecommerce_access">ecommerce_access <span class="position">@ line 122</span></summary><pre>ecommerce_access = fields.Selection(
+        selection=[
+            ('everyone', "All users"),
+            ('logged_in', "Logged in users"),
+        ],
+        required=True,
+        default='everyone',
+    )</pre></details><details><summary id="f-enabled_portal_reorder_button">enabled_portal_reorder_button <span class="position">@ line 29</span></summary><pre>enabled_portal_reorder_button = fields.Boolean(string="Re-order From Portal")</pre></details><details><summary id="f-fiscal_position_id">fiscal_position_id <span class="position">@ line 140</span></summary><pre>fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        compute='_compute_fiscal_position_id',
+    )</pre></details><details><summary id="f-prevent_zero_price_sale">prevent_zero_price_sale <span class="position">@ line 132</span></summary><pre>prevent_zero_price_sale = fields.Boolean(string="Hide 'Add To Cart' when price = 0")</pre></details><details><summary id="f-prevent_zero_price_sale_text">prevent_zero_price_sale_text <span class="position">@ line 133</span></summary><pre>prevent_zero_price_sale_text = fields.Char(
+        string="Text to show instead of price",
+        translate=True,
+        default="Not Available For Sale",
+    )</pre></details><details><summary id="f-pricelist_id">pricelist_id <span class="position">@ line 144</span></summary><pre>pricelist_id = fields.Many2one(
+        string="Default Pricelist if any",
+        comodel_name='product.pricelist',
+        compute='_compute_pricelist_id',
+    )</pre></details><details><summary id="f-pricelist_ids">pricelist_ids <span class="position">@ line 154</span></summary><pre>pricelist_ids = fields.One2many(
+        string="Price list available for this Ecommerce/Website",
+        comodel_name='product.pricelist',
+        compute="_compute_pricelist_ids",
+    )</pre></details><details><summary id="f-product_page_grid_columns">product_page_grid_columns <span class="position">@ line 130</span></summary><pre>product_page_grid_columns = fields.Integer(default=2)</pre></details><details><summary id="f-product_page_image_layout">product_page_image_layout <span class="position">@ line 94</span></summary><pre>product_page_image_layout = fields.Selection(
+        selection=[
+            ('carousel', "Carousel"),
+            ('grid', "Grid"),
+        ],
+        required=True,
+        default='carousel',
+    )</pre></details><details><summary id="f-product_page_image_spacing">product_page_image_spacing <span class="position">@ line 112</span></summary><pre>product_page_image_spacing = fields.Selection(
+        selection=[
+            ('none', "None"),
+            ('small', "Small"),
+            ('medium', "Medium"),
+            ('big', "Big"),
+        ],
+        required=True,
+        default='small',
+    )</pre></details><details><summary id="f-product_page_image_width">product_page_image_width <span class="position">@ line 102</span></summary><pre>product_page_image_width = fields.Selection(
+        selection=[
+            ('none', "Hidden"),
+            ('50_pc', "50 %"),
+            ('66_pc', "66 %"),
+            ('100_pc', "100 %"),
+        ],
+        required=True,
+        default='50_pc',
+    )</pre></details><details><summary id="f-salesperson_id">salesperson_id <span class="position">@ line 30</span></summary><pre>salesperson_id = fields.Many2one(
+        string="Salesperson", comodel_name='res.users', domain="[('share', '=', False)]",
+    )</pre></details><details><summary id="f-salesteam_id">salesteam_id <span class="position">@ line 33</span></summary><pre>salesteam_id = fields.Many2one(
+        string="Sales Team",
+        comodel_name='crm.team',
+        ondelete='set null',
+        default=_default_salesteam_id,
+    )</pre></details><details><summary id="f-send_abandoned_cart_email">send_abandoned_cart_email <span class="position">@ line 77</span></summary><pre>send_abandoned_cart_email = fields.Boolean(
+        string="Send email to customers who abandoned their cart.",
+    )</pre></details><details><summary id="f-shop_default_sort">shop_default_sort <span class="position">@ line 85</span></summary><pre>shop_default_sort = fields.Selection(
+        selection='_get_product_sort_mapping', required=True, default='website_sequence asc')</pre></details><details><summary id="f-shop_extra_field_ids">shop_extra_field_ids <span class="position">@ line 88</span></summary><pre>shop_extra_field_ids = fields.One2many(
+        string="E-Commerce Extra Fields",
+        comodel_name='website.sale.extra.field',
+        inverse_name='website_id',
+    )</pre></details><details><summary id="f-shop_ppg">shop_ppg <span class="position">@ line 80</span></summary><pre>shop_ppg = fields.Integer(
+        string="Number of products in the grid on the shop", default=20,
+    )</pre></details><details><summary id="f-shop_ppr">shop_ppr <span class="position">@ line 83</span></summary><pre>shop_ppr = fields.Integer(string="Number of grid columns on the shop", default=4)</pre></details><details><summary id="f-show_line_subtotals_tax_selection">show_line_subtotals_tax_selection <span class="position">@ line 39</span></summary><pre>show_line_subtotals_tax_selection = fields.Selection(
+        string="Line Subtotals Tax Display",
+        selection=[
+            ('tax_excluded', "Tax Excluded"),
+            ('tax_included', "Tax Included"),
+        ],
+        required=True,
+        default='tax_excluded',
+    )</pre></details><h3>Methods</h3><ul id="m-_compute_fiscal_position_id"><li>_compute_fiscal_position_id(self) <span class="position">@ line 181</span></li></ul><ul id="m-_compute_pricelist_id"><li>_compute_pricelist_id(self) <span class="position">@ line 177</span></li></ul><ul id="m-_default_recovery_mail_template"><li>_default_recovery_mail_template(self) <span class="position">@ line 21</span></li></ul><ul id="m-_default_salesteam_id"><li>_default_salesteam_id(self) <span class="position">@ line 15</span></li></ul><details><summary id="m-_display_partner_b2b_fields">_display_partner_b2b_fields(self) <span class="position">@ line 611</span></summary><pre>This method is to be inherited by localizations and return
+True if localization should always displayed b2b fields</pre></details><ul id="m-_get_cached_pricelist_id"><li>_get_cached_pricelist_id(self) <span class="position">@ line 312</span></li></ul><details><summary id="m-_get_checkout_step_list">_get_checkout_step_list(self) <span class="position">@ line 618</span></summary><pre>Return an ordered list of steps according to the current template rendered.
+
+:rtype: list
+:return: A list with the following structure:
+[
+[xmlid],
+{
+'name': str,
+'current_href': str,
+'main_button': str,
+'main_button_href': str,
+'back_button': str,
+'back_button_href': str
+}
+]</pre></details><details><summary id="m-_get_checkout_steps">_get_checkout_steps(self, current_step) <span class="position">@ line 671</span></summary><pre>Return an ordered list of steps according to the current template rendered.
+If `current_step` is provided, returns only the corresponding step.
+Note: self.ensure_one()
+:param str current_step: The xmlid of the current step, defaults to None.
+:rtype: list
+:return: A list containing the steps generated by :meth:`_get_checkout_step_list`.</pre></details><ul id="m-_get_current_fiscal_position"><li>_get_current_fiscal_position(self) <span class="position">@ line 516</span></li></ul><details><summary id="m-_get_current_pricelist">_get_current_pricelist(self) <span class="position">@ line 315</span></summary><pre>:returns: The current pricelist record</pre></details><ul id="m-_get_geoip_country_code"><li>_get_geoip_country_code(self) <span class="position">@ line 309</span></li></ul><details><summary id="m-_get_pl_partner_order">_get_pl_partner_order(self, country_code, show_visible, current_pl_id, website_pricelist_ids, partner_pl_id, order_pl_id) <span class="position">@ line 210</span></summary><pre>Return the list of pricelists that can be used on website for the current user.
+
+:param str country_code: code iso or False, If set, we search only price list available for this country
+:param bool show_visible: if True, we don't display pricelist where selectable is False (Eg: Code promo)
+:param int current_pl_id: The current pricelist used on the website
+(If not selectable but currently used anyway, e.g. pricelist with promo code)
+:param tuple website_pricelist_ids: List of ids of pricelists available for this website
+:param int partner_pl_id: the partner pricelist
+:param int order_pl_id: the current cart pricelist
+:returns: list of product.pricelist ids
+:rtype: list</pre></details><ul id="m-_get_product_page_grid_image_classes"><li>_get_product_page_grid_image_classes(self) <span class="position">@ line 575</span></li></ul><details><summary id="m-_get_product_page_proportions">_get_product_page_proportions(self) <span class="position">@ line 562</span></summary><pre>Returns the number of columns (css) that both the images and the product details should take.</pre></details><ul id="m-_get_product_sort_mapping"><li>_get_product_sort_mapping() <span class="position">@ line 193</span></li></ul><ul id="m-_prepare_sale_order_values"><li>_prepare_sale_order_values(self, partner_sudo) <span class="position">@ line 481</span></li></ul><ul id="m-_product_domain"><li>_product_domain(self) <span class="position">@ line 364</span></li></ul><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 552</span></li></ul><details><summary id="m-get_pricelist_available">get_pricelist_available(self, show_visible) <span class="position">@ line 268</span></summary><pre>Return the list of pricelists that can be used on website for the current user.
+Country restrictions will be detected with GeoIP (if installed).
+:param bool show_visible: if True, we don't display pricelist where selectable is False (Eg: Code promo)
+:returns: pricelist recordset</pre></details><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 547</span></li></ul><details><summary id="m-has_ecommerce_access">has_ecommerce_access(self) <span class="position">@ line 687</span></summary><pre>Return whether the current user is allowed to access eCommerce-related content.</pre></details><details><summary id="m-is_pricelist_available">is_pricelist_available(self, pl_id) <span class="position">@ line 301</span></summary><pre>Return a boolean to specify if a specific pricelist can be manually set on the website.
+Warning: It check only if pricelist is in the 'selectable' pricelists or the current pricelist.
+:param int pl_id: The pricelist id to check
+:returns: Boolean, True if valid / available</pre></details><details><summary id="m-sale_get_order">sale_get_order(self, force_create, update_pricelist) <span class="position">@ line 367</span></summary><pre>Return the current sales order after mofications specified by params.
+
+:param bool force_create: Create sales order if not already existing
+:param bool update_pricelist: Force to recompute all the lines from sales order to adapt the price with the current pricelist.
+:returns: record for the current sales order (might be empty)
+:rtype: `sale.order` recordset</pre></details><ul id="m-sale_product_domain"><li>sale_product_domain(self) <span class="position">@ line 358</span></li></ul><ul id="m-sale_reset"><li>sale_reset(self) <span class="position">@ line 536</span></li></ul><h2>Inherited: odoo/addons/website_profile/models/website.py</h2><h3>Fields</h3><details><summary id="f-karma_profile_min">karma_profile_min <span class="position">@ line 10</span></summary><pre>karma_profile_min = fields.Integer(string="Minimal karma to see other user's profile", default=150)</pre></details><h2>Inherited: odoo/addons/website_membership/models/website.py</h2><h3>Methods</h3><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/website_livechat/models/website.py</h2><h3>Fields</h3><details><summary id="f-channel_id">channel_id <span class="position">@ line 13</span></summary><pre>channel_id = fields.Many2one('im_livechat.channel', string='Website Live Chat Channel')</pre></details><h3>Methods</h3><details><summary id="m-_get_livechat_channel_info">_get_livechat_channel_info(self) <span class="position">@ line 16</span></summary><pre>Get the livechat info dict (button text, channel name, ...) for the livechat channel of
+the current website.</pre></details><details><summary id="m-_get_livechat_request_session">_get_livechat_request_session(self) <span class="position">@ line 30</span></summary><pre>Check if there is an opened chat request for the website livechat channel and the current visitor (from request).
+If so, prepare the livechat session information that will be stored in visitor's cookies
+and used by livechat widget to directly open this session instead of allowing the visitor to
+initiate a new livechat session.
+:param {int} channel_id: channel
+:return: {dict} livechat request session information</pre></details><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 72</span></li></ul><h2>Inherited: odoo/addons/website_hr_recruitment/models/website.py</h2><h3>Methods</h3><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 16</span></li></ul><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/website_forum/models/website.py</h2><h3>Fields</h3><details><summary id="f-forum_count">forum_count <span class="position">@ line 11</span></summary><pre>forum_count = fields.Integer(readonly=True, default=0)</pre></details><h3>Methods</h3><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 35</span></li></ul><details><summary id="m-_update_forum_count">_update_forum_count(self) <span class="position">@ line 45</span></summary><pre>Update count of forum linked to some websites. This has to be
+done manually as website_id=False on forum model means a shared forum.
+There is therefore no straightforward relationship to be used between
+forum and website.
+
+This method either runs on self (if not void), either on all existing
+websites (to update globally counters, notably when a new forum is
+created).</pre></details><ul id="m-configurator_get_footer_links"><li>configurator_get_footer_links(self) <span class="position">@ line 24</span></li></ul><ul id="m-configurator_set_menu_links"><li>configurator_set_menu_links(self, menu_company, module_data) <span class="position">@ line 29</span></li></ul><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 19</span></li></ul><h2>Inherited: odoo/addons/website_event_track/models/website.py</h2><h3>Fields</h3><details><summary id="f-app_icon">app_icon <span class="position">@ line 16</span></summary><pre>app_icon = fields.Image(
+        string='Website App Icon',
+        compute='_compute_app_icon',
+        store=True,
+        readonly=True,
+        help='This field holds the image used as mobile app icon on the website (PNG format).')</pre></details><details><summary id="f-events_app_name">events_app_name <span class="position">@ line 22</span></summary><pre>events_app_name = fields.Char(
+        string='Events App Name',
+        compute='_compute_events_app_name',
+        store=True,
+        readonly=False,
+        help="This fields holds the Event's Progressive Web App name.")</pre></details><h2>Inherited: odoo/addons/website_event_sale/models/website.py</h2><h3>Methods</h3><ul id="m-sale_product_domain"><li>sale_product_domain(self) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/website_event_booth_sale/models/website.py</h2><h3>Methods</h3><ul id="m-sale_product_domain"><li>sale_product_domain(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/website_event/models/website.py</h2><h3>Methods</h3><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 22</span></li></ul><ul id="m-get_cta_data"><li>get_cta_data(self, website_purpose, website_type) <span class="position">@ line 15</span></li></ul><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/website_customer/models/website.py</h2><h3>Methods</h3><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/website_crm_partner_assign/models/website.py</h2><h3>Methods</h3><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/website_crm/models/website.py</h2><h3>Fields</h3><details><summary id="f-crm_default_team_id">crm_default_team_id <span class="position">@ line 15</span></summary><pre>crm_default_team_id = fields.Many2one(
+        'crm.team', string='Default Sales Teams',
+        default=lambda self: self.env['crm.team'].search([], limit=1),
+        domain=lambda self: self._get_crm_default_team_domain(),
+        help='Default Sales Team for new leads created through the Contact Us form.')</pre></details><details><summary id="f-crm_default_user_id">crm_default_user_id <span class="position">@ line 20</span></summary><pre>crm_default_user_id = fields.Many2one(
+        'res.users', string='Default Salesperson', domain=[('share', '=', False)],
+        help='Default salesperson for new leads created through the Contact Us form.')</pre></details><h3>Methods</h3><ul id="m-_get_crm_default_team_domain"><li>_get_crm_default_team_domain(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/website_blog/models/website.py</h2><h3>Methods</h3><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 37</span></li></ul><ul id="m-configurator_set_menu_links"><li>configurator_set_menu_links(self, menu_company, module_data) <span class="position">@ line 16</span></li></ul><ul id="m-get_suggested_controllers"><li>get_suggested_controllers(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/website/models/website_form.py</h2><h3>Methods</h3><ul id="m-_website_form_last_record"><li>_website_form_last_record(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/test_website/models/website.py</h2><h3>Methods</h3><ul id="m-_search_get_details"><li>_search_get_details(self, search_type, order, options) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/test_website/models/model.py</h2><h3>Fields</h3><details><summary id="f-name_translated">name_translated <span class="position">@ line 10</span></summary><pre>name_translated = fields.Char(translate=True)</pre></details><h2>Inherited: odoo/addons/l10n_pe_website_sale/models/website.py</h2><h3>Methods</h3><details><summary id="m-_display_partner_b2b_fields">_display_partner_b2b_fields(self) <span class="position">@ line 9</span></summary><pre>Peruvian localization must always display b2b fields</pre></details><h2>Inherited: odoo/addons/l10n_ar_website_sale/models/website.py</h2><h3>Methods</h3><details><summary id="m-_display_partner_b2b_fields">_display_partner_b2b_fields(self) <span class="position">@ line 10</span></summary><pre>Argentinean localization must always display b2b fields</pre></details><script src="class.js"></script></body></html>

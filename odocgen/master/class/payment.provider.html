@@ -1,0 +1,697 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>payment.provider - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>payment.provider</h1><p>Originally defined in: odoo/addons/payment/models/payment_provider.py</p><p>Inherited in: odoo/addons/website_sale_picking/models/payment_provider.py<br/>Inherited in: odoo/addons/website_payment/models/payment_provider.py<br/>Inherited in: odoo/addons/sale/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_xendit/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_stripe/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_sips/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_razorpay/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_payumoney/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_payulatam/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_paypal/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_ogone/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_mollie/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_mercado_pago/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_flutterwave/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_demo/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_custom/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_buckaroo/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_authorize/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_asiapay/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_aps/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_alipay/models/payment_provider.py<br/>Inherited in: odoo/addons/payment_adyen/models/payment_provider.py<br/>Inherited in: odoo/addons/account_payment/models/payment_provider.py<br/></p><hr/><h2>Original: odoo/addons/payment/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-allow_express_checkout">allow_express_checkout <span class="position">@ line 64</span></summary><pre>allow_express_checkout = fields.Boolean(
+        string="Allow Express Checkout",
+        help="This controls whether customers can use express payment methods. Express checkout "
+             "enables customers to pay with Google Pay and Apple Pay from which address "
+             "information is collected at payment.",
+    )</pre></details><details><summary id="f-allow_tokenization">allow_tokenization <span class="position">@ line 54</span></summary><pre>allow_tokenization = fields.Boolean(
+        string="Allow Saving Payment Methods",
+        help="This controls whether customers can save their payment methods as payment tokens.\n"
+             "A payment token is an anonymous link to the payment method details saved in the\n"
+             "provider's database, allowing the customer to reuse it for a next purchase.")</pre></details><details><summary id="f-auth_msg">auth_msg <span class="position">@ line 137</span></summary><pre>auth_msg = fields.Html(
+        string="Authorize Message", help="The message displayed if payment is authorized",
+        default=lambda self: _("Your payment has been authorized."), translate=True)</pre></details><details><summary id="f-available_country_ids">available_country_ids <span class="position">@ line 98</span></summary><pre>available_country_ids = fields.Many2many(
+        string="Countries",
+        comodel_name='res.country',
+        help="The countries in which this payment provider is available. Leave blank to make it "
+             "available in all countries.",
+        relation='payment_country_rel',
+        column1='payment_id',
+        column2='country_id',
+    )</pre></details><details><summary id="f-available_currency_ids">available_currency_ids <span class="position">@ line 107</span></summary><pre>available_currency_ids = fields.Many2many(
+        string="Currencies",
+        help="The currencies available with this payment provider. Leave empty not to restrict "
+             "any.",
+        comodel_name='res.currency',
+        relation='payment_currency_rel',
+        column1="payment_provider_id",
+        column2="currency_id",
+        compute='_compute_available_currency_ids',
+        store=True,
+        readonly=False,
+        context={'active_test': False},
+    )</pre></details><details><summary id="f-cancel_msg">cancel_msg <span class="position">@ line 145</span></summary><pre>cancel_msg = fields.Html(
+        string="Cancelled Message",
+        help="The message displayed if the order is cancelled during the payment process",
+        default=lambda self: _("Your payment has been cancelled."), translate=True)</pre></details><details><summary id="f-capture_manually">capture_manually <span class="position">@ line 59</span></summary><pre>capture_manually = fields.Boolean(
+        string="Capture Amount Manually",
+        help="Capture the amount from Odoo, when the delivery is completed.\n"
+             "Use this if you want to charge your customers cards only when\n"
+             "you are sure you can ship the goods to them.")</pre></details><details><summary id="f-code">code <span class="position">@ line 26</span></summary><pre>code = fields.Selection(
+        string="Code",
+        help="The technical code of this payment provider.",
+        selection=[('none', "No Provider Set")],
+        default='none',
+        required=True,
+    )</pre></details><details><summary id="f-color">color <span class="position">@ line 170</span></summary><pre>color = fields.Integer(
+        string="Color", help="The color of the card in kanban view", compute='_compute_color',
+        store=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 44</span></summary><pre>company_id = fields.Many2one(  # Indexed to speed-up ORM searches (from ir_rule or others)
+        string="Company", comodel_name='res.company', default=lambda self: self.env.company.id,
+        required=True, index=True)</pre></details><details><summary id="f-done_msg">done_msg <span class="position">@ line 140</span></summary><pre>done_msg = fields.Html(
+        string="Done Message",
+        help="The message displayed if the order is successfully done after the payment process",
+        default=lambda self: _("Your payment has been successfully processed."),
+        translate=True)</pre></details><details><summary id="f-express_checkout_form_view_id">express_checkout_form_view_id <span class="position">@ line 89</span></summary><pre>express_checkout_form_view_id = fields.Many2one(
+        string="Express Checkout Form Template",
+        comodel_name='ir.ui.view',
+        help="The template rendering the express payment methods' form.",
+        domain=[('type', '=', 'qweb')],
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-image_128">image_128 <span class="position">@ line 169</span></summary><pre>image_128 = fields.Image(string="Image", max_width=128, max_height=128)</pre></details><details><summary id="f-inline_form_view_id">inline_form_view_id <span class="position">@ line 76</span></summary><pre>inline_form_view_id = fields.Many2one(
+        string="Inline Form Template", comodel_name='ir.ui.view',
+        help="The template rendering the inline payment form when making a direct payment",
+        domain=[('type', '=', 'qweb')],
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-is_published">is_published <span class="position">@ line 39</span></summary><pre>is_published = fields.Boolean(
+        string="Published",
+        help="Whether the provider is visible on the website or not. Tokens remain functional but "
+             "are only visible on manage forms.",
+    )</pre></details><details><summary id="f-main_currency_id">main_currency_id <span class="position">@ line 47</span></summary><pre>main_currency_id = fields.Many2one(
+        related='company_id.currency_id',
+        help="The main currency of the company, used to display monetary fields.",
+    )</pre></details><details><summary id="f-maximum_amount">maximum_amount <span class="position">@ line 120</span></summary><pre>maximum_amount = fields.Monetary(
+        string="Maximum Amount",
+        help="The maximum payment amount that this payment provider is available for. Leave blank "
+             "to make it available for any payment amount.",
+        currency_field='main_currency_id',
+    )</pre></details><details><summary id="f-module_id">module_id <span class="position">@ line 175</span></summary><pre>module_id = fields.Many2one(string="Corresponding Module", comodel_name='ir.module.module')</pre></details><details><summary id="f-module_state">module_state <span class="position">@ line 176</span></summary><pre>module_state = fields.Selection(string="Installation State", related='module_id.state')</pre></details><details><summary id="f-module_to_buy">module_to_buy <span class="position">@ line 177</span></summary><pre>module_to_buy = fields.Boolean(string="Odoo Enterprise Module", related='module_id.to_buy')</pre></details><details><summary id="f-name">name <span class="position">@ line 24</span></summary><pre>name = fields.Char(string="Name", required=True, translate=True)</pre></details><details><summary id="f-payment_method_ids">payment_method_ids <span class="position">@ line 51</span></summary><pre>payment_method_ids = fields.Many2many(
+        string="Supported Payment Methods", comodel_name='payment.method'
+    )</pre></details><details><summary id="f-pending_msg">pending_msg <span class="position">@ line 131</span></summary><pre>pending_msg = fields.Html(
+        string="Pending Message",
+        help="The message displayed if the order pending after the payment process",
+        default=lambda self: _(
+            "Your payment has been successfully processed but is waiting for approval."
+        ), translate=True)</pre></details><details><summary id="f-pre_msg">pre_msg <span class="position">@ line 128</span></summary><pre>pre_msg = fields.Html(
+        string="Help Message", help="The message displayed to explain and help the payment process",
+        translate=True)</pre></details><details><summary id="f-redirect_form_view_id">redirect_form_view_id <span class="position">@ line 70</span></summary><pre>redirect_form_view_id = fields.Many2one(
+        string="Redirect Form Template", comodel_name='ir.ui.view',
+        help="The template rendering a form submitted to redirect the user when making a payment",
+        domain=[('type', '=', 'qweb')],
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 25</span></summary><pre>sequence = fields.Integer(string="Sequence", help="Define the display order")</pre></details><details><summary id="f-state">state <span class="position">@ line 33</span></summary><pre>state = fields.Selection(
+        string="State",
+        help="In test mode, a fake payment is processed through a test payment interface.\n"
+             "This mode is advised when setting up the provider.",
+        selection=[('disabled', "Disabled"), ('enabled', "Enabled"), ('test', "Test Mode")],
+        default='disabled', required=True, copy=False)</pre></details><details><summary id="f-support_express_checkout">support_express_checkout <span class="position">@ line 159</span></summary><pre>support_express_checkout = fields.Boolean(
+        string="Express Checkout Supported", compute='_compute_feature_support_fields'
+    )</pre></details><details><summary id="f-support_manual_capture">support_manual_capture <span class="position">@ line 154</span></summary><pre>support_manual_capture = fields.Selection(
+        string="Manual Capture Supported",
+        selection=[('full_only', "Full Only"), ('partial', "Partial")],
+        compute='_compute_feature_support_fields',
+    )</pre></details><details><summary id="f-support_refund">support_refund <span class="position">@ line 162</span></summary><pre>support_refund = fields.Selection(
+        string="Type of Refund Supported",
+        selection=[('full_only', "Full Only"), ('partial', "Partial")],
+        compute='_compute_feature_support_fields',
+    )</pre></details><details><summary id="f-support_tokenization">support_tokenization <span class="position">@ line 151</span></summary><pre>support_tokenization = fields.Boolean(
+        string="Tokenization Supported", compute='_compute_feature_support_fields'
+    )</pre></details><details><summary id="f-token_inline_form_view_id">token_inline_form_view_id <span class="position">@ line 82</span></summary><pre>token_inline_form_view_id = fields.Many2one(
+        string="Token Inline Form Template",
+        comodel_name='ir.ui.view',
+        help="The template rendering the inline payment form when making a payment by token.",
+        domain=[('type', '=', 'qweb')],
+        ondelete='restrict',
+    )</pre></details><h3>Methods</h3><details><summary id="m-_activate_default_pms">_activate_default_pms(self) <span class="position">@ line 365</span></summary><pre>Activate the default payment methods of the provider.
+
+:return: None</pre></details><details><summary id="m-_archive_linked_tokens">_archive_linked_tokens(self) <span class="position">@ line 348</span></summary><pre>Archive all the payment tokens linked to the providers.
+
+:return: None</pre></details><details><summary id="m-_check_required_if_provider">_check_required_if_provider(self) <span class="position">@ line 321</span></summary><pre>Check that provider-specific required fields have been filled.
+
+The fields that have the `required_if_provider='<provider_code>'` attribute are made
+required for all `payment.provider` records with the `code` field equal to `<provider_code>`
+and with the `state` field equal to `'enabled'` or `'test'`.
+
+Provider-specific views should make the form fields required under the same conditions.
+
+:return: None
+:raise ValidationError: If a provider-specific required field is empty.</pre></details><details><summary id="m-_deactivate_unsupported_payment_methods">_deactivate_unsupported_payment_methods(self) <span class="position">@ line 355</span></summary><pre>Deactivate payment methods linked to only disabled providers.
+
+:return: None</pre></details><details><summary id="m-_get_code">_get_code(self) <span class="position">@ line 699</span></summary><pre>Return the code of the provider.
+
+Note: self.ensure_one()
+
+:return: The code of the provider.
+:rtype: str</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 710</span></summary><pre>Return the default payment methods for this provider.
+
+Note: self.ensure_one()
+
+:return: The default payment method codes.
+:rtype: set</pre></details><details><summary id="m-_get_provider_name">_get_provider_name(self) <span class="position">@ line 688</span></summary><pre>Return the translated name of the provider.
+
+Note: self.ensure_one()
+
+:return: The translated name of the provider.
+:rtype: str</pre></details><details><summary id="m-_get_redirect_form_view">_get_redirect_form_view(self, is_validation) <span class="position">@ line 628</span></summary><pre>Return the view of the template used to render the redirect form.
+
+For a provider to return a different view depending on whether the operation is a
+validation, it must override this method and return the appropriate view.
+
+Note: `self.ensure_one()`
+
+:param bool is_validation: Whether the operation is a validation.
+:return: The view of the redirect form template.
+:rtype: record of `ir.ui.view`</pre></details><details><summary id="m-_get_removal_values">_get_removal_values(self) <span class="position">@ line 669</span></summary><pre>Return the values to update a provider with when its module is uninstalled.
+
+For a module to specify additional removal values, it must override this method and complete
+the generic values with its specific values.
+
+:return: The removal values to update the removed provider with.
+:rtype: dict</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 541</span></summary><pre>Return the supported currencies for the payment provider.
+
+By default, all currencies are considered supported, including the inactive ones. For a
+provider to filter out specific currencies, it must override this method and return the
+subset of supported currencies.
+
+Note: `self.ensure_one()`
+
+:return: The supported currencies.
+:rtype: res.currency</pre></details><details><summary id="m-_get_validation_amount">_get_validation_amount(self) <span class="position">@ line 581</span></summary><pre>Return the amount to use for validation operations.
+
+For a provider to support tokenization, it must override this method and return the
+validation amount. If it is `0`, it is not necessary to create the override.
+
+Note: `self.ensure_one()`
+
+:return: The validation amount.
+:rtype: float</pre></details><details><summary id="m-_get_validation_currency">_get_validation_currency(self) <span class="position">@ line 595</span></summary><pre>Return the currency to use for validation operations.
+
+The validation currency must be supported by both the provider and the payment method. If
+the payment method is not passed, only the provider's supported currencies are considered.
+If no suitable currency is found, the provider's company's currency is returned instead.
+
+For a provider to support tokenization and specify a different validation currency, it must
+override this method and return the appropriate validation currency.
+
+Note: `self.ensure_one()`
+
+:return: The validation currency.
+:rtype: recordset of `res.currency`</pre></details><details><summary id="m-_is_tokenization_required">_is_tokenization_required(self) <span class="position">@ line 556</span></summary><pre>Return whether tokenizing the transaction is required given its context.
+
+For a module to make the tokenization required based on the payment context, it must
+override this method and return whether it is required.
+
+:param dict kwargs: The payment context. This parameter is not used here.
+:return: Whether tokenizing the transaction is required.
+:rtype: bool</pre></details><details><summary id="m-_should_build_inline_form">_should_build_inline_form(self, is_validation) <span class="position">@ line 568</span></summary><pre>Return whether the inline payment form should be instantiated.
+
+For a provider to handle both direct payments and payments with redirection, it must
+override this method and return whether the inline payment form should be instantiated (i.e.
+if the payment should be direct) based on the operation (online payment or validation).
+
+:param bool is_validation: Whether the operation is a validation.
+:return: Whether the inline form should be instantiated.
+:rtype: bool</pre></details><ul id="m-_valid_field_parameter"><li>_valid_field_parameter(self, field, name) <span class="position">@ line 20</span></li></ul><details><summary id="m-action_toggle_is_published">action_toggle_is_published(self) <span class="position">@ line 404</span></summary><pre>Toggle the field `is_published`.
+
+:return: None
+:raise UserError: If the provider is disabled.</pre></details><ul id="m-action_view_payment_methods"><li>action_view_payment_methods(self) <span class="position">@ line 415</span></li></ul><details><summary id="m-button_immediate_install">button_immediate_install(self) <span class="position">@ line 389</span></summary><pre>Install the module and reload the page.
+
+Note: `self.ensure_one()`
+
+:return: The action to reload the page.
+:rtype: dict</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 299</span></li></ul><h2>Inherited: odoo/addons/website_sale_picking/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-custom_mode">custom_mode <span class="position">@ line 12</span></summary><pre>custom_mode = fields.Selection(
+        selection_add=[('onsite', "On Site")]
+    )</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 58</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><h2>Inherited: odoo/addons/website_payment/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-website_id">website_id <span class="position">@ line 15</span></summary><pre>website_id = fields.Many2one(
+        "website",
+        check_company=True,
+        ondelete="restrict",
+    )</pre></details><h3>Methods</h3><ul id="m-get_base_url"><li>get_base_url(self) <span class="position">@ line 49</span></li></ul><h2>Inherited: odoo/addons/sale/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-so_reference_type">so_reference_type <span class="position">@ line 10</span></summary><pre>so_reference_type = fields.Selection(string='Communication',
+        selection=[
+            ('so_name', 'Based on Document Reference'),
+            ('partner', 'Based on Customer ID')], default='so_name',
+        help='You can set here the communication type that will appear on sales orders.'
+             'The communication will be given to the customer when they choose the payment method.')</pre></details><h2>Inherited: odoo/addons/payment_xendit/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 20</span></summary><pre>code = fields.Selection(
+        selection_add=[('xendit', "Xendit")], ondelete={'xendit': 'set default'}
+    )</pre></details><details><summary id="f-xendit_secret_key">xendit_secret_key <span class="position">@ line 23</span></summary><pre>xendit_secret_key = fields.Char(
+        string="Xendit Secret Key", groups='base.group_system', required_if_provider='xendit'
+    )</pre></details><details><summary id="f-xendit_webhook_token">xendit_webhook_token <span class="position">@ line 26</span></summary><pre>xendit_webhook_token = fields.Char(
+        string="Xendit Webhook Token", groups='base.group_system', required_if_provider='xendit'
+    )</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 41</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 32</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_xendit_make_request">_xendit_make_request(self, payload) <span class="position">@ line 48</span></summary><pre>Make a request to Xendit API and return the JSON-formatted content of the response.
+
+Note: self.ensure_one()
+
+:param dict payload: The payload of the request.
+:return The JSON-formatted content of the response.
+:rtype: dict
+:raise ValidationError: If an HTTP error occurs.</pre></details><h2>Inherited: odoo/addons/payment_stripe/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 25</span></summary><pre>code = fields.Selection(
+        selection_add=[('stripe', "Stripe")], ondelete={'stripe': 'set default'})</pre></details><details><summary id="f-stripe_publishable_key">stripe_publishable_key <span class="position">@ line 27</span></summary><pre>stripe_publishable_key = fields.Char(
+        string="Publishable Key", help="The key solely used to identify the account with Stripe",
+        required_if_provider='stripe')</pre></details><details><summary id="f-stripe_secret_key">stripe_secret_key <span class="position">@ line 30</span></summary><pre>stripe_secret_key = fields.Char(
+        string="Secret Key", required_if_provider='stripe', groups='base.group_system')</pre></details><details><summary id="f-stripe_webhook_secret">stripe_webhook_secret <span class="position">@ line 32</span></summary><pre>stripe_webhook_secret = fields.Char(
+        string="Webhook Signing Secret",
+        help="If a webhook is enabled on your Stripe account, this signing secret must be set to "
+             "authenticate the messages sent from Stripe to Odoo.",
+        groups='base.group_system')</pre></details><h3>Methods</h3><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 40</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 527</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_stripe_extra_request_headers">_get_stripe_extra_request_headers(self) <span class="position">@ line 306</span></summary><pre>Return the extra headers for the Stripe API request.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+
+:return: The extra request headers.
+:rtype: dict</pre></details><ul id="m-_get_stripe_webhook_url"><li>_get_stripe_webhook_url(self) <span class="position">@ line 248</span></li></ul><details><summary id="m-_stripe_create_account_link">_stripe_create_account_link(self, connected_account_id, menu_id) <span class="position">@ line 365</span></summary><pre>Create an account link and return its URL.
+
+An account link url is the beginning URL of Stripe Onboarding.
+This URL is only valid once, and can only be used once.
+
+Note: self.ensure_one()
+
+:param str connected_account_id: The id of the connected account.
+:param int menu_id: The menu from which the user started the onboarding step, as an
+`ir.ui.menu` id
+:return: The account link URL
+:rtype: str</pre></details><details><summary id="m-_stripe_fetch_or_create_connected_account">_stripe_fetch_or_create_connected_account(self) <span class="position">@ line 318</span></summary><pre>Fetch the connected Stripe account and create one if not already done.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+
+:return: The connected account
+:rtype: dict</pre></details><details><summary id="m-_stripe_get_country">_stripe_get_country(self, country_code) <span class="position">@ line 515</span></summary><pre>Return the mapped country code of the company.
+
+Businesses in supported outlying territories should register for a Stripe account with the
+parent territory selected as the Country.
+
+:param str country_code: The country code of the company.
+:return: The mapped country code.
+:rtype: str</pre></details><details><summary id="m-_stripe_get_inline_form_values">_stripe_get_inline_form_values(self, amount, currency, partner_id, is_validation, payment_method_sudo) <span class="position">@ line 467</span></summary><pre>Return a serialized JSON of the required values to render the inline form.
+
+Note: `self.ensure_one()`
+
+:param float amount: The amount in major units, to convert in minor units.
+:param res.currency currency: The currency of the transaction.
+:param int partner_id: The partner of the transaction, as a `res.partner` id.
+:param bool is_validation: Whether the operation is a validation.
+:param payment.method payment_method_sudo: The sudoed payment method record to which the
+inline form belongs.
+:return: The JSON serial of the required values to render the inline form.
+:rtype: str</pre></details><details><summary id="m-_stripe_get_publishable_key">_stripe_get_publishable_key(self) <span class="position">@ line 452</span></summary><pre>Return the publishable key of the provider.
+
+This getter allows fetching the publishable key from a QWeb template and through Stripe's
+utils.
+
+Note: `self.ensure_one()
+
+:return: The publishable key.
+:rtype: str</pre></details><details><summary id="m-_stripe_has_connected_account">_stripe_has_connected_account(self) <span class="position">@ line 74</span></summary><pre>Return whether the provider is linked to a connected Stripe account.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+Note: self.ensure_one()
+
+:return: Whether the provider is linked to a connected Stripe account
+:rtype: bool</pre></details><details><summary id="m-_stripe_make_proxy_request">_stripe_make_proxy_request(self, endpoint, payload, version) <span class="position">@ line 395</span></summary><pre>Make a request to the Stripe proxy at the specified endpoint.
+
+:param str endpoint: The proxy endpoint to be reached by the request
+:param dict payload: The payload of the request
+:param int version: The proxy version used
+:return The JSON-formatted content of the response
+:rtype: dict
+:raise: ValidationError if an HTTP error occurs</pre></details><details><summary id="m-_stripe_make_request">_stripe_make_request(self, endpoint, payload, method, offline, idempotency_key) <span class="position">@ line 253</span></summary><pre>Make a request to Stripe API at the specified endpoint.
+
+Note: self.ensure_one()
+
+:param str endpoint: The endpoint to be reached by the request
+:param dict payload: The payload of the request
+:param str method: The HTTP method of the request
+:param bool offline: Whether the operation of the transaction being processed is 'offline'
+:param str idempotency_key: The idempotency key to pass in the request.
+:return The JSON-formatted content of the response
+:rtype: dict
+:raise: ValidationError if an HTTP error occurs</pre></details><details><summary id="m-_stripe_onboarding_is_ongoing">_stripe_onboarding_is_ongoing(self) <span class="position">@ line 105</span></summary><pre>Return whether the provider is linked to an ongoing onboarding to Stripe Connect.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+Note: self.ensure_one()
+
+:return: Whether the provider is linked to an ongoing onboarding to Stripe Connect
+:rtype: bool</pre></details><details><summary id="m-_stripe_prepare_connect_account_payload">_stripe_prepare_connect_account_payload(self) <span class="position">@ line 330</span></summary><pre>Prepare the payload for the creation of a connected account in Stripe format.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+Note: self.ensure_one()
+
+:return: The Stripe-formatted payload for the creation request
+:rtype: dict</pre></details><details><summary id="m-_stripe_prepare_proxy_data">_stripe_prepare_proxy_data(self, stripe_payload) <span class="position">@ line 436</span></summary><pre>Prepare the contextual data passed to the proxy when making a request.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+Note: self.ensure_one()
+
+:param dict stripe_payload: The part of the request payload to be forwarded to Stripe.
+:return: The proxy data.
+:rtype: dict</pre></details><details><summary id="m-action_stripe_connect_account">action_stripe_connect_account(self, menu_id) <span class="position">@ line 119</span></summary><pre>Create a Stripe Connect account and redirect the user to the next onboarding step.
+
+If the provider is already enabled, close the current window. Otherwise, generate a Stripe
+Connect onboarding link and redirect the user to it. If provided, the menu id is included in
+the URL the user is redirected to when coming back on Odoo after the onboarding. If the link
+generation failed, redirect the user to the provider form.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+Note: self.ensure_one()
+
+:param int menu_id: The menu from which the user started the onboarding step, as an
+`ir.ui.menu` id.
+:return: The next step action
+:rtype: dict</pre></details><details><summary id="m-action_stripe_create_webhook">action_stripe_create_webhook(self) <span class="position">@ line 178</span></summary><pre>Create a webhook and return a feedback notification.
+
+Note: This action only works for instances using a public URL
+
+:return: The feedback notification
+:rtype: dict</pre></details><details><summary id="m-action_stripe_verify_apple_pay_domain">action_stripe_verify_apple_pay_domain(self) <span class="position">@ line 217</span></summary><pre>Verify the web domain with Stripe to enable Apple Pay.
+
+The domain is sent to Stripe API for them to verify that it is valid by making a request to
+the `/.well-known/apple-developer-merchantid-domain-association` route. If the domain is
+valid, it is registered to use with Apple Pay.
+See https://stripe.com/docs/stripe-js/elements/payment-request-button#verifying-your-domain-with-apple-pay.
+
+:return dict: A client action with a success message.
+:raise UserError: If test keys are used to make the request.</pre></details><h2>Inherited: odoo/addons/payment_sips/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 14</span></summary><pre>code = fields.Selection(
+        selection_add=[('sips', "Sips")], ondelete={'sips': 'set default'})</pre></details><details><summary id="f-sips_key_version">sips_key_version <span class="position">@ line 21</span></summary><pre>sips_key_version = fields.Integer(
+        string="Secret Key Version", required_if_provider='sips', default=2)</pre></details><details><summary id="f-sips_merchant_id">sips_merchant_id <span class="position">@ line 16</span></summary><pre>sips_merchant_id = fields.Char(
+        string="Merchant ID", help="The ID solely used to identify the merchant account with Sips",
+        required_if_provider='sips')</pre></details><details><summary id="f-sips_prod_url">sips_prod_url <span class="position">@ line 26</span></summary><pre>sips_prod_url = fields.Char(
+        string="Production URL", required_if_provider='sips',
+        default="https://payment-webinit.sips-services.com/paymentInit")</pre></details><details><summary id="f-sips_secret">sips_secret <span class="position">@ line 19</span></summary><pre>sips_secret = fields.Char(
+        string="SIPS Secret Key", size=64, required_if_provider='sips', groups='base.group_system')</pre></details><details><summary id="f-sips_test_url">sips_test_url <span class="position">@ line 23</span></summary><pre>sips_test_url = fields.Char(
+        string="Test URL", required_if_provider='sips',
+        default="https://payment-webinit.simu.sips-services.com/paymentInit")</pre></details><details><summary id="f-sips_version">sips_version <span class="position">@ line 29</span></summary><pre>sips_version = fields.Char(
+        string="Interface Version", required_if_provider='sips', default="HP_2.31")</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 58</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 32</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_sips_generate_shasign">_sips_generate_shasign(self, data) <span class="position">@ line 41</span></summary><pre>Generate the shasign for incoming or outgoing communications.
+
+Note: self.ensure_one()
+
+:param str data: The data to use to generate the shasign
+:return: shasign
+:rtype: str</pre></details><h2>Inherited: odoo/addons/payment_razorpay/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 23</span></summary><pre>code = fields.Selection(
+        selection_add=[('razorpay', "Razorpay")], ondelete={'razorpay': 'set default'}
+    )</pre></details><details><summary id="f-razorpay_key_id">razorpay_key_id <span class="position">@ line 26</span></summary><pre>razorpay_key_id = fields.Char(
+        string="Razorpay Key Id",
+        help="The key solely used to identify the account with Razorpay.",
+        required_if_provider='razorpay',
+    )</pre></details><details><summary id="f-razorpay_key_secret">razorpay_key_secret <span class="position">@ line 31</span></summary><pre>razorpay_key_secret = fields.Char(
+        string="Razorpay Key Secret",
+        required_if_provider='razorpay',
+        groups='base.group_system',
+    )</pre></details><details><summary id="f-razorpay_webhook_secret">razorpay_webhook_secret <span class="position">@ line 36</span></summary><pre>razorpay_webhook_secret = fields.Char(
+        string="Razorpay Webhook Secret",
+        required_if_provider='razorpay',
+        groups='base.group_system',
+    )</pre></details><h3>Methods</h3><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 44</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 114</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 55</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_get_validation_amount">_get_validation_amount(self) <span class="position">@ line 121</span></summary><pre>Override of `payment` to return the amount for Razorpay validation operations.
+
+:return: The validation amount.
+:rtype: float</pre></details><details><summary id="m-_razorpay_calculate_signature">_razorpay_calculate_signature(self, data) <span class="position">@ line 102</span></summary><pre>Compute the signature for the request's data according to the Razorpay documentation.
+
+See https://razorpay.com/docs/webhooks/validate-test#validate-webhooks.
+
+:param bytes data: The data to sign.
+:return: The calculated signature.
+:rtype: str</pre></details><details><summary id="m-_razorpay_make_request">_razorpay_make_request(self, endpoint, payload, method) <span class="position">@ line 64</span></summary><pre>Make a request to Razorpay API at the specified endpoint.
+
+Note: self.ensure_one()
+
+:param str endpoint: The endpoint to be reached by the request.
+:param dict payload: The payload of the request.
+:param str method: The HTTP method of the request.
+:return The JSON-formatted content of the response.
+:rtype: dict
+:raise ValidationError: If an HTTP error occurs.</pre></details><h2>Inherited: odoo/addons/payment_payumoney/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 13</span></summary><pre>code = fields.Selection(
+        selection_add=[('payumoney', "PayUmoney")], ondelete={'payumoney': 'set default'})</pre></details><details><summary id="f-payumoney_merchant_key">payumoney_merchant_key <span class="position">@ line 15</span></summary><pre>payumoney_merchant_key = fields.Char(
+        string="Merchant Key", help="The key solely used to identify the account with PayU money",
+        required_if_provider='payumoney')</pre></details><details><summary id="f-payumoney_merchant_salt">payumoney_merchant_salt <span class="position">@ line 18</span></summary><pre>payumoney_merchant_salt = fields.Char(
+        string="Merchant Salt", required_if_provider='payumoney', groups='base.group_system')</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 53</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 21</span></summary><pre>Override of `payment` to return INR as the only supported currency.</pre></details><details><summary id="m-_payumoney_generate_sign">_payumoney_generate_sign(self, values, incoming) <span class="position">@ line 28</span></summary><pre>Generate the shasign for incoming or outgoing communications.
+
+:param dict values: The values used to generate the signature
+:param bool incoming: Whether the signature must be generated for an incoming (PayUmoney to
+Odoo) or outgoing (Odoo to PayUMoney) communication.
+:return: The shasign
+:rtype: str</pre></details><h2>Inherited: odoo/addons/payment_payulatam/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 13</span></summary><pre>code = fields.Selection(
+        selection_add=[('payulatam', 'PayU Latam')], ondelete={'payulatam': 'set default'})</pre></details><details><summary id="f-payulatam_account_id">payulatam_account_id <span class="position">@ line 19</span></summary><pre>payulatam_account_id = fields.Char(
+        string="PayU Latam Account ID",
+        help="The ID solely used to identify the country-dependent shop with PayULatam",
+        required_if_provider='payulatam')</pre></details><details><summary id="f-payulatam_api_key">payulatam_api_key <span class="position">@ line 23</span></summary><pre>payulatam_api_key = fields.Char(
+        string="PayU Latam API Key", required_if_provider='payulatam',
+        groups='base.group_system')</pre></details><details><summary id="f-payulatam_merchant_id">payulatam_merchant_id <span class="position">@ line 15</span></summary><pre>payulatam_merchant_id = fields.Char(
+        string="PayU Latam Merchant ID",
+        help="The ID solely used to identify the account with PayULatam",
+        required_if_provider='payulatam')</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 83</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 27</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_payulatam_generate_sign">_payulatam_generate_sign(self, values, incoming) <span class="position">@ line 36</span></summary><pre>Generate the signature for incoming or outgoing communications.
+
+:param dict values: The values used to generate the signature
+:param bool incoming: Whether the signature must be generated for an incoming (PayU Latam to
+Odoo) or outgoing (Odoo to PayU Latam) communication.
+:return: The signature
+:rtype: str</pre></details><h2>Inherited: odoo/addons/payment_paypal/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 16</span></summary><pre>code = fields.Selection(
+        selection_add=[('paypal', "Paypal")], ondelete={'paypal': 'set default'}
+    )</pre></details><details><summary id="f-paypal_email_account">paypal_email_account <span class="position">@ line 19</span></summary><pre>paypal_email_account = fields.Char(
+        string="Email",
+        help="The public business email solely used to identify the account with PayPal",
+        required_if_provider='paypal',
+        default=lambda self: self.env.company.email,
+    )</pre></details><details><summary id="f-paypal_pdt_token">paypal_pdt_token <span class="position">@ line 25</span></summary><pre>paypal_pdt_token = fields.Char(string="PDT Identity Token", groups='base.group_system')</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 53</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 29</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_paypal_get_api_url">_paypal_get_api_url(self) <span class="position">@ line 38</span></summary><pre>Return the API URL according to the provider state.
+
+Note: self.ensure_one()
+
+:return: The API URL
+:rtype: str</pre></details><h2>Inherited: odoo/addons/payment_ogone/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 22</span></summary><pre>code = fields.Selection(
+        selection_add=[('ogone', "Ogone")], ondelete={'ogone': 'set default'})</pre></details><details><summary id="f-ogone_hash_function">ogone_hash_function <span class="position">@ line 36</span></summary><pre>ogone_hash_function = fields.Selection(
+        [('sha1', 'SHA1'), ('sha256', 'SHA256'), ('sha512', 'SHA512')], default='sha512',
+        string="Hash function", required_if_provider='ogone',
+    )</pre></details><details><summary id="f-ogone_password">ogone_password <span class="position">@ line 30</span></summary><pre>ogone_password = fields.Char(
+        string="API User Password", required_if_provider='ogone', groups='base.group_system')</pre></details><details><summary id="f-ogone_pspid">ogone_pspid <span class="position">@ line 24</span></summary><pre>ogone_pspid = fields.Char(
+        string="PSPID", help="The ID solely used to identify the account with Ogone",
+        required_if_provider='ogone')</pre></details><details><summary id="f-ogone_shakey_in">ogone_shakey_in <span class="position">@ line 32</span></summary><pre>ogone_shakey_in = fields.Char(
+        string="SHA Key IN", required_if_provider='ogone', groups='base.group_system')</pre></details><details><summary id="f-ogone_shakey_out">ogone_shakey_out <span class="position">@ line 34</span></summary><pre>ogone_shakey_out = fields.Char(
+        string="SHA Key OUT", required_if_provider='ogone', groups='base.group_system')</pre></details><details><summary id="f-ogone_userid">ogone_userid <span class="position">@ line 27</span></summary><pre>ogone_userid = fields.Char(
+        string="API User ID", help="The ID solely used to identify the API user with Ogone",
+        required_if_provider='ogone')</pre></details><h3>Methods</h3><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 43</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 147</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_ogone_generate_signature">_ogone_generate_signature(self, values, incoming, format_keys) <span class="position">@ line 94</span></summary><pre>Generate the signature for incoming or outgoing communications.
+
+:param dict values: The values used to generate the signature
+:param bool incoming: Whether the signature must be generated for an incoming (Ogone to
+Odoo) or outgoing (Odoo to Ogone) communication.
+:param bool format_keys: Whether the keys must be formatted as uppercase, dot-separated
+strings to comply with Ogone APIs. This must be used when the keys
+are formatted as underscore-separated strings to be compliant with
+QWeb's `t-att-value`.
+:return: The signature
+:rtype: str</pre></details><details><summary id="m-_ogone_get_api_url">_ogone_get_api_url(self, api_key) <span class="position">@ line 71</span></summary><pre>Return the appropriate URL of the requested API for the provider state.
+
+Note: self.ensure_one()
+
+:param str api_key: The API whose URL to get: 'hosted_payment_page' or 'directlink'
+:return: The API URL
+:rtype: str</pre></details><details><summary id="m-_ogone_make_request">_ogone_make_request(self, payload, method) <span class="position">@ line 122</span></summary><pre>Make a request to one of Ogone APIs.
+
+Note: self.ensure_one()
+
+:param dict payload: The payload of the request
+:param str method: The HTTP method of the request
+:return The content of the response
+:rtype: bytes
+:raise: ValidationError if an HTTP error occurs</pre></details><h2>Inherited: odoo/addons/payment_mollie/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 20</span></summary><pre>code = fields.Selection(
+        selection_add=[('mollie', 'Mollie')], ondelete={'mollie': 'set default'}
+    )</pre></details><details><summary id="f-mollie_api_key">mollie_api_key <span class="position">@ line 23</span></summary><pre>mollie_api_key = fields.Char(
+        string="Mollie API Key",
+        help="The Test or Live API Key depending on the configuration of the provider",
+        required_if_provider="mollie", groups="base.group_system"
+    )</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 86</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 31</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_mollie_make_request">_mollie_make_request(self, endpoint, data, method) <span class="position">@ line 40</span></summary><pre>Make a request at mollie endpoint.
+
+Note: self.ensure_one()
+
+:param str endpoint: The endpoint to be reached by the request
+:param dict data: The payload of the request
+:param str method: The HTTP method of the request
+:return The JSON-formatted content of the response
+:rtype: dict
+:raise: ValidationError if an HTTP error occurs</pre></details><h2>Inherited: odoo/addons/payment_mercado_pago/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 21</span></summary><pre>code = fields.Selection(
+        selection_add=[('mercado_pago', "Mercado Pago")], ondelete={'mercado_pago': 'set default'}
+    )</pre></details><details><summary id="f-mercado_pago_access_token">mercado_pago_access_token <span class="position">@ line 24</span></summary><pre>mercado_pago_access_token = fields.Char(
+        string="Mercado Pago Access Token",
+        required_if_provider='mercado_pago',
+        groups='base.group_system',
+    )</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 89</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 32</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><details><summary id="m-_mercado_pago_make_request">_mercado_pago_make_request(self, endpoint, payload, method) <span class="position">@ line 41</span></summary><pre>Make a request to Mercado Pago API at the specified endpoint.
+
+Note: self.ensure_one()
+
+:param str endpoint: The endpoint to be reached by the request.
+:param dict payload: The payload of the request.
+:param str method: The HTTP method of the request.
+:return The JSON-formatted content of the response.
+:rtype: dict
+:raise ValidationError: If an HTTP error occurs.</pre></details><h2>Inherited: odoo/addons/payment_flutterwave/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 23</span></summary><pre>code = fields.Selection(
+        selection_add=[('flutterwave', "Flutterwave")], ondelete={'flutterwave': 'set default'}
+    )</pre></details><details><summary id="f-flutterwave_public_key">flutterwave_public_key <span class="position">@ line 26</span></summary><pre>flutterwave_public_key = fields.Char(
+        string="Flutterwave Public Key",
+        help="The key solely used to identify the account with Flutterwave.",
+        required_if_provider='flutterwave',
+    )</pre></details><details><summary id="f-flutterwave_secret_key">flutterwave_secret_key <span class="position">@ line 31</span></summary><pre>flutterwave_secret_key = fields.Char(
+        string="Flutterwave Secret Key",
+        required_if_provider='flutterwave',
+        groups='base.group_system',
+    )</pre></details><details><summary id="f-flutterwave_webhook_secret">flutterwave_webhook_secret <span class="position">@ line 36</span></summary><pre>flutterwave_webhook_secret = fields.Char(
+        string="Flutterwave Webhook Secret",
+        required_if_provider='flutterwave',
+        groups='base.group_system',
+    )</pre></details><h3>Methods</h3><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 44</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_flutterwave_make_request">_flutterwave_make_request(self, endpoint, payload, method) <span class="position">@ line 81</span></summary><pre>Make a request to Flutterwave API at the specified endpoint.
+
+Note: self.ensure_one()
+
+:param str endpoint: The endpoint to be reached by the request.
+:param dict payload: The payload of the request.
+:param str method: The HTTP method of the request.
+:return The JSON-formatted content of the response.
+:rtype: dict
+:raise ValidationError: If an HTTP error occurs.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 119</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 72</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><h2>Inherited: odoo/addons/payment_demo/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 12</span></summary><pre>code = fields.Selection(selection_add=[('demo', 'Demo')], ondelete={'demo': 'set default'})</pre></details><h3>Methods</h3><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 16</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 33</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><h2>Inherited: odoo/addons/payment_custom/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-code">code <span class="position">@ line 18</span></summary><pre>code = fields.Selection(
+        selection_add=[('custom', "Custom")], ondelete={'custom': 'set default'}
+    )</pre></details><details><summary id="f-custom_mode">custom_mode <span class="position">@ line 21</span></summary><pre>custom_mode = fields.Selection(
+        string="Custom Mode",
+        selection=[('wire_transfer', "Wire Transfer")],
+        required_if_provider='custom',
+    )</pre></details><details><summary id="f-qr_code">qr_code <span class="position">@ line 26</span></summary><pre>qr_code = fields.Boolean(
+        string="Enable QR Codes", help="Enable the use of QR-codes when paying by wire transfer.")</pre></details><h3>Methods</h3><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 75</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><ul id="m-_transfer_ensure_pending_msg_is_set"><li>_transfer_ensure_pending_msg_is_set(self) <span class="position">@ line 68</span></li></ul><details><summary id="m-action_recompute_pending_msg">action_recompute_pending_msg(self) <span class="position">@ line 35</span></summary><pre>Recompute the pending message to include the existing bank accounts.</pre></details><h2>Inherited: odoo/addons/payment_buckaroo/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-buckaroo_secret_key">buckaroo_secret_key <span class="position">@ line 20</span></summary><pre>buckaroo_secret_key = fields.Char(
+        string="Buckaroo Secret Key", required_if_provider='buckaroo', groups='base.group_system')</pre></details><details><summary id="f-buckaroo_website_key">buckaroo_website_key <span class="position">@ line 17</span></summary><pre>buckaroo_website_key = fields.Char(
+        string="Website Key", help="The key solely used to identify the website with Buckaroo",
+        required_if_provider='buckaroo')</pre></details><details><summary id="f-code">code <span class="position">@ line 15</span></summary><pre>code = fields.Selection(
+        selection_add=[('buckaroo', "Buckaroo")], ondelete={'buckaroo': 'set default'})</pre></details><h3>Methods</h3><details><summary id="m-_buckaroo_generate_digital_sign">_buckaroo_generate_digital_sign(self, values, incoming) <span class="position">@ line 46</span></summary><pre>Generate the shasign for incoming or outgoing communications.
+
+:param dict values: The values used to generate the signature
+:param bool incoming: Whether the signature must be generated for an incoming (Buckaroo to
+Odoo) or outgoing (Odoo to Buckaroo) communication.
+:return: The shasign
+:rtype: str</pre></details><details><summary id="m-_buckaroo_get_api_url">_buckaroo_get_api_url(self) <span class="position">@ line 32</span></summary><pre>Return the API URL according to the state.
+
+Note: self.ensure_one()
+
+:return: The API URL
+:rtype: str</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 80</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_supported_currencies">_get_supported_currencies(self) <span class="position">@ line 23</span></summary><pre>Override of `payment` to return the supported currencies.</pre></details><h2>Inherited: odoo/addons/payment_authorize/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-authorize_client_key">authorize_client_key <span class="position">@ line 29</span></summary><pre>authorize_client_key = fields.Char(
+        string="API Client Key",
+        help="The public client key. To generate directly from Odoo or from Authorize.Net backend.")</pre></details><details><summary id="f-authorize_login">authorize_login <span class="position">@ line 22</span></summary><pre>authorize_login = fields.Char(
+        string="API Login ID", help="The ID solely used to identify the account with Authorize.Net",
+        required_if_provider='authorize')</pre></details><details><summary id="f-authorize_signature_key">authorize_signature_key <span class="position">@ line 27</span></summary><pre>authorize_signature_key = fields.Char(
+        string="API Signature Key", required_if_provider='authorize', groups='base.group_system')</pre></details><details><summary id="f-authorize_transaction_key">authorize_transaction_key <span class="position">@ line 25</span></summary><pre>authorize_transaction_key = fields.Char(
+        string="API Transaction Key", required_if_provider='authorize', groups='base.group_system')</pre></details><details><summary id="f-code">code <span class="position">@ line 20</span></summary><pre>code = fields.Selection(
+        selection_add=[('authorize', 'Authorize.Net')], ondelete={'authorize': 'set default'})</pre></details><h3>Methods</h3><details><summary id="m-_authorize_get_inline_form_values">_authorize_get_inline_form_values(self) <span class="position">@ line 109</span></summary><pre>Return a serialized JSON of the required values to render the inline form.
+
+Note: `self.ensure_one()`
+
+:return: The JSON serial of the required values to render the inline form.
+:rtype: str</pre></details><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 47</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 126</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><details><summary id="m-_get_validation_amount">_get_validation_amount(self) <span class="position">@ line 85</span></summary><pre>Override of payment to return the amount for Authorize.Net validation operations.
+
+:return: The validation amount
+:rtype: float</pre></details><details><summary id="m-_get_validation_currency">_get_validation_currency(self) <span class="position">@ line 97</span></summary><pre>Override of payment to return the currency for Authorize.Net validation operations.
+
+:return: The validation currency
+:rtype: recordset of `res.currency`</pre></details><details><summary id="m-action_update_merchant_details">action_update_merchant_details(self) <span class="position">@ line 58</span></summary><pre>Fetch the merchant details to update the client key and the account currency.</pre></details><h2>Inherited: odoo/addons/payment_asiapay/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-asiapay_brand">asiapay_brand <span class="position">@ line 17</span></summary><pre>asiapay_brand = fields.Selection(
+        string="Asiapay Brand",
+        help="The brand associated to your AsiaPay account.",
+        selection=[("paydollar", "PayDollar"), ("pesopay", "PesoPay"),
+                    ("siampay", "SiamPay"), ("bimopay", "BimoPay")],
+        default='paydollar',
+        required_if_provider='asiapay',
+    )</pre></details><details><summary id="f-asiapay_merchant_id">asiapay_merchant_id <span class="position">@ line 25</span></summary><pre>asiapay_merchant_id = fields.Char(
+        string="AsiaPay Merchant ID",
+        help="The Merchant ID solely used to identify your AsiaPay account.",
+        required_if_provider='asiapay',
+    )</pre></details><details><summary id="f-asiapay_secure_hash_function">asiapay_secure_hash_function <span class="position">@ line 35</span></summary><pre>asiapay_secure_hash_function = fields.Selection(
+        string="AsiaPay Secure Hash Function",
+        help="The secure hash function associated to your AsiaPay account.",
+        selection=[('sha1', "SHA1"), ('sha256', "SHA256"), ('sha512', 'SHA512')],
+        default='sha1',
+        required_if_provider='asiapay',
+    )</pre></details><details><summary id="f-asiapay_secure_hash_secret">asiapay_secure_hash_secret <span class="position">@ line 30</span></summary><pre>asiapay_secure_hash_secret = fields.Char(
+        string="AsiaPay Secure Hash Secret",
+        required_if_provider='asiapay',
+        groups='base.group_system',
+    )</pre></details><details><summary id="f-code">code <span class="position">@ line 14</span></summary><pre>code = fields.Selection(
+        selection_add=[('asiapay', "AsiaPay")], ondelete={'asiapay': 'set default'}
+    )</pre></details><h3>Methods</h3><details><summary id="m-_asiapay_calculate_signature">_asiapay_calculate_signature(self, data, incoming) <span class="position">@ line 65</span></summary><pre>Compute the signature for the provided data according to the AsiaPay documentation.
+
+:param dict data: The data to sign.
+:param bool incoming: Whether the signature must be generated for an incoming (AsiaPay to
+Odoo) or outgoing (Odoo to AsiaPay) communication.
+:return: The calculated signature.
+:rtype: str</pre></details><details><summary id="m-_asiapay_get_api_url">_asiapay_get_api_url(self) <span class="position">@ line 53</span></summary><pre>Return the URL of the API corresponding to the provider's state.
+
+:return: The API URL.
+:rtype: str</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 81</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><h2>Inherited: odoo/addons/payment_aps/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-aps_access_code">aps_access_code <span class="position">@ line 25</span></summary><pre>aps_access_code = fields.Char(
+        string="APS Access Code",
+        help="The access code associated with the merchant account.",
+        required_if_provider='aps',
+        groups='base.group_system',
+    )</pre></details><details><summary id="f-aps_merchant_identifier">aps_merchant_identifier <span class="position">@ line 20</span></summary><pre>aps_merchant_identifier = fields.Char(
+        string="APS Merchant Identifier",
+        help="The code of the merchant account to use with this provider.",
+        required_if_provider='aps',
+    )</pre></details><details><summary id="f-aps_sha_request">aps_sha_request <span class="position">@ line 31</span></summary><pre>aps_sha_request = fields.Char(
+        string="APS SHA Request Phrase",
+        required_if_provider='aps',
+        groups='base.group_system',
+    )</pre></details><details><summary id="f-aps_sha_response">aps_sha_response <span class="position">@ line 36</span></summary><pre>aps_sha_response = fields.Char(
+        string="APS SHA Response Phrase",
+        required_if_provider='aps',
+        groups='base.group_system',
+    )</pre></details><details><summary id="f-code">code <span class="position">@ line 17</span></summary><pre>code = fields.Selection(
+        selection_add=[('aps', "Amazon Payment Services")], ondelete={'aps': 'set default'}
+    )</pre></details><h3>Methods</h3><details><summary id="m-_aps_calculate_signature">_aps_calculate_signature(self, data, incoming) <span class="position">@ line 50</span></summary><pre>Compute the signature for the provided data according to the APS documentation.
+
+:param dict data: The data to sign.
+:param bool incoming: Whether the signature must be generated for an incoming (APS to Odoo)
+or outgoing (Odoo to APS) communication.
+:return: The calculated signature.
+:rtype: str</pre></details><ul id="m-_aps_get_api_url"><li>_aps_get_api_url(self) <span class="position">@ line 44</span></li></ul><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 64</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><h2>Inherited: odoo/addons/payment_alipay/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-alipay_md5_signature_key">alipay_md5_signature_key <span class="position">@ line 29</span></summary><pre>alipay_md5_signature_key = fields.Char(
+        string="MD5 Signature Key", required_if_provider='alipay', groups='base.group_system')</pre></details><details><summary id="f-alipay_merchant_partner_id">alipay_merchant_partner_id <span class="position">@ line 25</span></summary><pre>alipay_merchant_partner_id = fields.Char(
+        string="Merchant Partner ID",
+        help="The public partner ID solely used to identify the account with Alipay",
+        required_if_provider='alipay')</pre></details><details><summary id="f-alipay_payment_method">alipay_payment_method <span class="position">@ line 19</span></summary><pre>alipay_payment_method = fields.Selection(
+        string="Account",
+        selection=[
+            ('express_checkout', 'Express Checkout (only for Chinese merchants)'),
+            ('standard_checkout', 'Cross-border')
+        ], default='express_checkout', required_if_provider='alipay')</pre></details><details><summary id="f-alipay_seller_email">alipay_seller_email <span class="position">@ line 31</span></summary><pre>alipay_seller_email = fields.Char(
+        string="Alipay Seller Email", help="The public Alipay partner email")</pre></details><details><summary id="f-code">code <span class="position">@ line 17</span></summary><pre>code = fields.Selection(
+        selection_add=[('alipay', "Alipay")], ondelete={'alipay': 'set default'})</pre></details><h3>Methods</h3><ul id="m-_alipay_compute_signature"><li>_alipay_compute_signature(self, data) <span class="position">@ line 59</span></li></ul><ul id="m-_alipay_get_api_url"><li>_alipay_get_api_url(self) <span class="position">@ line 70</span></li></ul><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 76</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><h2>Inherited: odoo/addons/payment_adyen/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-adyen_api_key">adyen_api_key <span class="position">@ line 26</span></summary><pre>adyen_api_key = fields.Char(
+        string="API Key", help="The API key of the webservice user", required_if_provider='adyen',
+        groups='base.group_system')</pre></details><details><summary id="f-adyen_api_url_prefix">adyen_api_url_prefix <span class="position">@ line 35</span></summary><pre>adyen_api_url_prefix = fields.Char(
+        string="API URL Prefix",
+        help="The base URL for the API endpoints",
+        required_if_provider='adyen',
+    )</pre></details><details><summary id="f-adyen_client_key">adyen_client_key <span class="position">@ line 29</span></summary><pre>adyen_client_key = fields.Char(
+        string="Client Key", help="The client key of the webservice user",
+        required_if_provider='adyen')</pre></details><details><summary id="f-adyen_hmac_key">adyen_hmac_key <span class="position">@ line 32</span></summary><pre>adyen_hmac_key = fields.Char(
+        string="HMAC Key", help="The HMAC key of the webhook", required_if_provider='adyen',
+        groups='base.group_system')</pre></details><details><summary id="f-adyen_merchant_account">adyen_merchant_account <span class="position">@ line 22</span></summary><pre>adyen_merchant_account = fields.Char(
+        string="Merchant Account",
+        help="The code of the merchant account to use with this provider",
+        required_if_provider='adyen', groups='base.group_system')</pre></details><details><summary id="f-code">code <span class="position">@ line 20</span></summary><pre>code = fields.Selection(
+        selection_add=[('adyen', "Adyen")], ondelete={'adyen': 'set default'})</pre></details><h3>Methods</h3><details><summary id="m-_adyen_compute_shopper_reference">_adyen_compute_shopper_reference(self, partner_id) <span class="position">@ line 137</span></summary><pre>Compute a unique reference of the partner for Adyen.
+
+This is used for the `shopperReference` field in communications with Adyen and stored in the
+`adyen_shopper_reference` field on `payment.token` if the payment method is tokenized.
+
+:param recordset partner_id: The partner making the transaction, as a `res.partner` id
+:return: The unique reference for the partner
+:rtype: str</pre></details><details><summary id="m-_adyen_get_formatted_amount">_adyen_get_formatted_amount(self, amount, currency) <span class="position">@ line 171</span></summary><pre>Return the amount in the format required by Adyen.
+
+The formatted amount is a dict with keys 'value' and 'currency'.
+
+:param float amount: The transaction amount.
+:param res.currency currency: The transaction currency.
+:return: The Adyen-formatted amount.
+:rtype: dict</pre></details><details><summary id="m-_adyen_get_inline_form_values">_adyen_get_inline_form_values(self, pm_code, amount, currency) <span class="position">@ line 151</span></summary><pre>Return a serialized JSON of the required values to render the inline form.
+
+Note: `self.ensure_one()`
+
+:param str pm_code: The code of the payment method whose inline form to render.
+:param float amount: The transaction amount.
+:param res.currency currency: The transaction currency.
+:return: The JSON serial of the required values to render the inline form.
+:rtype: str</pre></details><details><summary id="m-_adyen_make_request">_adyen_make_request(self, endpoint, endpoint_param, payload, method, idempotency_key) <span class="position">@ line 78</span></summary><pre>Make a request to Adyen API at the specified endpoint.
+
+Note: self.ensure_one()
+
+:param str endpoint: The endpoint to be reached by the request
+:param str endpoint_param: A variable required by some endpoints which are interpolated with
+it if provided. For example, the provider reference of the source
+transaction for the '/payments/{}/refunds' endpoint.
+:param dict payload: The payload of the request
+:param str method: The HTTP method of the request
+:param str idempotency_key: The idempotency key to pass in the request.
+:return: The JSON-formatted content of the response
+:rtype: dict
+:raise: ValidationError if an HTTP error occurs</pre></details><details><summary id="m-_compute_feature_support_fields">_compute_feature_support_fields(self) <span class="position">@ line 67</span></summary><pre>Override of `payment` to enable additional features.</pre></details><details><summary id="m-_get_default_payment_method_codes">_get_default_payment_method_codes(self) <span class="position">@ line 190</span></summary><pre>Override of `payment` to return the default payment method codes.</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 49</span></li></ul><h2>Inherited: odoo/addons/account_payment/models/payment_provider.py</h2><h3>Fields</h3><details><summary id="f-journal_id">journal_id <span class="position">@ line 10</span></summary><pre>journal_id = fields.Many2one(
+        string="Payment Journal",
+        help="The journal in which the successful transactions are posted.",
+        comodel_name='account.journal',
+        compute='_compute_journal_id',
+        inverse='_inverse_journal_id',
+        check_company=True,
+        domain='[("type", "=", "bank")]',
+        copy=False,
+    )</pre></details><h3>Methods</h3><ul id="m-_check_existing_payment"><li>_check_existing_payment(self, payment_method) <span class="position">@ line 103</span></li></ul><ul id="m-_check_existing_payment_method_lines"><li>_check_existing_payment_method_lines(self, payment_method) <span class="position">@ line 97</span></li></ul><ul id="m-_inverse_journal_id"><li>_inverse_journal_id(self) <span class="position">@ line 40</span></li></ul><ul id="m-_link_payment_method_to_journal"><li>_link_payment_method_to_journal(self, provider) <span class="position">@ line 55</span></li></ul><script src="class.js"></script></body></html>

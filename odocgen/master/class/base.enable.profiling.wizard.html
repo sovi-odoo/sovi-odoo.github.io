@@ -1,0 +1,6 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>base.enable.profiling.wizard - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>base.enable.profiling.wizard</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_profile.py</p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_profile.py</h2><h3>Fields</h3><details><summary id="f-duration">duration <span class="position">@ line 130</span></summary><pre>duration = fields.Selection([
+        ('minutes_5', "5 Minutes"),
+        ('hours_1', "1 Hour"),
+        ('days_1', "1 Day"),
+        ('months_1', "1 Month"),
+    ], string="Enable profiling for")</pre></details><details><summary id="f-expiration">expiration <span class="position">@ line 136</span></summary><pre>expiration = fields.Datetime("Enable profiling until", compute='_compute_expiration', store=True, readonly=False)</pre></details><h3>Methods</h3><ul id="m-submit"><li>submit(self) <span class="position">@ line 144</span></li></ul><script src="class.js"></script></body></html>

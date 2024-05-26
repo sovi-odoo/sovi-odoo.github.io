@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>google.gmail.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>google.gmail.mixin</h1><p>Originally defined in: odoo/addons/google_gmail/models/google_gmail_mixin.py</p><hr/><h2>Original: odoo/addons/google_gmail/models/google_gmail_mixin.py</h2><h3>Fields</h3><details><summary id="f-google_gmail_access_token">google_gmail_access_token <span class="position">@ line 26</span></summary><pre>google_gmail_access_token = fields.Char(string='Access Token', groups='base.group_system', copy=False)</pre></details><details><summary id="f-google_gmail_access_token_expiration">google_gmail_access_token_expiration <span class="position">@ line 27</span></summary><pre>google_gmail_access_token_expiration = fields.Integer(string='Access Token Expiration Timestamp', groups='base.group_system', copy=False)</pre></details><details><summary id="f-google_gmail_authorization_code">google_gmail_authorization_code <span class="position">@ line 24</span></summary><pre>google_gmail_authorization_code = fields.Char(string='Authorization Code', groups='base.group_system', copy=False)</pre></details><details><summary id="f-google_gmail_refresh_token">google_gmail_refresh_token <span class="position">@ line 25</span></summary><pre>google_gmail_refresh_token = fields.Char(string='Refresh Token', groups='base.group_system', copy=False)</pre></details><details><summary id="f-google_gmail_uri">google_gmail_uri <span class="position">@ line 28</span></summary><pre>google_gmail_uri = fields.Char(compute='_compute_gmail_uri', string='URI', help='The URL to generate the authorization code from Google', groups='base.group_system')</pre></details><h3>Methods</h3><details><summary id="m-_fetch_gmail_access_token">_fetch_gmail_access_token(self, refresh_token) <span class="position">@ line 93</span></summary><pre>Refresh the access token thanks to the refresh token.
+
+:return:
+access_token, access_token_expiration</pre></details><details><summary id="m-_fetch_gmail_refresh_token">_fetch_gmail_refresh_token(self, authorization_code) <span class="position">@ line 79</span></summary><pre>Request the refresh token and the initial access token from the authorization code.
+
+:return:
+refresh_token, access_token, access_token_expiration</pre></details><details><summary id="m-_fetch_gmail_token">_fetch_gmail_token(self, grant_type) <span class="position">@ line 106</span></summary><pre>Generic method to request an access token or a refresh token.
+
+Return the JSON response of the GMail API and manage the errors which can occur.
+
+:param grant_type: Depends the action we want to do (refresh_token or authorization_code)
+:param values: Additional parameters that will be given to the GMail endpoint</pre></details><details><summary id="m-_generate_oauth2_string">_generate_oauth2_string(self, user, refresh_token) <span class="position">@ line 137</span></summary><pre>Generate a OAuth2 string which can be used for authentication.
+
+:param user: Email address of the Gmail account to authenticate
+:param refresh_token: Refresh token for the given Gmail account
+
+:return: The SASL argument for the OAuth2 mechanism.</pre></details><details><summary id="m-_get_gmail_csrf_token">_get_gmail_csrf_token(self) <span class="position">@ line 168</span></summary><pre>Generate a CSRF token that will be verified in `google_gmail_callback`.
+
+This will prevent a malicious person to make an admin user disconnect the mail servers.</pre></details><details><summary id="m-open_google_gmail_uri">open_google_gmail_uri(self) <span class="position">@ line 59</span></summary><pre>Open the URL to accept the Gmail permission.
+
+This is done with an action, so we can force the user the save the form.
+We need him to save the form so the current mail server record exist in DB, and
+we can include the record ID in the URL.</pre></details><script src="class.js"></script></body></html>

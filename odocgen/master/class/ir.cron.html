@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.cron - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.cron</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_cron.py</p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_cron.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 60</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-cron_name">cron_name <span class="position">@ line 58</span></summary><pre>cron_name = fields.Char('Name', compute='_compute_cron_name', store=True)</pre></details><details><summary id="f-doall">doall <span class="position">@ line 68</span></summary><pre>doall = fields.Boolean(string='Repeat Missed', help="Specify if missed occurrences should be executed when the server restarts.")</pre></details><details><summary id="f-interval_number">interval_number <span class="position">@ line 61</span></summary><pre>interval_number = fields.Integer(default=1, help="Repeat every x.", required=True)</pre></details><details><summary id="f-interval_type">interval_type <span class="position">@ line 62</span></summary><pre>interval_type = fields.Selection([('minutes', 'Minutes'),
+                                      ('hours', 'Hours'),
+                                      ('days', 'Days'),
+                                      ('weeks', 'Weeks'),
+                                      ('months', 'Months')], string='Interval Unit', default='months', required=True)</pre></details><details><summary id="f-ir_actions_server_id">ir_actions_server_id <span class="position">@ line 55</span></summary><pre>ir_actions_server_id = fields.Many2one(
+        'ir.actions.server', 'Server action',
+        delegate=True, ondelete='restrict', required=True)</pre></details><details><summary id="f-lastcall">lastcall <span class="position">@ line 70</span></summary><pre>lastcall = fields.Datetime(string='Last Execution Date', help="Previous time the cron ran successfully, provided to the job through the context on the `lastcall` key")</pre></details><details><summary id="f-nextcall">nextcall <span class="position">@ line 69</span></summary><pre>nextcall = fields.Datetime(string='Next Execution Date', required=True, default=fields.Datetime.now, help="Next planned execution date for this job.")</pre></details><details><summary id="f-numbercall">numbercall <span class="position">@ line 67</span></summary><pre>numbercall = fields.Integer(string='Number of Calls', default=1, help='How many times the method is called,\na negative number indicates no limit.')</pre></details><details><summary id="f-priority">priority <span class="position">@ line 71</span></summary><pre>priority = fields.Integer(default=5, help='The priority of the job, as an integer: 0 means higher priority, 10 means lower priority.')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 59</span></summary><pre>user_id = fields.Many2one('res.users', string='Scheduler User', default=lambda self: self.env.user, required=True)</pre></details><h3>Methods</h3><details><summary id="m-_acquire_one_job">_acquire_one_job(cls, cr, job_ids) <span class="position">@ line 220</span></summary><pre>Acquire for update one job that is ready from the job_ids tuple.
+
+The jobs that have already been processed in this worker should
+be excluded from the tuple.
+
+This function raises a ``psycopg2.errors.SerializationFailure``
+when the ``nextcall`` of one of the job_ids is modified in
+another transaction. You should rollback the transaction and try
+again later.</pre></details><details><summary id="m-_check_modules_state">_check_modules_state(cls, cr, jobs) <span class="position">@ line 173</span></summary><pre>Ensure no module is installing or upgrading</pre></details><details><summary id="m-_check_version">_check_version(cls, cron_cr) <span class="position">@ line 159</span></summary><pre>Ensure the code version matches the database version</pre></details><details><summary id="m-_get_all_ready_jobs">_get_all_ready_jobs(cls, cr) <span class="position">@ line 201</span></summary><pre>Return a list of all jobs that are ready to be executed</pre></details><details><summary id="m-_notifydb">_notifydb(self) <span class="position">@ line 528</span></summary><pre>Wake up the cron workers
+The ODOO_NOTIFY_CRON_CHANGES environment variable allows to force the notifydb on both
+ir_cron modification and on trigger creation (regardless of call_at)</pre></details><details><summary id="m-_process_job">_process_job(cls, db, cron_cr, job) <span class="position">@ line 296</span></summary><pre>Execute a cron job and re-schedule a call for later.</pre></details><details><summary id="m-_process_jobs">_process_jobs(cls, db_name) <span class="position">@ line 113</span></summary><pre>Execute every job ready to be run on this database.</pre></details><details><summary id="m-_trigger">_trigger(self, at) <span class="position">@ line 468</span></summary><pre>Schedule a cron job to be executed soon independently of its
+``nextcall`` field value.
+
+By default the cron is scheduled to be executed in the next batch but
+the optional `at` argument may be given to delay the execution later
+with a precision down to 1 minute.
+
+The method may be called with a datetime or an iterable of datetime.
+The actual implementation is in :meth:`~._trigger_list`, which is the
+recommended method for overrides.
+
+:param Optional[Union[datetime.datetime, list[datetime.datetime]]] at:
+When to execute the cron, at one or several moments in time instead
+of as soon as possible.
+:return: the created triggers records
+:rtype: recordset</pre></details><details><summary id="m-_trigger_list">_trigger_list(self, at_list) <span class="position">@ line 497</span></summary><pre>Implementation of :meth:`~._trigger`.
+
+:param list[datetime.datetime] at_list:
+Execute the cron later, at precise moments in time.
+:return: the created triggers records
+:rtype: recordset</pre></details><details><summary id="m-_try_lock">_try_lock(self, lockfk) <span class="position">@ line 408</span></summary><pre>Try to grab a dummy exclusive write-lock to the rows with the given ids,
+to make sure a following write() or unlink() will not block due
+to a process currently executing those cron tasks.
+
+:param lockfk: acquire a strong row lock which conflicts with
+the lock aquired by foreign keys when they
+reference this row.</pre></details><ul id="m-method_direct_trigger"><li>method_direct_trigger(self) <span class="position">@ line 101</span></li></ul><ul id="m-try_write"><li>try_write(self, values) <span class="position">@ line 443</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 439</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 433</span></li></ul><script src="class.js"></script></body></html>

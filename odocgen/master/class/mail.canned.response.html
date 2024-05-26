@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.canned.response - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.canned.response</h1><p>Originally defined in: odoo/addons/mail/models/mail_canned_response.py</p><hr/><h2>Original: odoo/addons/mail/models/mail_canned_response.py</h2><h3>Fields</h3><details><summary id="f-description">description <span class="position">@ line 26</span></summary><pre>description = fields.Char("Description")</pre></details><details><summary id="f-group_ids">group_ids <span class="position">@ line 28</span></summary><pre>group_ids = fields.Many2many("res.groups", string="Authorized Groups")</pre></details><details><summary id="f-is_editable">is_editable <span class="position">@ line 34</span></summary><pre>is_editable = fields.Boolean(
+        string="Determines if the canned response can be edited by the current user",
+        compute="_compute_is_editable"
+    )</pre></details><details><summary id="f-is_shared">is_shared <span class="position">@ line 29</span></summary><pre>is_shared = fields.Boolean(
+        string="Determines if the canned_response is currently shared with other users",
+        compute="_compute_is_shared",
+        store=True,
+    )</pre></details><details><summary id="f-last_used">last_used <span class="position">@ line 27</span></summary><pre>last_used = fields.Datetime("Last Used", help="Last time this canned_response was used")</pre></details><details><summary id="f-source">source <span class="position">@ line 16</span></summary><pre>source = fields.Char(
+        "Shortcut", required=True, index="trigram",
+        help="Canned response that will automatically be substituted with longer content in your messages."
+        " Type ':' followed by the name of your shortcut (e.g. :hello) to use in your messages.",
+    )</pre></details><details><summary id="f-substitution">substitution <span class="position">@ line 21</span></summary><pre>substitution = fields.Text(
+        "Substitution",
+        required=True,
+        help="Content that will automatically replace the shortcut of your choosing. This content can still be adapted before sending your message.",
+    )</pre></details><h3>Methods</h3><ul id="m-_broadcast"><li>_broadcast(self, method) <span class="position">@ line 72</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 68</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 63</span></li></ul><script src="class.js"></script></body></html>

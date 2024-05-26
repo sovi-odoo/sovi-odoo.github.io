@@ -1,0 +1,97 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.followers - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.followers</h1><p>Originally defined in: odoo/addons/mail/models/mail_followers.py</p><hr/><h2>Original: odoo/addons/mail/models/mail_followers.py</h2><h3>Fields</h3><details><summary id="f-email">email <span class="position">@ line 37</span></summary><pre>email = fields.Char('Email', related='partner_id.email')</pre></details><details><summary id="f-is_active">is_active <span class="position">@ line 38</span></summary><pre>is_active = fields.Boolean('Is Active', related='partner_id.active')</pre></details><details><summary id="f-name">name <span class="position">@ line 36</span></summary><pre>name = fields.Char('Name', related='partner_id.name')</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 31</span></summary><pre>partner_id = fields.Many2one(
+        'res.partner', string='Related Partner', index=True, ondelete='cascade', required=True)</pre></details><details><summary id="f-res_id">res_id <span class="position">@ line 29</span></summary><pre>res_id = fields.Many2oneReference(
+        'Related Document ID', index=True, help='Id of the followed resource', model_field='res_model')</pre></details><details><summary id="f-res_model">res_model <span class="position">@ line 27</span></summary><pre>res_model = fields.Char(
+        'Related Document Model Name', required=True, index=True)</pre></details><details><summary id="f-subtype_ids">subtype_ids <span class="position">@ line 33</span></summary><pre>subtype_ids = fields.Many2many(
+        'mail.message.subtype', string='Subtype',
+        help="Message subtypes followed, meaning subtypes that will be pushed onto the user's Wall.")</pre></details><h3>Methods</h3><details><summary id="m-_add_default_followers">_add_default_followers(self, res_model, res_ids, partner_ids, customer_ids, check_existing, existing_policy) <span class="position">@ line 424</span></summary><pre>Shortcut to ``_add_followers`` that computes default subtypes. Existing
+followers are skipped as their subscription is considered as more important
+compared to new default subscription.
+
+:param customer_ids: optional list of partner ids that are customers. It is used if computing
+default subtype is necessary and allow to avoid the check of partners being customers (no
+user or share user). It is just a matter of saving queries if the info is already known;
+:param check_existing: see ``_add_followers``;
+:param existing_policy: see ``_add_followers``;
+
+:return: see ``_add_followers``</pre></details><details><summary id="m-_add_followers">_add_followers(self, res_model, res_ids, partner_ids, subtypes, check_existing, existing_policy) <span class="position">@ line 449</span></summary><pre>Internal method that generates values to insert or update followers. Callers have to
+handle the result, for example by making a valid ORM command, inserting or updating directly
+follower records, ... This method returns two main data
+
+* first one is a dict which keys are res_ids. Value is a list of dict of values valid for
+creating new followers for the related res_id;
+* second one is a dict which keys are follower ids. Value is a dict of values valid for
+updating the related follower record;
+
+:param subtypes: optional subtypes for new partner followers. This
+is a dict whose keys are partner IDs and value subtype IDs for that
+partner.
+:param channel_subtypes: optional subtypes for new channel followers. This
+is a dict whose keys are channel IDs and value subtype IDs for that
+channel.
+:param check_existing: if True, check for existing followers for given
+documents and handle them according to existing_policy parameter.
+Setting to False allows to save some computation if caller is sure
+there are no conflict for followers;
+:param existing policy: if check_existing, tells what to do with already
+existing followers:
+
+* skip: simply skip existing followers, do not touch them;
+* force: update existing with given subtypes only;
+* replace: replace existing with new subtypes (like force without old / new follower);
+* update: gives an update dict allowing to add missing subtypes (no subtype removal);</pre></details><ul id="m-_format_for_chatter"><li>_format_for_chatter(self) <span class="position">@ line 514</span></li></ul><details><summary id="m-_get_recipient_data">_get_recipient_data(self, records, message_type, subtype_id, pids) <span class="position">@ line 104</span></summary><pre>Private method allowing to fetch recipients data based on a subtype.
+Purpose of this method is to fetch all data necessary to notify recipients
+in a single query. It fetches data from
+
+* followers (partners and channels) of records that follow the given
+subtype if records and subtype are set;
+* partners if pids is given;
+
+:param records: fetch data from followers of ``records`` that follow
+``subtype_id``;
+:param str message_type: mail.message.message_type in order to allow custom
+behavior depending on it (SMS for example);
+:param int subtype_id: mail.message.subtype to check against followers;
+:param pids: additional set of partner IDs from which to fetch recipient
+data independently from following status;
+
+:return dict: recipients data based on record.ids if given, else a generic
+'0' key to keep a dict-like return format. Each item is a dict based on
+recipients partner ids formatted like
+{'active': whether partner is active;
+'id': res.partner ID;
+'is_follower': True if linked to a record and if partner is a follower;
+'lang': lang of the partner;
+'groups': groups of the partner's user. If several users exist preference
+is given to internal user, then share users. In case of multiples
+users of same kind groups are unioned;
+'notif': notification type ('inbox' or 'email'). Overrides may change
+this value (e.g. 'sms' in sms module);
+'share': if partner is a customer (no user or share user);
+'ushare': if partner has users, whether all are shared (public or portal);
+'type': summary of partner 'usage' (portal, customer, internal user);
+}</pre></details><details><summary id="m-_get_subscription_data">_get_subscription_data(self, doc_data, pids, include_pshare, include_active) <span class="position">@ line 334</span></summary><pre>Private method allowing to fetch follower data from several documents of a given model.
+Followers can be filtered given partner IDs and channel IDs.
+
+:param doc_data: list of pair (res_model, res_ids) that are the documents from which we
+want to have subscription data;
+:param pids: optional partner to filter; if None take all, otherwise limitate to pids
+:param include_pshare: optional join in partner to fetch their share status
+:param include_active: optional join in partner to fetch their active flag
+
+:return: list of followers data which is a list of tuples containing
+follower ID,
+document ID,
+partner ID,
+followed subtype IDs,
+share status of partner (returned only if include_pshare is True)
+active flag status of partner (returned only if include_active is True)</pre></details><details><summary id="m-_insert_followers">_insert_followers(self, res_model, res_ids, partner_ids, subtypes, customer_ids, check_existing, existing_policy) <span class="position">@ line 390</span></summary><pre>Main internal method allowing to create or update followers for documents, given a
+res_model and the document res_ids. This method does not handle access rights. This is the
+role of the caller to ensure there is no security breach.
+
+:param subtypes: see ``_add_followers``. If not given, default ones are computed.
+:param customer_ids: see ``_add_default_followers``
+:param check_existing: see ``_add_followers``;
+:param existing_policy: see ``_add_followers``;</pre></details><details><summary id="m-_invalidate_documents">_invalidate_documents(self, vals_list) <span class="position">@ line 40</span></summary><pre>Invalidate the cache of the documents followed by ``self``.
+
+Modifying followers change access rights to individual documents. As the
+cache may contain accessible/inaccessible data, one has to refresh it.</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 65</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 57</span></li></ul><script src="class.js"></script></body></html>

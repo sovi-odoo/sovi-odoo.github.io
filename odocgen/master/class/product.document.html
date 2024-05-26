@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.document - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.document</h1><p>Inherited in: odoo/addons/website_sale/models/product_document.py<br/>Inherited in: odoo/addons/sale_pdf_quote_builder/models/product_document.py<br/>Inherited in: odoo/addons/sale/models/product_document.py<br/>Inherited in: odoo/addons/product/models/product_document.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale/models/product_document.py</h2><h3>Fields</h3><details><summary id="f-shown_on_product_page">shown_on_product_page <span class="position">@ line 10</span></summary><pre>shown_on_product_page = fields.Boolean(string="Publish on website")</pre></details><h2>Inherited: odoo/addons/sale_pdf_quote_builder/models/product_document.py</h2><h3>Fields</h3><details><summary id="f-attached_on">attached_on <span class="position">@ line 14</span></summary><pre>attached_on = fields.Selection(
+        selection_add=[('inside', "Inside quote pdf")],
+        help="Allows you to share the document with your customers within a sale.\n"
+             "Leave it empty if you don't want to share this document with sales customer.\n"
+             "On quote: the document will be sent to and accessible by customers at any time.\n"
+             "e.g. this option can be useful to share Product description files.\n"
+             "On order confirmation: the document will be sent to and accessible by customers.\n"
+             "e.g. this option can be useful to share User Manual or digital content bought"
+             " on ecommerce. \n"
+             "Inside quote pdf: The document will be included in the pdf of the quotation between the "
+             "header pages and the quote table. ",
+        ondelete={'inside': 'set default'},
+    )</pre></details><h2>Inherited: odoo/addons/sale/models/product_document.py</h2><h3>Fields</h3><details><summary id="f-attached_on">attached_on <span class="position">@ line 9</span></summary><pre>attached_on = fields.Selection(
+        selection=[
+            ('hidden', "Hidden"),
+            ('quotation', "On quote"),
+            ('sale_order', "On confirmed order"),
+        ],
+        required=True,
+        default='hidden',
+        string="Visibility",
+        help="Allows you to share the document with your customers within a sale.\n"
+            "On quote: the document will be sent to and accessible by customers at any time.\n"
+                "e.g. this option can be useful to share Product description files.\n"
+            "On order confirmation: the document will be sent to and accessible by customers.\n"
+                "e.g. this option can be useful to share User Manual or digital content bought"
+                " on ecommerce. ",
+    )</pre></details><h2>Inherited: odoo/addons/product/models/product_document.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 22</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-ir_attachment_id">ir_attachment_id <span class="position">@ line 16</span></summary><pre>ir_attachment_id = fields.Many2one(
+        'ir.attachment',
+        string="Related attachment",
+        required=True,
+        ondelete='cascade')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 23</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><h3>Methods</h3><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 44</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 57</span></li></ul><script src="class.js"></script></body></html>

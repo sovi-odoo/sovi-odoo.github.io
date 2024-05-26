@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sale.order.template.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sale.order.template.line</h1><p>Originally defined in: odoo/addons/sale_management/models/sale_order_template_line.py</p><p>Inherited in: odoo/addons/sale_project/models/sale_order_template_line.py<br/></p><hr/><h2>Original: odoo/addons/sale_management/models/sale_order_template_line.py</h2><h3>Fields</h3><details><summary id="f-company_id">company_id <span class="position">@ line 33</span></summary><pre>company_id = fields.Many2one(
+        related='sale_order_template_id.company_id', store=True, index=True)</pre></details><details><summary id="f-display_type">display_type <span class="position">@ line 61</span></summary><pre>display_type = fields.Selection([
+        ('line_section', "Section"),
+        ('line_note', "Note")], default=False)</pre></details><details><summary id="f-name">name <span class="position">@ line 41</span></summary><pre>name = fields.Text(
+        string="Description",
+        compute='_compute_name',
+        store=True, readonly=False, precompute=True,
+        required=True,
+        translate=True)</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 36</span></summary><pre>product_id = fields.Many2one(
+        comodel_name='product.product',
+        check_company=True,
+        domain=lambda self: self._product_id_domain())</pre></details><details><summary id="f-product_uom_category_id">product_uom_category_id <span class="position">@ line 54</span></summary><pre>product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id')</pre></details><details><summary id="f-product_uom_id">product_uom_id <span class="position">@ line 48</span></summary><pre>product_uom_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string="Unit of Measure",
+        compute='_compute_product_uom_id',
+        store=True, readonly=False, precompute=True,
+        domain="[('category_id', '=', product_uom_category_id)]")</pre></details><details><summary id="f-product_uom_qty">product_uom_qty <span class="position">@ line 55</span></summary><pre>product_uom_qty = fields.Float(
+        string='Quantity',
+        required=True,
+        digits='Product Unit of Measure',
+        default=1)</pre></details><details><summary id="f-sale_order_template_id">sale_order_template_id <span class="position">@ line 23</span></summary><pre>sale_order_template_id = fields.Many2one(
+        comodel_name='sale.order.template',
+        string='Quotation Template Reference',
+        index=True, required=True,
+        ondelete='cascade')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 28</span></summary><pre>sequence = fields.Integer(
+        string="Sequence",
+        help="Gives the sequence order when displaying a list of sale quote lines.",
+        default=10)</pre></details><h3>Methods</h3><details><summary id="m-_prepare_order_line_values">_prepare_order_line_values(self) <span class="position">@ line 100</span></summary><pre>Give the values to create the corresponding order line.
+
+:return: `sale.order.line` create values
+:rtype: dict</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 88</span></li></ul><h2>Inherited: odoo/addons/sale_project/models/sale_order_template_line.py</h2><h3>Methods</h3><ul id="m-_prepare_order_line_values"><li>_prepare_order_line_values(self) <span class="position">@ line 9</span></li></ul><script src="class.js"></script></body></html>

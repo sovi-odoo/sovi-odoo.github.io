@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.account - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.account</h1><p>Inherited in: odoo/addons/spreadsheet_account/models/account.py<br/>Inherited in: odoo/addons/l10n_pt/models/account_account.py<br/>Inherited in: odoo/addons/l10n_mx/models/account_account.py<br/>Inherited in: odoo/addons/account/models/account_account.py<br/></p><hr/><h2>Inherited: odoo/addons/spreadsheet_account/models/account.py</h2><h3>Methods</h3><ul id="m-_build_spreadsheet_formula_domain"><li>_build_spreadsheet_formula_domain(self, formula_params) <span class="position">@ line 45</span></li></ul><h2>Inherited: odoo/addons/l10n_pt/models/account_account.py</h2><h3>Fields</h3><details><summary id="f-l10n_pt_taxonomy_code">l10n_pt_taxonomy_code <span class="position">@ line 7</span></summary><pre>l10n_pt_taxonomy_code = fields.Integer(string="Taxonomy code")</pre></details><h2>Inherited: odoo/addons/account/models/account_account.py</h2><h3>Fields</h3><details><summary id="f-account_type">account_type <span class="position">@ line 52</span></summary><pre>account_type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type", tracking=True,
+        required=True,
+        compute='_compute_account_type', store=True, readonly=False, precompute=True, index=True,
+        help="Account Type is used for information purpose, to generate country-specific legal reports, and set the rules to close a fiscal year and generate opening entries."
+    )</pre></details><details><summary id="f-allowed_journal_ids">allowed_journal_ids <span class="position">@ line 116</span></summary><pre>allowed_journal_ids = fields.Many2many(
+        'account.journal',
+        string="Allowed Journals",
+        help="Define in which journals this account can be used. If empty, can be used in all journals.",
+        check_company=True,
+    )</pre></details><details><summary id="f-code">code <span class="position">@ line 49</span></summary><pre>code = fields.Char(size=64, required=True, tracking=True, index=True)</pre></details><details><summary id="f-company_currency_id">company_currency_id <span class="position">@ line 48</span></summary><pre>company_currency_id = fields.Many2one(related='company_id.currency_id')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 104</span></summary><pre>company_id = fields.Many2one('res.company', string='Company', required=True, readonly=False,
+        default=lambda self: self.env.company)</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 46</span></summary><pre>currency_id = fields.Many2one('res.currency', string='Account Currency', tracking=True,
+        help="Forces all journal items in this account to have a specific currency (i.e. bank journals). If no currency is set, entries can use any currency.")</pre></details><details><summary id="f-current_balance">current_balance <span class="position">@ line 126</span></summary><pre>current_balance = fields.Float(compute='_compute_current_balance')</pre></details><details><summary id="f-deprecated">deprecated <span class="position">@ line 50</span></summary><pre>deprecated = fields.Boolean(default=False, tracking=True)</pre></details><details><summary id="f-group_id">group_id <span class="position">@ line 113</span></summary><pre>group_id = fields.Many2one('account.group', compute='_compute_account_group', store=True, readonly=True,
+                               help="Account prefixes can determine account groups.")</pre></details><details><summary id="f-include_initial_balance">include_initial_balance <span class="position">@ line 78</span></summary><pre>include_initial_balance = fields.Boolean(string="Bring Accounts Balance Forward",
+        help="Used in reports to know if we should consider journal items from the beginning of time instead of from the fiscal year only. Account types that should be reset to zero at each new fiscal year (like expenses, revenue..) should not have this option set.",
+        compute="_compute_include_initial_balance",
+        search="_search_include_initial_balance",
+    )</pre></details><details><summary id="f-internal_group">internal_group <span class="position">@ line 83</span></summary><pre>internal_group = fields.Selection(
+        selection=[
+            ('equity', 'Equity'),
+            ('asset', 'Asset'),
+            ('liability', 'Liability'),
+            ('income', 'Income'),
+            ('expense', 'Expense'),
+            ('off', 'Off Balance'),
+        ],
+        string="Internal Group",
+        compute="_compute_internal_group",
+        search='_search_internal_group',
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 45</span></summary><pre>name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)</pre></details><details><summary id="f-non_trade">non_trade <span class="position">@ line 129</span></summary><pre>non_trade = fields.Boolean(default=False,
+                               help="If set, this account will belong to Non Trade Receivable/Payable in reports and filters.\n"
+                                    "If not, this account will belong to Trade Receivable/Payable in reports and filters.")</pre></details><details><summary id="f-note">note <span class="position">@ line 103</span></summary><pre>note = fields.Text('Internal Notes', tracking=True)</pre></details><details><summary id="f-opening_balance">opening_balance <span class="position">@ line 124</span></summary><pre>opening_balance = fields.Monetary(string="Opening Balance", compute='_compute_opening_debit_credit', inverse='_set_opening_balance', currency_field='company_currency_id')</pre></details><details><summary id="f-opening_credit">opening_credit <span class="position">@ line 123</span></summary><pre>opening_credit = fields.Monetary(string="Opening Credit", compute='_compute_opening_debit_credit', inverse='_set_opening_credit', currency_field='company_currency_id')</pre></details><details><summary id="f-opening_debit">opening_debit <span class="position">@ line 122</span></summary><pre>opening_debit = fields.Monetary(string="Opening Debit", compute='_compute_opening_debit_credit', inverse='_set_opening_debit', currency_field='company_currency_id')</pre></details><details><summary id="f-reconcile">reconcile <span class="position">@ line 96</span></summary><pre>reconcile = fields.Boolean(string='Allow Reconciliation', tracking=True,
+        compute='_compute_reconcile', store=True, readonly=False, precompute=True,
+        help="Check this box if this account allows invoices & payments matching of journal items.")</pre></details><details><summary id="f-related_taxes_amount">related_taxes_amount <span class="position">@ line 127</span></summary><pre>related_taxes_amount = fields.Integer(compute='_compute_related_taxes_amount')</pre></details><details><summary id="f-root_id">root_id <span class="position">@ line 115</span></summary><pre>root_id = fields.Many2one('account.root', compute='_compute_account_root', store=True, precompute=True)</pre></details><details><summary id="f-tag_ids">tag_ids <span class="position">@ line 106</span></summary><pre>tag_ids = fields.Many2many(
+        'account.account.tag', 'account_account_account_tag',
+        compute='_compute_account_tags', readonly=False, store=True, precompute=True,
+        string='Tags',
+        help="Optional tags you may want to assign for custom reporting",
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-tax_ids">tax_ids <span class="position">@ line 99</span></summary><pre>tax_ids = fields.Many2many('account.tax', 'account_account_tax_default_rel',
+        'account_id', 'tax_id', string='Default Taxes',
+        check_company=True,
+        context={'append_type_to_tax_name': True})</pre></details><details><summary id="f-used">used <span class="position">@ line 51</span></summary><pre>used = fields.Boolean(compute='_compute_used', search='_search_used')</pre></details><h3>Methods</h3><ul id="m-_compute_current_balance"><li>_compute_current_balance(self) <span class="position">@ line 434</span></li></ul><ul id="m-_compute_opening_debit_credit"><li>_compute_opening_debit_credit(self) <span class="position">@ line 452</span></li></ul><ul id="m-_compute_related_taxes_amount"><li>_compute_related_taxes_amount(self) <span class="position">@ line 446</span></li></ul><ul id="m-_compute_used"><li>_compute_used(self) <span class="position">@ line 374</span></li></ul><ul id="m-_field_to_sql"><li>_field_to_sql(self, alias, fname, query, flush) <span class="position">@ line 133</span></li></ul><details><summary id="m-_get_closest_parent_account">_get_closest_parent_account(self, accounts_to_process, field_name, default_value) <span class="position">@ line 486</span></summary><pre>This helper function retrieves the closest parent account based on account codes
+for the given accounts to process and assigns the value of the parent to the specified field.
+
+:param accounts_to_process: Records of accounts to be processed.
+:param field_name: Name of the field to be updated with the closest parent account value.
+:param default_value: Default value to be assigned if no parent account is found.</pre></details><ul id="m-_get_internal_group"><li>_get_internal_group(self, account_type) <span class="position">@ line 523</span></li></ul><ul id="m-_merge_method"><li>_merge_method(self, destination, source) <span class="position">@ line 854</span></li></ul><ul id="m-_search_include_initial_balance"><li>_search_include_initial_balance(self, operator, value) <span class="position">@ line 516</span></li></ul><ul id="m-_search_internal_group"><li>_search_internal_group(self, operator, value) <span class="position">@ line 531</span></li></ul><ul id="m-_search_used"><li>_search_used(self, operator, value) <span class="position">@ line 363</span></li></ul><ul id="m-_set_opening_balance"><li>_set_opening_balance(self) <span class="position">@ line 555</span></li></ul><ul id="m-_set_opening_credit"><li>_set_opening_credit(self) <span class="position">@ line 551</span></li></ul><ul id="m-_set_opening_debit"><li>_set_opening_debit(self) <span class="position">@ line 547</span></li></ul><details><summary id="m-_set_opening_debit_credit">_set_opening_debit_credit(self, amount, field) <span class="position">@ line 562</span></summary><pre>Generic function called by both opening_debit and opening_credit's
+inverse function. 'Amount' parameter is the value to be set, and field
+either 'debit' or 'credit', depending on which one of these two fields
+got assigned.</pre></details><ul id="m-_split_code_name"><li>_split_code_name(self, code_name) <span class="position">@ line 666</span></li></ul><details><summary id="m-_toggle_reconcile_to_false">_toggle_reconcile_to_false(self) <span class="position">@ line 744</span></summary><pre>Toggle the `reconcile´ boolean from True -> False
+
+Note that it is disallowed if some lines are partially reconciled.</pre></details><details><summary id="m-_toggle_reconcile_to_true">_toggle_reconcile_to_true(self) <span class="position">@ line 726</span></summary><pre>Toggle the `reconcile´ boolean from False -> True
+
+Note that: lines with debit = credit = amount_currency = 0 are set to `reconciled´ = True</pre></details><ul id="m-action_open_related_taxes"><li>action_open_related_taxes(self) <span class="position">@ line 835</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 683</span></li></ul><ul id="m-copy_translations"><li>copy_translations(self, new, excluded) <span class="position">@ line 698</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 793</span></li></ul><script src="class.js"></script></body></html>

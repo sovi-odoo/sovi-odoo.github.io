@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>l10n_latam.document.type - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>l10n_latam.document.type</h1><p>Originally defined in: odoo/addons/l10n_latam_invoice_document/models/l10n_latam_document_type.py</p><p>Inherited in: odoo/addons/l10n_uy/models/l10n_latam_document_type.py<br/>Inherited in: odoo/addons/l10n_ec/models/l10n_latam_document_type.py<br/>Inherited in: odoo/addons/l10n_cl/models/l10n_latam_document_type.py<br/>Inherited in: odoo/addons/l10n_ar/models/l10n_latam_document_type.py<br/></p><hr/><h2>Original: odoo/addons/l10n_latam_invoice_document/models/l10n_latam_document_type.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 13</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-code">code <span class="position">@ line 23</span></summary><pre>code = fields.Char(help='Code used by different localizations')</pre></details><details><summary id="f-country_id">country_id <span class="position">@ line 17</span></summary><pre>country_id = fields.Many2one(
+        'res.country', required=True, index=True, help='Country in which this type of document is valid')</pre></details><details><summary id="f-doc_code_prefix">doc_code_prefix <span class="position">@ line 20</span></summary><pre>doc_code_prefix = fields.Char(
+        'Document Code Prefix', help="Prefix for Documents Codes on Invoices and Account Moves. For eg. 'FA ' will"
+        " build 'FA 0001-0000001' Document Number")</pre></details><details><summary id="f-internal_type">internal_type <span class="position">@ line 25</span></summary><pre>internal_type = fields.Selection(
+        [('invoice', 'Invoices'), ('debit_note', 'Debit Notes'), ('credit_note', 'Credit Notes'), ('all', 'All Documents')],
+        help='Analog to odoo account.move.move_type but with more options allowing to identify the kind of document we are'
+        ' working with. (not only related to account.move, could be for documents of other models like stock.picking)')</pre></details><details><summary id="f-name">name <span class="position">@ line 19</span></summary><pre>name = fields.Char(required=True, help='The document name', translate=True)</pre></details><details><summary id="f-report_name">report_name <span class="position">@ line 24</span></summary><pre>report_name = fields.Char('Name on Reports', help='Name that will be printed in reports, for example "CREDIT NOTE"', translate=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 14</span></summary><pre>sequence = fields.Integer(
+        default=10, required=True, help='To set in which order show the documents type taking into account the most'
+        ' commonly used first')</pre></details><h3>Methods</h3><details><summary id="m-_format_document_number">_format_document_number(self, document_number) <span class="position">@ line 30</span></summary><pre>Method to be inherited by different localizations. The purpose of this method is to allow:
+* making validations on the document_number. If it is wrong it should raise an exception
+* format the document_number against a pattern and return it</pre></details><h2>Inherited: odoo/addons/l10n_uy/models/l10n_latam_document_type.py</h2><h3>Methods</h3><details><summary id="m-_format_document_number">_format_document_number(self, document_number) <span class="position">@ line 11</span></summary><pre>format and validate the document_number</pre></details><h2>Inherited: odoo/addons/l10n_ec/models/l10n_latam_document_type.py</h2><h3>Fields</h3><details><summary id="f-internal_type">internal_type <span class="position">@ line 11</span></summary><pre>internal_type = fields.Selection(
+        selection_add=[
+            ("purchase_liquidation", "Purchase Liquidation"),
+            ("withhold", "Withhold"),
+        ]
+    )</pre></details><details><summary id="f-l10n_ec_check_format">l10n_ec_check_format <span class="position">@ line 18</span></summary><pre>l10n_ec_check_format = fields.Boolean(
+        string="Check Number Format EC", default=False
+    )</pre></details><h3>Methods</h3><ul id="m-_format_document_number"><li>_format_document_number(self, document_number) <span class="position">@ line 22</span></li></ul><h2>Inherited: odoo/addons/l10n_cl/models/l10n_latam_document_type.py</h2><h3>Fields</h3><details><summary id="f-internal_type">internal_type <span class="position">@ line 10</span></summary><pre>internal_type = fields.Selection(
+        selection_add=[
+            ('invoice', 'Invoices'),
+            ('invoice_in', 'Purchase Invoices'),
+            ('debit_note', 'Debit Notes'),
+            ('credit_note', 'Credit Notes'),
+            ('receipt_invoice', 'Receipt Invoice'),
+            ('stock_picking', 'Stock Delivery'),
+        ],
+    )</pre></details><details><summary id="f-l10n_cl_active">l10n_cl_active <span class="position">@ line 20</span></summary><pre>l10n_cl_active = fields.Boolean(
+        'Active in localization', help='This boolean enables document to be included on invoicing')</pre></details><h3>Methods</h3><details><summary id="m-_format_document_number">_format_document_number(self, document_number) <span class="position">@ line 23</span></summary><pre>Make validation of Import Dispatch Number
+* making validations on the document_number. If it is wrong it should raise an exception
+* format the document_number against a pattern and return it</pre></details><ul id="m-_is_doc_type_vendor"><li>_is_doc_type_vendor(self) <span class="position">@ line 37</span></li></ul><h2>Inherited: odoo/addons/l10n_ar/models/l10n_latam_document_type.py</h2><h3>Fields</h3><details><summary id="f-l10n_ar_letter">l10n_ar_letter <span class="position">@ line 9</span></summary><pre>l10n_ar_letter = fields.Selection(
+        selection='_get_l10n_ar_letters',
+        string='Letters',
+        help='Letters defined by the AFIP that can be used to identify the'
+        ' documents presented to the government and that depends on the'
+        ' operation type, the responsibility of both the issuer and the'
+        ' receptor of the document')</pre></details><details><summary id="f-purchase_aliquots">purchase_aliquots <span class="position">@ line 16</span></summary><pre>purchase_aliquots = fields.Selection(
+        [('not_zero', 'Not Zero'), ('zero', 'Zero')], help='Raise an error if a vendor bill is miss encoded. "Not Zero"'
+        ' means the VAT taxes are required for the invoices related to this document type, and those with "Zero" means'
+        ' that only "VAT Not Applicable" tax is allowed.')</pre></details><h3>Methods</h3><details><summary id="m-_format_document_number">_format_document_number(self, document_number) <span class="position">@ line 35</span></summary><pre>Make validation of Import Dispatch Number
+* making validations on the document_number. If it is wrong it should raise an exception
+* format the document_number against a pattern and return it</pre></details><details><summary id="m-_get_l10n_ar_letters">_get_l10n_ar_letters(self) <span class="position">@ line 21</span></summary><pre>Return the list of values of the selection field.</pre></details><script src="class.js"></script></body></html>

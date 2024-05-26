@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.template.attribute.value - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.template.attribute.value</h1><p>Originally defined in: odoo/addons/product/models/product_template_attribute_value.py</p><p>Inherited in: odoo/addons/website_sale/models/product_template_attribute_value.py<br/>Inherited in: odoo/addons/product_matrix/models/product_template.py<br/>Inherited in: odoo/addons/point_of_sale/models/product.py<br/></p><hr/><h2>Original: odoo/addons/product/models/product_template_attribute_value.py</h2><h3>Fields</h3><details><summary id="f-attribute_id">attribute_id <span class="position">@ line 53</span></summary><pre>attribute_id = fields.Many2one(
+        related='attribute_line_id.attribute_id', store=True, index=True)</pre></details><details><summary id="f-attribute_line_id">attribute_line_id <span class="position">@ line 31</span></summary><pre>attribute_line_id = fields.Many2one(
+        comodel_name='product.template.attribute.line',
+        required=True, ondelete='cascade', index=True)</pre></details><details><summary id="f-color">color <span class="position">@ line 62</span></summary><pre>color = fields.Integer(string="Color", default=_get_default_color)</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 41</span></summary><pre>currency_id = fields.Many2one(related='attribute_line_id.product_tmpl_id.currency_id')</pre></details><details><summary id="f-display_type">display_type <span class="position">@ line 61</span></summary><pre>display_type = fields.Selection(related='product_attribute_value_id.display_type')</pre></details><details><summary id="f-exclude_for">exclude_for <span class="position">@ line 43</span></summary><pre>exclude_for = fields.One2many(
+        comodel_name='product.template.attribute.exclusion',
+        inverse_name='product_template_attribute_value_id',
+        string="Exclude for",
+        help="Make this attribute value not compatible with "
+             "other values of the product or some attribute values of optional and accessory products.")</pre></details><details><summary id="f-html_color">html_color <span class="position">@ line 59</span></summary><pre>html_color = fields.Char(string="HTML Color Index", related='product_attribute_value_id.html_color')</pre></details><details><summary id="f-image">image <span class="position">@ line 63</span></summary><pre>image = fields.Image(related='product_attribute_value_id.image')</pre></details><details><summary id="f-is_custom">is_custom <span class="position">@ line 60</span></summary><pre>is_custom = fields.Boolean(related='product_attribute_value_id.is_custom')</pre></details><details><summary id="f-name">name <span class="position">@ line 24</span></summary><pre>name = fields.Char(string="Value", related="product_attribute_value_id.name")</pre></details><details><summary id="f-price_extra">price_extra <span class="position">@ line 35</span></summary><pre>price_extra = fields.Float(
+        string="Extra Price",
+        default=0.0,
+        digits='Product Price',
+        help="Extra price for the variant with this attribute value on sale price."
+            " eg. 200 price extra, 1000 + 200 = 1200.")</pre></details><details><summary id="f-product_attribute_value_id">product_attribute_value_id <span class="position">@ line 27</span></summary><pre>product_attribute_value_id = fields.Many2one(
+        comodel_name='product.attribute.value',
+        string="Attribute Value",
+        required=True, ondelete='cascade', index=True)</pre></details><details><summary id="f-product_tmpl_id">product_tmpl_id <span class="position">@ line 51</span></summary><pre>product_tmpl_id = fields.Many2one(
+        related='attribute_line_id.product_tmpl_id', store=True, index=True)</pre></details><details><summary id="f-ptav_active">ptav_active <span class="position">@ line 23</span></summary><pre>ptav_active = fields.Boolean(string="Active", default=True)</pre></details><details><summary id="f-ptav_product_variant_ids">ptav_product_variant_ids <span class="position">@ line 55</span></summary><pre>ptav_product_variant_ids = fields.Many2many(
+        comodel_name='product.product', relation='product_variant_combination',
+        string="Related Variants", readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-_filter_single_value_lines">_filter_single_value_lines(self) <span class="position">@ line 175</span></summary><pre>Return `self` with values from single value lines filtered out
+depending on the active state of all the values in `self`.
+
+If any value in `self` is archived, archived values are also taken into
+account when checking for single values.
+This allows to display the correct name for archived variants.
+
+If all values in `self` are active, only active values are taken into
+account when checking for single values.
+This allows to display the correct name for active combinations.</pre></details><details><summary id="m-_get_combination_name">_get_combination_name(self) <span class="position">@ line 169</span></summary><pre>Exclude values from single value lines or from no_variant attributes.</pre></details><ul id="m-_get_default_color"><li>_get_default_color(self) <span class="position">@ line 18</span></li></ul><ul id="m-_ids2str"><li>_ids2str(self) <span class="position">@ line 166</span></li></ul><details><summary id="m-_is_from_single_value_line">_is_from_single_value_line(self, only_active) <span class="position">@ line 190</span></summary><pre>Return whether `self` is from a single value line, counting also
+archived values if `only_active` is False.</pre></details><ul id="m-_only_active"><li>_only_active(self) <span class="position">@ line 160</span></li></ul><ul id="m-_without_no_variant_attributes"><li>_without_no_variant_attributes(self) <span class="position">@ line 163</span></li></ul><details><summary id="m-unlink">unlink(self) <span class="position">@ line 117</span></summary><pre>Override to:
+- Clean up the variants that use any of the values in self:
+- Remove the value from the variant if the value belonged to an
+attribute line with only one value.
+- Unlink or archive all related variants.
+- Archive the value if unlink is not possible.
+
+Archiving is typically needed when the value is referenced elsewhere
+(on a variant that can't be deleted, on a sales order line, ...).</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 91</span></li></ul><h2>Inherited: odoo/addons/website_sale/models/product_template_attribute_value.py</h2><h3>Methods</h3><ul id="m-_get_extra_price"><li>_get_extra_price(self, combination_info) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/product_matrix/models/product_template.py</h2><h3>Methods</h3><details><summary id="m-_grid_header_cell">_grid_header_cell(self, fro_currency, to_currency, company, display_extra) <span class="position">@ line 66</span></summary><pre>Generate a header matrix cell for 1 or multiple attributes.
+
+:param res.currency fro_currency:
+:param res.currency to_currency:
+:param res.company company:
+:param bool display_extra: whether extra prices should be displayed in the cell
+True by default, used to avoid showing extra prices on purchases.
+:returns: cell with name (and price if any price_extra is defined on self)
+:rtype: dict</pre></details><script src="class.js"></script></body></html>

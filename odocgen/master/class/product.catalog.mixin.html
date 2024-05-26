@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.catalog.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.catalog.mixin</h1><p>Originally defined in: odoo/addons/product/models/product_catalog_mixin.py</p><hr/><h2>Original: odoo/addons/product/models/product_catalog_mixin.py</h2><h3>Methods</h3><ul id="m-_default_order_line_values"><li>_default_order_line_values(self, child_field) <span class="position">@ line 29</span></li></ul><ul id="m-_get_action_add_from_catalog_extra_context"><li>_get_action_add_from_catalog_extra_context(self) <span class="position">@ line 107</span></li></ul><details><summary id="m-_get_product_catalog_domain">_get_product_catalog_domain(self) <span class="position">@ line 35</span></summary><pre>Get the domain to search for products in the catalog.
+
+For a model that uses products that has to be hidden in the catalog, it
+must override this method and extend the appropriate domain.
+:returns: A list of tuples that represents a domain.
+:rtype: list</pre></details><details><summary id="m-_get_product_catalog_order_data">_get_product_catalog_order_data(self, products) <span class="position">@ line 54</span></summary><pre>Returns a dict containing the products' data. Those data are for products who aren't in
+the record yet. For products already in the record, see `_get_product_catalog_lines_data`.
+
+For each product, its id is the key and the value is another dict with all needed data.
+By default, the price is the only needed data but each model is free to add more data.
+Must be overrided by each model using this mixin.
+
+:param products: Recordset of `product.product`.
+:param dict kwargs: additional values given for inherited models.
+:rtype: dict
+:return: A dict with the following structure:
+{
+'productId': int
+'quantity': float (optional)
+'productType': string
+'price': float
+'readOnly': bool (optional)
+}</pre></details><details><summary id="m-_get_product_catalog_order_line_info">_get_product_catalog_order_line_info(self, product_ids, child_field) <span class="position">@ line 76</span></summary><pre>Returns products information to be shown in the catalog.
+:param list product_ids: The products currently displayed in the product catalog, as a list
+of `product.product` ids.
+:param dict kwargs: additional values given for inherited models.
+:rtype: dict
+:return: A dict with the following structure:
+{
+'productId': int
+'quantity': float (optional)
+'productType': string
+'price': float
+'readOnly': bool (optional)
+}</pre></details><details><summary id="m-_get_product_catalog_record_lines">_get_product_catalog_record_lines(self, product_ids, child_field) <span class="position">@ line 45</span></summary><pre>Returns the record's lines grouped by product.
+Must be overrided by each model using this mixin.
+
+:param list product_ids: The ids of the products currently displayed in the product catalog.
+:rtype: dict</pre></details><details><summary id="m-_is_readonly">_is_readonly(self) <span class="position">@ line 113</span></summary><pre>Must be overrided by each model using this mixin.
+:return: Whether the record is read-only or not.
+:rtype: bool</pre></details><details><summary id="m-_update_order_line_info">_update_order_line_info(self, product_id, quantity) <span class="position">@ line 120</span></summary><pre>Update the line information for a given product or create a new one if none exists yet.
+Must be overrided by each model using this mixin.
+:param int product_id: The product, as a `product.product` id.
+:param int quantity: The product's quantity.
+:param dict kwargs: additional values given for inherited models.
+:return: The unit price of the product, based on the pricelist of the
+purchase order and the quantity selected.
+:rtype: float</pre></details><ul id="m-action_add_from_catalog"><li>action_add_from_catalog(self) <span class="position">@ line 15</span></li></ul><script src="class.js"></script></body></html>

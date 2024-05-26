@@ -1,0 +1,49 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sequence.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sequence.mixin</h1><p>Originally defined in: odoo/addons/account/models/sequence_mixin.py</p><hr/><h2>Original: odoo/addons/account/models/sequence_mixin.py</h2><h3>Fields</h3><details><summary id="f-sequence_number">sequence_number <span class="position">@ line 33</span></summary><pre>sequence_number = fields.Integer(compute='_compute_split_sequence', store=True)</pre></details><details><summary id="f-sequence_prefix">sequence_prefix <span class="position">@ line 32</span></summary><pre>sequence_prefix = fields.Char(compute='_compute_split_sequence', store=True)</pre></details><h3>Methods</h3><details><summary id="m-_get_last_sequence">_get_last_sequence(self, relaxed, with_prefix) <span class="position">@ line 184</span></summary><pre>Retrieve the previous sequence.
+
+This is done by taking the number with the greatest alphabetical value within
+the domain of _get_last_sequence_domain. This means that the prefix has a
+huge importance.
+For instance, if you have INV/2019/0001 and INV/2019/0002, when you rename the
+last one to FACT/2019/0001, one might expect the next number to be
+FACT/2019/0002 but it will be INV/2019/0002 (again) because INV > FACT.
+Therefore, changing the prefix might not be convenient during a period, and
+would only work when the numbering makes a new start (domain returns by
+_get_last_sequence_domain is [], i.e: a new year).
+
+:param field_name: the field that contains the sequence.
+:param relaxed: this should be set to True when a previous request didn't find
+something without. This allows to find a pattern from a previous period, and
+try to adapt it for the new period.
+:param with_prefix: The sequence prefix to restrict the search on, if any.
+
+:return: the string of the previous sequence or None if there wasn't any.</pre></details><details><summary id="m-_get_last_sequence_domain">_get_last_sequence_domain(self, relaxed) <span class="position">@ line 158</span></summary><pre>Get the sql domain to retreive the previous sequence number.
+
+This function should be overriden by models inheriting from this mixin.
+
+:param relaxed: see _get_last_sequence.
+
+:returns: tuple(where_string, where_params): with
+where_string: the entire SQL WHERE clause as a string.
+where_params: a dictionary containing the parameters to substitute
+at the execution of the query.</pre></details><ul id="m-_get_sequence_date_range"><li>_get_sequence_date_range(self, reset) <span class="position">@ line 52</span></li></ul><details><summary id="m-_get_sequence_format_param">_get_sequence_format_param(self, previous) <span class="position">@ line 228</span></summary><pre>Get the python format and format values for the sequence.
+
+:param previous: the sequence we want to extract the format from
+:return tuple(format, format_values):
+format is the format string on which we should call .format()
+format_values is the dict of values to format the `format` string
+``format.format(**format_values)`` should be equal to ``previous``</pre></details><details><summary id="m-_get_starting_sequence">_get_starting_sequence(self) <span class="position">@ line 173</span></summary><pre>Get a default sequence number.
+
+This function should be overriden by models heriting from this mixin
+This number will be incremented so you probably want to start the sequence at 0.
+
+:return: string to use as the default sequence to increment</pre></details><details><summary id="m-_is_end_of_seq_chain">_is_end_of_seq_chain(self) <span class="position">@ line 335</span></summary><pre>Tells whether or not these elements are the last ones of the sequence chain.
+
+:return: True if self are the last elements of the chain.</pre></details><details><summary id="m-_is_last_from_seq_chain">_is_last_from_seq_chain(self) <span class="position">@ line 323</span></summary><pre>Tells whether or not this element is the last one of the sequence chain.
+
+:return: True if it is the last element of the chain.</pre></details><ul id="m-_must_check_constrains_date_sequence"><li>_must_check_constrains_date_sequence(self) <span class="position">@ line 62</span></li></ul><ul id="m-_sequence_matches_date"><li>_sequence_matches_date(self) <span class="position">@ line 71</span></li></ul><details><summary id="m-_set_next_sequence">_set_next_sequence(self) <span class="position">@ line 267</span></summary><pre>Set the next sequence.
+
+This method ensures that the field is set both in the ORM and in the database.
+This is necessary because we use a database query to get the previous sequence,
+and we need that query to always be executed on the latest data.
+
+:param field_name: the field that contains the sequence.</pre></details><ul id="m-_truncate_year_to_length"><li>_truncate_year_to_length(self, year, length) <span class="position">@ line 68</span></li></ul><ul id="m-_year_match"><li>_year_match(self, format_value, date) <span class="position">@ line 65</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 35</span></li></ul><script src="class.js"></script></body></html>

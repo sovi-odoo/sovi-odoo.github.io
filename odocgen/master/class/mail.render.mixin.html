@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.render.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.render.mixin</h1><p>Originally defined in: odoo/addons/mail/models/mail_render_mixin.py</p><p>Inherited in: odoo/addons/mass_mailing/models/mail_render_mixin.py<br/>Inherited in: odoo/addons/mail/models/mail_composer_mixin.py<br/>Inherited in: odoo/addons/link_tracker/models/mail_render_mixin.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_render_mixin.py</h2><h3>Fields</h3><details><summary id="f-lang">lang <span class="position">@ line 51</span></summary><pre>lang = fields.Char(
+        'Language',
+        help="Optional translation language (ISO code) to select when sending out an email. "
+             "If not set, the english version will be used. This should usually be a placeholder expression "
+             "that provides the appropriate language, e.g. {{ object.partner_id.lang }}.")</pre></details><details><summary id="f-render_model">render_model <span class="position">@ line 57</span></summary><pre>render_model = fields.Char("Rendering Model", compute='_compute_render_model', store=False)</pre></details><h3>Methods</h3><ul id="m-_check_access_right_dynamic_template"><li>_check_access_right_dynamic_template(self) <span class="position">@ line 243</span></li></ul><details><summary id="m-_classify_per_lang">_classify_per_lang(self, res_ids, engine) <span class="position">@ line 562</span></summary><pre>Given some record ids, return for computed each lang a contextualized
+template and its subset of res_ids.
+
+:param list res_ids: list of ids of records (all belonging to same model
+defined by self.render_model)
+:param string engine: inline_template, qweb, or qweb_view;
+
+:return dict: {lang: (template with lang=lang_code if specific lang computed
+or template, res_ids targeted by that language}</pre></details><details><summary id="m-_compute_render_model">_compute_render_model(self) <span class="position">@ line 59</span></summary><pre>Give the target model for rendering. Void by default as models
+inheriting from ``mail.render.mixin`` should define how to find this
+model.</pre></details><ul id="m-_is_dynamic"><li>_is_dynamic(self) <span class="position">@ line 211</span></li></ul><details><summary id="m-_render_field">_render_field(self, field, res_ids, engine, compute_lang, set_lang, add_context, options) <span class="position">@ line 587</span></summary><pre>Given some record ids, render a template located on field on all
+records. ``field`` should be a field of self (i.e. ``body_html`` on
+``mail.template``). res_ids are record IDs linked to ``model`` field
+on self.
+
+:param field: a field name existing on self;
+:param list res_ids: list of ids of records (all belonging to same model
+defined by ``self.render_model``)
+:param string engine: inline_template, qweb, or qweb_view;
+
+:param boolean compute_lang: compute language to render on translated
+version of the template instead of default (probably english) one.
+Language will be computed based on ``self.lang``;
+:param string set_lang: force language for rendering. It should be a
+valid lang code matching an activate res.lang. Checked only if
+``compute_lang`` is False;
+
+:param dict add_context: additional context to give to renderer;
+:param dict options: options for rendering. Use in this method and also
+propagated to rendering sub-methods. Base values come from the field
+(coming from ``render_options`` parameter) and are updated by this
+optional dictionary. May contain notably
+
+boolean post_process: perform a post processing on rendered result
+(notably html links management). See``_render_template_postprocess``;
+boolean preserve_comments: if set, comments are preserved. Default
+behavior is to remove them. It is used notably for browser-specific
+code implemented like comments;
+
+:return dict: {res_id: string of rendered template based on record}</pre></details><details><summary id="m-_render_lang">_render_lang(self, res_ids, engine) <span class="position">@ line 543</span></summary><pre>Given some record ids, return the lang for each record based on
+lang field of template or through specific context-based key. Lang is
+computed by performing a rendering on res_ids, based on self.render_model.
+
+:param list res_ids: list of ids of records. All should belong to the
+Odoo model given by model;
+:param string engine: inline_template or qweb_view;
+
+:return dict: {res_id: lang code (i.e. en_US)}</pre></details><details><summary id="m-_replace_local_links">_replace_local_links(self, html, base_url) <span class="position">@ line 122</span></summary><pre>Replace local links by absolute links. It is required in various
+cases, for example when sending emails on chatter or sending mass
+mailings. It replaces
+
+* href of links (mailto will not match the regex)
+* src of images/v:fill/v:image (base64 hardcoded data will not match the regex)
+* styling using url like background-image: url or background="url"
+
+It is done using regex because it is shorter than using an html parser
+to create a potentially complex soupe and hope to have a result that
+has not been harmed.</pre></details><ul id="m-_update_field_translations"><li>_update_field_translations(self, fname, translations, digest) <span class="position">@ line 109</span></li></ul><ul id="m-_valid_field_parameter"><li>_valid_field_parameter(self, field, name) <span class="position">@ line 88</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 101</span></li></ul><h2>Inherited: odoo/addons/mail/models/mail_composer_mixin.py</h2><h3>Fields</h3><details><summary id="f-body">body <span class="position">@ line 25</span></summary><pre>body = fields.Html(
+        'Contents', compute='_compute_body', readonly=False, store=True, compute_sudo=False,
+        render_engine='qweb', render_options={'post_process': True}, sanitize=False)</pre></details><details><summary id="f-body_has_template_value">body_has_template_value <span class="position">@ line 28</span></summary><pre>body_has_template_value = fields.Boolean(
+        'Body content is the same as the template',
+        compute='_compute_body_has_template_value',
+    )</pre></details><details><summary id="f-can_edit_body">can_edit_body <span class="position">@ line 37</span></summary><pre>can_edit_body = fields.Boolean('Can Edit Body', compute='_compute_can_edit_body')</pre></details><details><summary id="f-is_mail_template_editor">is_mail_template_editor <span class="position">@ line 36</span></summary><pre>is_mail_template_editor = fields.Boolean('Is Editor', compute='_compute_is_mail_template_editor')</pre></details><details><summary id="f-lang">lang <span class="position">@ line 34</span></summary><pre>lang = fields.Char(compute='_compute_lang', precompute=True, readonly=False, store=True, compute_sudo=False)</pre></details><details><summary id="f-subject">subject <span class="position">@ line 24</span></summary><pre>subject = fields.Char('Subject', compute='_compute_subject', readonly=False, store=True, compute_sudo=False)</pre></details><details><summary id="f-template_id">template_id <span class="position">@ line 32</span></summary><pre>template_id = fields.Many2one('mail.template', 'Mail Template', domain="[('model', '=', render_model)]")</pre></details><h3>Methods</h3><details><summary id="m-_render_field">_render_field(self, field, *args, **args) <span class="position">@ line 99</span></summary><pre>Render the given field on the given records. This method enters
+sudo mode to allow qweb rendering (which is otherwise reserved for
+the 'mail template editor' group') if we consider it safe. Safe
+means content comes from the template which is a validated master
+data. As a summary the heuristic is :
+
+* if no template, do not bypass the check;
+* if current user is a template editor, do not bypass the check;
+* if record value and template value are the same (or equals the
+sanitized value in case of an HTML field), bypass the check;
+* for body: if current user cannot edit it, force template value back
+then bypass the check;
+
+Also provide support to fetch translations on the remote template.
+Indeed translations are often done on the master template, not on the
+specific composer itself. In that case we need to work on template
+value when it has not been modified in the composer.</pre></details><script src="class.js"></script></body></html>

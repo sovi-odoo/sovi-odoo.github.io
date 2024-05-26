@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>digest.tip - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>digest.tip</h1><p>Originally defined in: odoo/addons/digest/models/digest_tip.py</p><hr/><h2>Original: odoo/addons/digest/models/digest_tip.py</h2><h3>Fields</h3><details><summary id="f-group_id">group_id <span class="position">@ line 20</span></summary><pre>group_id = fields.Many2one(
+        'res.groups', string='Authorized Group',
+        default=lambda self: self.env.ref('base.group_user'))</pre></details><details><summary id="f-name">name <span class="position">@ line 15</span></summary><pre>name = fields.Char('Name', translate=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 12</span></summary><pre>sequence = fields.Integer(
+        'Sequence', default=1,
+        help='Used to display digest tip in email template base on order')</pre></details><details><summary id="f-tip_description">tip_description <span class="position">@ line 19</span></summary><pre>tip_description = fields.Html('Tip description', translate=html_translate, sanitize=False)</pre></details><details><summary id="f-user_ids">user_ids <span class="position">@ line 16</span></summary><pre>user_ids = fields.Many2many(
+        'res.users', string='Recipients',
+        help='Users having already received this tip')</pre></details><script src="class.js"></script></body></html>

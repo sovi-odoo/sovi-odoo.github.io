@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>res.country.group - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>res.country.group</h1><p>Originally defined in: odoo/odoo/addons/base/models/res_country.py</p><p>Inherited in: odoo/addons/product/models/res_country_group.py<br/></p><hr/><h2>Original: odoo/odoo/addons/base/models/res_country.py</h2><h3>Fields</h3><details><summary id="f-country_ids">country_ids <span class="position">@ line 153</span></summary><pre>country_ids = fields.Many2many('res.country', 'res_country_res_country_group_rel',
+                                   'res_country_group_id', 'res_country_id', string='Countries')</pre></details><details><summary id="f-name">name <span class="position">@ line 152</span></summary><pre>name = fields.Char(required=True, translate=True)</pre></details><h2>Inherited: odoo/addons/product/models/res_country_group.py</h2><h3>Fields</h3><details><summary id="f-pricelist_ids">pricelist_ids <span class="position">@ line 10</span></summary><pre>pricelist_ids = fields.Many2many(
+        comodel_name='product.pricelist',
+        relation='res_country_group_pricelist_rel',
+        column1='res_country_group_id',
+        column2='pricelist_id',
+        string="Pricelists")</pre></details><script src="class.js"></script></body></html>

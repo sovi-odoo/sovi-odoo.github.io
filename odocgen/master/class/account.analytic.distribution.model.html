@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.analytic.distribution.model - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.analytic.distribution.model</h1><p>Inherited in: odoo/addons/analytic/models/analytic_distribution_model.py<br/>Inherited in: odoo/addons/account/models/account_analytic_distribution_model.py<br/></p><hr/><h2>Inherited: odoo/addons/analytic/models/analytic_distribution_model.py</h2><h3>Fields</h3><details><summary id="f-company_id">company_id <span class="position">@ line 32</span></summary><pre>company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        default=lambda self: self.env.company,
+        ondelete='cascade',
+        help="Select a company for which the analytic distribution will be used (e.g. create new customer invoice or Sales order if we select this company, it will automatically take this as an analytic account)",
+    )</pre></details><details><summary id="f-partner_category_id">partner_category_id <span class="position">@ line 26</span></summary><pre>partner_category_id = fields.Many2one(
+        'res.partner.category',
+        string='Partner Category',
+        ondelete='cascade',
+        help="Select a partner category for which the analytic distribution will be used (e.g. create new customer invoice or Sales order if we select this partner, it will automatically take this as an analytic account)",
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 20</span></summary><pre>partner_id = fields.Many2one(
+        'res.partner',
+        string='Partner',
+        ondelete='cascade',
+        help="Select a partner for which the analytic distribution will be used (e.g. create new customer invoice or Sales order if we select this partner, it will automatically take this as an analytic account)",
+    )</pre></details><h3>Methods</h3><ul id="m-_check_score"><li>_check_score(self, key, value) <span class="position">@ line 88</span></li></ul><ul id="m-_create_domain"><li>_create_domain(self, fname, value) <span class="position">@ line 103</span></li></ul><ul id="m-_get_fields_to_check"><li>_get_fields_to_check(self) <span class="position">@ line 81</span></li></ul><ul id="m-action_read_distribution_model"><li>action_read_distribution_model(self) <span class="position">@ line 112</span></li></ul><h2>Inherited: odoo/addons/account/models/account_analytic_distribution_model.py</h2><h3>Fields</h3><details><summary id="f-account_prefix">account_prefix <span class="position">@ line 9</span></summary><pre>account_prefix = fields.Char(
+        string='Accounts Prefix',
+        help="This analytic distribution will apply to all financial accounts sharing the prefix specified.",
+    )</pre></details><details><summary id="f-product_categ_id">product_categ_id <span class="position">@ line 20</span></summary><pre>product_categ_id = fields.Many2one(
+        'product.category',
+        string='Product Category',
+        ondelete='cascade',
+        help="Select a product category which will use analytic account specified in analytic default (e.g. create new customer invoice or Sales order if we select this product, it will automatically take this as an analytic account)",
+    )</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 13</span></summary><pre>product_id = fields.Many2one(
+        'product.product',
+        string='Product',
+        ondelete='cascade',
+        check_company=True,
+        help="Select a product for which the analytic distribution will be used (e.g. create new customer invoice or Sales order if we select this product, it will automatically take this as an analytic account)",
+    )</pre></details><h3>Methods</h3><ul id="m-_create_domain"><li>_create_domain(self, fname, value) <span class="position">@ line 27</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.image - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.image</h1><p>Inherited in: odoo/addons/website_sale/models/product_image.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale/models/product_image.py</h2><h3>Fields</h3><details><summary id="f-can_image_1024_be_zoomed">can_image_1024_be_zoomed <span class="position">@ line 34</span></summary><pre>can_image_1024_be_zoomed = fields.Boolean(
+        string="Can Image 1024 be zoomed",
+        compute='_compute_can_image_1024_be_zoomed',
+        store=True,
+    )</pre></details><details><summary id="f-embed_code">embed_code <span class="position">@ line 32</span></summary><pre>embed_code = fields.Html(compute='_compute_embed_code', sanitize=False)</pre></details><details><summary id="f-image_1920">image_1920 <span class="position">@ line 20</span></summary><pre>image_1920 = fields.Image()</pre></details><details><summary id="f-name">name <span class="position">@ line 17</span></summary><pre>name = fields.Char(string="Name", required=True)</pre></details><details><summary id="f-product_tmpl_id">product_tmpl_id <span class="position">@ line 22</span></summary><pre>product_tmpl_id = fields.Many2one(
+        string="Product Template", comodel_name='product.template', ondelete='cascade', index=True,
+    )</pre></details><details><summary id="f-product_variant_id">product_variant_id <span class="position">@ line 25</span></summary><pre>product_variant_id = fields.Many2one(
+        string="Product Variant", comodel_name='product.product', ondelete='cascade', index=True,
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 18</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><details><summary id="f-video_url">video_url <span class="position">@ line 28</span></summary><pre>video_url = fields.Char(
+        string="Video URL",
+        help="URL of a video for showcasing your product.",
+    )</pre></details><script src="class.js"></script></body></html>

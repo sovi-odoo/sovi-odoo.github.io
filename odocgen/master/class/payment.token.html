@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>payment.token - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>payment.token</h1><p>Originally defined in: odoo/addons/payment/models/payment_token.py</p><p>Inherited in: odoo/addons/website_sale/models/payment_token.py<br/>Inherited in: odoo/addons/payment_stripe/models/payment_token.py<br/>Inherited in: odoo/addons/payment_razorpay/models/payment_token.py<br/>Inherited in: odoo/addons/payment_flutterwave/models/payment_token.py<br/>Inherited in: odoo/addons/payment_demo/models/payment_token.py<br/>Inherited in: odoo/addons/payment_authorize/models/payment_token.py<br/>Inherited in: odoo/addons/payment_adyen/models/payment_token.py<br/></p><hr/><h2>Original: odoo/addons/payment/models/payment_token.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 38</span></summary><pre>active = fields.Boolean(string="Active", default=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 17</span></summary><pre>company_id = fields.Many2one(
+        related='provider_id.company_id', store=True, index=True
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 29</span></summary><pre>partner_id = fields.Many2one(string="Partner", comodel_name='res.partner', required=True)</pre></details><details><summary id="f-payment_details">payment_details <span class="position">@ line 26</span></summary><pre>payment_details = fields.Char(
+        string="Payment Details", help="The clear part of the payment method's payment details.",
+    )</pre></details><details><summary id="f-payment_method_code">payment_method_code <span class="position">@ line 23</span></summary><pre>payment_method_code = fields.Char(
+        string="Payment Method Code", related='payment_method_id.code'
+    )</pre></details><details><summary id="f-payment_method_id">payment_method_id <span class="position">@ line 20</span></summary><pre>payment_method_id = fields.Many2one(
+        string="Payment Method", comodel_name='payment.method', readonly=True, required=True
+    )</pre></details><details><summary id="f-provider_code">provider_code <span class="position">@ line 16</span></summary><pre>provider_code = fields.Selection(string="Provider Code", related='provider_id.code')</pre></details><details><summary id="f-provider_id">provider_id <span class="position">@ line 15</span></summary><pre>provider_id = fields.Many2one(string="Provider", comodel_name='payment.provider', required=True)</pre></details><details><summary id="f-provider_ref">provider_ref <span class="position">@ line 30</span></summary><pre>provider_ref = fields.Char(
+        string="Provider Reference",
+        help="The provider reference of the token of the transaction.",
+        required=True,
+    )</pre></details><details><summary id="f-transaction_ids">transaction_ids <span class="position">@ line 35</span></summary><pre>transaction_ids = fields.One2many(
+        string="Payment Transactions", comodel_name='payment.transaction', inverse_name='token_id'
+    )</pre></details><h3>Methods</h3><details><summary id="m-_build_display_name">_build_display_name(self, *args, max_length, should_pad, **args) <span class="position">@ line 145</span></summary><pre>Build a token name of the desired maximum length with the format `•••• 1234`.
+
+The payment details are padded on the left with up to four padding characters. The padding
+is only added if there is enough room for it. If not, it is either reduced or not added at
+all. If there is not enough room for the payment details either, they are trimmed from the
+left.
+
+For a module to customize the display name of a token, it must override this method and
+return the customized display name.
+
+Note: `self.ensure_one()`
+
+:param list args: The arguments passed by QWeb when calling this method.
+:param int max_length: The desired maximum length of the token name. The default is `34` to
+fit the largest IBANs.
+:param bool should_pad: Whether the token should be padded.
+:param dict kwargs: Optional data used in overrides of this method.
+:return: The padded token name.
+:rtype: str</pre></details><details><summary id="m-_get_available_tokens">_get_available_tokens(self, providers_ids, partner_id, is_validation) <span class="position">@ line 120</span></summary><pre>Return the available tokens linked to the given providers and partner.
+
+For a module to retrieve the available tokens, it must override this method and add
+information in the kwargs to define the context of the request.
+
+:param list providers_ids: The ids of the providers available for the transaction.
+:param int partner_id: The id of the partner.
+:param bool is_validation: Whether the transaction is a validation operation.
+:param dict kwargs: Locally unused keywords arguments.
+:return: The available tokens.
+:rtype: payment.token</pre></details><details><summary id="m-_handle_archiving">_handle_archiving(self) <span class="position">@ line 108</span></summary><pre>Handle the archiving of tokens.
+
+For a module to perform additional operations when a token is archived, it must override
+this method.
+
+:return: None</pre></details><details><summary id="m-get_linked_records_info">get_linked_records_info(self) <span class="position">@ line 184</span></summary><pre>Return a list of information about records linked to the current token.
+
+For a module to implement payments and link documents to a token, it must override this
+method and add information about linked document records to the returned list.
+
+The information must be structured as a dict with the following keys:
+
+- `description`: The description of the record's model (e.g. "Subscription").
+- `id`: The id of the record.
+- `name`: The name of the record.
+- `url`: The url to access the record.
+
+Note: `self.ensure_one()`
+
+:return: The list of information about the linked document records.
+:rtype: list</pre></details><details><summary id="m-write">write(self, values) <span class="position">@ line 77</span></summary><pre>Prevent unarchiving tokens and handle their archiving.
+
+:return: The result of the call to the parent method.
+:rtype: bool
+:raise UserError: If at least one token is being unarchived.</pre></details><h2>Inherited: odoo/addons/website_sale/models/payment_token.py</h2><h3>Methods</h3><details><summary id="m-_get_available_tokens">_get_available_tokens(self, *args, is_express_checkout, **args) <span class="position">@ line 9</span></summary><pre>Override of `payment` not to return the tokens in case of express checkout.
+
+:param dict args: Locally unused arguments.
+:param bool is_express_checkout: Whether the payment is made through express checkout.
+:param dict kwargs: Locally unused keywords arguments.
+:return: The available tokens.
+:rtype: payment.token</pre></details><h2>Inherited: odoo/addons/payment_stripe/models/payment_token.py</h2><h3>Fields</h3><details><summary id="f-stripe_mandate">stripe_mandate <span class="position">@ line 16</span></summary><pre>stripe_mandate = fields.Char(string="Stripe Mandate", readonly=True)</pre></details><details><summary id="f-stripe_payment_method">stripe_payment_method <span class="position">@ line 15</span></summary><pre>stripe_payment_method = fields.Char(string="Stripe Payment Method ID", readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-_stripe_sca_migrate_customer">_stripe_sca_migrate_customer(self) <span class="position">@ line 18</span></summary><pre>Migrate a token from the old implementation of Stripe to the SCA-compliant one.
+
+In the old implementation, it was possible to create a Charge by giving only the customer id
+and let Stripe use the default source (= default payment method). Stripe now requires to
+specify the payment method for each new PaymentIntent. To do so, we fetch the payment method
+associated to a customer and save its id on the token.
+This migration happens once per token created with the old implementation.
+
+Note: self.ensure_one()
+
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_razorpay/models/payment_token.py</h2><h3>Methods</h3><details><summary id="m-_razorpay_get_limit_exceed_warning">_razorpay_get_limit_exceed_warning(self, amount, currency_id) <span class="position">@ line 12</span></summary><pre>Return a warning message when the maximum payment amount is exceeded.
+
+:param float amount: The amount to be paid.
+:param currency_id: The currency of the amount.
+:return: A warning message when the maximum payment amount is exceeded.
+:rtype: str</pre></details><h2>Inherited: odoo/addons/payment_flutterwave/models/payment_token.py</h2><h3>Fields</h3><details><summary id="f-flutterwave_customer_email">flutterwave_customer_email <span class="position">@ line 9</span></summary><pre>flutterwave_customer_email = fields.Char(
+        help="The email of the customer at the time the token was created.", readonly=True
+    )</pre></details><h2>Inherited: odoo/addons/payment_demo/models/payment_token.py</h2><h3>Fields</h3><details><summary id="f-demo_simulated_state">demo_simulated_state <span class="position">@ line 9</span></summary><pre>demo_simulated_state = fields.Selection(
+        string="Simulated State",
+        help="The state in which transactions created from this token should be set.",
+        selection=[
+            ('pending', "Pending"),
+            ('done', "Confirmed"),
+            ('cancel', "Canceled"),
+            ('error', "Error"),
+        ],
+    )</pre></details><h3>Methods</h3><details><summary id="m-_build_display_name">_build_display_name(self, *args, should_pad, **args) <span class="position">@ line 20</span></summary><pre>Override of `payment` to build the display name without padding.
+
+Note: self.ensure_one()
+
+:param list args: The arguments passed by QWeb when calling this method.
+:param bool should_pad: Whether the token should be padded or not.
+:param dict kwargs: Optional data.
+:return: The demo token name.
+:rtype: str</pre></details><h2>Inherited: odoo/addons/payment_authorize/models/payment_token.py</h2><h3>Fields</h3><details><summary id="f-authorize_profile">authorize_profile <span class="position">@ line 17</span></summary><pre>authorize_profile = fields.Char(
+        string="Authorize.Net Profile ID",
+        help="The unique reference for the partner/token combination in the Authorize.net backend.")</pre></details><h2>Inherited: odoo/addons/payment_adyen/models/payment_token.py</h2><h3>Fields</h3><details><summary id="f-adyen_shopper_reference">adyen_shopper_reference <span class="position">@ line 9</span></summary><pre>adyen_shopper_reference = fields.Char(
+        string="Shopper Reference", help="The unique reference of the partner owning this token",
+        readonly=True)</pre></details><script src="class.js"></script></body></html>

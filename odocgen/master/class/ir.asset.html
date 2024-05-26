@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.asset - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.asset</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_asset.py</p><p>Inherited in: odoo/addons/website/models/theme_models.py<br/>Inherited in: odoo/addons/website/models/ir_asset.py<br/></p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_asset.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 92</span></summary><pre>active = fields.Boolean(string='active', default=True)</pre></details><details><summary id="f-bundle">bundle <span class="position">@ line 81</span></summary><pre>bundle = fields.Char(string='Bundle name', required=True)</pre></details><details><summary id="f-directive">directive <span class="position">@ line 82</span></summary><pre>directive = fields.Selection(string='Directive', selection=[
+        (APPEND_DIRECTIVE, 'Append'),
+        (PREPEND_DIRECTIVE, 'Prepend'),
+        (AFTER_DIRECTIVE, 'After'),
+        (BEFORE_DIRECTIVE, 'Before'),
+        (REMOVE_DIRECTIVE, 'Remove'),
+        (REPLACE_DIRECTIVE, 'Replace'),
+        (INCLUDE_DIRECTIVE, 'Include')], default=APPEND_DIRECTIVE)</pre></details><details><summary id="f-name">name <span class="position">@ line 80</span></summary><pre>name = fields.Char(string='Name', required=True)</pre></details><details><summary id="f-path">path <span class="position">@ line 90</span></summary><pre>path = fields.Char(string='Path (or glob pattern)', required=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 93</span></summary><pre>sequence = fields.Integer(string="Sequence", default=DEFAULT_SEQUENCE, required=True)</pre></details><details><summary id="f-target">target <span class="position">@ line 91</span></summary><pre>target = fields.Char(string='Target')</pre></details><h3>Methods</h3><details><summary id="m-_fill_asset_paths">_fill_asset_paths(self, bundle, asset_paths, seen, addons, installed) <span class="position">@ line 158</span></summary><pre>Fills the given AssetPaths instance by applying the operations found in
+the matching bundle of the given addons manifests.
+See `_get_asset_paths` for more information.
+
+:param bundle: name of the bundle from which to fetch the file paths
+:param addons: list of addon names as strings
+:param css: boolean: whether or not to include style files
+:param js: boolean: whether or not to include script files
+:param xml: boolean: whether or not to include template files
+:param asset_paths: the AssetPath object to fill
+:param seen: a list of bundles already checked to avoid circularity</pre></details><details><summary id="m-_get_active_addons_list">_get_active_addons_list(self) <span class="position">@ line 276</span></summary><pre>Can be overridden to filter the returned list of active modules.</pre></details><ul id="m-_get_asset_bundle_url"><li>_get_asset_bundle_url(self, filename, unique, assets_params, ignore_params) <span class="position">@ line 102</span></li></ul><details><summary id="m-_get_asset_params">_get_asset_params(self) <span class="position">@ line 95</span></summary><pre>This method can be overriden to add param _get_asset_paths call.
+Those params will be part of the orm cache key</pre></details><details><summary id="m-_get_asset_paths">_get_asset_paths(self, bundle, assets_params) <span class="position">@ line 126</span></summary><pre>Fetches all asset file paths from a given list of addons matching a
+certain bundle. The returned list is composed of tuples containing the
+file path [1], the first addon calling it [0] and the bundle name.
+Asset loading is performed as follows:
+
+1. All 'ir.asset' records matching the given bundle and with a sequence
+strictly less than 16 are applied.
+
+3. The manifests of the given addons are checked for assets declaration
+for the given bundle. If any, they are read sequentially and their
+operations are applied to the current list.
+
+4. After all manifests have been parsed, the remaining 'ir.asset'
+records matching the bundle are also applied to the current list.
+
+:param bundle: name of the bundle from which to fetch the file paths
+:param assets_params: parameters needed by overrides, mainly website_id
+see _get_asset_params
+:returns: the list of tuples (path, addon, bundle)</pre></details><details><summary id="m-_get_paths">_get_paths(self, path_def, installed) <span class="position">@ line 314</span></summary><pre>Returns a list of tuple (path, full_path, modified) matching a given glob (path_def).
+The glob can only occur in the static direcory of an installed addon.
+
+If the path_def matches a (list of) file, the result will contain the full_path
+and the modified time.
+Ex: ('/base/static/file.js', '/home/user/source/odoo/odoo/addons/base/static/file.js', 643636800)
+
+If the path_def looks like a non aggregable path (http://, /web/assets), only return the path
+Ex: ('http://example.com/lib.js', None, -1)
+The timestamp -1 is given to be thruthy while carrying no information.
+
+If the path_def is not a wildward, but may still be a valid addons path, return a False path
+with No timetamp
+Ex: ('/_custom/web.asset_frontend', False, None)
+
+:param path_def: the definition (glob) of file paths to match
+:param installed: the list of installed addons
+:param extensions: a list of extensions that found files must match
+:returns: a list of tuple: (path, full_path, modified)</pre></details><details><summary id="m-_get_related_assets">_get_related_assets(self, domain) <span class="position">@ line 243</span></summary><pre>Returns a set of assets matching the domain, regardless of their
+active state. This method can be overridden to filter the results.
+:param domain: search domain
+:returns: ir.asset recordset</pre></details><details><summary id="m-_get_related_bundle">_get_related_bundle(self, target_path_def, root_bundle) <span class="position">@ line 254</span></summary><pre>Returns the first bundle directly defining a glob matching the target
+path. This is useful when generating an 'ir.asset' record to override
+a specific asset and target the right bundle, i.e. the first one
+defining the target path.
+
+:param target_path_def: string: path to match.
+:root_bundle: string: bundle from which to initiate the search.
+:returns: the first matching bundle or None</pre></details><ul id="m-_parse_bundle_name"><li>_parse_bundle_name(self, bundle_name, debug_assets) <span class="position">@ line 105</span></li></ul><details><summary id="m-_process_command">_process_command(self, command) <span class="position">@ line 377</span></summary><pre>Parses a given command to return its directive, target and path definition.</pre></details><details><summary id="m-_process_path">_process_path(self, bundle, directive, target, path_def, asset_paths, seen, addons, installed, bundle_start_index) <span class="position">@ line 194</span></summary><pre>This sub function is meant to take a directive and a set of
+arguments and apply them to the current asset_paths list
+accordingly.
+
+It is nested inside `_get_asset_paths` since we need the current
+list of addons, extensions and asset_paths.
+
+:param directive: string
+:param target: string or None or False
+:param path_def: string</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 76</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 71</span></li></ul><h2>Inherited: odoo/addons/website/models/theme_models.py</h2><h3>Fields</h3><details><summary id="f-theme_template_id">theme_template_id <span class="position">@ line 385</span></summary><pre>theme_template_id = fields.Many2one('theme.ir.asset', copy=False)</pre></details><h2>Inherited: odoo/addons/website/models/ir_asset.py</h2><h3>Fields</h3><details><summary id="f-key">key <span class="position">@ line 10</span></summary><pre>key = fields.Char(copy=False)</pre></details><details><summary id="f-website_id">website_id <span class="position">@ line 11</span></summary><pre>website_id = fields.Many2one('website', ondelete='cascade')</pre></details><h3>Methods</h3><details><summary id="m-_get_active_addons_list">_get_active_addons_list(self, website_id) <span class="position">@ line 32</span></summary><pre>Overridden to discard inactive themes.</pre></details><ul id="m-_get_asset_bundle_url"><li>_get_asset_bundle_url(self, filename, unique, assets_params, ignore_params) <span class="position">@ line 18</span></li></ul><ul id="m-_get_asset_params"><li>_get_asset_params(self) <span class="position">@ line 13</span></li></ul><ul id="m-_get_related_assets"><li>_get_related_assets(self, domain, website_id) <span class="position">@ line 26</span></li></ul><details><summary id="m-filter_duplicate">filter_duplicate(self, website_id) <span class="position">@ line 46</span></summary><pre>Filter current recordset only keeping the most suitable asset per distinct name.
+Every non-accessible asset will be removed from the set:
+* In non website context, every asset with a website will be removed
+* In a website context, every asset from another website</pre></details><details><summary id="m-write">write(self, vals) <span class="position">@ line 76</span></summary><pre>COW for ir.asset. This way editing websites does not impact other
+websites. Also this way newly created websites will only
+contain the default assets.</pre></details><script src="class.js"></script></body></html>

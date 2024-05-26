@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mailing.list - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mailing.list</h1><p>Originally defined in: odoo/addons/mass_mailing/models/mailing_list.py</p><p>Inherited in: odoo/addons/mass_mailing_sms/models/mailing_list.py<br/></p><hr/><h2>Original: odoo/addons/mass_mailing/models/mailing_list.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 21</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-contact_count">contact_count <span class="position">@ line 22</span></summary><pre>contact_count = fields.Integer(compute="_compute_mailing_list_statistics", string='Number of Contacts')</pre></details><details><summary id="f-contact_count_blacklisted">contact_count_blacklisted <span class="position">@ line 26</span></summary><pre>contact_count_blacklisted = fields.Integer(compute="_compute_mailing_list_statistics", string="Number of Blacklisted")</pre></details><details><summary id="f-contact_count_email">contact_count_email <span class="position">@ line 23</span></summary><pre>contact_count_email = fields.Integer(compute="_compute_mailing_list_statistics", string="Number of Emails")</pre></details><details><summary id="f-contact_count_opt_out">contact_count_opt_out <span class="position">@ line 24</span></summary><pre>contact_count_opt_out = fields.Integer(compute="_compute_mailing_list_statistics", string="Number of Opted-out")</pre></details><details><summary id="f-contact_ids">contact_ids <span class="position">@ line 29</span></summary><pre>contact_ids = fields.Many2many(
+        'mailing.contact', 'mailing_subscription', 'list_id', 'contact_id',
+        string='Mailing Lists', copy=False)</pre></details><details><summary id="f-contact_pct_blacklisted">contact_pct_blacklisted <span class="position">@ line 27</span></summary><pre>contact_pct_blacklisted = fields.Float(compute="_compute_mailing_list_statistics", string="Percentage of Blacklisted")</pre></details><details><summary id="f-contact_pct_bounce">contact_pct_bounce <span class="position">@ line 28</span></summary><pre>contact_pct_bounce = fields.Float(compute="_compute_mailing_list_statistics", string="Percentage of Bouncing")</pre></details><details><summary id="f-contact_pct_opt_out">contact_pct_opt_out <span class="position">@ line 25</span></summary><pre>contact_pct_opt_out = fields.Float(compute="_compute_mailing_list_statistics", string="Percentage of Opted-out")</pre></details><details><summary id="f-is_public">is_public <span class="position">@ line 40</span></summary><pre>is_public = fields.Boolean(
+        string='Show In Preferences', default=False,
+        help='The mailing list can be accessible by recipients in the subscription '
+             'management page to allow them to update their preferences.')</pre></details><details><summary id="f-mailing_count">mailing_count <span class="position">@ line 32</span></summary><pre>mailing_count = fields.Integer(compute="_compute_mailing_count", string="Number of Mailing")</pre></details><details><summary id="f-mailing_ids">mailing_ids <span class="position">@ line 33</span></summary><pre>mailing_ids = fields.Many2many(
+        'mailing.mailing', 'mail_mass_mailing_list_rel',
+        string='Mass Mailings', copy=False)</pre></details><details><summary id="f-name">name <span class="position">@ line 20</span></summary><pre>name = fields.Char(string='Mailing List', required=True)</pre></details><details><summary id="f-subscription_ids">subscription_ids <span class="position">@ line 36</span></summary><pre>subscription_ids = fields.One2many(
+        'mailing.subscription', 'list_id',
+        string='Subscription Information',
+        copy=True, depends=['contact_ids'])</pre></details><h3>Methods</h3><details><summary id="m-_fetch_contact_statistics">_fetch_contact_statistics(self) <span class="position">@ line 374</span></summary><pre>Compute number of contacts matching various conditions.
+(see '_get_contact_count_select_fields' for details)
+
+Will return a dict under the form:
+{
+42: { # 42 being the mailing list ID
+'contact_count': 52,
+'contact_count_email': 35,
+'contact_count_opt_out': 5,
+'contact_count_blacklisted': 2
+},
+...
+}</pre></details><details><summary id="m-_get_contact_statistics_fields">_get_contact_statistics_fields(self) <span class="position">@ line 418</span></summary><pre>Returns fields and SQL query select path in a dictionnary.
+This is done to be easily overridable in subsequent modules.
+
+- mailing_list_id             id of the associated mailing.list
+- contact_count:              all contacts
+- contact_count_email:        all valid emails
+- contact_count_opt_out:      all opted-out contacts
+- contact_count_blacklisted:  all blacklisted contacts</pre></details><details><summary id="m-_get_contact_statistics_joins">_get_contact_statistics_joins(self) <span class="position">@ line 445</span></summary><pre>Extracted to be easily overridable by sub-modules (such as mass_mailing_sms).</pre></details><ul id="m-_mailing_get_default_domain"><li>_mailing_get_default_domain(self, mailing) <span class="position">@ line 356</span></li></ul><details><summary id="m-_mailing_get_opt_out_list">_mailing_get_opt_out_list(self, mailing) <span class="position">@ line 359</span></summary><pre>Check subscription on all involved mailing lists. If user is opt_out
+on one list but not on another if two users with same email address, one
+opted in and the other one opted out, send the mail anyway.</pre></details><details><summary id="m-_update_subscription_from_email">_update_subscription_from_email(self, email, opt_out, force_message) <span class="position">@ line 273</span></summary><pre>When opting-out: we have to switch opted-in subscriptions. We don't
+need to create subscription for other lists as opt-out = not being a
+member.
+
+When opting-in: we have to switch opted-out subscriptions and create
+subscription for other mailing lists id they are public. Indeed a
+contact is opted-in when being subscribed in a mailing list.
+
+:param str email: email address that should opt-in or opt-out from
+mailing lists;
+:param boolean opt_out: if True, opt-out from lists given by self if
+'email' is member of it. If False, opt-in in lists givben by self
+and create membership if not already member;
+:param str force_message: if given, post a note using that body on
+contact instead of generated update message. Give False to entirely
+skip the note step;</pre></details><details><summary id="m-action_merge">action_merge(self, src_lists, archive) <span class="position">@ line 203</span></summary><pre>Insert all the contact from the mailing lists 'src_lists' to the
+mailing list in 'self'. Possibility to archive the mailing lists
+'src_lists' after the merge except the destination mailing list 'self'.</pre></details><details><summary id="m-action_open_import">action_open_import(self) <span class="position">@ line 138</span></summary><pre>Open the mailing list contact import wizard.</pre></details><details><summary id="m-action_send_mailing">action_send_mailing(self) <span class="position">@ line 151</span></summary><pre>Open the mailing form view, with the current lists set as recipients.</pre></details><ul id="m-action_view_contacts"><li>action_view_contacts(self) <span class="position">@ line 168</span></li></ul><ul id="m-action_view_contacts_blacklisted"><li>action_view_contacts_blacklisted(self) <span class="position">@ line 191</span></li></ul><ul id="m-action_view_contacts_bouncing"><li>action_view_contacts_bouncing(self) <span class="position">@ line 197</span></li></ul><ul id="m-action_view_contacts_email"><li>action_view_contacts_email(self) <span class="position">@ line 174</span></li></ul><ul id="m-action_view_contacts_opt_out"><li>action_view_contacts_opt_out(self) <span class="position">@ line 185</span></li></ul><ul id="m-action_view_mailings"><li>action_view_mailings(self) <span class="position">@ line 179</span></li></ul><ul id="m-close_dialog"><li>close_dialog(self) <span class="position">@ line 266</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 130</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 112</span></li></ul><h2>Inherited: odoo/addons/mass_mailing_sms/models/mailing_list.py</h2><h3>Fields</h3><details><summary id="f-contact_count_sms">contact_count_sms <span class="position">@ line 10</span></summary><pre>contact_count_sms = fields.Integer(compute="_compute_mailing_list_statistics", string="SMS Contacts")</pre></details><h3>Methods</h3><details><summary id="m-_get_contact_statistics_fields">_get_contact_statistics_fields(self) <span class="position">@ line 46</span></summary><pre>See super method docstring for more info.
+Adds:
+- contact_count_sms:           all valid sms
+- contact_count_blacklisted:   override the dict entry to add SMS blacklist condition</pre></details><ul id="m-_get_contact_statistics_joins"><li>_get_contact_statistics_joins(self) <span class="position">@ line 66</span></li></ul><details><summary id="m-_mailing_get_opt_out_list_sms">_mailing_get_opt_out_list_sms(self, mailing) <span class="position">@ line 71</span></summary><pre>Check subscription on all involved mailing lists. If user is opt_out
+on one list but not on another, one opted in and the other one opted out,
+send mailing anyway.
+
+:return list: opt-outed record IDs</pre></details><ul id="m-action_send_mailing_sms"><li>action_send_mailing_sms(self) <span class="position">@ line 30</span></li></ul><ul id="m-action_view_contacts_sms"><li>action_view_contacts_sms(self) <span class="position">@ line 25</span></li></ul><ul id="m-action_view_mailings"><li>action_view_mailings(self) <span class="position">@ line 12</span></li></ul><script src="class.js"></script></body></html>

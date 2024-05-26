@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.activity - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.activity</h1><p>Originally defined in: odoo/addons/mail/models/mail_activity.py</p><p>Inherited in: odoo/addons/crm/models/mail_activity.py<br/>Inherited in: odoo/addons/calendar/models/mail_activity.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_activity.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 112</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-activity_category">activity_category <span class="position">@ line 76</span></summary><pre>activity_category = fields.Selection(related='activity_type_id.category', readonly=True)</pre></details><details><summary id="f-activity_decoration">activity_decoration <span class="position">@ line 77</span></summary><pre>activity_decoration = fields.Selection(related='activity_type_id.decoration_type', readonly=True)</pre></details><details><summary id="f-activity_type_id">activity_type_id <span class="position">@ line 72</span></summary><pre>activity_type_id = fields.Many2one(
+        'mail.activity.type', string='Activity Type',
+        domain="['|', ('res_model', '=', False), ('res_model', '=', res_model)]", ondelete='restrict',
+        default=_default_activity_type)</pre></details><details><summary id="f-attachment_ids">attachment_ids <span class="position">@ line 87</span></summary><pre>attachment_ids = fields.Many2many(
+        'ir.attachment', 'activity_attachment_rel',
+        'activity_id', 'attachment_id',
+        string='Attachments')</pre></details><details><summary id="f-automated">automated <span class="position">@ line 83</span></summary><pre>automated = fields.Boolean(
+        'Automated activity', readonly=True,
+        help='Indicates this activity has been created automatically and not by any user.')</pre></details><details><summary id="f-can_write">can_write <span class="position">@ line 111</span></summary><pre>can_write = fields.Boolean(compute='_compute_can_write')</pre></details><details><summary id="f-chaining_type">chaining_type <span class="position">@ line 109</span></summary><pre>chaining_type = fields.Selection(related='activity_type_id.chaining_type', readonly=True)</pre></details><details><summary id="f-date_deadline">date_deadline <span class="position">@ line 81</span></summary><pre>date_deadline = fields.Date('Due Date', index=True, required=True, default=fields.Date.context_today)</pre></details><details><summary id="f-date_done">date_done <span class="position">@ line 82</span></summary><pre>date_done = fields.Date('Done Date', compute='_compute_date_done', store=True)</pre></details><details><summary id="f-has_recommended_activities">has_recommended_activities <span class="position">@ line 105</span></summary><pre>has_recommended_activities = fields.Boolean(
+        'Next activities available',
+        compute='_compute_has_recommended_activities')</pre></details><details><summary id="f-icon">icon <span class="position">@ line 78</span></summary><pre>icon = fields.Char('Icon', related='activity_type_id.icon', readonly=True)</pre></details><details><summary id="f-mail_template_ids">mail_template_ids <span class="position">@ line 108</span></summary><pre>mail_template_ids = fields.Many2many(related='activity_type_id.mail_template_ids', readonly=True)</pre></details><details><summary id="f-note">note <span class="position">@ line 80</span></summary><pre>note = fields.Html('Note', sanitize_style=True)</pre></details><details><summary id="f-previous_activity_type_id">previous_activity_type_id <span class="position">@ line 104</span></summary><pre>previous_activity_type_id = fields.Many2one('mail.activity.type', string='Previous Activity Type', readonly=True)</pre></details><details><summary id="f-recommended_activity_type_id">recommended_activity_type_id <span class="position">@ line 103</span></summary><pre>recommended_activity_type_id = fields.Many2one('mail.activity.type', string="Recommended Activity Type")</pre></details><details><summary id="f-request_partner_id">request_partner_id <span class="position">@ line 96</span></summary><pre>request_partner_id = fields.Many2one('res.partner', string='Requesting Partner')</pre></details><details><summary id="f-res_id">res_id <span class="position">@ line 67</span></summary><pre>res_id = fields.Many2oneReference(string='Related Document ID', index=True, model_field='res_model')</pre></details><details><summary id="f-res_model">res_model <span class="position">@ line 64</span></summary><pre>res_model = fields.Char(
+        'Related Document Model',
+        index=True, related='res_model_id.model', precompute=True, store=True, readonly=True)</pre></details><details><summary id="f-res_model_id">res_model_id <span class="position">@ line 61</span></summary><pre>res_model_id = fields.Many2one(
+        'ir.model', 'Document Model',
+        index=True, ondelete='cascade', required=True)</pre></details><details><summary id="f-res_name">res_name <span class="position">@ line 68</span></summary><pre>res_name = fields.Char(
+        'Document Name', compute='_compute_res_name', compute_sudo=True, store=True,
+        readonly=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 97</span></summary><pre>state = fields.Selection([
+        ('overdue', 'Overdue'),
+        ('today', 'Today'),
+        ('planned', 'Planned'),
+        ('done', 'Done')], 'State',
+        compute='_compute_state')</pre></details><details><summary id="f-summary">summary <span class="position">@ line 79</span></summary><pre>summary = fields.Char('Summary')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 92</span></summary><pre>user_id = fields.Many2one(
+        'res.users', 'Assigned to',
+        default=lambda self: self.env.user,
+        index=True, required=True, ondelete='cascade')</pre></details><h3>Methods</h3><details><summary id="m-_action_done">_action_done(self, feedback, attachment_ids) <span class="position">@ line 490</span></summary><pre>Private implementation of marking activity as done: posting a message, deleting activity
+(since done), and eventually create the automatical next activity (depending on config).
+:param feedback: optional feedback from user when marking activity as done
+:param attachment_ids: list of ir.attachment ids to attach to the posted mail.message
+:returns (messages, activities) where
+- messages is a recordset of posted mail.message
+- activities is a recordset of mail.activity of forced automically created activities</pre></details><details><summary id="m-_classify_by_model">_classify_by_model(self) <span class="position">@ line 741</span></summary><pre>To ease batch computation of various activities related methods they
+are classified by model. Activities not linked to a valid record through
+res_model / res_id are ignored.
+
+:return dict: for each model having at least one activity in self, have
+a sub-dict containing
+* activities: activities related to that model;
+* record IDs: record linked to the activities of that model, in same
+order;</pre></details><ul id="m-_filter_access_rules"><li>_filter_access_rules(self, operation) <span class="position">@ line 193</span></li></ul><ul id="m-_filter_access_rules_python"><li>_filter_access_rules_python(self, operation) <span class="position">@ line 206</span></li></ul><details><summary id="m-_filter_access_rules_remaining">_filter_access_rules_remaining(self, valid, operation, filter_access_rules_method) <span class="position">@ line 218</span></summary><pre>Return the subset of ``self`` for which ``operation`` is allowed.
+A custom implementation is done on activities as this document has some
+access rules and is based on related document for activities that are
+not covered by those rules.
+
+Access on activities are the following :
+
+* create: (``mail_post_access`` or write) right on related documents;
+* read: read rights on related documents;
+* write: access rule OR
+(``mail_post_access`` or write) rights on related documents);
+* unlink: access rule OR
+(``mail_post_access`` or write) rights on related documents);</pre></details><details><summary id="m-_prepare_next_activity_values">_prepare_next_activity_values(self) <span class="position">@ line 763</span></summary><pre>Prepare the next activity values based on the current activity record and applies _onchange methods
+:returns a dict of values for the new activity</pre></details><ul id="m-action_close_dialog"><li>action_close_dialog(self) <span class="position">@ line 566</span></li></ul><details><summary id="m-action_done">action_done(self) <span class="position">@ line 427</span></summary><pre>Wrapper without feedback because web button add context as
+parameter, therefore setting context to feedback</pre></details><details><summary id="m-action_done_redirect_to_other">action_done_redirect_to_other(self) <span class="position">@ line 432</span></summary><pre>Mark activity as done and return action mail.mail_activity_without_access_action.
+
+Goal: Unless "keep done" activity is enabled, when marking an activity as done,
+the activity is deleted and can no more be displayed. To overcome this, we return
+an action that will launch the list view displaying the activities corresponding
+to the active_ids from the context (i.e.: the remaining "other activities"). If the
+right context is not available, we recompute the activities to display.</pre></details><details><summary id="m-action_done_schedule_next">action_done_schedule_next(self) <span class="position">@ line 464</span></summary><pre>Wrapper without feedback because web button add context as
+parameter, therefore setting context to feedback</pre></details><ul id="m-action_feedback"><li>action_feedback(self, feedback, attachment_ids) <span class="position">@ line 458</span></li></ul><ul id="m-action_feedback_schedule_next"><li>action_feedback_schedule_next(self, feedback, attachment_ids) <span class="position">@ line 469</span></li></ul><ul id="m-action_notify"><li>action_notify(self) <span class="position">@ line 394</span></li></ul><details><summary id="m-action_open_document">action_open_document(self) <span class="position">@ line 569</span></summary><pre>Opens the related record based on the model and ID</pre></details><ul id="m-action_snooze"><li>action_snooze(self) <span class="position">@ line 580</span></li></ul><ul id="m-activity_format"><li>activity_format(self) <span class="position">@ line 585</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 332</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 306</span></li></ul><h2>Inherited: odoo/addons/crm/models/mail_activity.py</h2><h3>Methods</h3><details><summary id="m-action_create_calendar_event">action_create_calendar_event(self) <span class="position">@ line 10</span></summary><pre>Small override of the action that creates a calendar.
+
+If the activity is linked to a crm.lead through the "opportunity_id" field, we include in
+the action context the default values used when scheduling a meeting from the crm.lead form
+view.
+e.g: It will set the partner_id of the crm.lead as default attendee of the meeting.</pre></details><h2>Inherited: odoo/addons/calendar/models/mail_activity.py</h2><h3>Fields</h3><details><summary id="f-calendar_event_id">calendar_event_id <span class="position">@ line 11</span></summary><pre>calendar_event_id = fields.Many2one('calendar.event', string="Calendar Meeting", ondelete='cascade')</pre></details><h3>Methods</h3><ul id="m-_action_done"><li>_action_done(self, feedback, attachment_ids) <span class="position">@ line 30</span></li></ul><ul id="m-action_create_calendar_event"><li>action_create_calendar_event(self) <span class="position">@ line 13</span></li></ul><ul id="m-unlink_w_meeting"><li>unlink_w_meeting(self) <span class="position">@ line 47</span></li></ul><script src="class.js"></script></body></html>

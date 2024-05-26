@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.public.category - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.public.category</h1><p>Inherited in: odoo/addons/website_sale/models/product_public_category.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale/models/product_public_category.py</h2><h3>Fields</h3><details><summary id="f-child_id">child_id <span class="position">@ line 34</span></summary><pre>child_id = fields.One2many(
+        string="Children Categories",
+        comodel_name='product.public.category',
+        inverse_name='parent_id',
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 25</span></summary><pre>name = fields.Char(required=True, translate=True)</pre></details><details><summary id="f-parent_id">parent_id <span class="position">@ line 28</span></summary><pre>parent_id = fields.Many2one(
+        string="Parent Category",
+        comodel_name='product.public.category',
+        ondelete='cascade',
+        index=True,
+    )</pre></details><details><summary id="f-parent_path">parent_path <span class="position">@ line 39</span></summary><pre>parent_path = fields.Char(index=True)</pre></details><details><summary id="f-parents_and_self">parents_and_self <span class="position">@ line 40</span></summary><pre>parents_and_self = fields.Many2many(
+        comodel_name='product.public.category',
+        compute='_compute_parents_and_self',
+    )</pre></details><details><summary id="f-product_tmpl_ids">product_tmpl_ids <span class="position">@ line 45</span></summary><pre>product_tmpl_ids = fields.Many2many(
+        comodel_name='product.template',
+        relation='product_public_category_product_template_rel',
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 26</span></summary><pre>sequence = fields.Integer(default=_default_sequence, index=True)</pre></details><details><summary id="f-website_description">website_description <span class="position">@ line 50</span></summary><pre>website_description = fields.Html(
+        string="Category Description",
+        sanitize_attributes=False,
+        sanitize_form=False,
+        sanitize_overridable=True,
+        translate=html_translate,
+    )</pre></details><h3>Methods</h3><ul id="m-_compute_parents_and_self"><li>_compute_parents_and_self(self) <span class="position">@ line 60</span></li></ul><ul id="m-_default_sequence"><li>_default_sequence(self) <span class="position">@ line 19</span></li></ul><ul id="m-_search_render_results"><li>_search_render_results(self, fetch_fields, mapping, icon, limit) <span class="position">@ line 106</span></li></ul><script src="class.js"></script></body></html>

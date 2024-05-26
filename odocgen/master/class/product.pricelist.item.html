@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.pricelist.item - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.pricelist.item</h1><p>Originally defined in: odoo/addons/product/models/product_pricelist_item.py</p><p>Inherited in: odoo/addons/website_event_sale/models/product_pricelist.py<br/>Inherited in: odoo/addons/point_of_sale/models/product.py<br/></p><hr/><h2>Original: odoo/addons/product/models/product_pricelist_item.py</h2><h3>Fields</h3><details><summary id="f-applied_on">applied_on <span class="position">@ line 47</span></summary><pre>applied_on = fields.Selection(
+        selection=[
+            ('3_global', "All Products"),
+            ('2_product_category', "Product Category"),
+            ('1_product', "Product"),
+            ('0_product_variant', "Product Variant"),
+        ],
+        string="Apply On",
+        default='3_global',
+        required=True,
+        help="Pricelist Item applicable on selected option")</pre></details><details><summary id="f-base">base <span class="position">@ line 75</span></summary><pre>base = fields.Selection(
+        selection=[
+            ('list_price', 'Sales Price'),
+            ('standard_price', 'Cost'),
+            ('pricelist', 'Other Pricelist'),
+        ],
+        string="Based on",
+        default='list_price',
+        required=True,
+        help="Base price for computation.\n"
+             "Sales Price: The base price will be the Sales Price.\n"
+             "Cost Price: The base price will be the cost price.\n"
+             "Other Pricelist: Computation of the base price based on another Pricelist.")</pre></details><details><summary id="f-base_pricelist_id">base_pricelist_id <span class="position">@ line 88</span></summary><pre>base_pricelist_id = fields.Many2one('product.pricelist', 'Other Pricelist', check_company=True)</pre></details><details><summary id="f-categ_id">categ_id <span class="position">@ line 59</span></summary><pre>categ_id = fields.Many2one(
+        comodel_name='product.category',
+        string="Product Category",
+        ondelete='cascade',
+        help="Specify a product category if this rule only applies to products belonging to this category or its children categories. Keep empty otherwise.")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 27</span></summary><pre>company_id = fields.Many2one(related='pricelist_id.company_id', store=True)</pre></details><details><summary id="f-compute_price">compute_price <span class="position">@ line 90</span></summary><pre>compute_price = fields.Selection(
+        selection=[
+            ('fixed', "Fixed Price"),
+            ('percentage', "Discount"),
+            ('formula', "Formula"),
+        ],
+        index=True, default='fixed', required=True)</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 28</span></summary><pre>currency_id = fields.Many2one(related='pricelist_id.currency_id', store=True)</pre></details><details><summary id="f-date_end">date_end <span class="position">@ line 34</span></summary><pre>date_end = fields.Datetime(
+        string="End Date",
+        help="Ending datetime for the pricelist item validation\n"
+            "The displayed value depends on the timezone set in your preferences.")</pre></details><details><summary id="f-date_start">date_start <span class="position">@ line 30</span></summary><pre>date_start = fields.Datetime(
+        string="Start Date",
+        help="Starting datetime for the pricelist item validation\n"
+            "The displayed value depends on the timezone set in your preferences.")</pre></details><details><summary id="f-fixed_price">fixed_price <span class="position">@ line 98</span></summary><pre>fixed_price = fields.Float(string="Fixed Price", digits='Product Price')</pre></details><details><summary id="f-min_quantity">min_quantity <span class="position">@ line 39</span></summary><pre>min_quantity = fields.Float(
+        string="Min. Quantity",
+        default=0,
+        digits='Product Unit of Measure',
+        help="For the rule to apply, bought/sold quantity must be greater "
+             "than or equal to the minimum quantity specified in this field.\n"
+             "Expressed in the default unit of measure of the product.")</pre></details><details><summary id="f-name">name <span class="position">@ line 129</span></summary><pre>name = fields.Char(
+        string="Name",
+        compute='_compute_name_and_price',
+        help="Explicit rule name for this pricelist line.")</pre></details><details><summary id="f-percent_price">percent_price <span class="position">@ line 99</span></summary><pre>percent_price = fields.Float(
+        string="Percentage Price",
+        help="You can apply a mark-up by setting a negative discount.")</pre></details><details><summary id="f-price">price <span class="position">@ line 133</span></summary><pre>price = fields.Char(
+        string="Price",
+        compute='_compute_name_and_price',
+        help="Explicit rule name for this pricelist line.")</pre></details><details><summary id="f-price_discount">price_discount <span class="position">@ line 103</span></summary><pre>price_discount = fields.Float(
+        string="Price Discount",
+        default=0,
+        digits=(16, 2),
+        help="You can apply a mark-up by setting a negative discount.")</pre></details><details><summary id="f-price_max_margin">price_max_margin <span class="position">@ line 123</span></summary><pre>price_max_margin = fields.Float(
+        string="Max. Price Margin",
+        digits='Product Price',
+        help="Specify the maximum amount of margin over the base price.")</pre></details><details><summary id="f-price_min_margin">price_min_margin <span class="position">@ line 119</span></summary><pre>price_min_margin = fields.Float(
+        string="Min. Price Margin",
+        digits='Product Price',
+        help="Specify the minimum amount of margin over the base price.")</pre></details><details><summary id="f-price_round">price_round <span class="position">@ line 108</span></summary><pre>price_round = fields.Float(
+        string="Price Rounding",
+        digits='Product Price',
+        help="Sets the price so that it is a multiple of this value.\n"
+             "Rounding is applied after the discount and before the surcharge.\n"
+             "To have prices that end in 9.99, set rounding 10, surcharge -0.01")</pre></details><details><summary id="f-price_surcharge">price_surcharge <span class="position">@ line 114</span></summary><pre>price_surcharge = fields.Float(
+        string="Price Surcharge",
+        digits='Product Price',
+        help="Specify the fixed amount to add or subtract (if negative) to the amount calculated with the discount.")</pre></details><details><summary id="f-pricelist_id">pricelist_id <span class="position">@ line 20</span></summary><pre>pricelist_id = fields.Many2one(
+        comodel_name='product.pricelist',
+        string="Pricelist",
+        index=True, ondelete='cascade',
+        required=True,
+        default=_default_pricelist_id)</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 69</span></summary><pre>product_id = fields.Many2one(
+        comodel_name='product.product',
+        string="Product Variant",
+        ondelete='cascade', check_company=True,
+        help="Specify a product if this rule only applies to one product. Keep empty otherwise.")</pre></details><details><summary id="f-product_tmpl_id">product_tmpl_id <span class="position">@ line 64</span></summary><pre>product_tmpl_id = fields.Many2one(
+        comodel_name='product.template',
+        string="Product",
+        ondelete='cascade', check_company=True,
+        help="Specify a template if this rule only applies to one product template. Keep empty otherwise.")</pre></details><details><summary id="f-rule_tip">rule_tip <span class="position">@ line 137</span></summary><pre>rule_tip = fields.Char(compute='_compute_rule_tip')</pre></details><h3>Methods</h3><details><summary id="m-_compute_base_price">_compute_base_price(self, product, quantity, uom, date, currency) <span class="position">@ line 408</span></summary><pre>Compute the base price for a given rule
+
+:param product: recordset of product (product.product/product.template)
+:param float qty: quantity of products requested (in given uom)
+:param uom: unit of measure (uom.uom record)
+:param datetime date: date to use for price computation and currency conversions
+:param currency: currency in which the returned price must be expressed
+
+:returns: base price, expressed in provided pricelist currency
+:rtype: float</pre></details><details><summary id="m-_compute_price">_compute_price(self, product, quantity, uom, date, currency) <span class="position">@ line 352</span></summary><pre>Compute the unit price of a product in the context of a pricelist application.
+
+Note: self and self.ensure_one()
+
+:param product: recordset of product (product.product/product.template)
+:param float qty: quantity of products requested (in given uom)
+:param uom: unit of measure (uom.uom record)
+:param datetime date: date to use for price computation and currency conversions
+:param currency: currency (for the case where self is empty)
+
+:returns: price according to pricelist rule or the product price, expressed in the param
+currency, the pricelist currency or the company currency
+:rtype: float</pre></details><details><summary id="m-_compute_price_before_discount">_compute_price_before_discount(self, *args, **args) <span class="position">@ line 440</span></summary><pre>Compute the base price of the lowest pricelist rule whose pricelist discount_policy
+is set to show the discount to the customer.
+
+:param product: recordset of product (product.product/product.template)
+:param float qty: quantity of products requested (in given uom)
+:param uom: unit of measure (uom.uom record)
+:param datetime date: date to use for price computation and currency conversions
+:param currency: currency in which the returned price must be expressed
+
+:returns: base price, expressed in provided pricelist currency
+:rtype: float</pre></details><ul id="m-_default_pricelist_id"><li>_default_pricelist_id(self) <span class="position">@ line 15</span></li></ul><details><summary id="m-_is_applicable_for">_is_applicable_for(self, product, qty_in_product_uom) <span class="position">@ line 309</span></summary><pre>Check whether the current rule is valid for the given product & qty.
+
+Note: self.ensure_one()
+
+:param product: product record (product.product/product.template)
+:param float qty_in_product_uom: quantity, expressed in product UoM
+:returns: Whether rules is valid or not
+:rtype: bool</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 293</span></li></ul><script src="class.js"></script></body></html>

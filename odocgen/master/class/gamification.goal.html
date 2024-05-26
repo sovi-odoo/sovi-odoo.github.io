@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>gamification.goal - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>gamification.goal</h1><p>Originally defined in: odoo/addons/gamification/models/gamification_goal.py</p><hr/><h2>Original: odoo/addons/gamification/models/gamification_goal.py</h2><h3>Fields</h3><details><summary id="f-challenge_id">challenge_id <span class="position">@ line 27</span></summary><pre>challenge_id = fields.Many2one(
+        related='line_id.challenge_id', store=True, readonly=True, index=True,
+        help="Challenge that generated the goal, assign challenge to users "
+             "to generate goals with a value in this field.")</pre></details><details><summary id="f-closed">closed <span class="position">@ line 45</span></summary><pre>closed = fields.Boolean('Closed goal')</pre></details><details><summary id="f-completeness">completeness <span class="position">@ line 36</span></summary><pre>completeness = fields.Float("Completeness", compute='_get_completion')</pre></details><details><summary id="f-computation_mode">computation_mode <span class="position">@ line 47</span></summary><pre>computation_mode = fields.Selection(related='definition_id.computation_mode', readonly=False)</pre></details><details><summary id="f-current">current <span class="position">@ line 35</span></summary><pre>current = fields.Float("Current Value", required=True, default=0)</pre></details><details><summary id="f-definition_condition">definition_condition <span class="position">@ line 59</span></summary><pre>definition_condition = fields.Selection(string="Definition Condition", related='definition_id.condition', readonly=True)</pre></details><details><summary id="f-definition_description">definition_description <span class="position">@ line 58</span></summary><pre>definition_description = fields.Text("Definition Description", related='definition_id.description', readonly=True)</pre></details><details><summary id="f-definition_display">definition_display <span class="position">@ line 61</span></summary><pre>definition_display = fields.Selection(string="Display Mode", related='definition_id.display_mode', readonly=True)</pre></details><details><summary id="f-definition_id">definition_id <span class="position">@ line 24</span></summary><pre>definition_id = fields.Many2one('gamification.goal.definition', string="Goal Definition", required=True, ondelete="cascade")</pre></details><details><summary id="f-definition_suffix">definition_suffix <span class="position">@ line 60</span></summary><pre>definition_suffix = fields.Char("Suffix", related='definition_id.full_suffix', readonly=True)</pre></details><details><summary id="f-end_date">end_date <span class="position">@ line 32</span></summary><pre>end_date = fields.Date("End Date")</pre></details><details><summary id="f-last_update">last_update <span class="position">@ line 52</span></summary><pre>last_update = fields.Date(
+        "Last Update",
+        help="In case of manual goal, reminders are sent if the goal as not "
+             "been updated for a while (defined in challenge). Ignored in "
+             "case of non-manual goal or goal not linked to a challenge.")</pre></details><details><summary id="f-line_id">line_id <span class="position">@ line 26</span></summary><pre>line_id = fields.Many2one('gamification.challenge.line', string="Challenge Line", ondelete="cascade")</pre></details><details><summary id="f-remind_update_delay">remind_update_delay <span class="position">@ line 48</span></summary><pre>remind_update_delay = fields.Integer(
+        "Remind delay", help="The number of days after which the user "
+                             "assigned to a manual goal will be reminded. "
+                             "Never reminded if no value is specified.")</pre></details><details><summary id="f-start_date">start_date <span class="position">@ line 31</span></summary><pre>start_date = fields.Date("Start Date", default=fields.Date.today)</pre></details><details><summary id="f-state">state <span class="position">@ line 37</span></summary><pre>state = fields.Selection([
+        ('draft', "Draft"),
+        ('inprogress', "In progress"),
+        ('reached', "Reached"),
+        ('failed', "Failed"),
+        ('canceled', "Cancelled"),
+    ], default='draft', string='State', required=True)</pre></details><details><summary id="f-target_goal">target_goal <span class="position">@ line 33</span></summary><pre>target_goal = fields.Float('To Reach', required=True)</pre></details><details><summary id="f-to_update">to_update <span class="position">@ line 44</span></summary><pre>to_update = fields.Boolean('To update')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 25</span></summary><pre>user_id = fields.Many2one('res.users', string="User", required=True, auto_join=True, ondelete="cascade")</pre></details><h3>Methods</h3><details><summary id="m-_check_remind_delay">_check_remind_delay(self) <span class="position">@ line 78</span></summary><pre>Verify if a goal has not been updated for some time and send a
+reminder message of needed.
+
+:return: data to write on the goal object</pre></details><details><summary id="m-_get_write_values">_get_write_values(self, new_value) <span class="position">@ line 103</span></summary><pre>Generate values to write after recomputation of a goal score</pre></details><details><summary id="m-action_cancel">action_cancel(self) <span class="position">@ line 255</span></summary><pre>Reset the completion after setting a goal as reached or failed.
+
+This is only the current state, if the date and/or target criteria
+match the conditions for a change of state, this will be applied at the
+next goal update.</pre></details><details><summary id="m-action_fail">action_fail(self) <span class="position">@ line 249</span></summary><pre>Set the state of the goal to failed.
+
+A failed goal will be ignored in future checks.</pre></details><details><summary id="m-action_reach">action_reach(self) <span class="position">@ line 242</span></summary><pre>Mark a goal as reached.
+
+If the target goal condition is not met, the state will be reset to In
+Progress at the next goal update until the end date.</pre></details><details><summary id="m-action_start">action_start(self) <span class="position">@ line 235</span></summary><pre>Mark a goal as started.
+
+This should only be used when creating goals manually (in draft state)</pre></details><details><summary id="m-get_action">get_action(self) <span class="position">@ line 285</span></summary><pre>Get the ir.action related to update the goal
+
+In case of a manual goal, should return a wizard to update the value
+:return: action description in a dictionary</pre></details><details><summary id="m-update_goal">update_goal(self) <span class="position">@ line 122</span></summary><pre>Update the goals to recomputes values and change of states
+
+If a manual goal is not updated for enough time, the user will be
+reminded to do so (done only once, in 'inprogress' state).
+If a goal reaches the target value, the status is set to reached
+If the end date is passed (at least +1 day, time not considered) without
+the target value being reached, the goal is set as failed.</pre></details><details><summary id="m-write">write(self, vals) <span class="position">@ line 267</span></summary><pre>Overwrite the write method to update the last_update field to today
+
+If the current value is changed and the report frequency is set to On
+change, a report is generated</pre></details><script src="class.js"></script></body></html>

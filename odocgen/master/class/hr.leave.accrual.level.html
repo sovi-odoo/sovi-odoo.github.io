@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>hr.leave.accrual.level - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>hr.leave.accrual.level</h1><p>Originally defined in: odoo/addons/hr_holidays/models/hr_leave_accrual_plan_level.py</p><p>Inherited in: odoo/addons/hr_holidays_attendance/models/hr_leave_accrual_plan_level.py<br/></p><hr/><h2>Original: odoo/addons/hr_holidays/models/hr_leave_accrual_plan_level.py</h2><h3>Fields</h3><details><summary id="f-accrual_plan_id">accrual_plan_id <span class="position">@ line 28</span></summary><pre>accrual_plan_id = fields.Many2one('hr.leave.accrual.plan', "Accrual Plan", required=True, ondelete="cascade")</pre></details><details><summary id="f-accrued_gain_time">accrued_gain_time <span class="position">@ line 29</span></summary><pre>accrued_gain_time = fields.Selection(related='accrual_plan_id.accrued_gain_time')</pre></details><details><summary id="f-action_with_unused_accruals">action_with_unused_accruals <span class="position">@ line 116</span></summary><pre>action_with_unused_accruals = fields.Selection(
+        [('lost', 'None. Accrued time reset to 0'),
+         ('all', 'All accrued time carried over'),
+         ('maximum', 'Carry over with a maximum')],
+        string="Carry over",
+        default='all', required=True,
+        help="When the Carry-Over Time is reached, according to Plan's setting, select what you want "
+        "to happen with the unused time off: None (time will be reset to zero), All accrued time carried over to "
+        "the next period; or Carryover with a maximum).")</pre></details><details><summary id="f-added_value">added_value <span class="position">@ line 41</span></summary><pre>added_value = fields.Float(
+        "Rate", digits=(16, 5), required=True, default=1,
+        help="The number of hours/days that will be incremented in the specified Time Off Type for every period")</pre></details><details><summary id="f-added_value_type">added_value_type <span class="position">@ line 44</span></summary><pre>added_value_type = fields.Selection([
+        ('day', 'Days'),
+        ('hour', 'Hours')
+    ], compute="_compute_added_value_type", store=True, required=True, readonly=False, default="day")</pre></details><details><summary id="f-can_modify_value_type">can_modify_value_type <span class="position">@ line 127</span></summary><pre>can_modify_value_type = fields.Boolean(compute="_compute_can_modify_value_type")</pre></details><details><summary id="f-cap_accrued_time">cap_accrued_time <span class="position">@ line 111</span></summary><pre>cap_accrued_time = fields.Boolean("Cap accrued time", default=True,
+        help="When the field is checked the accrued time will be capped at the specified amount of time.")</pre></details><details><summary id="f-first_day">first_day <span class="position">@ line 66</span></summary><pre>first_day = fields.Integer(default=1)</pre></details><details><summary id="f-first_day_display">first_day_display <span class="position">@ line 67</span></summary><pre>first_day_display = fields.Selection(
+        _get_selection_days, compute='_compute_days_display', inverse='_inverse_first_day_display')</pre></details><details><summary id="f-first_month">first_month <span class="position">@ line 75</span></summary><pre>first_month = fields.Selection([
+        ('jan', 'January'),
+        ('feb', 'February'),
+        ('mar', 'March'),
+        ('apr', 'April'),
+        ('may', 'May'),
+        ('jun', 'June'),
+    ], default="jan")</pre></details><details><summary id="f-first_month_day">first_month_day <span class="position">@ line 72</span></summary><pre>first_month_day = fields.Integer(default=1)</pre></details><details><summary id="f-first_month_day_display">first_month_day_display <span class="position">@ line 73</span></summary><pre>first_month_day_display = fields.Selection(
+        _get_selection_days, compute='_compute_days_display', inverse='_inverse_first_month_day_display')</pre></details><details><summary id="f-frequency">frequency <span class="position">@ line 48</span></summary><pre>frequency = fields.Selection([
+        ('hourly', 'Hourly'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('bimonthly', 'Twice a month'),
+        ('monthly', 'Monthly'),
+        ('biyearly', 'Twice a year'),
+        ('yearly', 'Yearly'),
+    ], default='daily', required=True, string="Frequency")</pre></details><details><summary id="f-maximum_leave">maximum_leave <span class="position">@ line 113</span></summary><pre>maximum_leave = fields.Float(
+        'Limit to', digits=(16, 2), compute="_compute_maximum_leave", readonly=False, store=True,
+        help="Choose a cap for this accrual.")</pre></details><details><summary id="f-postpone_max_days">postpone_max_days <span class="position">@ line 125</span></summary><pre>postpone_max_days = fields.Integer("Maximum amount of accruals to transfer",
+        help="Set a maximum of accruals an allocation keeps at the end of the year.")</pre></details><details><summary id="f-second_day">second_day <span class="position">@ line 69</span></summary><pre>second_day = fields.Integer(default=15)</pre></details><details><summary id="f-second_day_display">second_day_display <span class="position">@ line 70</span></summary><pre>second_day_display = fields.Selection(
+        _get_selection_days, compute='_compute_days_display', inverse='_inverse_second_day_display')</pre></details><details><summary id="f-second_month">second_month <span class="position">@ line 86</span></summary><pre>second_month = fields.Selection([
+        ('jul', 'July'),
+        ('aug', 'August'),
+        ('sep', 'September'),
+        ('oct', 'October'),
+        ('nov', 'November'),
+        ('dec', 'December')
+    ], default="jul")</pre></details><details><summary id="f-second_month_day">second_month_day <span class="position">@ line 83</span></summary><pre>second_month_day = fields.Integer(default=1)</pre></details><details><summary id="f-second_month_day_display">second_month_day_display <span class="position">@ line 84</span></summary><pre>second_month_day_display = fields.Selection(
+        _get_selection_days, compute='_compute_days_display', inverse='_inverse_second_month_day_display')</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 25</span></summary><pre>sequence = fields.Integer(
+        string='sequence', compute='_compute_sequence', store=True,
+        help='Sequence is generated automatically by start time delta.')</pre></details><details><summary id="f-start_count">start_count <span class="position">@ line 30</span></summary><pre>start_count = fields.Integer(
+        "Start after",
+        help="The accrual starts after a defined period from the allocation start date. This field defines the number of days, months or years after which accrual is used.", default="1")</pre></details><details><summary id="f-start_type">start_type <span class="position">@ line 33</span></summary><pre>start_type = fields.Selection(
+        [('day', 'Days'),
+         ('month', 'Months'),
+         ('year', 'Years')],
+        default='day', string=" ", required=True,
+        help="This field defines the unit of time after which the accrual starts.")</pre></details><details><summary id="f-week_day">week_day <span class="position">@ line 57</span></summary><pre>week_day = fields.Selection([
+        ('mon', 'Monday'),
+        ('tue', 'Tuesday'),
+        ('wed', 'Wednesday'),
+        ('thu', 'Thursday'),
+        ('fri', 'Friday'),
+        ('sat', 'Saturday'),
+        ('sun', 'Sunday'),
+    ], default='mon', required=True, string="Allocation on")</pre></details><details><summary id="f-yearly_day">yearly_day <span class="position">@ line 108</span></summary><pre>yearly_day = fields.Integer(default=1)</pre></details><details><summary id="f-yearly_day_display">yearly_day_display <span class="position">@ line 109</span></summary><pre>yearly_day_display = fields.Selection(
+        _get_selection_days, compute='_compute_days_display', inverse='_inverse_yearly_day_display')</pre></details><details><summary id="f-yearly_month">yearly_month <span class="position">@ line 94</span></summary><pre>yearly_month = fields.Selection([
+        ('jan', 'January'),
+        ('feb', 'February'),
+        ('mar', 'March'),
+        ('apr', 'April'),
+        ('may', 'May'),
+        ('jun', 'June'),
+        ('jul', 'July'),
+        ('aug', 'August'),
+        ('sep', 'September'),
+        ('oct', 'October'),
+        ('nov', 'November'),
+        ('dec', 'December')
+    ], default="jan")</pre></details><h3>Methods</h3><details><summary id="m-_get_next_date">_get_next_date(self, last_call) <span class="position">@ line 222</span></summary><pre>Returns the next date with the given last call</pre></details><details><summary id="m-_get_previous_date">_get_previous_date(self, last_call) <span class="position">@ line 269</span></summary><pre>Returns the date a potential previous call would have been at
+For example if you have a monthly level giving 16/02 would return 01/02
+Contrary to `_get_next_date` this function will return the 01/02 if that date is given</pre></details><ul id="m-_inverse_first_day_display"><li>_inverse_first_day_display(self) <span class="position">@ line 187</span></li></ul><ul id="m-_inverse_first_month_day_display"><li>_inverse_first_month_day_display(self) <span class="position">@ line 201</span></li></ul><ul id="m-_inverse_second_day_display"><li>_inverse_second_day_display(self) <span class="position">@ line 194</span></li></ul><ul id="m-_inverse_second_month_day_display"><li>_inverse_second_month_day_display(self) <span class="position">@ line 208</span></li></ul><ul id="m-_inverse_yearly_day_display"><li>_inverse_yearly_day_display(self) <span class="position">@ line 215</span></li></ul><h2>Inherited: odoo/addons/hr_holidays_attendance/models/hr_leave_accrual_plan_level.py</h2><h3>Fields</h3><details><summary id="f-frequency_hourly_source">frequency_hourly_source <span class="position">@ line 10</span></summary><pre>frequency_hourly_source = fields.Selection(
+        selection=[
+            ('calendar', 'Calendar'),
+            ('attendance', 'Attendances')
+        ],
+        default='calendar',
+        compute='_compute_frequency_hourly_source',
+        store=True,
+        readonly=False,
+        help='If the source is set to "Calendar", the amount of worked hours will be computed based '
+        "on the Employee's working schedule. Otherwise, the amount of worked hours will be based "
+        'on Attendance records.')</pre></details><script src="class.js"></script></body></html>

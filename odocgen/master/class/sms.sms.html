@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sms.sms - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sms.sms</h1><p>Originally defined in: odoo/addons/sms/models/sms_sms.py</p><hr/><h2>Original: odoo/addons/sms/models/sms_sms.py</h2><h3>Fields</h3><details><summary id="f-BOUNCE_DELIVERY_ERRORS">BOUNCE_DELIVERY_ERRORS <span class="position">@ line 37</span></summary><pre>BOUNCE_DELIVERY_ERRORS = {'sms_invalid_destination', 'sms_not_allowed', 'sms_rejected'}</pre></details><details><summary id="f-DELIVERY_ERRORS">DELIVERY_ERRORS <span class="position">@ line 38</span></summary><pre>DELIVERY_ERRORS = {'sms_expired', 'sms_not_delivered', *BOUNCE_DELIVERY_ERRORS}</pre></details><details><summary id="f-IAP_TO_SMS_FAILURE_TYPE">IAP_TO_SMS_FAILURE_TYPE <span class="position">@ line 29</span></summary><pre>IAP_TO_SMS_FAILURE_TYPE = {
+        'insufficient_credit': 'sms_credit',
+        'wrong_number_format': 'sms_number_format',
+        'country_not_supported': 'sms_country_not_supported',
+        'server_error': 'sms_server',
+        'unregistered': 'sms_acc'
+    }</pre></details><details><summary id="f-IAP_TO_SMS_STATE_SUCCESS">IAP_TO_SMS_STATE_SUCCESS <span class="position">@ line 22</span></summary><pre>IAP_TO_SMS_STATE_SUCCESS = {
+        'processing': 'process',
+        'success': 'pending',
+        # These below are not returned in responses from IAP API in _send but are received via webhook events.
+        'sent': 'pending',
+        'delivered': 'sent',
+    }</pre></details><details><summary id="f-body">body <span class="position">@ line 43</span></summary><pre>body = fields.Text()</pre></details><details><summary id="f-failure_type">failure_type <span class="position">@ line 54</span></summary><pre>failure_type = fields.Selection([
+        ("unknown", "Unknown error"),
+        ('sms_number_missing', 'Missing Number'),
+        ('sms_number_format', 'Wrong Number Format'),
+        ('sms_country_not_supported', 'Country Not Supported'),
+        ('sms_registration_needed', 'Country-specific Registration Required'),
+        ('sms_credit', 'Insufficient Credit'),
+        ('sms_server', 'Server Error'),
+        ('sms_acc', 'Unregistered Account'),
+        # mass mode specific codes, generated internally, not returned by IAP.
+        ('sms_blacklist', 'Blacklisted'),
+        ('sms_duplicate', 'Duplicate'),
+        ('sms_optout', 'Opted Out'),
+    ], copy=False)</pre></details><details><summary id="f-mail_message_id">mail_message_id <span class="position">@ line 45</span></summary><pre>mail_message_id = fields.Many2one('mail.message', index=True)</pre></details><details><summary id="f-number">number <span class="position">@ line 42</span></summary><pre>number = fields.Char('Number')</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 44</span></summary><pre>partner_id = fields.Many2one('res.partner', 'Customer')</pre></details><details><summary id="f-sms_tracker_id">sms_tracker_id <span class="position">@ line 68</span></summary><pre>sms_tracker_id = fields.Many2one('sms.tracker', string='SMS trackers', compute='_compute_sms_tracker_id')</pre></details><details><summary id="f-state">state <span class="position">@ line 46</span></summary><pre>state = fields.Selection([
+        ('outgoing', 'In Queue'),
+        ('process', 'Processing'),
+        ('pending', 'Sent'),
+        ('sent', 'Delivered'),  # As for notifications and traces
+        ('error', 'Error'),
+        ('canceled', 'Cancelled')
+    ], 'SMS Status', readonly=True, copy=False, default='outgoing', required=True)</pre></details><details><summary id="f-to_delete">to_delete <span class="position">@ line 69</span></summary><pre>to_delete = fields.Boolean(
+        'Marked for deletion', default=False,
+        help='Will automatically be deleted, while notifications will not be deleted in any case.'
+    )</pre></details><details><summary id="f-uuid">uuid <span class="position">@ line 40</span></summary><pre>uuid = fields.Char('UUID', copy=False, readonly=True, default=lambda self: uuid4().hex,
+                       help='Alternate way to identify a SMS record, used for delivery reports')</pre></details><h3>Methods</h3><details><summary id="m-_send">_send(self, unlink_failed, unlink_sent, raise_exception) <span class="position">@ line 168</span></summary><pre>Send SMS after checking the number (presence and formatting).</pre></details><ul id="m-_split_batch"><li>_split_batch(self) <span class="position">@ line 163</span></li></ul><details><summary id="m-_update_sms_state_and_trackers">_update_sms_state_and_trackers(self, new_state, failure_type) <span class="position">@ line 206</span></summary><pre>Update sms state update and related tracking records (notifications, traces).</pre></details><ul id="m-action_set_canceled"><li>action_set_canceled(self) <span class="position">@ line 86</span></li></ul><ul id="m-action_set_error"><li>action_set_error(self, failure_type) <span class="position">@ line 89</span></li></ul><ul id="m-action_set_outgoing"><li>action_set_outgoing(self) <span class="position">@ line 92</span></li></ul><ul id="m-resend_failed"><li>resend_failed(self) <span class="position">@ line 110</span></li></ul><details><summary id="m-send">send(self, unlink_failed, unlink_sent, auto_commit, raise_exception) <span class="position">@ line 95</span></summary><pre>Main API method to send SMS.
+
+:param unlink_failed: unlink failed SMS after IAP feedback;
+:param unlink_sent: unlink sent SMS after IAP feedback;
+:param auto_commit: commit after each batch of SMS;
+:param raise_exception: raise if there is an issue contacting IAP;</pre></details><script src="class.js"></script></body></html>

@@ -1,0 +1,197 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>crm.team - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>crm.team</h1><p>Inherited in: odoo/addons/website_sale/models/crm_team.py<br/>Inherited in: odoo/addons/sales_team/models/crm_team.py<br/>Inherited in: odoo/addons/sale_crm/models/crm_team.py<br/>Inherited in: odoo/addons/sale/models/crm_team.py<br/>Inherited in: odoo/addons/pos_sale/models/crm_team.py<br/>Inherited in: odoo/addons/crm/models/crm_team.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale/models/crm_team.py</h2><h3>Fields</h3><details><summary id="f-abandoned_carts_amount">abandoned_carts_amount <span class="position">@ line 12</span></summary><pre>abandoned_carts_amount = fields.Integer(
+        string="Amount of Abandoned Carts", compute='_compute_abandoned_carts',
+    )</pre></details><details><summary id="f-abandoned_carts_count">abandoned_carts_count <span class="position">@ line 15</span></summary><pre>abandoned_carts_count = fields.Integer(
+        string="Number of Abandoned Carts", compute='_compute_abandoned_carts',
+    )</pre></details><details><summary id="f-website_ids">website_ids <span class="position">@ line 9</span></summary><pre>website_ids = fields.One2many(
+        string="Websites", comodel_name='website', inverse_name='salesteam_id',
+    )</pre></details><h3>Methods</h3><ul id="m-_compute_abandoned_carts"><li>_compute_abandoned_carts(self) <span class="position">@ line 19</span></li></ul><ul id="m-get_abandoned_carts"><li>get_abandoned_carts(self) <span class="position">@ line 35</span></li></ul><h2>Inherited: odoo/addons/sales_team/models/crm_team.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 93</span></summary><pre>active = fields.Boolean(default=True, help="If the active field is set to false, it will allow you to hide the Sales Team without removing it.")</pre></details><details><summary id="f-color">color <span class="position">@ line 122</span></summary><pre>color = fields.Integer(string='Color Index', help="The color of the channel")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 94</span></summary><pre>company_id = fields.Many2one(
+        'res.company', string='Company', index=True,
+        default=lambda self: self.env.company)</pre></details><details><summary id="f-crm_team_member_all_ids">crm_team_member_all_ids <span class="position">@ line 118</span></summary><pre>crm_team_member_all_ids = fields.One2many(
+        'crm.team.member', 'crm_team_id', string='Sales Team Members (incl. inactive)',
+        context={'active_test': False})</pre></details><details><summary id="f-crm_team_member_ids">crm_team_member_ids <span class="position">@ line 114</span></summary><pre>crm_team_member_ids = fields.One2many(
+        'crm.team.member', 'crm_team_id', string='Sales Team Members',
+        context={'active_test': True},
+        help="Add members to automatically assign their documents to this sales team.")</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 97</span></summary><pre>currency_id = fields.Many2one(
+        "res.currency", string="Currency",
+        related='company_id.currency_id', readonly=True)</pre></details><details><summary id="f-dashboard_button_name">dashboard_button_name <span class="position">@ line 129</span></summary><pre>dashboard_button_name = fields.Char(string="Dashboard Button", compute='_compute_dashboard_button_name')</pre></details><details><summary id="f-dashboard_graph_data">dashboard_graph_data <span class="position">@ line 130</span></summary><pre>dashboard_graph_data = fields.Text(compute='_compute_dashboard_graph')</pre></details><details><summary id="f-favorite_user_ids">favorite_user_ids <span class="position">@ line 123</span></summary><pre>favorite_user_ids = fields.Many2many(
+        'res.users', 'team_favorite_user_rel', 'team_id', 'user_id',
+        string='Favorite Members', default=_get_default_favorite_user_ids)</pre></details><details><summary id="f-is_favorite">is_favorite <span class="position">@ line 126</span></summary><pre>is_favorite = fields.Boolean(
+        string='Show on dashboard', compute='_compute_is_favorite', inverse='_inverse_is_favorite',
+        help="Favorite teams to display them in the dashboard and access them easily.")</pre></details><details><summary id="f-is_membership_multi">is_membership_multi <span class="position">@ line 102</span></summary><pre>is_membership_multi = fields.Boolean(
+        'Multiple Memberships Allowed', compute='_compute_is_membership_multi',
+        help='If True, users may belong to several sales teams. Otherwise membership is limited to a single sales team.')</pre></details><details><summary id="f-member_company_ids">member_company_ids <span class="position">@ line 110</span></summary><pre>member_company_ids = fields.Many2many(
+        'res.company', compute='_compute_member_company_ids',
+        help='UX: Limit to team company or all if no company')</pre></details><details><summary id="f-member_ids">member_ids <span class="position">@ line 105</span></summary><pre>member_ids = fields.Many2many(
+        'res.users', string='Salespersons',
+        domain="['&', ('share', '=', False), ('company_ids', 'in', member_company_ids)]",
+        compute='_compute_member_ids', inverse='_inverse_member_ids', search='_search_member_ids',
+        help="Users assigned to this team.")</pre></details><details><summary id="f-member_warning">member_warning <span class="position">@ line 113</span></summary><pre>member_warning = fields.Text('Membership Issue Warning', compute='_compute_member_warning')</pre></details><details><summary id="f-name">name <span class="position">@ line 91</span></summary><pre>name = fields.Char('Sales Team', required=True, translate=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 92</span></summary><pre>sequence = fields.Integer('Sequence', default=10)</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 100</span></summary><pre>user_id = fields.Many2one('res.users', string='Team Leader', check_company=True)</pre></details><h3>Methods</h3><ul id="m-_add_members_to_favorites"><li>_add_members_to_favorites(self) <span class="position">@ line 264</span></li></ul><details><summary id="m-_compute_dashboard_button_name">_compute_dashboard_button_name(self) <span class="position">@ line 210</span></summary><pre>Sets the adequate dashboard button name depending on the Sales Team's options</pre></details><ul id="m-_compute_dashboard_graph"><li>_compute_dashboard_graph(self) <span class="position">@ line 216</span></li></ul><ul id="m-_compute_is_favorite"><li>_compute_is_favorite(self) <span class="position">@ line 199</span></li></ul><ul id="m-_extra_sql_conditions"><li>_extra_sql_conditions(self) <span class="position">@ line 298</span></li></ul><ul id="m-_get_dashboard_graph_data"><li>_get_dashboard_graph_data(self) <span class="position">@ line 346</span></li></ul><ul id="m-_get_default_favorite_user_ids"><li>_get_default_favorite_user_ids(self) <span class="position">@ line 87</span></li></ul><details><summary id="m-_get_default_team_id">_get_default_team_id(self, user_id, domain) <span class="position">@ line 23</span></summary><pre>Compute default team id for sales related documents. Note that this
+method is not called by default_get as it takes some additional
+parameters and is meant to be called by other default methods.
+
+Heuristic (when multiple match: take from default context value or first
+sequence ordered)
+
+1- any of my teams (member OR responsible) matching domain, either from
+context or based on _order;
+2- any of my teams (member OR responsible), either from context or based
+on _order;
+3- default from context
+4- any team matching my company and domain (based on company rule)
+5- any team matching my company (based on company rule)
+
+:param user_id: salesperson to target, fallback on env.uid;
+:domain: optional domain to filter teams (like use_lead = True);</pre></details><details><summary id="m-_graph_data">_graph_data(self, start_date, end_date) <span class="position">@ line 308</span></summary><pre>return format should be an iterable of dicts that contain {'x_value': ..., 'y_value': ...}
+x_values should be weeks.
+y_values are floats.</pre></details><ul id="m-_graph_date_column"><li>_graph_date_column(self) <span class="position">@ line 286</span></li></ul><details><summary id="m-_graph_get_dates">_graph_get_dates(self, today) <span class="position">@ line 277</span></summary><pre>return a coherent start and end date for the dashboard graph covering a month period grouped by week.</pre></details><details><summary id="m-_graph_get_model">_graph_get_model(self) <span class="position">@ line 272</span></summary><pre>skeleton function defined here because it'll be called by crm and/or sale</pre></details><ul id="m-_graph_get_table"><li>_graph_get_table(self, GraphModel) <span class="position">@ line 289</span></li></ul><details><summary id="m-_graph_title_and_key">_graph_title_and_key(self) <span class="position">@ line 301</span></summary><pre>Returns an array containing the appropriate graph title and key respectively.
+
+The key is for lineCharts, to have the on-hover label.</pre></details><ul id="m-_graph_x_query"><li>_graph_x_query(self) <span class="position">@ line 292</span></li></ul><ul id="m-_graph_y_query"><li>_graph_y_query(self) <span class="position">@ line 295</span></li></ul><ul id="m-_inverse_is_favorite"><li>_inverse_is_favorite(self) <span class="position">@ line 203</span></li></ul><ul id="m-_inverse_member_ids"><li>_inverse_member_ids(self) <span class="position">@ line 142</span></li></ul><ul id="m-_search_member_ids"><li>_search_member_ids(self, operator, value) <span class="position">@ line 186</span></li></ul><details><summary id="m-action_primary_channel_button">action_primary_channel_button(self) <span class="position">@ line 255</span></summary><pre>Skeleton function to be overloaded It will return the adequate action
+depending on the Sales Team's options.</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 230</span></li></ul><h2>Inherited: odoo/addons/sale_crm/models/crm_team.py</h2><h3>Methods</h3><ul id="m-_compute_dashboard_button_name"><li>_compute_dashboard_button_name(self) <span class="position">@ line 10</span></li></ul><ul id="m-_extra_sql_conditions"><li>_extra_sql_conditions(self) <span class="position">@ line 41</span></li></ul><ul id="m-_graph_date_column"><li>_graph_date_column(self) <span class="position">@ line 26</span></li></ul><ul id="m-_graph_get_model"><li>_graph_get_model(self) <span class="position">@ line 21</span></li></ul><ul id="m-_graph_title_and_key"><li>_graph_title_and_key(self) <span class="position">@ line 36</span></li></ul><ul id="m-_graph_y_query"><li>_graph_y_query(self) <span class="position">@ line 31</span></li></ul><ul id="m-action_primary_channel_button"><li>action_primary_channel_button(self) <span class="position">@ line 16</span></li></ul><h2>Inherited: odoo/addons/sale/models/crm_team.py</h2><h3>Fields</h3><details><summary id="f-invoiced">invoiced <span class="position">@ line 11</span></summary><pre>invoiced = fields.Float(
+        compute='_compute_invoiced',
+        string='Invoiced This Month', readonly=True,
+        help="Invoice revenue for the current month. This is the amount the sales "
+                "channel has invoiced this month. It is used to compute the progression ratio "
+                "of the current and target revenue on the kanban view.")</pre></details><details><summary id="f-invoiced_target">invoiced_target <span class="position">@ line 17</span></summary><pre>invoiced_target = fields.Float(
+        string='Invoicing Target',
+        help="Revenue Target for the current month (untaxed total of paid invoices).")</pre></details><details><summary id="f-quotations_amount">quotations_amount <span class="position">@ line 23</span></summary><pre>quotations_amount = fields.Float(
+        compute='_compute_quotations_to_invoice',
+        string='Amount of quotations to invoice', readonly=True)</pre></details><details><summary id="f-quotations_count">quotations_count <span class="position">@ line 20</span></summary><pre>quotations_count = fields.Integer(
+        compute='_compute_quotations_to_invoice',
+        string='Number of quotations to invoice', readonly=True)</pre></details><details><summary id="f-sale_order_count">sale_order_count <span class="position">@ line 29</span></summary><pre>sale_order_count = fields.Integer(compute='_compute_sale_order_count', string='# Sale Orders')</pre></details><details><summary id="f-sales_to_invoice_count">sales_to_invoice_count <span class="position">@ line 26</span></summary><pre>sales_to_invoice_count = fields.Integer(
+        compute='_compute_sales_to_invoice',
+        string='Number of sales to invoice', readonly=True)</pre></details><h3>Methods</h3><ul id="m-_compute_dashboard_button_name"><li>_compute_dashboard_button_name(self) <span class="position">@ line 141</span></li></ul><ul id="m-_compute_invoiced"><li>_compute_invoiced(self) <span class="position">@ line 70</span></li></ul><ul id="m-_compute_quotations_to_invoice"><li>_compute_quotations_to_invoice(self) <span class="position">@ line 31</span></li></ul><ul id="m-_compute_sale_order_count"><li>_compute_sale_order_count(self) <span class="position">@ line 94</span></li></ul><ul id="m-_compute_sales_to_invoice"><li>_compute_sales_to_invoice(self) <span class="position">@ line 61</span></li></ul><ul id="m-_extra_sql_conditions"><li>_extra_sql_conditions(self) <span class="position">@ line 131</span></li></ul><ul id="m-_graph_date_column"><li>_graph_date_column(self) <span class="position">@ line 111</span></li></ul><ul id="m-_graph_get_model"><li>_graph_get_model(self) <span class="position">@ line 106</span></li></ul><ul id="m-_graph_get_table"><li>_graph_get_table(self, GraphModel) <span class="position">@ line 116</span></li></ul><ul id="m-_graph_title_and_key"><li>_graph_title_and_key(self) <span class="position">@ line 136</span></li></ul><ul id="m-_graph_y_query"><li>_graph_y_query(self) <span class="position">@ line 126</span></li></ul><ul id="m-_in_sale_scope"><li>_in_sale_scope(self) <span class="position">@ line 103</span></li></ul><ul id="m-action_primary_channel_button"><li>action_primary_channel_button(self) <span class="position">@ line 146</span></li></ul><ul id="m-update_invoiced_target"><li>update_invoiced_target(self, value) <span class="position">@ line 151</span></li></ul><h2>Inherited: odoo/addons/pos_sale/models/crm_team.py</h2><h3>Fields</h3><details><summary id="f-pos_config_ids">pos_config_ids <span class="position">@ line 13</span></summary><pre>pos_config_ids = fields.One2many('pos.config', 'crm_team_id', string="Point of Sales")</pre></details><details><summary id="f-pos_order_amount_total">pos_order_amount_total <span class="position">@ line 15</span></summary><pre>pos_order_amount_total = fields.Float(string="Session Sale Amount", compute='_compute_pos_order_amount_total')</pre></details><details><summary id="f-pos_sessions_open_count">pos_sessions_open_count <span class="position">@ line 14</span></summary><pre>pos_sessions_open_count = fields.Integer(string='Open POS Sessions', compute='_compute_pos_sessions_open_count')</pre></details><h3>Methods</h3><ul id="m-_compute_pos_order_amount_total"><li>_compute_pos_order_amount_total(self) <span class="position">@ line 21</span></li></ul><ul id="m-_compute_pos_sessions_open_count"><li>_compute_pos_sessions_open_count(self) <span class="position">@ line 17</span></li></ul><h2>Inherited: odoo/addons/crm/models/crm_team.py</h2><h3>Fields</h3><details><summary id="f-alias_id">alias_id <span class="position">@ line 27</span></summary><pre>alias_id = fields.Many2one(help="The email address associated with this channel. New emails received will automatically create new leads assigned to the channel.")</pre></details><details><summary id="f-assignment_auto_enabled">assignment_auto_enabled <span class="position">@ line 30</span></summary><pre>assignment_auto_enabled = fields.Boolean('Auto Assignment', compute='_compute_assignment_enabled')</pre></details><details><summary id="f-assignment_domain">assignment_domain <span class="position">@ line 35</span></summary><pre>assignment_domain = fields.Char(
+        'Assignment Domain', tracking=True,
+        help='Additional filter domain when fetching unassigned leads to allocate to the team.')</pre></details><details><summary id="f-assignment_enabled">assignment_enabled <span class="position">@ line 29</span></summary><pre>assignment_enabled = fields.Boolean('Lead Assign', compute='_compute_assignment_enabled')</pre></details><details><summary id="f-assignment_max">assignment_max <span class="position">@ line 32</span></summary><pre>assignment_max = fields.Integer(
+        'Lead Average Capacity', compute='_compute_assignment_max',
+        help='Monthly average leads capacity for all salesmen belonging to the team')</pre></details><details><summary id="f-assignment_optout">assignment_optout <span class="position">@ line 31</span></summary><pre>assignment_optout = fields.Boolean('Skip auto assignment')</pre></details><details><summary id="f-lead_all_assigned_month_count">lead_all_assigned_month_count <span class="position">@ line 41</span></summary><pre>lead_all_assigned_month_count = fields.Integer(
+        string='# Leads/Opps assigned this month', compute='_compute_lead_all_assigned_month_count',
+        help="Number of leads and opportunities assigned this last month.")</pre></details><details><summary id="f-lead_all_assigned_month_exceeded">lead_all_assigned_month_exceeded <span class="position">@ line 44</span></summary><pre>lead_all_assigned_month_exceeded = fields.Boolean('Exceed monthly lead assignement', compute="_compute_lead_all_assigned_month_count",
+        help="True if the monthly lead assignment count is greater than the maximum assignment limit, false otherwise."
+    )</pre></details><details><summary id="f-lead_properties_definition">lead_properties_definition <span class="position">@ line 56</span></summary><pre>lead_properties_definition = fields.PropertiesDefinition('Lead Properties')</pre></details><details><summary id="f-lead_unassigned_count">lead_unassigned_count <span class="position">@ line 39</span></summary><pre>lead_unassigned_count = fields.Integer(
+        string='# Unassigned Leads', compute='_compute_lead_unassigned_count')</pre></details><details><summary id="f-opportunities_amount">opportunities_amount <span class="position">@ line 49</span></summary><pre>opportunities_amount = fields.Monetary(
+        string='Opportunities Revenues', compute='_compute_opportunities_data')</pre></details><details><summary id="f-opportunities_count">opportunities_count <span class="position">@ line 47</span></summary><pre>opportunities_count = fields.Integer(
+        string='# Opportunities', compute='_compute_opportunities_data')</pre></details><details><summary id="f-opportunities_overdue_amount">opportunities_overdue_amount <span class="position">@ line 53</span></summary><pre>opportunities_overdue_amount = fields.Monetary(
+        string='Overdue Opportunities Revenues', compute='_compute_opportunities_overdue_data',)</pre></details><details><summary id="f-opportunities_overdue_count">opportunities_overdue_count <span class="position">@ line 51</span></summary><pre>opportunities_overdue_count = fields.Integer(
+        string='# Overdue Opportunities', compute='_compute_opportunities_overdue_data')</pre></details><details><summary id="f-use_leads">use_leads <span class="position">@ line 25</span></summary><pre>use_leads = fields.Boolean('Leads', help="Check this box to filter and qualify incoming requests as leads before converting them into opportunities and assigning them to a salesperson.")</pre></details><details><summary id="f-use_opportunities">use_opportunities <span class="position">@ line 26</span></summary><pre>use_opportunities = fields.Boolean('Pipeline', default=True, help="Check this box to manage a presales process with opportunities.")</pre></details><h3>Methods</h3><details><summary id="m-_action_assign_leads">_action_assign_leads(self, force_quota, creation_delta_days) <span class="position">@ line 256</span></summary><pre>Private method for lead assignment. This method both
+
+* assigns leads to teams given by self;
+* assigns leads to salespersons belonging to self;
+
+See sub methods for more details about assign process.
+
+:param bool force_quota: Assign the full daily quota without taking into account
+the leads already assigned today
+:param int creation_delta_days: Take into account all leads created in the last nb days (by default 7).
+If set to zero we take all the past leads.
+
+:return teams_data, members_data: structure-based result of assignment
+process. For more details about data see ``CrmTeam._allocate_leads()``
+and ``CrmTeam._assign_and_convert_leads``;</pre></details><details><summary id="m-_action_assign_leads_logs">_action_assign_leads_logs(self, teams_data, members_data) <span class="position">@ line 287</span></summary><pre>Tool method to prepare notification about assignment process result.
+
+:param teams_data: see ``CrmTeam._allocate_leads()``;
+:param members_data: see ``CrmTeam._assign_and_convert_leads()``;
+
+:return list: list of formatted logs, ready to be formatted into a nice
+plaintext or html message at caller's will</pre></details><ul id="m-_alias_get_creation_values"><li>_alias_get_creation_values(self) <span class="position">@ line 179</span></li></ul><details><summary id="m-_allocate_leads">_allocate_leads(self, creation_delta_days) <span class="position">@ line 353</span></summary><pre>Allocate leads to teams given by self. This method sets ``team_id``
+field on lead records that are unassigned (no team and no responsible).
+No salesperson is assigned in this process. Its purpose is simply to
+allocate leads within teams.
+
+This process allocates all available leads on teams weighted by their
+maximum assignment by month that indicates their relative workload.
+
+Heuristic of this method is the following:
+* find unassigned leads for each team, aka leads being
+* without team, without user -> not assigned;
+* not in a won stage, and not having False/0 (lost) or 100 (won)
+probability) -> live leads;
+* created in the last creation_delta_days (in the last week by default)
+This avoid to take into account old leads in the allocation.
+* if set, a delay after creation can be applied (see BUNDLE_HOURS_DELAY)
+parameter explanations here below;
+* matching the team's assignment domain (empty means
+everything);
+
+* assign a weight to each team based on their assignment_max that
+indicates their relative workload;
+
+* pick a random team using a weighted random choice and find a lead
+to assign:
+
+* remove already assigned leads from the available leads. If there
+is not any lead spare to assign, remove team from active teams;
+* pick the first lead and set the current team;
+* when setting a team on leads, leads are also merged with their
+duplicates. Purpose is to clean database and avoid assigning
+duplicates to same or different teams;
+* add lead and its duplicates to already assigned leads;
+
+* pick another random team until their is no more leads to assign
+to any team;
+
+This process ensure that teams having overlapping domains will all
+receive leads as lead allocation is done one lead at a time. This
+allocation will be proportional to their size (assignment of their
+members).
+
+:config int crm.assignment.bundle: deprecated
+:config int crm.assignment.commit.bundle: optional config parameter allowing
+to set size of lead batch to be committed together. By default 100
+which is a good trade-off between transaction time and speed
+:config float crm.assignment.delay: optional config parameter giving a
+delay before taking a lead into assignment process (BUNDLE_HOURS_DELAY)
+given in hours. Purpose if to allow other crons or automation rules
+to make their job. This option is mainly historic as its purpose was
+to let automation rules prepare leads and score before PLS was added
+into CRM. This is now not required anymore but still supported;
+
+:param int creation_delta_days: see ``CrmTeam._action_assign_leads()``;
+
+:return teams_data: dict() with each team assignment result:
+team: {
+'assigned': set of lead IDs directly assigned to the team (no
+duplicate or merged found);
+'merged': set of lead IDs merged and assigned to the team (main
+leads being results of merge process);
+'duplicates': set of lead IDs found as duplicates and merged into
+other leads. Those leads are unlinked during assign process and
+are already removed at return of this method;
+}, ...</pre></details><details><summary id="m-_allocate_leads_deduplicate">_allocate_leads_deduplicate(self, leads, duplicates_cache) <span class="position">@ line 519</span></summary><pre>Assign leads to sales team given by self by calling lead tool
+method _handle_salesmen_assignment. In this method we deduplicate leads
+allowing to reduce number of resulting leads before assigning them
+to salesmen.
+
+:param leads: recordset of leads to assign to current team;
+:param duplicates_cache: if given, avoid to perform a duplicate search
+and fetch information in it instead;</pre></details><details><summary id="m-_assign_and_convert_leads">_assign_and_convert_leads(self, force_quota) <span class="position">@ line 568</span></summary><pre>Main processing method to assign leads to sales team members. It also
+converts them into opportunities. This method should be called after
+``_allocate_leads`` as this method assigns leads already allocated to
+the member's team. Its main purpose is therefore to distribute team
+workload on its members based on their capacity.
+
+This method follows the following heuristic
+* Get quota per member
+* Find all leads to be assigned per team
+* Sort list of members per number of leads received in the last 24h
+* Assign the lead using round robin
+* Find the first member with a compatible domain
+* Assign the lead
+* Move the member at the end of the list if quota is not reached
+* Remove it otherwise
+* Move to the next lead
+
+:param bool force_quota: see ``CrmTeam._action_assign_leads()``;
+
+:return members_data: dict() with each member assignment result:
+membership: {
+'assigned': set of lead IDs directly assigned to the member;
+}, ...</pre></details><ul id="m-_compute_assignment_enabled"><li>_compute_assignment_enabled(self) <span class="position">@ line 63</span></li></ul><ul id="m-_compute_dashboard_button_name"><li>_compute_dashboard_button_name(self) <span class="position">@ line 685</span></li></ul><ul id="m-_compute_lead_unassigned_count"><li>_compute_lead_unassigned_count(self) <span class="position">@ line 72</span></li></ul><ul id="m-_compute_opportunities_data"><li>_compute_opportunities_data(self) <span class="position">@ line 88</span></li></ul><ul id="m-_compute_opportunities_overdue_data"><li>_compute_opportunities_overdue_data(self) <span class="position">@ line 98</span></li></ul><ul id="m-_extra_sql_conditions"><li>_extra_sql_conditions(self) <span class="position">@ line 716</span></li></ul><ul id="m-_graph_date_column"><li>_graph_date_column(self) <span class="position">@ line 706</span></li></ul><ul id="m-_graph_get_model"><li>_graph_get_model(self) <span class="position">@ line 701</span></li></ul><ul id="m-_graph_title_and_key"><li>_graph_title_and_key(self) <span class="position">@ line 721</span></li></ul><ul id="m-_graph_y_query"><li>_graph_y_query(self) <span class="position">@ line 711</span></li></ul><details><summary id="m-action_assign_leads">action_assign_leads(self) <span class="position">@ line 219</span></summary><pre>Manual (direct) leads assignment. This method both
+
+* assigns leads to teams given by self;
+* assigns leads to salespersons belonging to self;
+
+See sub methods for more details about assign process.
+
+:return action: a client notification giving some insights on assign
+process;</pre></details><ul id="m-action_primary_channel_button"><li>action_primary_channel_button(self) <span class="position">@ line 690</span></li></ul><details><summary id="m-unlink">unlink(self) <span class="position">@ line 139</span></summary><pre>When unlinking, concatenate ``crm.lead.scoring.frequency`` linked to
+the team into "no team" statistics.</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 128</span></li></ul><script src="class.js"></script></body></html>

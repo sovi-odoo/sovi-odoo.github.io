@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.mail_server - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.mail_server</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_mail_server.py</p><p>Inherited in: odoo/addons/microsoft_outlook/models/ir_mail_server.py<br/>Inherited in: odoo/addons/mass_mailing/models/ir_mail_server.py<br/>Inherited in: odoo/addons/mail/models/ir_mail_server.py<br/>Inherited in: odoo/addons/google_gmail/models/ir_mail_server.py<br/></p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_mail_server.py</h2><h3>Fields</h3><details><summary id="f-NO_FOUND_FROM">NO_FOUND_FROM <span class="position">@ line 95</span></summary><pre>NO_FOUND_FROM = ("You must either provide a sender address explicitly or configure "
+          "using the combination of `mail.catchall.domain` and `mail.default.from` "
+          "ICPs, in the server configuration file or with the --email-from startup "
+          "parameter.")</pre></details><details><summary id="f-NO_FOUND_SMTP_FROM">NO_FOUND_SMTP_FROM <span class="position">@ line 99</span></summary><pre>NO_FOUND_SMTP_FROM = "The Return-Path or From header is required for any outbound email"</pre></details><details><summary id="f-NO_VALID_FROM">NO_VALID_FROM <span class="position">@ line 100</span></summary><pre>NO_VALID_FROM = "Malformed 'Return-Path' or 'From' address. It should contain one valid plain ASCII email"</pre></details><details><summary id="f-NO_VALID_RECIPIENT">NO_VALID_RECIPIENT <span class="position">@ line 93</span></summary><pre>NO_VALID_RECIPIENT = ("At least one valid recipient address should be "
+                          "specified for outgoing emails (To/Cc/Bcc)")</pre></details><details><summary id="f-active">active <span class="position">@ line 137</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-from_filter">from_filter <span class="position">@ line 103</span></summary><pre>from_filter = fields.Char(
+        "FROM Filtering",
+        help='Comma-separated list of addresses or domains for which this server can be used.\n'
+             'e.g.: "notification@odoo.com" or "odoo.com"')</pre></details><details><summary id="f-max_email_size">max_email_size <span class="position">@ line 134</span></summary><pre>max_email_size = fields.Float(string="Max Email Size")</pre></details><details><summary id="f-name">name <span class="position">@ line 102</span></summary><pre>name = fields.Char(string='Name', required=True, index=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 135</span></summary><pre>sequence = fields.Integer(string='Priority', default=10, help="When no specific mail server is requested for a mail, the highest priority one "
+                                                                  "is used. Default priority is 10 (smaller number = higher priority)")</pre></details><details><summary id="f-smtp_authentication">smtp_authentication <span class="position">@ line 109</span></summary><pre>smtp_authentication = fields.Selection([
+        ('login', 'Username'),
+        ('certificate', 'SSL Certificate'),
+        ('cli', 'Command Line Interface')
+    ], string='Authenticate with', required=True, default='login')</pre></details><details><summary id="f-smtp_authentication_info">smtp_authentication_info <span class="position">@ line 114</span></summary><pre>smtp_authentication_info = fields.Text('Authentication Info', compute='_compute_smtp_authentication_info')</pre></details><details><summary id="f-smtp_debug">smtp_debug <span class="position">@ line 131</span></summary><pre>smtp_debug = fields.Boolean(string='Debugging', help="If enabled, the full output of SMTP sessions will "
+                                                         "be written to the server log at DEBUG level "
+                                                         "(this is very verbose and may include confidential info!)")</pre></details><details><summary id="f-smtp_encryption">smtp_encryption <span class="position">@ line 117</span></summary><pre>smtp_encryption = fields.Selection([('none', 'None'),
+                                        ('starttls', 'TLS (STARTTLS)'),
+                                        ('ssl', 'SSL/TLS')],
+                                       string='Connection Encryption', required=True, default='none',
+                                       help="Choose the connection encryption scheme:\n"
+                                            "- None: SMTP sessions are done in cleartext.\n"
+                                            "- TLS (STARTTLS): TLS encryption is requested at start of SMTP session (Recommended)\n"
+                                            "- SSL/TLS: SMTP sessions are encrypted with SSL/TLS through a dedicated port (default: 465)")</pre></details><details><summary id="f-smtp_host">smtp_host <span class="position">@ line 107</span></summary><pre>smtp_host = fields.Char(string='SMTP Server', help="Hostname or IP of SMTP server")</pre></details><details><summary id="f-smtp_pass">smtp_pass <span class="position">@ line 116</span></summary><pre>smtp_pass = fields.Char(string='Password', help="Optional password for SMTP authentication", groups='base.group_system')</pre></details><details><summary id="f-smtp_port">smtp_port <span class="position">@ line 108</span></summary><pre>smtp_port = fields.Integer(string='SMTP Port', default=25, help="SMTP Port. Usually 465 for SSL, and 25 or 587 for other cases.")</pre></details><details><summary id="f-smtp_ssl_certificate">smtp_ssl_certificate <span class="position">@ line 125</span></summary><pre>smtp_ssl_certificate = fields.Binary(
+        'SSL Certificate', groups='base.group_system', attachment=False,
+        help='SSL certificate used for authentication')</pre></details><details><summary id="f-smtp_ssl_private_key">smtp_ssl_private_key <span class="position">@ line 128</span></summary><pre>smtp_ssl_private_key = fields.Binary(
+        'SSL Private Key', groups='base.group_system', attachment=False,
+        help='SSL private key used for authentication')</pre></details><details><summary id="f-smtp_user">smtp_user <span class="position">@ line 115</span></summary><pre>smtp_user = fields.Char(string='Username', help="Optional username for SMTP authentication", groups='base.group_system')</pre></details><h3>Methods</h3><details><summary id="m-_active_usages_compute">_active_usages_compute(self) <span class="position">@ line 201</span></summary><pre>Compute a dict server id to list of user-friendly outgoing mail servers usage of this record set.
+
+This method must be overridden by all modules that uses this class in order to complete the list with
+user-friendly string describing the active elements that could send mail through the instance of this class.
+:return dict: { ir_mail_server.id: usage_str_list }.</pre></details><details><summary id="m-_find_mail_server">_find_mail_server(self, email_from, mail_servers) <span class="position">@ line 730</span></summary><pre>Find the appropriate mail server for the given email address.
+
+Returns: Record<ir.mail_server>, email_from
+- Mail server to use to send the email (None if we use the odoo-bin arguments)
+- Email FROM to use to send the email (in some case, it might be impossible
+to use the given email address directly if no mail server is configured for)</pre></details><ul id="m-_get_max_email_size"><li>_get_max_email_size(self) <span class="position">@ line 210</span></li></ul><ul id="m-_get_test_email_from"><li>_get_test_email_from(self) <span class="position">@ line 215</span></li></ul><ul id="m-_get_test_email_to"><li>_get_test_email_to(self) <span class="position">@ line 232</span></li></ul><details><summary id="m-_is_test_mode">_is_test_mode(self) <span class="position">@ line 834</span></summary><pre>Return True if we are running the tests, so we do not send real emails.
+
+Can be overridden in tests after mocking the SMTP lib to test in depth the
+outgoing mail server.</pre></details><details><summary id="m-_prepare_email_message">_prepare_email_message(self, message, smtp_session) <span class="position">@ line 586</span></summary><pre>Prepare the SMTP information (from, to, message) before sending.
+
+:param message: the email.message.Message to send, information like the
+Return-Path, the From, etc... will be used to find the smtp_from and to smtp_to
+:param smtp_session: the opened SMTP session to use to authenticate the sender
+:return: smtp_from, smtp_to_list, message
+smtp_from: email to used during the authentication to the mail server
+smtp_to_list: list of email address which will receive the email
+message: the email.message.Message to send</pre></details><details><summary id="m-_smtp_login">_smtp_login(self, connection, smtp_user, smtp_password) <span class="position">@ line 462</span></summary><pre>Authenticate the SMTP connection.
+
+Can be overridden in other module for different authentication methods.Can be
+called on the model itself or on a singleton.
+
+:param connection: The SMTP connection to authenticate
+:param smtp_user: The user to used for the authentication
+:param smtp_password: The password to used for the authentication</pre></details><ul id="m-action_retrieve_max_email_size"><li>action_retrieve_max_email_size(self) <span class="position">@ line 316</span></li></ul><details><summary id="m-build_email">build_email(self, email_from, email_to, subject, body, email_cc, email_bcc, reply_to, attachments, message_id, references, object_id, subtype, headers, body_alternative, subtype_alternative) <span class="position">@ line 474</span></summary><pre>Constructs an RFC2822 email.message.Message object based on the keyword arguments passed, and returns it.
+
+:param string email_from: sender email address
+:param list email_to: list of recipient addresses (to be joined with commas)
+:param string subject: email subject (no pre-encoding/quoting necessary)
+:param string body: email body, of the type ``subtype`` (by default, plaintext).
+If html subtype is used, the message will be automatically converted
+to plaintext and wrapped in multipart/alternative, unless an explicit
+``body_alternative`` version is passed.
+:param string body_alternative: optional alternative body, of the type specified in ``subtype_alternative``
+:param string reply_to: optional value of Reply-To header
+:param string object_id: optional tracking identifier, to be included in the message-id for
+recognizing replies. Suggested format for object-id is "res_id-model",
+e.g. "12345-crm.lead".
+:param string subtype: optional mime subtype for the text body (usually 'plain' or 'html'),
+must match the format of the ``body`` parameter. Default is 'plain',
+making the content part of the mail "text/plain".
+:param string subtype_alternative: optional mime subtype of ``body_alternative`` (usually 'plain'
+or 'html'). Default is 'plain'.
+:param list attachments: list of (filename, filecontents) pairs, where filecontents is a string
+containing the bytes of the attachment
+:param message_id:
+:param references:
+:param list email_cc: optional list of string values for CC header (to be joined with commas)
+:param list email_bcc: optional list of string values for BCC header (to be joined with commas)
+:param dict headers: optional map of headers to set on the outgoing mail (may override the
+other headers, including Subject, Reply-To, Message-Id, etc.)
+:rtype: email.message.EmailMessage
+:return: the new RFC2822 email message</pre></details><details><summary id="m-connect">connect(self, host, port, user, password, encryption, smtp_from, ssl_certificate, ssl_private_key, smtp_debug, mail_server_id, allow_archived) <span class="position">@ line 320</span></summary><pre>Returns a new SMTP connection to the given SMTP server.
+When running in test mode, this method does nothing and returns `None`.
+
+:param host: host or IP of SMTP server to connect to, if mail_server_id not passed
+:param int port: SMTP port to connect to
+:param user: optional username to authenticate with
+:param password: optional password to authenticate with
+:param string encryption: optional, ``'ssl'`` | ``'starttls'``
+:param smtp_from: FROM SMTP envelop, used to find the best mail server
+:param ssl_certificate: filename of the SSL certificate used for authentication
+Used when no mail server is given and overwrite  the odoo-bin argument "smtp_ssl_certificate"
+:param ssl_private_key: filename of the SSL private key used for authentication
+Used when no mail server is given and overwrite  the odoo-bin argument "smtp_ssl_private_key"
+:param bool smtp_debug: toggle debugging of SMTP sessions (all i/o
+will be output in logs)
+:param mail_server_id: ID of specific mail server to use (overrides other parameters)
+:param bool allow_archived: by default (False), an exception is raised when calling this method on an
+archived record (using mail_server_id param). It can be set to True for testing so that the exception is no
+longer raised.</pre></details><details><summary id="m-test_smtp_connection">test_smtp_connection(self, autodetect_max_email_size) <span class="position">@ line 235</span></summary><pre>Test the connection and if autodetect_max_email_size, set auto-detected max email size.
+
+:param bool autodetect_max_email_size: whether to autodetect the max email size
+:return (dict): client action to notify the user of the result of the operation (connection test or
+auto-detection successful depending on the autodetect_max_email_size parameter)
+
+:raises UserError: if the connection fails and if autodetect_max_email_size and
+the server doesn't support the auto-detection of email max size</pre></details><details><summary id="m-write">write(self, vals) <span class="position">@ line 166</span></summary><pre>Ensure we cannot archive a server in-use</pre></details><h2>Inherited: odoo/addons/microsoft_outlook/models/ir_mail_server.py</h2><h3>Fields</h3><details><summary id="f-smtp_authentication">smtp_authentication <span class="position">@ line 18</span></summary><pre>smtp_authentication = fields.Selection(
+        selection_add=[('outlook', 'Outlook OAuth Authentication')],
+        ondelete={'outlook': 'set default'})</pre></details><h3>Methods</h3><ul id="m-_compute_smtp_authentication_info"><li>_compute_smtp_authentication_info(self) <span class="position">@ line 28</span></li></ul><ul id="m-_smtp_login"><li>_smtp_login(self, connection, smtp_user, smtp_password) <span class="position">@ line 80</span></li></ul><h2>Inherited: odoo/addons/mass_mailing/models/ir_mail_server.py</h2><h3>Fields</h3><details><summary id="f-active_mailing_ids">active_mailing_ids <span class="position">@ line 12</span></summary><pre>active_mailing_ids = fields.One2many(
+        comodel_name='mailing.mailing',
+        inverse_name='mail_server_id',
+        string='Active mailing using this mail server',
+        readonly=True,
+        domain=[('state', '!=', 'done'), ('active', '=', True)])</pre></details><h3>Methods</h3><ul id="m-_active_usages_compute"><li>_active_usages_compute(self) <span class="position">@ line 19</span></li></ul><h2>Inherited: odoo/addons/mail/models/ir_mail_server.py</h2><h3>Fields</h3><details><summary id="f-mail_template_ids">mail_template_ids <span class="position">@ line 11</span></summary><pre>mail_template_ids = fields.One2many(
+        comodel_name='mail.template',
+        inverse_name='mail_server_id',
+        string='Mail template using this mail server',
+        readonly=True)</pre></details><h3>Methods</h3><ul id="m-_active_usages_compute"><li>_active_usages_compute(self) <span class="position">@ line 17</span></li></ul><ul id="m-_get_test_email_from"><li>_get_test_email_from(self) <span class="position">@ line 41</span></li></ul><h2>Inherited: odoo/addons/google_gmail/models/ir_mail_server.py</h2><h3>Fields</h3><details><summary id="f-smtp_authentication">smtp_authentication <span class="position">@ line 16</span></summary><pre>smtp_authentication = fields.Selection(
+        selection_add=[('gmail', 'Gmail OAuth Authentication')],
+        ondelete={'gmail': 'set default'})</pre></details><h3>Methods</h3><ul id="m-_compute_smtp_authentication_info"><li>_compute_smtp_authentication_info(self) <span class="position">@ line 20</span></li></ul><ul id="m-_smtp_login"><li>_smtp_login(self, connection, smtp_user, smtp_password) <span class="position">@ line 72</span></li></ul><script src="class.js"></script></body></html>

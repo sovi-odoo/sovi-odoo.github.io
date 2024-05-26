@@ -1,0 +1,362 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.move.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.move.line</h1><p>Inherited in: odoo/addons/stock_landed_costs/models/account_move.py<br/>Inherited in: odoo/addons/stock_account/models/account_move.py<br/>Inherited in: odoo/addons/sale_timesheet/models/account_move_line.py<br/>Inherited in: odoo/addons/sale_stock/models/account_move.py<br/>Inherited in: odoo/addons/sale_project/models/account_move_line.py<br/>Inherited in: odoo/addons/sale_mrp/models/account_move.py<br/>Inherited in: odoo/addons/sale_expense_margin/models/account_move_line.py<br/>Inherited in: odoo/addons/sale_expense/models/account_move_line.py<br/>Inherited in: odoo/addons/sale/models/account_move_line.py<br/>Inherited in: odoo/addons/purchase_stock/models/account_move_line.py<br/>Inherited in: odoo/addons/purchase_mrp/models/account_move.py<br/>Inherited in: odoo/addons/purchase/models/account_invoice.py<br/>Inherited in: odoo/addons/point_of_sale/models/account_move.py<br/>Inherited in: odoo/addons/mrp_subcontracting_purchase/models/account_move_line.py<br/>Inherited in: odoo/addons/mrp_account/models/account_move.py<br/>Inherited in: odoo/addons/membership/models/account_move.py<br/>Inherited in: odoo/addons/l10n_sa_edi/models/account_move.py<br/>Inherited in: odoo/addons/l10n_pe/models/account_move.py<br/>Inherited in: odoo/addons/l10n_latam_invoice_document/models/account_move_line.py<br/>Inherited in: odoo/addons/l10n_in/models/account_move_line.py<br/>Inherited in: odoo/addons/l10n_hu_edi/models/account_move.py<br/>Inherited in: odoo/addons/l10n_gcc_invoice/models/account_move.py<br/>Inherited in: odoo/addons/l10n_cl/models/account_move_line.py<br/>Inherited in: odoo/addons/l10n_ar/models/account_move_line.py<br/>Inherited in: odoo/addons/l10n_ae/models/account_move_line.py<br/>Inherited in: odoo/addons/hr_expense/models/account_move_line.py<br/>Inherited in: odoo/addons/account_fleet/models/account_move.py<br/>Inherited in: odoo/addons/account/models/account_move_line_tax_details.py<br/>Inherited in: odoo/addons/account/models/account_move_line.py<br/></p><hr/><h2>Inherited: odoo/addons/stock_landed_costs/models/account_move.py</h2><h3>Fields</h3><details><summary id="f-is_landed_costs_line">is_landed_costs_line <span class="position">@ line 59</span></summary><pre>is_landed_costs_line = fields.Boolean()</pre></details><details><summary id="f-product_type">product_type <span class="position">@ line 58</span></summary><pre>product_type = fields.Selection(related='product_id.detailed_type', readonly=True)</pre></details><h3>Methods</h3><ul id="m-_eligible_for_cogs"><li>_eligible_for_cogs(self) <span class="position">@ line 77</span></li></ul><ul id="m-_get_stock_valuation_layers"><li>_get_stock_valuation_layers(self, move) <span class="position">@ line 73</span></li></ul><h2>Inherited: odoo/addons/stock_account/models/account_move.py</h2><h3>Fields</h3><details><summary id="f-cogs_origin_id">cogs_origin_id <span class="position">@ line 238</span></summary><pre>cogs_origin_id = fields.Many2one(  # technical field used to keep track in the originating line of the anglo-saxon lines
+        comodel_name="account.move.line",
+        copy=False,
+        index="btree_not_null",
+    )</pre></details><details><summary id="f-stock_valuation_layer_ids">stock_valuation_layer_ids <span class="position">@ line 237</span></summary><pre>stock_valuation_layer_ids = fields.One2many('stock.valuation.layer', 'account_move_line_id', string='Stock Valuation Layer')</pre></details><h3>Methods</h3><ul id="m-_compute_account_id"><li>_compute_account_id(self) <span class="position">@ line 244</span></li></ul><ul id="m-_eligible_for_cogs"><li>_eligible_for_cogs(self) <span class="position">@ line 258</span></li></ul><ul id="m-_get_gross_unit_price"><li>_get_gross_unit_price(self) <span class="position">@ line 262</span></li></ul><ul id="m-_get_stock_valuation_layers"><li>_get_stock_valuation_layers(self, move) <span class="position">@ line 269</span></li></ul><ul id="m-_get_valued_in_moves"><li>_get_valued_in_moves(self) <span class="position">@ line 277</span></li></ul><ul id="m-_stock_account_get_anglo_saxon_price_unit"><li>_stock_account_get_anglo_saxon_price_unit(self) <span class="position">@ line 280</span></li></ul><h2>Inherited: odoo/addons/sale_timesheet/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 26</span></li></ul><h2>Inherited: odoo/addons/sale_stock/models/account_move.py</h2><h3>Methods</h3><ul id="m-_sale_can_be_reinvoice"><li>_sale_can_be_reinvoice(self) <span class="position">@ line 139</span></li></ul><ul id="m-_stock_account_get_anglo_saxon_price_unit"><li>_stock_account_get_anglo_saxon_price_unit(self) <span class="position">@ line 143</span></li></ul><h2>Inherited: odoo/addons/sale_project/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-_compute_analytic_distribution"><li>_compute_analytic_distribution(self) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/sale_mrp/models/account_move.py</h2><h3>Methods</h3><ul id="m-_stock_account_get_anglo_saxon_price_unit"><li>_stock_account_get_anglo_saxon_price_unit(self) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/sale_expense_margin/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-_sale_prepare_sale_line_values"><li>_sale_prepare_sale_line_values(self, order, price) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/sale_expense/models/account_move_line.py</h2><h3>Methods</h3><details><summary id="m-_sale_can_be_reinvoice">_sale_can_be_reinvoice(self) <span class="position">@ line 9</span></summary><pre>determine if the generated analytic line should be reinvoiced or not.
+For Expense flow, if the product has a 'reinvoice policy' and a Sales Order is set on the expense, then we will reinvoice the AAL</pre></details><ul id="m-_sale_create_reinvoice_sale_line"><li>_sale_create_reinvoice_sale_line(self) <span class="position">@ line 39</span></li></ul><details><summary id="m-_sale_determine_order">_sale_determine_order(self) <span class="position">@ line 18</span></summary><pre>For move lines created from expense, we override the normal behavior.
+Note: if no SO but an AA is given on the expense, we will determine anyway the SO from the AA, using the same
+mecanism as in Vendor Bills.</pre></details><ul id="m-_sale_prepare_sale_line_values"><li>_sale_prepare_sale_line_values(self, order, price) <span class="position">@ line 32</span></li></ul><h2>Inherited: odoo/addons/sale/models/account_move_line.py</h2><h3>Fields</h3><details><summary id="f-is_downpayment">is_downpayment <span class="position">@ line 12</span></summary><pre>is_downpayment = fields.Boolean()</pre></details><details><summary id="f-sale_line_ids">sale_line_ids <span class="position">@ line 13</span></summary><pre>sale_line_ids = fields.Many2many(
+        'sale.order.line',
+        'sale_order_line_invoice_rel',
+        'invoice_line_id', 'order_line_id',
+        string='Sales Order Lines', readonly=True, copy=False)</pre></details><h3>Methods</h3><ul id="m-_copy_data_extend_business_fields"><li>_copy_data_extend_business_fields(self, values) <span class="position">@ line 19</span></li></ul><ul id="m-_get_downpayment_lines"><li>_get_downpayment_lines(self) <span class="position">@ line 227</span></li></ul><details><summary id="m-_prepare_analytic_lines">_prepare_analytic_lines(self) <span class="position">@ line 24</span></summary><pre>Note: This method is called only on the move.line that having an analytic distribution, and
+so that should create analytic entries.</pre></details><details><summary id="m-_sale_can_be_reinvoice">_sale_can_be_reinvoice(self) <span class="position">@ line 49</span></summary><pre>determine if the generated analytic line should be reinvoiced or not.
+For Vendor Bill flow, if the product has a 'erinvoice policy' and is a cost, then we will find the SO on which reinvoice the AAL</pre></details><ul id="m-_sale_create_reinvoice_sale_line"><li>_sale_create_reinvoice_sale_line(self) <span class="position">@ line 59</span></li></ul><details><summary id="m-_sale_determine_order">_sale_determine_order(self) <span class="position">@ line 150</span></summary><pre>Get the mapping of move.line with the sale.order record on which its analytic entries should be reinvoiced
+:return a dict where key is the move line id, and value is sale.order record (or None).</pre></details><details><summary id="m-_sale_get_invoice_price">_sale_get_invoice_price(self, order) <span class="position">@ line 195</span></summary><pre>Based on the current move line, compute the price to reinvoice the analytic line that is going to be created (so the
+price of the sale line).</pre></details><details><summary id="m-_sale_prepare_sale_line_values">_sale_prepare_sale_line_values(self, order, price) <span class="position">@ line 172</span></summary><pre>Generate the sale.line creation value from the current move line</pre></details><h2>Inherited: odoo/addons/purchase_stock/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-_apply_price_difference"><li>_apply_price_difference(self) <span class="position">@ line 32</span></li></ul><details><summary id="m-_generate_price_difference_vals">_generate_price_difference_vals(self, layers) <span class="position">@ line 55</span></summary><pre>The method will determine which layers are impacted by the AML (`self`) and, in case of a price difference, it
+will then return the values of the new AMLs and SVLs</pre></details><ul id="m-_get_out_and_not_invoiced_qty"><li>_get_out_and_not_invoiced_qty(self, in_moves) <span class="position">@ line 18</span></li></ul><ul id="m-_get_price_unit_val_dif_and_relevant_qty"><li>_get_price_unit_val_dif_and_relevant_qty(self) <span class="position">@ line 276</span></li></ul><ul id="m-_get_valued_in_moves"><li>_get_valued_in_moves(self) <span class="position">@ line 13</span></li></ul><ul id="m-_prepare_pdiff_aml_vals"><li>_prepare_pdiff_aml_vals(self, qty, unit_valuation_difference) <span class="position">@ line 229</span></li></ul><ul id="m-_prepare_pdiff_svl_vals"><li>_prepare_pdiff_svl_vals(self, corrected_layer, quantity, unit_cost, pdiff) <span class="position">@ line 256</span></li></ul><h2>Inherited: odoo/addons/purchase_mrp/models/account_move.py</h2><h3>Methods</h3><details><summary id="m-_get_stock_valuation_layers">_get_stock_valuation_layers(self, move) <span class="position">@ line 10</span></summary><pre>Do not handle the invoice correction for kit. It has to be done
+manually</pre></details><h2>Inherited: odoo/addons/purchase/models/account_invoice.py</h2><h3>Fields</h3><details><summary id="f-purchase_line_id">purchase_line_id <span class="position">@ line 472</span></summary><pre>purchase_line_id = fields.Many2one('purchase.order.line', 'Purchase Order Line', ondelete='set null', index='btree_not_null')</pre></details><details><summary id="f-purchase_order_id">purchase_order_id <span class="position">@ line 473</span></summary><pre>purchase_order_id = fields.Many2one('purchase.order', 'Purchase Order', related='purchase_line_id.order_id', readonly=True)</pre></details><h3>Methods</h3><ul id="m-_copy_data_extend_business_fields"><li>_copy_data_extend_business_fields(self, values) <span class="position">@ line 475</span></li></ul><h2>Inherited: odoo/addons/point_of_sale/models/account_move.py</h2><h3>Methods</h3><ul id="m-_stock_account_get_anglo_saxon_price_unit"><li>_stock_account_get_anglo_saxon_price_unit(self) <span class="position">@ line 73</span></li></ul><h2>Inherited: odoo/addons/mrp_subcontracting_purchase/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-_get_price_unit_val_dif_and_relevant_qty"><li>_get_price_unit_val_dif_and_relevant_qty(self) <span class="position">@ line 10</span></li></ul><ul id="m-_get_valued_in_moves"><li>_get_valued_in_moves(self) <span class="position">@ line 21</span></li></ul><h2>Inherited: odoo/addons/mrp_account/models/account_move.py</h2><h3>Methods</h3><ul id="m-_get_invoiced_qty_per_product"><li>_get_invoiced_qty_per_product(self) <span class="position">@ line 12</span></li></ul><h2>Inherited: odoo/addons/membership/models/account_move.py</h2><h3>Methods</h3><ul id="m-write"><li>write(self, vals) <span class="position">@ line 45</span></li></ul><h2>Inherited: odoo/addons/l10n_pe/models/account_move.py</h2><h3>Fields</h3><details><summary id="f-l10n_pe_group_id">l10n_pe_group_id <span class="position">@ line 43</span></summary><pre>l10n_pe_group_id = fields.Many2one("account.group", related="account_id.group_id", store=True)</pre></details><h3>Methods</h3><details><summary id="m-_auto_init">_auto_init(self) <span class="position">@ line 45</span></summary><pre>Create column to stop ORM from computing it himself (too slow)</pre></details><h2>Inherited: odoo/addons/l10n_latam_invoice_document/models/account_move_line.py</h2><h3>Fields</h3><details><summary id="f-l10n_latam_document_type_id">l10n_latam_document_type_id <span class="position">@ line 18</span></summary><pre>l10n_latam_document_type_id = fields.Many2one(
+        related='move_id.l10n_latam_document_type_id', auto_join=True, store=True, index='btree_not_null')</pre></details><h3>Methods</h3><ul id="m-_auto_init"><li>_auto_init(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/l10n_in/models/account_move_line.py</h2><h3>Fields</h3><details><summary id="f-l10n_in_hsn_code">l10n_in_hsn_code <span class="position">@ line 7</span></summary><pre>l10n_in_hsn_code = fields.Char(string="HSN/SAC Code", compute="_compute_l10n_in_hsn_code", store=True, readonly=False, copy=False)</pre></details><h2>Inherited: odoo/addons/l10n_gcc_invoice/models/account_move.py</h2><h3>Fields</h3><details><summary id="f-l10n_gcc_invoice_tax_amount">l10n_gcc_invoice_tax_amount <span class="position">@ line 71</span></summary><pre>l10n_gcc_invoice_tax_amount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', digits='Product Price')</pre></details><h2>Inherited: odoo/addons/l10n_cl/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-_l10n_cl_prices_and_taxes"><li>_l10n_cl_prices_and_taxes(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/l10n_ar/models/account_move_line.py</h2><h3>Methods</h3><ul id="m-_l10n_ar_prices_and_taxes"><li>_l10n_ar_prices_and_taxes(self) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/l10n_ae/models/account_move_line.py</h2><h3>Fields</h3><details><summary id="f-l10n_ae_vat_amount">l10n_ae_vat_amount <span class="position">@ line 9</span></summary><pre>l10n_ae_vat_amount = fields.Monetary(compute='_compute_vat_amount', string='VAT Amount')</pre></details><h2>Inherited: odoo/addons/hr_expense/models/account_move_line.py</h2><h3>Fields</h3><details><summary id="f-expense_id">expense_id <span class="position">@ line 12</span></summary><pre>expense_id = fields.Many2one('hr.expense', string='Expense', copy=True)</pre></details><h3>Methods</h3><ul id="m-_compute_all_tax"><li>_compute_all_tax(self) <span class="position">@ line 30</span></li></ul><ul id="m-_compute_tax_key"><li>_compute_tax_key(self) <span class="position">@ line 24</span></li></ul><ul id="m-_compute_totals"><li>_compute_totals(self) <span class="position">@ line 39</span></li></ul><ul id="m-_convert_to_tax_base_line_dict"><li>_convert_to_tax_base_line_dict(self) <span class="position">@ line 44</span></li></ul><ul id="m-_get_attachment_domains"><li>_get_attachment_domains(self) <span class="position">@ line 18</span></li></ul><ul id="m-_get_extra_query_base_tax_line_mapping"><li>_get_extra_query_base_tax_line_mapping(self) <span class="position">@ line 51</span></li></ul><h2>Inherited: odoo/addons/account_fleet/models/account_move.py</h2><h3>Fields</h3><details><summary id="f-need_vehicle">need_vehicle <span class="position">@ line 37</span></summary><pre>need_vehicle = fields.Boolean(compute='_compute_need_vehicle')</pre></details><details><summary id="f-vehicle_id">vehicle_id <span class="position">@ line 35</span></summary><pre>vehicle_id = fields.Many2one('fleet.vehicle', string='Vehicle', index='btree_not_null')</pre></details><details><summary id="f-vehicle_log_service_ids">vehicle_log_service_ids <span class="position">@ line 38</span></summary><pre>vehicle_log_service_ids = fields.One2many(export_string_translation=False,
+        comodel_name='fleet.vehicle.log.services', inverse_name='account_move_line_id')</pre></details><h3>Methods</h3><ul id="m-_compute_need_vehicle"><li>_compute_need_vehicle(self) <span class="position">@ line 41</span></li></ul><ul id="m-_prepare_fleet_log_service"><li>_prepare_fleet_log_service(self) <span class="position">@ line 44</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 59</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 54</span></li></ul><h2>Inherited: odoo/addons/account/models/account_move_line.py</h2><h3>Fields</h3><details><summary id="f-account_id">account_id <span class="position">@ line 86</span></summary><pre>account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Account',
+        compute='_compute_account_id', store=True, readonly=False, precompute=True,
+        inverse='_inverse_account_id',
+        index=False,  # covered by account_move_line_account_id_date_idx defined in init()
+        auto_join=True,
+        ondelete="cascade",
+        domain="[('deprecated', '=', False), ('account_type', '!=', 'off_balance')]",
+        check_company=True,
+        tracking=True,
+    )</pre></details><details><summary id="f-account_internal_group">account_internal_group <span class="position">@ line 278</span></summary><pre>account_internal_group = fields.Selection(related='account_id.internal_group')</pre></details><details><summary id="f-account_root_id">account_root_id <span class="position">@ line 279</span></summary><pre>account_root_id = fields.Many2one(
+        related='account_id.root_id',
+        string="Account Root",
+        store=True,
+    )</pre></details><details><summary id="f-account_type">account_type <span class="position">@ line 274</span></summary><pre>account_type = fields.Selection(
+        related='account_id.account_type',
+        string="Internal Type",
+    )</pre></details><details><summary id="f-amount_currency">amount_currency <span class="position">@ line 128</span></summary><pre>amount_currency = fields.Monetary(
+        string='Amount in Currency',
+        aggregator=None,
+        compute='_compute_amount_currency', inverse='_inverse_amount_currency', store=True, readonly=False, precompute=True,
+        help="The amount expressed in an optional other currency if it is a multi-currency entry.")</pre></details><details><summary id="f-amount_residual">amount_residual <span class="position">@ line 228</span></summary><pre>amount_residual = fields.Monetary(
+        string='Residual Amount',
+        compute='_compute_amount_residual', store=True,
+        currency_field='company_currency_id',
+        help="The residual amount on a journal item expressed in the company currency.",
+    )</pre></details><details><summary id="f-amount_residual_currency">amount_residual_currency <span class="position">@ line 234</span></summary><pre>amount_residual_currency = fields.Monetary(
+        string='Residual Amount in Currency',
+        compute='_compute_amount_residual', store=True,
+        aggregator=None,
+        help="The residual amount on a journal item expressed in its currency (possibly not the "
+             "company currency).",
+    )</pre></details><details><summary id="f-analytic_distribution">analytic_distribution <span class="position">@ line 378</span></summary><pre>analytic_distribution = fields.Json(
+        inverse="_inverse_analytic_distribution",
+    )</pre></details><details><summary id="f-analytic_line_ids">analytic_line_ids <span class="position">@ line 374</span></summary><pre>analytic_line_ids = fields.One2many(
+        comodel_name='account.analytic.line', inverse_name='move_line_id',
+        string='Analytic lines',
+    )</pre></details><details><summary id="f-balance">balance <span class="position">@ line 113</span></summary><pre>balance = fields.Monetary(
+        string='Balance',
+        compute='_compute_balance', store=True, readonly=False, precompute=True,
+        currency_field='company_currency_id',
+    )</pre></details><details><summary id="f-blocked">blocked <span class="position">@ line 411</span></summary><pre>blocked = fields.Boolean(
+        string='No Follow-up',
+        compute='_compute_blocked', store=True, readonly=False, precompute=True,
+        help="You can check this box to mark this journal item as a litigation with the "
+             "associated partner",
+    )</pre></details><details><summary id="f-company_currency_id">company_currency_id <span class="position">@ line 52</span></summary><pre>company_currency_id = fields.Many2one(
+        string='Company Currency',
+        related='move_id.company_currency_id', readonly=True, store=True, precompute=True,
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 48</span></summary><pre>company_id = fields.Many2one(
+        related='move_id.company_id', store=True, readonly=True, precompute=True,
+        index=True,
+    )</pre></details><details><summary id="f-compute_all_tax">compute_all_tax <span class="position">@ line 364</span></summary><pre>compute_all_tax = fields.Binary(compute='_compute_all_tax', exportable=False)</pre></details><details><summary id="f-compute_all_tax_dirty">compute_all_tax_dirty <span class="position">@ line 365</span></summary><pre>compute_all_tax_dirty = fields.Boolean(compute='_compute_all_tax')</pre></details><details><summary id="f-credit">credit <span class="position">@ line 108</span></summary><pre>credit = fields.Monetary(
+        string='Credit',
+        compute='_compute_debit_credit', inverse='_inverse_credit', store=True, precompute=True,
+        currency_field='company_currency_id',
+    )</pre></details><details><summary id="f-cumulated_balance">cumulated_balance <span class="position">@ line 118</span></summary><pre>cumulated_balance = fields.Monetary(
+        string='Cumulated Balance',
+        compute='_compute_cumulated_balance',
+        currency_field='company_currency_id',
+        exportable=False,
+        help="Cumulated balance depending on the domain and the order chosen in the view.")</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 133</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        compute='_compute_currency_id', store=True, readonly=False, precompute=True,
+        required=True,
+    )</pre></details><details><summary id="f-currency_rate">currency_rate <span class="position">@ line 124</span></summary><pre>currency_rate = fields.Float(
+        compute='_compute_currency_rate',
+        help="Currency rate from company currency to document currency.",
+    )</pre></details><details><summary id="f-date">date <span class="position">@ line 62</span></summary><pre>date = fields.Date(
+        related='move_id.date', store=True,
+        copy=False,
+        aggregator='min',
+    )</pre></details><details><summary id="f-date_maturity">date_maturity <span class="position">@ line 329</span></summary><pre>date_maturity = fields.Date(
+        string='Due Date',
+        index=True,
+        tracking=True,
+        help="This field is used for payable and receivable journal entries. "
+             "You can put the limit date for the payment of this line.",
+    )</pre></details><details><summary id="f-debit">debit <span class="position">@ line 103</span></summary><pre>debit = fields.Monetary(
+        string='Debit',
+        compute='_compute_debit_credit', inverse='_inverse_debit', store=True, precompute=True,
+        currency_field='company_currency_id',
+    )</pre></details><details><summary id="f-discount">discount <span class="position">@ line 353</span></summary><pre>discount = fields.Float(
+        string='Discount (%)',
+        digits='Discount',
+        default=0.0,
+    )</pre></details><details><summary id="f-discount_allocation_dirty">discount_allocation_dirty <span class="position">@ line 371</span></summary><pre>discount_allocation_dirty = fields.Boolean(compute='_compute_discount_allocation_needed')</pre></details><details><summary id="f-discount_allocation_key">discount_allocation_key <span class="position">@ line 369</span></summary><pre>discount_allocation_key = fields.Binary(compute='_compute_discount_allocation_key', exportable=False)</pre></details><details><summary id="f-discount_allocation_needed">discount_allocation_needed <span class="position">@ line 370</span></summary><pre>discount_allocation_needed = fields.Binary(compute='_compute_discount_allocation_needed', exportable=False)</pre></details><details><summary id="f-discount_amount_currency">discount_amount_currency <span class="position">@ line 389</span></summary><pre>discount_amount_currency = fields.Monetary(
+        string='Discount amount in Currency',
+        store=True,
+        currency_field='currency_id',
+        aggregator=None,
+    )</pre></details><details><summary id="f-discount_balance">discount_balance <span class="position">@ line 396</span></summary><pre>discount_balance = fields.Monetary(
+        string='Discount Balance',
+        store=True,
+        currency_field='company_currency_id',
+    )</pre></details><details><summary id="f-discount_date">discount_date <span class="position">@ line 383</span></summary><pre>discount_date = fields.Date(
+        string='Discount Date',
+        store=True,
+        help='Last date at which the discounted amount must be paid in order for the Early Payment Discount to be granted'
+    )</pre></details><details><summary id="f-display_type">display_type <span class="position">@ line 289</span></summary><pre>display_type = fields.Selection(
+        selection=[
+            ('product', 'Product'),
+            ('cogs', 'Cost of Goods Sold'),
+            ('tax', 'Tax'),
+            ('discount', "Discount"),
+            ('rounding', "Rounding"),
+            ('payment_term', 'Payment Term'),
+            ('line_section', 'Section'),
+            ('line_note', 'Note'),
+            ('epd', 'Early Payment Discount')
+        ],
+        compute='_compute_display_type', store=True, readonly=False, precompute=True,
+        required=True,
+    )</pre></details><details><summary id="f-epd_dirty">epd_dirty <span class="position">@ line 368</span></summary><pre>epd_dirty = fields.Boolean(compute='_compute_epd_needed')</pre></details><details><summary id="f-epd_key">epd_key <span class="position">@ line 366</span></summary><pre>epd_key = fields.Binary(compute='_compute_epd_key', exportable=False)</pre></details><details><summary id="f-epd_needed">epd_needed <span class="position">@ line 367</span></summary><pre>epd_needed = fields.Binary(compute='_compute_epd_needed', exportable=False)</pre></details><details><summary id="f-full_reconcile_id">full_reconcile_id <span class="position">@ line 242</span></summary><pre>full_reconcile_id = fields.Many2one(
+        comodel_name='account.full.reconcile',
+        string="Matching",
+        copy=False,
+        index='btree_not_null',
+        readonly=True,
+    )</pre></details><details><summary id="f-group_tax_id">group_tax_id <span class="position">@ line 184</span></summary><pre>group_tax_id = fields.Many2one(
+        comodel_name='account.tax',
+        string="Originator Group of Taxes",
+        index='btree_not_null',
+        check_company=True,
+    )</pre></details><details><summary id="f-invoice_date">invoice_date <span class="position">@ line 67</span></summary><pre>invoice_date = fields.Date(
+        related='move_id.invoice_date', store=True,
+        copy=False,
+        aggregator='min',
+    )</pre></details><details><summary id="f-is_account_reconcile">is_account_reconcile <span class="position">@ line 268</span></summary><pre>is_account_reconcile = fields.Boolean(
+        string='Account Reconcile',
+        related='account_id.reconcile',
+    )</pre></details><details><summary id="f-is_refund">is_refund <span class="position">@ line 417</span></summary><pre>is_refund = fields.Boolean(compute='_compute_is_refund')</pre></details><details><summary id="f-is_same_currency">is_same_currency <span class="position">@ line 139</span></summary><pre>is_same_currency = fields.Boolean(compute='_compute_same_currency')</pre></details><details><summary id="f-is_storno">is_storno <span class="position">@ line 77</span></summary><pre>is_storno = fields.Boolean(
+        string="Company Storno Accounting",
+        related='move_id.is_storno',
+        help="Utility field to express whether the journal item is subject to storno accounting",
+    )</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 43</span></summary><pre>journal_id = fields.Many2one(
+        related='move_id.journal_id', store=True, precompute=True,
+        index=True,
+        copy=False,
+    )</pre></details><details><summary id="f-matched_credit_ids">matched_credit_ids <span class="position">@ line 255</span></summary><pre>matched_credit_ids = fields.One2many(
+        comodel_name='account.partial.reconcile', inverse_name='debit_move_id',
+        string='Matched Credits',
+        readonly=True,
+        help='Credit journal items that are matched with this journal item.',
+    )</pre></details><details><summary id="f-matched_debit_ids">matched_debit_ids <span class="position">@ line 249</span></summary><pre>matched_debit_ids = fields.One2many(
+        comodel_name='account.partial.reconcile', inverse_name='credit_move_id',
+        string='Matched Debits',
+        readonly=True,
+        help='Debit journal items that are matched with this journal item.',
+    )</pre></details><details><summary id="f-matching_number">matching_number <span class="position">@ line 261</span></summary><pre>matching_number = fields.Char(
+        string="Matching #",
+        copy=False,
+        index='btree',
+        help="Matching number for this line, 'P' if it is only partially reconcile, or the name of "
+             "the full reconcile if it exists.",
+    )</pre></details><details><summary id="f-move_id">move_id <span class="position">@ line 33</span></summary><pre>move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry',
+        required=True,
+        readonly=True,
+        index=True,
+        auto_join=True,
+        ondelete="cascade",
+        check_company=True,
+    )</pre></details><details><summary id="f-move_name">move_name <span class="position">@ line 56</span></summary><pre>move_name = fields.Char(
+        string='Number',
+        related='move_id.name', store=True,
+        index='btree',
+    )</pre></details><details><summary id="f-move_type">move_type <span class="position">@ line 83</span></summary><pre>move_type = fields.Selection(related='move_id.move_type')</pre></details><details><summary id="f-name">name <span class="position">@ line 98</span></summary><pre>name = fields.Char(
+        string='Label',
+        compute='_compute_name', store=True, readonly=False, precompute=True,
+        tracking=True,
+    )</pre></details><details><summary id="f-parent_state">parent_state <span class="position">@ line 61</span></summary><pre>parent_state = fields.Selection(related='move_id.state', store=True)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 140</span></summary><pre>partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner',
+        compute='_compute_partner_id', inverse='_inverse_partner_id', store=True, readonly=False, precompute=True,
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-payment_date">payment_date <span class="position">@ line 404</span></summary><pre>payment_date = fields.Date(
+        string='Next Payment Date',
+        compute='_compute_payment_date',
+        search='_search_payment_date',
+    )</pre></details><details><summary id="f-payment_id">payment_id <span class="position">@ line 155</span></summary><pre>payment_id = fields.Many2one(
+        comodel_name='account.payment',
+        string="Originator Payment",
+        related='move_id.payment_id', store=True,
+        auto_join=True,
+        index='btree_not_null',
+        help="The payment that created this entry")</pre></details><details><summary id="f-price_subtotal">price_subtotal <span class="position">@ line 343</span></summary><pre>price_subtotal = fields.Monetary(
+        string='Subtotal',
+        compute='_compute_totals', store=True,
+        currency_field='currency_id',
+    )</pre></details><details><summary id="f-price_total">price_total <span class="position">@ line 348</span></summary><pre>price_total = fields.Monetary(
+        string='Total',
+        compute='_compute_totals', store=True,
+        currency_field='currency_id',
+    )</pre></details><details><summary id="f-price_unit">price_unit <span class="position">@ line 338</span></summary><pre>price_unit = fields.Float(
+        string='Unit Price',
+        compute="_compute_price_unit", store=True, readonly=False, precompute=True,
+        digits='Product Price',
+    )</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 304</span></summary><pre>product_id = fields.Many2one(
+        comodel_name='product.product',
+        string='Product',
+        inverse='_inverse_product_id',
+        ondelete='restrict',
+        check_company=True,
+    )</pre></details><details><summary id="f-product_uom_category_id">product_uom_category_id <span class="position">@ line 318</span></summary><pre>product_uom_category_id = fields.Many2one(
+        comodel_name='uom.category',
+        related='product_id.uom_id.category_id',
+    )</pre></details><details><summary id="f-product_uom_id">product_uom_id <span class="position">@ line 311</span></summary><pre>product_uom_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string='Unit of Measure',
+        compute='_compute_product_uom_id', store=True, readonly=False, precompute=True,
+        domain="[('category_id', '=', product_uom_category_id)]",
+        ondelete="restrict",
+    )</pre></details><details><summary id="f-quantity">quantity <span class="position">@ line 322</span></summary><pre>quantity = fields.Float(
+        string='Quantity',
+        compute='_compute_quantity', store=True, readonly=False, precompute=True,
+        digits='Product Unit of Measure',
+        help="The optional quantity expressed by this line, eg: number of product sold. "
+             "The quantity is not a legal requirement but is very useful for some reports.",
+    )</pre></details><details><summary id="f-reconcile_model_id">reconcile_model_id <span class="position">@ line 148</span></summary><pre>reconcile_model_id = fields.Many2one(
+        comodel_name='account.reconcile.model',
+        string="Reconciliation Model",
+        copy=False,
+        readonly=True,
+        check_company=True,
+    )</pre></details><details><summary id="f-reconciled">reconciled <span class="position">@ line 241</span></summary><pre>reconciled = fields.Boolean(compute='_compute_amount_residual', store=True)</pre></details><details><summary id="f-ref">ref <span class="position">@ line 72</span></summary><pre>ref = fields.Char(
+        related='move_id.ref', store=True,
+        copy=False,
+        index='trigram',
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 82</span></summary><pre>sequence = fields.Integer(compute='_compute_sequence', store=True, readonly=False, precompute=True)</pre></details><details><summary id="f-statement_id">statement_id <span class="position">@ line 169</span></summary><pre>statement_id = fields.Many2one(
+        related='statement_line_id.statement_id', store=True,
+        auto_join=True,
+        index='btree_not_null',
+        copy=False,
+        help="The bank statement used for bank reconciliation")</pre></details><details><summary id="f-statement_line_id">statement_line_id <span class="position">@ line 162</span></summary><pre>statement_line_id = fields.Many2one(
+        comodel_name='account.bank.statement.line',
+        string="Originator Statement Line",
+        related='move_id.statement_line_id', store=True,
+        auto_join=True,
+        index='btree_not_null',
+        help="The statement line that created this entry")</pre></details><details><summary id="f-tax_base_amount">tax_base_amount <span class="position">@ line 200</span></summary><pre>tax_base_amount = fields.Monetary(
+        string="Base Amount",
+        readonly=True,
+        currency_field='company_currency_id',
+    )</pre></details><details><summary id="f-tax_calculation_rounding_method">tax_calculation_rounding_method <span class="position">@ line 358</span></summary><pre>tax_calculation_rounding_method = fields.Selection(
+        related='company_id.tax_calculation_rounding_method',
+        string='Tax calculation rounding method', readonly=True)</pre></details><details><summary id="f-tax_group_id">tax_group_id <span class="position">@ line 196</span></summary><pre>tax_group_id = fields.Many2one(  # used in the widget tax-group-custom-field
+        string='Originator tax group',
+        related='tax_line_id.tax_group_id', store=True, precompute=True,
+    )</pre></details><details><summary id="f-tax_ids">tax_ids <span class="position">@ line 177</span></summary><pre>tax_ids = fields.Many2many(
+        comodel_name='account.tax',
+        string="Taxes",
+        compute='_compute_tax_ids', store=True, readonly=False, precompute=True,
+        context={'active_test': False},
+        check_company=True,
+    )</pre></details><details><summary id="f-tax_key">tax_key <span class="position">@ line 363</span></summary><pre>tax_key = fields.Binary(compute='_compute_tax_key', exportable=False)</pre></details><details><summary id="f-tax_line_id">tax_line_id <span class="position">@ line 190</span></summary><pre>tax_line_id = fields.Many2one(
+        comodel_name='account.tax',
+        string='Originator Tax',
+        related='tax_repartition_line_id.tax_id', store=True, precompute=True,
+        ondelete='restrict',
+        help="Indicates that this journal item is a tax line")</pre></details><details><summary id="f-tax_repartition_line_id">tax_repartition_line_id <span class="position">@ line 205</span></summary><pre>tax_repartition_line_id = fields.Many2one(
+        comodel_name='account.tax.repartition.line',
+        string="Originator Tax Distribution Line",
+        ondelete='restrict',
+        readonly=True,
+        check_company=True,
+        help="Tax distribution line that caused the creation of this move line, if any")</pre></details><details><summary id="f-tax_tag_ids">tax_tag_ids <span class="position">@ line 212</span></summary><pre>tax_tag_ids = fields.Many2many(
+        string="Tags",
+        comodel_name='account.account.tag',
+        ondelete='restrict',
+        context={'active_test': False},
+        tracking=True,
+        help="Tags assigned to this line by the tax creating it, if any. It determines its impact on financial reports.",
+    )</pre></details><details><summary id="f-tax_tag_invert">tax_tag_invert <span class="position">@ line 222</span></summary><pre>tax_tag_invert = fields.Boolean(
+        string="Invert Tags",
+        compute='_compute_tax_tag_invert', store=True, readonly=False, copy=False,
+    )</pre></details><details><summary id="f-term_key">term_key <span class="position">@ line 362</span></summary><pre>term_key = fields.Binary(compute='_compute_term_key', exportable=False)</pre></details><h3>Methods</h3><details><summary id="m-_add_exchange_difference_cash_basis_vals">_add_exchange_difference_cash_basis_vals(self, exchange_diff_vals) <span class="position">@ line 2761</span></summary><pre>Generate the exchange difference values used to create the journal items
+in order to fix the cash basis lines using the transfer account in a multi-currencies
+environment when this account is not a reconcile one.
+When the tax cash basis journal entries are generated and all involved
+transfer account set on taxes are all reconcilable, the account balance
+will be reset to zero by the exchange difference journal items generated
+above. However, this mechanism will not work if there is any transfer
+accounts that are not reconcile and we are generating the cash basis
+journal items in a foreign currency. In that specific case, we need to
+generate extra journal items at the generation of the exchange difference
+journal entry to ensure this balance is reset to zero and then, will not
+appear on the tax report leading to erroneous tax base amount / tax amount.
+:param exchange_diff_vals:  The current vals of the exchange difference journal entry created by the
+'_prepare_exchange_difference_move_vals' method.</pre></details><ul id="m-_affect_tax_report"><li>_affect_tax_report(self) <span class="position">@ line 1313</span></li></ul><details><summary id="m-_all_reconciled_lines">_all_reconciled_lines(self) <span class="position">@ line 3107</span></summary><pre>Get all the the lines matched with the lines in self.</pre></details><details><summary id="m-_check_amls_exigibility_for_reconciliation">_check_amls_exigibility_for_reconciliation(self, shadowed_aml_values) <span class="position">@ line 2216</span></summary><pre>Ensure the current journal items are eligible to be reconciled together.
+:param shadowed_aml_values: A mapping aml -> dictionary to replace some original aml values to something else.
+This is usefull if you want to preview the reconciliation before doing some changes
+on amls like changing a date or an account.</pre></details><ul id="m-_check_constrains_account_id_journal_id"><li>_check_constrains_account_id_journal_id(self) <span class="position">@ line 1251</span></li></ul><ul id="m-_check_reconciliation"><li>_check_reconciliation(self) <span class="position">@ line 1325</span></li></ul><ul id="m-_check_tax_lock_date"><li>_check_tax_lock_date(self) <span class="position">@ line 1317</span></li></ul><ul id="m-_compute_account_id"><li>_compute_account_id(self) <span class="position">@ line 524</span></li></ul><ul id="m-_compute_partner_id"><li>_compute_partner_id(self) <span class="position">@ line 482</span></li></ul><ul id="m-_conditional_add_to_compute"><li>_conditional_add_to_compute(self, fname, condition) <span class="position">@ line 3325</span></li></ul><details><summary id="m-_convert_to_tax_base_line_dict">_convert_to_tax_base_line_dict(self) <span class="position">@ line 3144</span></summary><pre>Convert the current record to a dictionary in order to use the generic taxes computation method
+defined on account.tax.
+:return: A python dictionary.</pre></details><details><summary id="m-_convert_to_tax_line_dict">_convert_to_tax_line_dict(self) <span class="position">@ line 3169</span></summary><pre>Convert the current record to a dictionary in order to use the generic taxes computation method
+defined on account.tax.
+:return: A python dictionary.</pre></details><ul id="m-_copy_data_extend_business_fields"><li>_copy_data_extend_business_fields(self, values) <span class="position">@ line 3338</span></li></ul><details><summary id="m-_create_analytic_lines">_create_analytic_lines(self) <span class="position">@ line 3011</span></summary><pre>Create analytic items upon validation of an account.move.line having an analytic distribution.</pre></details><details><summary id="m-_create_reconciliation_partials">_create_reconciliation_partials(self) <span class="position">@ line 2593</span></summary><pre>create the partial reconciliation between all the records in self
+:return: A recordset of account.partial.reconcile.</pre></details><ul id="m-_field_to_sql"><li>_field_to_sql(self, alias, fname, query, flush) <span class="position">@ line 1736</span></li></ul><details><summary id="m-_filter_reconciled_by_number">_filter_reconciled_by_number(self, mapping) <span class="position">@ line 3099</span></summary><pre>Get all the the lines matched with the lines in self.
+
+Uses a mapping built with `_reconciled_by_number` to avoid multiple calls to the database.</pre></details><ul id="m-_get_attachment_domains"><li>_get_attachment_domains(self) <span class="position">@ line 3111</span></li></ul><ul id="m-_get_computed_taxes"><li>_get_computed_taxes(self) <span class="position">@ line 885</span></li></ul><details><summary id="m-_get_downpayment_lines">_get_downpayment_lines(self) <span class="position">@ line 3341</span></summary><pre>Return the downpayment move lines associated with the move line.
+This method is overridden in the sale order module.</pre></details><ul id="m-_get_integrity_hash_fields"><li>_get_integrity_hash_fields(self) <span class="position">@ line 3072</span></li></ul><ul id="m-_get_invoiced_qty_per_product"><li>_get_invoiced_qty_per_product(self) <span class="position">@ line 3191</span></li></ul><details><summary id="m-_get_lock_date_protected_fields">_get_lock_date_protected_fields(self) <span class="position">@ line 3201</span></summary><pre>Returns the names of the fields that should be protected by the accounting fiscal year and tax lock dates</pre></details><details><summary id="m-_get_product_catalog_lines_data">_get_product_catalog_lines_data(self) <span class="position">@ line 3283</span></summary><pre>Return information about account_move_line in `self`.
+If `self` is empty, this method returns only the default value(s) needed for the product
+catalog. In this case, the quantity that equals 0.
+Otherwise, it returns a quantity and a price based on the product of the move line(s) and whether
+the product is read-only or not.
+A product is considered read-only if the order is considered read-only or if `self` contains multiple records.
+Note: This method cannot be called with multiple records that have different products linked.
+
+:param products: Recordset of `product.product`.
+:param dict kwargs: additional values given for inherited models.
+:rtype: dict
+:return: A dict with the following structure:
+{
+'quantity': float,
+'price': float,
+'readOnly': bool,
+'min_qty': int, (optional)
+}</pre></details><ul id="m-_get_reconciliation_aml_field_value"><li>_get_reconciliation_aml_field_value(self, field, shadowed_aml_values) <span class="position">@ line 1775</span></li></ul><details><summary id="m-_inverse_analytic_distribution">_inverse_analytic_distribution(self) <span class="position">@ line 1231</span></summary><pre>Unlink and recreate analytic_lines when modifying the distribution.</pre></details><details><summary id="m-_prepare_analytic_distribution_line">_prepare_analytic_distribution_line(self, distribution, account_ids, distribution_on_each_plan) <span class="position">@ line 3034</span></summary><pre>Prepare the values used to create() an account.analytic.line upon validation of an account.move.line having
+analytic tags with analytic distribution.</pre></details><ul id="m-_prepare_analytic_lines"><li>_prepare_analytic_lines(self) <span class="position">@ line 3021</span></li></ul><ul id="m-_prepare_create_values"><li>_prepare_create_values(self, vals_list) <span class="position">@ line 1484</span></li></ul><details><summary id="m-_prepare_edi_vals_to_export">_prepare_edi_vals_to_export(self) <span class="position">@ line 3220</span></summary><pre>The purpose of this helper is the same as '_prepare_edi_vals_to_export' but for a single invoice line.
+This includes the computation of the tax details for each invoice line or the management of the discount.
+Indeed, in some EDI, we need to provide extra values depending the discount such as:
+- the discount as an amount instead of a percentage.
+- the price_unit but after subtraction of the discount.
+
+:return: A python dict containing default pre-processed values.</pre></details><details><summary id="m-_prepare_exchange_difference_move_vals">_prepare_exchange_difference_move_vals(self, amounts_list, company, exchange_date) <span class="position">@ line 2613</span></summary><pre>Prepare values to create later the exchange difference journal entry.
+The exchange difference journal entry is there to fix the debit/credit of lines when the journal items are
+fully reconciled in foreign currency.
+:param amounts_list:    A list of dict, one for each aml.
+:param company:         The company in case there is no aml in self.
+:param exchange_date:   Optional date object providing the date to consider for the exchange difference.
+:return:                A python dictionary containing:
+* move_vals:    A dictionary to be passed to the account.move.create method.
+* to_reconcile: A list of tuple <move_line, sequence> in order to perform the reconciliation after the move
+creation.</pre></details><details><summary id="m-_reconcile_marked">_reconcile_marked(self) <span class="position">@ line 2973</span></summary><pre>Process the pending reconciliation of entries marked (i.e. uring imports).
+
+The entries can be marked using the string `I*` as matching number where `*` can be anything.
+Once all the entries using identical numbers are posted, this function proceeds to do the real matching.</pre></details><ul id="m-_reconcile_plan_with_sync"><li>_reconcile_plan_with_sync(self, plan_list, all_amls) <span class="position">@ line 2379</span></li></ul><ul id="m-_reconcile_post_hook"><li>_reconcile_post_hook(self, data) <span class="position">@ line 2349</span></li></ul><ul id="m-_reconcile_pre_hook"><li>_reconcile_pre_hook(self) <span class="position">@ line 2342</span></li></ul><details><summary id="m-_reconciled_by_number">_reconciled_by_number(self) <span class="position">@ line 3088</span></summary><pre>Get the mapping of all the lines matched with the lines in self grouped by matching number.</pre></details><ul id="m-_reconciled_lines"><li>_reconciled_lines(self) <span class="position">@ line 3081</span></li></ul><ul id="m-_sanitize_vals"><li>_sanitize_vals(self, vals) <span class="position">@ line 1467</span></li></ul><ul id="m-_search_panel_domain_image"><li>_search_panel_domain_image(self, field_name, domain, set_count, limit) <span class="position">@ line 1749</span></li></ul><ul id="m-_search_payment_date"><li>_search_payment_date(self, operator, value) <span class="position">@ line 1154</span></li></ul><ul id="m-_sync_invoice"><li>_sync_invoice(self, container) <span class="position">@ line 1504</span></li></ul><ul id="m-_valid_field_parameter"><li>_valid_field_parameter(self, field, name) <span class="position">@ line 1663</span></li></ul><ul id="m-_validate_analytic_distribution"><li>_validate_analytic_distribution(self) <span class="position">@ line 3000</span></li></ul><details><summary id="m-action_add_from_catalog">action_add_from_catalog(self) <span class="position">@ line 3275</span></summary><pre>Will open the catalog view</pre></details><ul id="m-action_automatic_entry"><li>action_automatic_entry(self, default_action) <span class="position">@ line 3262</span></li></ul><ul id="m-action_open_business_doc"><li>action_open_business_doc(self) <span class="position">@ line 3259</span></li></ul><ul id="m-action_payment_items_register_payment"><li>action_payment_items_register_payment(self) <span class="position">@ line 1165</span></li></ul><details><summary id="m-action_register_payment">action_register_payment(self, ctx) <span class="position">@ line 1168</span></summary><pre>Open the account.payment.register wizard to pay the selected journal items.
+:return: An action opening the account.payment.register wizard.</pre></details><ul id="m-check_field_access_rights"><li>check_field_access_rights(self, operation, field_names) <span class="position">@ line 1395</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 1718</span></li></ul><ul id="m-default_get"><li>default_get(self, fields_list) <span class="position">@ line 1458</span></li></ul><details><summary id="m-init">init(self) <span class="position">@ line 1436</span></summary><pre>change index on partner_id to a multi-column index on (partner_id, ref), the new index will behave in the
+same way when we search on partner_id, with the addition of being optimal when having a query that will
+search on partner_id and ref at the same time (which is the case when we open the bank reconciliation widget)</pre></details><ul id="m-invalidate_model"><li>invalidate_model(self, fnames, flush) <span class="position">@ line 1402</span></li></ul><ul id="m-invalidate_recordset"><li>invalidate_recordset(self, fnames, flush) <span class="position">@ line 1412</span></li></ul><ul id="m-open_reconcile_view"><li>open_reconcile_view(self) <span class="position">@ line 3253</span></li></ul><details><summary id="m-reconcile">reconcile(self) <span class="position">@ line 2965</span></summary><pre>Reconcile the current move lines all together.</pre></details><details><summary id="m-remove_move_reconcile">remove_move_reconcile(self) <span class="position">@ line 2969</span></summary><pre>Undo a reconciliation</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 1687</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 1572</span></li></ul><script src="class.js"></script></body></html>

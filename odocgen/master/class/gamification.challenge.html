@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>gamification.challenge - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>gamification.challenge</h1><p>Inherited in: odoo/addons/website_slides/models/gamification_challenge.py<br/>Inherited in: odoo/addons/website_forum/models/gamification_challenge.py<br/>Inherited in: odoo/addons/survey/models/challenge.py<br/>Inherited in: odoo/addons/gamification/models/gamification_challenge.py<br/></p><hr/><h2>Inherited: odoo/addons/website_slides/models/gamification_challenge.py</h2><h3>Fields</h3><details><summary id="f-challenge_category">challenge_category <span class="position">@ line 10</span></summary><pre>challenge_category = fields.Selection(selection_add=[
+        ('slides', 'Website / Slides')
+    ], ondelete={'slides': 'set default'})</pre></details><h2>Inherited: odoo/addons/website_forum/models/gamification_challenge.py</h2><h3>Fields</h3><details><summary id="f-challenge_category">challenge_category <span class="position">@ line 10</span></summary><pre>challenge_category = fields.Selection(selection_add=[
+        ('forum', 'Website / Forum')
+    ], ondelete={'forum': 'set default'})</pre></details><h2>Inherited: odoo/addons/survey/models/challenge.py</h2><h3>Fields</h3><details><summary id="f-challenge_category">challenge_category <span class="position">@ line 10</span></summary><pre>challenge_category = fields.Selection(selection_add=[
+        ('certification', 'Certifications')
+    ], ondelete={'certification': 'set default'})</pre></details><h2>Inherited: odoo/addons/gamification/models/gamification_challenge.py</h2><h3>Fields</h3><details><summary id="f-REPORT_OFFSETS">REPORT_OFFSETS <span class="position">@ line 164</span></summary><pre>REPORT_OFFSETS = {
+        'daily': timedelta(days=1),
+        'weekly': timedelta(days=7),
+        'monthly': relativedelta(months=1),
+        'yearly': relativedelta(years=1),
+    }</pre></details><details><summary id="f-challenge_category">challenge_category <span class="position">@ line 138</span></summary><pre>challenge_category = fields.Selection([
+        ('hr', 'Human Resources / Engagement'),
+        ('other', 'Settings / Gamification Tools'),
+    ], string="Appears in", required=True, default='hr',
+       help="Define the visibility of the challenge through menus")</pre></details><details><summary id="f-description">description <span class="position">@ line 75</span></summary><pre>description = fields.Text("Description", translate=True)</pre></details><details><summary id="f-end_date">end_date <span class="position">@ line 101</span></summary><pre>end_date = fields.Date("End Date", help="The day a new challenge will be automatically closed. If no periodicity is set, will use this date as the goal end date.")</pre></details><details><summary id="f-invited_user_ids">invited_user_ids <span class="position">@ line 103</span></summary><pre>invited_user_ids = fields.Many2many('res.users', 'gamification_invited_user_ids_rel', string="Suggest to users")</pre></details><details><summary id="f-last_report_date">last_report_date <span class="position">@ line 135</span></summary><pre>last_report_date = fields.Date("Last Report Date", default=fields.Date.today)</pre></details><details><summary id="f-line_ids">line_ids <span class="position">@ line 105</span></summary><pre>line_ids = fields.One2many('gamification.challenge.line', 'challenge_id',
+                                  string="Lines",
+                                  help="List of goals that will be set",
+                                  required=True, copy=True)</pre></details><details><summary id="f-manager_id">manager_id <span class="position">@ line 82</span></summary><pre>manager_id = fields.Many2one(
+        'res.users', default=lambda self: self.env.uid,
+        string="Responsible")</pre></details><details><summary id="f-name">name <span class="position">@ line 74</span></summary><pre>name = fields.Char("Challenge Name", required=True, translate=True)</pre></details><details><summary id="f-next_report_date">next_report_date <span class="position">@ line 136</span></summary><pre>next_report_date = fields.Date("Next Report Date", compute='_get_next_report_date', store=True)</pre></details><details><summary id="f-period">period <span class="position">@ line 90</span></summary><pre>period = fields.Selection([
+            ('once', "Non recurring"),
+            ('daily', "Daily"),
+            ('weekly', "Weekly"),
+            ('monthly', "Monthly"),
+            ('yearly', "Yearly")
+        ], default='once',
+        string="Periodicity",
+        help="Period of automatic goal assignment. If none is selected, should be launched manually.",
+        required=True)</pre></details><details><summary id="f-remind_update_delay">remind_update_delay <span class="position">@ line 134</span></summary><pre>remind_update_delay = fields.Integer("Non-updated manual goals will be reminded after", help="Never reminded if no value or zero is specified.")</pre></details><details><summary id="f-report_message_frequency">report_message_frequency <span class="position">@ line 123</span></summary><pre>report_message_frequency = fields.Selection([
+            ('never', "Never"),
+            ('onchange', "On change"),
+            ('daily', "Daily"),
+            ('weekly', "Weekly"),
+            ('monthly', "Monthly"),
+            ('yearly', "Yearly")
+        ], default='never',
+        string="Report Frequency", required=True)</pre></details><details><summary id="f-report_message_group_id">report_message_group_id <span class="position">@ line 132</span></summary><pre>report_message_group_id = fields.Many2one('discuss.channel', string="Send a copy to", help="Group that will receive a copy of the report in addition to the user")</pre></details><details><summary id="f-report_template_id">report_template_id <span class="position">@ line 133</span></summary><pre>report_template_id = fields.Many2one('mail.template', default=lambda self: self._get_report_template(), string="Report Template", required=True)</pre></details><details><summary id="f-reward_failure">reward_failure <span class="position">@ line 114</span></summary><pre>reward_failure = fields.Boolean("Reward Bests if not Succeeded?")</pre></details><details><summary id="f-reward_first_id">reward_first_id <span class="position">@ line 111</span></summary><pre>reward_first_id = fields.Many2one('gamification.badge', string="For 1st user")</pre></details><details><summary id="f-reward_id">reward_id <span class="position">@ line 110</span></summary><pre>reward_id = fields.Many2one('gamification.badge', string="For Every Succeeding User")</pre></details><details><summary id="f-reward_realtime">reward_realtime <span class="position">@ line 115</span></summary><pre>reward_realtime = fields.Boolean("Reward as soon as every goal is reached", default=True, help="With this option enabled, a user can receive a badge only once. The top 3 badges are still rewarded only at the end of the challenge.")</pre></details><details><summary id="f-reward_second_id">reward_second_id <span class="position">@ line 112</span></summary><pre>reward_second_id = fields.Many2one('gamification.badge', string="For 2nd user")</pre></details><details><summary id="f-reward_third_id">reward_third_id <span class="position">@ line 113</span></summary><pre>reward_third_id = fields.Many2one('gamification.badge', string="For 3rd user")</pre></details><details><summary id="f-start_date">start_date <span class="position">@ line 100</span></summary><pre>start_date = fields.Date("Start Date", help="The day a new challenge will be automatically started. If no periodicity is set, will use this date as the goal start date.")</pre></details><details><summary id="f-state">state <span class="position">@ line 76</span></summary><pre>state = fields.Selection([
+            ('draft', "Draft"),
+            ('inprogress', "In Progress"),
+            ('done', "Done"),
+        ], default='draft', copy=False,
+        string="State", required=True, tracking=True)</pre></details><details><summary id="f-user_count">user_count <span class="position">@ line 88</span></summary><pre>user_count = fields.Integer('# Users', compute='_compute_user_count')</pre></details><details><summary id="f-user_domain">user_domain <span class="position">@ line 87</span></summary><pre>user_domain = fields.Char("User domain")</pre></details><details><summary id="f-user_ids">user_ids <span class="position">@ line 86</span></summary><pre>user_ids = fields.Many2many('res.users', 'gamification_challenge_users_rel', string="Participants")</pre></details><details><summary id="f-visibility_mode">visibility_mode <span class="position">@ line 117</span></summary><pre>visibility_mode = fields.Selection([
+            ('personal', "Individual Goals"),
+            ('ranking', "Leader Board (Group Ranking)"),
+        ], default='personal',
+        string="Display Mode", required=True)</pre></details><h3>Methods</h3><details><summary id="m-_check_challenge_reward">_check_challenge_reward(self, force) <span class="position">@ line 654</span></summary><pre>Actions for the end of a challenge
+
+If a reward was selected, grant it to the correct users.
+Rewards granted at:
+- the end date for a challenge with no periodicity
+- the end of a period for challenge with periodicity
+- when a challenge is manually closed
+(if no end date, a running challenge is never rewarded)</pre></details><details><summary id="m-_generate_goals_from_challenge">_generate_goals_from_challenge(self) <span class="position">@ line 362</span></summary><pre>Generate the goals for each line and user.
+
+If goals already exist for this line and user, the line is skipped. This
+can be called after each change in the list of users or lines.
+:param list(int) ids: the list of challenge concerned</pre></details><ul id="m-_get_challenger_users"><li>_get_challenger_users(self, domain) <span class="position">@ line 317</span></li></ul><ul id="m-_get_report_template"><li>_get_report_template(self) <span class="position">@ line 184</span></li></ul><details><summary id="m-_get_serialized_challenge_lines">_get_serialized_challenge_lines(self, user, restrict_goals, restrict_top) <span class="position">@ line 439</span></summary><pre>Return a serialised version of the goals information if the user has not completed every goal
+
+:param user: user retrieving progress (False if no distinction,
+only for ranking challenges)
+:param restrict_goals: compute only the results for this subset of
+gamification.goal ids, if False retrieve every
+goal of current running challenge
+:param int restrict_top: for challenge lines where visibility_mode is
+``ranking``, retrieve only the best
+``restrict_top`` results and itself, if 0
+retrieve all restrict_goal_ids has priority
+over restrict_top
+
+format list
+# if visibility_mode == 'ranking'
+{
+'name': <gamification.goal.description name>,
+'description': <gamification.goal.description description>,
+'condition': <reach condition {lower,higher}>,
+'computation_mode': <target computation {manually,count,sum,python}>,
+'monetary': <{True,False}>,
+'suffix': <value suffix>,
+'action': <{True,False}>,
+'display_mode': <{progress,boolean}>,
+'target': <challenge line target>,
+'own_goal_id': <gamification.goal id where user_id == uid>,
+'goals': [
+{
+'id': <gamification.goal id>,
+'rank': <user ranking>,
+'user_id': <res.users id>,
+'name': <res.users name>,
+'state': <gamification.goal state {draft,inprogress,reached,failed,canceled}>,
+'completeness': <percentage>,
+'current': <current value>,
+}
+]
+},
+# if visibility_mode == 'personal'
+{
+'id': <gamification.goal id>,
+'name': <gamification.goal.description name>,
+'description': <gamification.goal.description description>,
+'condition': <reach condition {lower,higher}>,
+'computation_mode': <target computation {manually,count,sum,python}>,
+'monetary': <{True,False}>,
+'suffix': <value suffix>,
+'action': <{True,False}>,
+'display_mode': <{progress,boolean}>,
+'target': <challenge line target>,
+'state': <gamification.goal state {draft,inprogress,reached,failed,canceled}>,
+'completeness': <percentage>,
+'current': <current value>,
+}</pre></details><details><summary id="m-_get_topN_users">_get_topN_users(self, n) <span class="position">@ line 747</span></summary><pre>Get the top N users for a defined challenge
+
+Ranking criterias:
+1. succeed every goal of the challenge
+2. total completeness of each goal (can be over 100)
+
+Only users having reached every goal of the challenge will be returned
+unless the challenge ``reward_failure`` is set, in which case any user
+may be considered.
+
+:returns: an iterable of exactly N records, either User objects or
+False if there was no user for the rank. There can be no
+False between two users (if users[k] = False then
+users[k+1] = False</pre></details><details><summary id="m-_recompute_challenge_users">_recompute_challenge_users(self) <span class="position">@ line 321</span></summary><pre>Recompute the domain to add new users and remove the one no longer matching the domain</pre></details><details><summary id="m-_reward_user">_reward_user(self, user, badge) <span class="position">@ line 804</span></summary><pre>Create a badge user and send the badge to him
+
+:param user: the user to reward
+:param badge: the concerned badge</pre></details><details><summary id="m-_update_all">_update_all(self) <span class="position">@ line 266</span></summary><pre>Update the challenges and related goals.</pre></details><ul id="m-accept_challenge"><li>accept_challenge(self) <span class="position">@ line 640</span></li></ul><details><summary id="m-action_check">action_check(self) <span class="position">@ line 336</span></summary><pre>Check a challenge
+
+Create goals that haven't been created yet (eg: if added users)
+Recompute the current value for each goal related</pre></details><details><summary id="m-action_report_progress">action_report_progress(self) <span class="position">@ line 348</span></summary><pre>Manual report of a goal, does not influence automatic report frequency</pre></details><details><summary id="m-action_start">action_start(self) <span class="position">@ line 332</span></summary><pre>Start a challenge</pre></details><details><summary id="m-action_view_users">action_view_users(self) <span class="position">@ line 354</span></summary><pre>Redirect to the participants (users) list.</pre></details><details><summary id="m-discard_challenge">discard_challenge(self) <span class="position">@ line 647</span></summary><pre>The user discard the suggested challenge</pre></details><details><summary id="m-report_progress">report_progress(self, users, subset_goals) <span class="position">@ line 586</span></summary><pre>Post report about the progress of the goals
+
+:param users: users that are concerned by the report. If False, will
+send the report to every user concerned (goal users and
+group that receive a copy). Only used for challenge with
+a visibility mode set to 'personal'.
+:param subset_goals: goals to restrict the report</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 202</span></li></ul><script src="class.js"></script></body></html>

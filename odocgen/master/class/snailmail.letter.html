@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>snailmail.letter - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>snailmail.letter</h1><p>Originally defined in: odoo/addons/snailmail/models/snailmail_letter.py</p><hr/><h2>Original: odoo/addons/snailmail/models/snailmail_letter.py</h2><h3>Fields</h3><details><summary id="f-attachment_datas">attachment_datas <span class="position">@ line 47</span></summary><pre>attachment_datas = fields.Binary('Document', related='attachment_id.datas')</pre></details><details><summary id="f-attachment_fname">attachment_fname <span class="position">@ line 48</span></summary><pre>attachment_fname = fields.Char('Attachment Filename', related='attachment_id.name')</pre></details><details><summary id="f-attachment_id">attachment_id <span class="position">@ line 46</span></summary><pre>attachment_id = fields.Many2one('ir.attachment', string='Attachment', ondelete='cascade', index='btree_not_null')</pre></details><details><summary id="f-city">city <span class="position">@ line 72</span></summary><pre>city = fields.Char('City')</pre></details><details><summary id="f-color">color <span class="position">@ line 49</span></summary><pre>color = fields.Boolean(string='Color', default=lambda self: self.env.company.snailmail_color)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 42</span></summary><pre>company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True,
+        default=lambda self: self.env.company.id)</pre></details><details><summary id="f-country_id">country_id <span class="position">@ line 74</span></summary><pre>country_id = fields.Many2one('res.country', string='Country')</pre></details><details><summary id="f-cover">cover <span class="position">@ line 50</span></summary><pre>cover = fields.Boolean(string='Cover Page', default=lambda self: self.env.company.snailmail_cover)</pre></details><details><summary id="f-duplex">duplex <span class="position">@ line 51</span></summary><pre>duplex = fields.Boolean(string='Both side', default=lambda self: self.env.company.snailmail_duplex)</pre></details><details><summary id="f-error_code">error_code <span class="position">@ line 61</span></summary><pre>error_code = fields.Selection([(err_code, err_code) for err_code in ERROR_CODES], string="Error")</pre></details><details><summary id="f-info_msg">info_msg <span class="position">@ line 62</span></summary><pre>info_msg = fields.Char('Information')</pre></details><details><summary id="f-message_id">message_id <span class="position">@ line 66</span></summary><pre>message_id = fields.Many2one('mail.message', string="Snailmail Status Message", index='btree_not_null')</pre></details><details><summary id="f-model">model <span class="position">@ line 39</span></summary><pre>model = fields.Char('Model', required=True)</pre></details><details><summary id="f-notification_ids">notification_ids <span class="position">@ line 67</span></summary><pre>notification_ids = fields.One2many('mail.notification', 'letter_id', "Notifications")</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 41</span></summary><pre>partner_id = fields.Many2one('res.partner', string='Recipient', required=True)</pre></details><details><summary id="f-reference">reference <span class="position">@ line 64</span></summary><pre>reference = fields.Char(string='Related Record', compute='_compute_reference', readonly=True, store=False)</pre></details><details><summary id="f-report_template">report_template <span class="position">@ line 44</span></summary><pre>report_template = fields.Many2one('ir.actions.report', 'Optional report to print and attach')</pre></details><details><summary id="f-res_id">res_id <span class="position">@ line 40</span></summary><pre>res_id = fields.Integer('Document ID', required=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 52</span></summary><pre>state = fields.Selection([
+        ('pending', 'In Queue'),
+        ('sent', 'Sent'),
+        ('error', 'Error'),
+        ('canceled', 'Cancelled')
+        ], 'Status', readonly=True, copy=False, default='pending', required=True,
+        help="When a letter is created, the status is 'Pending'.\n"
+             "If the letter is correctly sent, the status goes in 'Sent',\n"
+             "If not, it will got in state 'Error' and the error message will be displayed in the field 'Error Message'.")</pre></details><details><summary id="f-state_id">state_id <span class="position">@ line 73</span></summary><pre>state_id = fields.Many2one("res.country.state", string='State')</pre></details><details><summary id="f-street">street <span class="position">@ line 69</span></summary><pre>street = fields.Char('Street')</pre></details><details><summary id="f-street2">street2 <span class="position">@ line 70</span></summary><pre>street2 = fields.Char('Street2')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 38</span></summary><pre>user_id = fields.Many2one('res.users', 'Sent by')</pre></details><details><summary id="f-zip">zip <span class="position">@ line 71</span></summary><pre>zip = fields.Char('Zip')</pre></details><h3>Methods</h3><ul id="m-_append_cover_page"><li>_append_cover_page(self, invoice_bin) <span class="position">@ line 458</span></li></ul><details><summary id="m-_count_pages_pdf">_count_pages_pdf(self, bin_pdf) <span class="position">@ line 173</span></summary><pre>Count the number of pages of the given pdf file.
+:param bin_pdf : binary content of the pdf file</pre></details><details><summary id="m-_fetch_attachment">_fetch_attachment(self) <span class="position">@ line 132</span></summary><pre>This method will check if we have any existent attachement matching the model
+and res_ids and create them if not found.</pre></details><ul id="m-_get_error_message"><li>_get_error_message(self, error) <span class="position">@ line 302</span></li></ul><ul id="m-_get_failure_type"><li>_get_failure_type(self, error) <span class="position">@ line 319</span></li></ul><details><summary id="m-_overwrite_margins">_overwrite_margins(self, invoice_bin) <span class="position">@ line 490</span></summary><pre>Fill the margins with white for validation purposes.</pre></details><details><summary id="m-_snailmail_create">_snailmail_create(self, route) <span class="position">@ line 182</span></summary><pre>Create a dictionnary object to send to snailmail server.
+
+:return: Dict in the form:
+{
+account_token: string,    //IAP Account token of the user
+documents: [{
+pages: int,
+pdf_bin: pdf file
+res_id: int (client-side res_id),
+res_model: char (client-side res_model),
+address: {
+name: char,
+street: char,
+street2: char (OPTIONAL),
+zip: int,
+city: char,
+state: char (state code (OPTIONAL)),
+country_code: char (country code)
+}
+return_address: {
+name: char,
+street: char,
+street2: char (OPTIONAL),
+zip: int,
+city: char,at
+state: char (state code (OPTIONAL)),
+country_code: char (country code)
+}
+}],
+options: {
+color: boolean (true if color, false if black-white),
+duplex: boolean (true if duplex, false otherwise),
+currency_name: char
+}
+}</pre></details><ul id="m-_snailmail_print"><li>_snailmail_print(self, immediate) <span class="position">@ line 333</span></li></ul><ul id="m-_snailmail_print_invalid_address"><li>_snailmail_print_invalid_address(self) <span class="position">@ line 342</span></li></ul><details><summary id="m-_snailmail_print_valid_address">_snailmail_print_valid_address(self) <span class="position">@ line 357</span></summary><pre>get response
+{
+'request_code': RESPONSE_OK, # because we receive 200 if good or fail
+'total_cost': total_cost,
+'credit_error': credit_error,
+'request': {
+'documents': documents,
+'options': options
+}
+}
+}</pre></details><ul id="m-cancel"><li>cancel(self) <span class="position">@ line 428</span></li></ul><ul id="m-snailmail_print"><li>snailmail_print(self) <span class="position">@ line 417</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 126</span></li></ul><script src="class.js"></script></body></html>

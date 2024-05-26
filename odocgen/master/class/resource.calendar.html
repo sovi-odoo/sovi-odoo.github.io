@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>resource.calendar - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>resource.calendar</h1><p>Originally defined in: odoo/addons/resource/models/resource_calendar.py</p><p>Inherited in: odoo/addons/l10n_fr_hr_holidays/models/resource_calendar.py<br/>Inherited in: odoo/addons/hr_work_entry_contract/models/resource_calendar.py<br/>Inherited in: odoo/addons/hr_holidays/models/resource.py<br/>Inherited in: odoo/addons/hr_contract/models/resource.py<br/></p><hr/><h2>Original: odoo/addons/resource/models/resource_calendar.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 80</span></summary><pre>active = fields.Boolean("Active", default=True,
+                            help="If the active field is set to false, it will allow you to hide the Working Time without removing it.")</pre></details><details><summary id="f-attendance_ids">attendance_ids <span class="position">@ line 85</span></summary><pre>attendance_ids = fields.One2many(
+        'resource.calendar.attendance', 'calendar_id', 'Working Time',
+        compute='_compute_attendance_ids', store=True, readonly=False, copy=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 82</span></summary><pre>company_id = fields.Many2one(
+        'res.company', 'Company', domain=lambda self: [('id', 'in', self.env.companies.ids)],
+        default=lambda self: self.env.company)</pre></details><details><summary id="f-global_leave_ids">global_leave_ids <span class="position">@ line 90</span></summary><pre>global_leave_ids = fields.One2many(
+        'resource.calendar.leaves', 'calendar_id', 'Global Time Off',
+        compute='_compute_global_leave_ids', store=True, readonly=False,
+        domain=[('resource_id', '=', False)], copy=True,
+    )</pre></details><details><summary id="f-hours_per_day">hours_per_day <span class="position">@ line 95</span></summary><pre>hours_per_day = fields.Float("Average Hour per Day", store=True, compute="_compute_hours_per_day", digits=(2, 2),
+                                 help="Average hours per day a resource is supposed to work with this calendar.")</pre></details><details><summary id="f-leave_ids">leave_ids <span class="position">@ line 88</span></summary><pre>leave_ids = fields.One2many(
+        'resource.calendar.leaves', 'calendar_id', 'Time Off')</pre></details><details><summary id="f-name">name <span class="position">@ line 79</span></summary><pre>name = fields.Char(required=True)</pre></details><details><summary id="f-two_weeks_calendar">two_weeks_calendar <span class="position">@ line 102</span></summary><pre>two_weeks_calendar = fields.Boolean(string="Calendar in 2 weeks mode")</pre></details><details><summary id="f-two_weeks_explanation">two_weeks_explanation <span class="position">@ line 103</span></summary><pre>two_weeks_explanation = fields.Char('Explanation', compute="_compute_two_weeks_explanation")</pre></details><details><summary id="f-tz">tz <span class="position">@ line 97</span></summary><pre>tz = fields.Selection(
+        _tz_get, string='Timezone', required=True,
+        default=lambda self: self._context.get('tz') or self.env.user.tz or self.env.ref('base.user_admin').tz or 'UTC',
+        help="This field is used in order to define in which timezone the resources will work.")</pre></details><details><summary id="f-tz_offset">tz_offset <span class="position">@ line 101</span></summary><pre>tz_offset = fields.Char(compute='_compute_tz_offset', string='Timezone offset')</pre></details><h3>Methods</h3><ul id="m-_attendance_intervals_batch"><li>_attendance_intervals_batch(self, start_dt, end_dt, resources, domain, tz, lunch) <span class="position">@ line 275</span></li></ul><details><summary id="m-_check_overlap">_check_overlap(self, attendance_ids) <span class="position">@ line 248</span></summary><pre>attendance_ids correspond to attendance of a week,
+will check for each day of week that there are no superimpose.</pre></details><details><summary id="m-_get_attendance_intervals_days_data">_get_attendance_intervals_days_data(self, attendance_intervals) <span class="position">@ line 481</span></summary><pre>helper function to compute duration of `intervals` that have
+'resource.calendar.attendance' records as payload (3rd element in tuple).
+expressed in days and hours.
+
+resource.calendar.attendance records have durations associated
+with them so this method merely calculates the proportion that is
+covered by the intervals.</pre></details><details><summary id="m-_get_closest_work_time">_get_closest_work_time(self, dt, match_end, resource, search_range, compute_leaves) <span class="position">@ line 549</span></summary><pre>Return the closest work interval boundary within the search range.
+Consider only starts of intervals unless `match_end` is True. It will then only consider
+ends of intervals.
+:param dt: reference datetime
+:param match_end: wether to search for the begining of an interval or the end.
+:param search_range: time interval considered. Defaults to the entire day of `dt`
+:rtype: datetime | None</pre></details><details><summary id="m-_get_days_data">_get_days_data(self, intervals, day_total) <span class="position">@ line 506</span></summary><pre>helper function to compute duration of `intervals`
+expressed in days and hours.
+`day_total` is a dict {date: n_hours} with the number of hours for each day.</pre></details><ul id="m-_get_global_attendances"><li>_get_global_attendances(self) <span class="position">@ line 161</span></li></ul><details><summary id="m-_get_hours_per_day">_get_hours_per_day(self, attendances) <span class="position">@ line 167</span></summary><pre>Calculate the average hours worked per workday.</pre></details><ul id="m-_get_max_number_of_hours"><li>_get_max_number_of_hours(self, start, end) <span class="position">@ line 743</span></li></ul><details><summary id="m-_get_resources_day_total">_get_resources_day_total(self, from_datetime, to_datetime, resources) <span class="position">@ line 526</span></summary><pre>@return dict with hours of attendance in each day between `from_datetime` and `to_datetime`</pre></details><ul id="m-_get_unusual_days"><li>_get_unusual_days(self, start_dt, end_dt, company_id) <span class="position">@ line 584</span></li></ul><ul id="m-_leave_intervals"><li>_leave_intervals(self, start_dt, end_dt, resource, domain, tz) <span class="position">@ line 370</span></li></ul><details><summary id="m-_leave_intervals_batch">_leave_intervals_batch(self, start_dt, end_dt, resources, domain, tz, any_calendar) <span class="position">@ line 377</span></summary><pre>Return the leave intervals in the given datetime range.
+The returned intervals are expressed in specified tz or in the calendar's timezone.</pre></details><ul id="m-_unavailable_intervals"><li>_unavailable_intervals(self, start_dt, end_dt, resource, domain, tz) <span class="position">@ line 449</span></li></ul><details><summary id="m-_unavailable_intervals_batch">_unavailable_intervals_batch(self, start_dt, end_dt, resources, domain, tz) <span class="position">@ line 456</span></summary><pre>Return the unavailable intervals between the given datetimes.</pre></details><details><summary id="m-_work_intervals_batch">_work_intervals_batch(self, start_dt, end_dt, resources, domain, tz, compute_leaves) <span class="position">@ line 430</span></summary><pre>Return the effective work intervals between the given datetimes.</pre></details><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 135</span></li></ul><details><summary id="m-get_work_duration_data">get_work_duration_data(self, from_datetime, to_datetime, compute_leaves, domain) <span class="position">@ line 630</span></summary><pre>Get the working duration (in days and hours) for a given period, only
+based on the current calendar. This method does not use resource to
+compute it.
+
+`domain` is used in order to recognise the leaves to take,
+None means default value ('time_type', '=', 'leave')
+
+Returns a dict {'days': n, 'hours': h} containing the
+quantity of working time expressed as days and as hours.</pre></details><details><summary id="m-get_work_hours_count">get_work_hours_count(self, start_dt, end_dt, compute_leaves, domain) <span class="position">@ line 603</span></summary><pre>`compute_leaves` controls whether or not this method is taking into
+account the global leaves.
+
+`domain` controls the way leaves are recognized.
+None means default value ('time_type', '=', 'leave')
+
+Counts the number of work hours between two datetimes.</pre></details><details><summary id="m-plan_days">plan_days(self, days, day_dt, compute_leaves, domain) <span class="position">@ line 699</span></summary><pre>`compute_leaves` controls whether or not this method is taking into
+account the global leaves.
+
+`domain` controls the way leaves are recognized.
+None means default value ('time_type', '=', 'leave')
+
+Returns the datetime of a days scheduling.</pre></details><details><summary id="m-plan_hours">plan_hours(self, hours, day_dt, compute_leaves, domain, resource) <span class="position">@ line 654</span></summary><pre>`compute_leaves` controls whether or not this method is taking into
+account the global leaves.
+
+`domain` controls the way leaves are recognized.
+None means default value ('time_type', '=', 'leave')
+
+Return datetime after having planned hours</pre></details><ul id="m-switch_calendar_type"><li>switch_calendar_type(self) <span class="position">@ line 189</span></li></ul><h2>Inherited: odoo/addons/l10n_fr_hr_holidays/models/resource_calendar.py</h2><h3>Methods</h3><ul id="m-_get_working_hours"><li>_get_working_hours(self) <span class="position">@ line 24</span></li></ul><ul id="m-_works_on_date"><li>_works_on_date(self, date) <span class="position">@ line 13</span></li></ul><h2>Inherited: odoo/addons/hr_work_entry_contract/models/resource_calendar.py</h2><h3>Methods</h3><ul id="m-_get_global_attendances"><li>_get_global_attendances(self) <span class="position">@ line 8</span></li></ul><h2>Inherited: odoo/addons/hr_holidays/models/resource.py</h2><h3>Fields</h3><details><summary id="f-associated_leaves_count">associated_leaves_count <span class="position">@ line 159</span></summary><pre>associated_leaves_count = fields.Integer("Time Off Count", compute='_compute_associated_leaves_count')</pre></details><h3>Methods</h3><ul id="m-_compute_associated_leaves_count"><li>_compute_associated_leaves_count(self) <span class="position">@ line 161</span></li></ul><h2>Inherited: odoo/addons/hr_contract/models/resource.py</h2><h3>Fields</h3><details><summary id="f-contracts_count">contracts_count <span class="position">@ line 12</span></summary><pre>contracts_count = fields.Integer("# Contracts using it", compute='_compute_contracts_count', groups="hr_contract.group_hr_contract_manager")</pre></details><h3>Methods</h3><ul id="m-_compute_contracts_count"><li>_compute_contracts_count(self) <span class="position">@ line 31</span></li></ul><ul id="m-action_open_contracts"><li>action_open_contracts(self) <span class="position">@ line 40</span></li></ul><details><summary id="m-transfer_leaves_to">transfer_leaves_to(self, other_calendar, resources, from_date) <span class="position">@ line 14</span></summary><pre>Transfer some resource.calendar.leaves from 'self' to another calendar 'other_calendar'.
+Transfered leaves linked to `resources` (or all if `resources` is None) and starting
+after 'from_date' (or today if None).</pre></details><script src="class.js"></script></body></html>

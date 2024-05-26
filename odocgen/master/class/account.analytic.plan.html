@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.analytic.plan - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.analytic.plan</h1><p>Originally defined in: odoo/addons/analytic/models/analytic_plan.py</p><p>Inherited in: odoo/addons/stock_account/models/analytic_account.py<br/></p><hr/><h2>Original: odoo/addons/analytic/models/analytic_plan.py</h2><h3>Fields</h3><details><summary id="f-account_count">account_count <span class="position">@ line 59</span></summary><pre>account_count = fields.Integer(
+        'Analytic Accounts Count',
+        compute='_compute_analytic_account_count',
+    )</pre></details><details><summary id="f-account_ids">account_ids <span class="position">@ line 54</span></summary><pre>account_ids = fields.One2many(
+        'account.analytic.account',
+        'plan_id',
+        string="Accounts",
+    )</pre></details><details><summary id="f-all_account_count">all_account_count <span class="position">@ line 63</span></summary><pre>all_account_count = fields.Integer(
+        'All Analytic Accounts Count',
+        compute='_compute_all_analytic_account_count',
+    )</pre></details><details><summary id="f-applicability_ids">applicability_ids <span class="position">@ line 85</span></summary><pre>applicability_ids = fields.One2many(
+        'account.analytic.applicability',
+        'analytic_plan_id',
+        string='Applicability',
+        domain="[('company_id', '=', current_company_id)]",
+    )</pre></details><details><summary id="f-children_count">children_count <span class="position">@ line 44</span></summary><pre>children_count = fields.Integer(
+        'Children Plans Count',
+        compute='_compute_children_count',
+    )</pre></details><details><summary id="f-children_ids">children_ids <span class="position">@ line 39</span></summary><pre>children_ids = fields.One2many(
+        'account.analytic.plan',
+        'parent_id',
+        string="Childrens",
+    )</pre></details><details><summary id="f-color">color <span class="position">@ line 67</span></summary><pre>color = fields.Integer(
+        'Color',
+        default=_default_color,
+    )</pre></details><details><summary id="f-complete_name">complete_name <span class="position">@ line 48</span></summary><pre>complete_name = fields.Char(
+        'Complete Name',
+        compute='_compute_complete_name',
+        recursive=True,
+        store=True,
+    )</pre></details><details><summary id="f-default_applicability">default_applicability <span class="position">@ line 73</span></summary><pre>default_applicability = fields.Selection(
+        selection=[
+            ('optional', 'Optional'),
+            ('mandatory', 'Mandatory'),
+            ('unavailable', 'Unavailable'),
+        ],
+        string="Default Applicability",
+        required=True,
+        default='optional',  # actually set in _auto_init because company dependent
+        readonly=False,
+        company_dependent=True,
+    )</pre></details><details><summary id="f-description">description <span class="position">@ line 26</span></summary><pre>description = fields.Text(string='Description')</pre></details><details><summary id="f-name">name <span class="position">@ line 21</span></summary><pre>name = fields.Char(
+        required=True,
+        translate=True,
+        inverse='_inverse_name',
+    )</pre></details><details><summary id="f-parent_id">parent_id <span class="position">@ line 27</span></summary><pre>parent_id = fields.Many2one(
+        'account.analytic.plan',
+        string="Parent",
+        inverse='_inverse_parent_id',
+        ondelete='cascade',
+        domain="['!', ('id', 'child_of', id)]",
+    )</pre></details><details><summary id="f-parent_path">parent_path <span class="position">@ line 34</span></summary><pre>parent_path = fields.Char(index='btree')</pre></details><details><summary id="f-root_id">root_id <span class="position">@ line 35</span></summary><pre>root_id = fields.Many2one(
+        'account.analytic.plan',
+        compute='_compute_root_id',
+    )</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 71</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><h3>Methods</h3><ul id="m-__get_all_plans"><li>__get_all_plans(self) <span class="position">@ line 103</span></li></ul><ul id="m-_auto_init"><li>_auto_init(self) <span class="position">@ line 92</span></li></ul><ul id="m-_column_name"><li>_column_name(self) <span class="position">@ line 118</span></li></ul><ul id="m-_default_color"><li>_default_color(self) <span class="position">@ line 18</span></li></ul><ul id="m-_find_plan_column"><li>_find_plan_column(self) <span class="position">@ line 250</span></li></ul><ul id="m-_get_all_plans"><li>_get_all_plans(self) <span class="position">@ line 110</span></li></ul><details><summary id="m-_get_applicability">_get_applicability(self) <span class="position">@ line 224</span></summary><pre>Returns the applicability of the best applicability line or the default applicability</pre></details><ul id="m-_inverse_name"><li>_inverse_name(self) <span class="position">@ line 121</span></li></ul><ul id="m-_inverse_parent_id"><li>_inverse_parent_id(self) <span class="position">@ line 124</span></li></ul><ul id="m-_strict_column_name"><li>_strict_column_name(self) <span class="position">@ line 113</span></li></ul><ul id="m-_sync_plan_column"><li>_sync_plan_column(self) <span class="position">@ line 256</span></li></ul><ul id="m-action_view_analytical_accounts"><li>action_view_analytical_accounts(self) <span class="position">@ line 174</span></li></ul><ul id="m-action_view_children_plans"><li>action_view_children_plans(self) <span class="position">@ line 185</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 245</span></li></ul><h2>Inherited: odoo/addons/stock_account/models/analytic_account.py</h2><h3>Methods</h3><details><summary id="m-_calculate_distribution_amount">_calculate_distribution_amount(self, amount, percentage, total_percentage, distribution_on_each_plan) <span class="position">@ line 11</span></summary><pre>Ensures that the total amount distributed across all lines always adds up to exactly `amount` per
+plan. We try to correct for compounding rounding errors by assigning the exact outstanding amount when
+we detect that a line will close out a plan's total percentage. However, since multiple plans can be
+assigned to a line, with different prior distributions, there is the possible edge case that one line
+closes out two (or more) tallies with different compounding errors. This means there is no one correct
+amount that we can assign to a line that will correctly close out both all plans. This is described in
+more detail in the commit message, under "concurrent closing line edge case".</pre></details><script src="class.js"></script></body></html>

@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.message.subtype - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.message.subtype</h1><p>Originally defined in: odoo/addons/mail/models/mail_message_subtype.py</p><p>Inherited in: odoo/addons/hr_holidays/models/mail_message_subtype.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_message_subtype.py</h2><h3>Fields</h3><details><summary id="f-default">default <span class="position">@ line 40</span></summary><pre>default = fields.Boolean('Default', default=True, help="Activated by default when subscribing.")</pre></details><details><summary id="f-description">description <span class="position">@ line 22</span></summary><pre>description = fields.Text(
+        'Description', translate=True, prefetch=True,
+        help='Description that will be added in the message posted for this '
+             'subtype. If void, the name will be added instead.')</pre></details><details><summary id="f-hidden">hidden <span class="position">@ line 42</span></summary><pre>hidden = fields.Boolean('Hidden', help="Hide the subtype in the follower options")</pre></details><details><summary id="f-internal">internal <span class="position">@ line 26</span></summary><pre>internal = fields.Boolean(
+        'Internal Only',
+        help='Messages with internal subtypes will be visible only by employees, aka members of base_user group')</pre></details><details><summary id="f-name">name <span class="position">@ line 15</span></summary><pre>name = fields.Char(
+        'Message Type', required=True, translate=True,
+        help='Message subtype gives a more precise type on the message, '
+             'especially for system notifications. For example, it can be '
+             'a notification related to a new record (New), or to a stage '
+             'change in a process (Stage change). Message subtypes allow to '
+             'precisely tune the notifications the user want to receive on its wall.')</pre></details><details><summary id="f-parent_id">parent_id <span class="position">@ line 29</span></summary><pre>parent_id = fields.Many2one(
+        'mail.message.subtype', string='Parent', ondelete='set null',
+        help='Parent subtype, used for automatic subscription. This field is not '
+             'correctly named. For example on a project, the parent_id of project '
+             'subtypes refers to task-related subtypes.')</pre></details><details><summary id="f-relation_field">relation_field <span class="position">@ line 34</span></summary><pre>relation_field = fields.Char(
+        'Relation field',
+        help='Field used to link the related model to the subtype model when '
+             'using automatic subscription on a related document. The field '
+             'is used to compute getattr(related_document.relation_field).')</pre></details><details><summary id="f-res_model">res_model <span class="position">@ line 39</span></summary><pre>res_model = fields.Char('Model', help="Model the subtype applies to. If False, this subtype applies to all models.")</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 41</span></summary><pre>sequence = fields.Integer('Sequence', default=1, help="Used to order subtypes.")</pre></details><details><summary id="f-track_recipients">track_recipients <span class="position">@ line 43</span></summary><pre>track_recipients = fields.Boolean('Track Recipients',
+                                      help="Whether to display all the recipients or only the important ones.")</pre></details><h3>Methods</h3><ul id="m-_default_subtypes"><li>_default_subtypes(self, model_name) <span class="position">@ line 107</span></li></ul><details><summary id="m-_get_auto_subscription_subtypes">_get_auto_subscription_subtypes(self, model_name) <span class="position">@ line 60</span></summary><pre>Return data related to auto subscription based on subtype matching.
+Here model_name indicates child model (like a task) on which we want to
+make subtype matching based on its parents (like a project).
+
+Example with tasks and project :
+
+* generic: discussion, res_model = False
+* task: new, res_model = project.task
+* project: task_new, parent_id = new, res_model = project.project, field = project_id
+
+Returned data
+
+* child_ids: all subtypes that are generic or related to task (res_model = False or model_name)
+* def_ids: default subtypes ids (either generic or task specific)
+* all_int_ids: all internal-only subtypes ids (generic or task or project)
+* parent: dict(parent subtype id, child subtype id), i.e. {task_new.id: new.id}
+* relation: dict(parent_model, relation_fields), i.e. {'project.project': ['project_id']}</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 55</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 51</span></li></ul><h2>Inherited: odoo/addons/hr_holidays/models/mail_message_subtype.py</h2><h3>Methods</h3><ul id="m-_get_department_subtype"><li>_get_department_subtype(self) <span class="position">@ line 14</span></li></ul><ul id="m-_update_department_subtype"><li>_update_department_subtype(self) <span class="position">@ line 19</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 45</span></li></ul><script src="class.js"></script></body></html>

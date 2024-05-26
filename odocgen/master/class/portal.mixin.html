@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>portal.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>portal.mixin</h1><p>Originally defined in: odoo/addons/portal/models/portal_mixin.py</p><hr/><h2>Original: odoo/addons/portal/models/portal_mixin.py</h2><h3>Fields</h3><details><summary id="f-access_token">access_token <span class="position">@ line 16</span></summary><pre>access_token = fields.Char('Security Token', copy=False)</pre></details><details><summary id="f-access_url">access_url <span class="position">@ line 13</span></summary><pre>access_url = fields.Char(
+        'Portal Access URL', compute='_compute_access_url',
+        help='Customer Portal URL')</pre></details><details><summary id="f-access_warning">access_warning <span class="position">@ line 19</span></summary><pre>access_warning = fields.Text("Access warning", compute="_compute_access_warning")</pre></details><h3>Methods</h3><ul id="m-_compute_access_url"><li>_compute_access_url(self) <span class="position">@ line 25</span></li></ul><ul id="m-_compute_access_warning"><li>_compute_access_warning(self) <span class="position">@ line 21</span></li></ul><details><summary id="m-_get_access_action">_get_access_action(self, access_uid, force_website) <span class="position">@ line 68</span></summary><pre>Instead of the classic form view, redirect to the online document for
+portal users or if force_website=True.</pre></details><details><summary id="m-_get_share_url">_get_share_url(self, redirect, signup_partner, pid, share_token) <span class="position">@ line 36</span></summary><pre>Build the url of the record  that will be sent by mail and adds additional parameters such as
+access_token to bypass the recipient's rights,
+signup_partner to allows the user to create easily an account,
+hash token to allow the user to be authenticated in the chatter of the record portal view, if applicable
+:param redirect : Send the redirect url instead of the direct portal share url
+:param signup_partner: allows the user to create an account with pre-filled fields.
+:param pid: = partner_id - when given, a hash is generated to allow the user to be authenticated
+in the portal chatter, if any in the target page,
+if the user is redirected to the portal instead of the backend.
+:return: the url of the record with access parameters, if any.</pre></details><details><summary id="m-_portal_ensure_token">_portal_ensure_token(self) <span class="position">@ line 29</span></summary><pre>Get the current record access token</pre></details><details><summary id="m-get_portal_url">get_portal_url(self, suffix, report_type, download, query_string, anchor) <span class="position">@ line 117</span></summary><pre>Get a portal url for this model, including access_token.
+The associated route must handle the flags for them to have any effect.
+- suffix: string to append to the url, before the query string
+- report_type: report_type query string, often one of: html, pdf, text
+- download: set the download query string to true
+- query_string: additional query string
+- anchor: string to append after the anchor #</pre></details><script src="class.js"></script></body></html>

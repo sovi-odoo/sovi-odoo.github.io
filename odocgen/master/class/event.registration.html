@@ -1,0 +1,116 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>event.registration - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>event.registration</h1><p>Inherited in: odoo/addons/website_event_crm/models/event_registration.py<br/>Inherited in: odoo/addons/website_event/models/event_registration.py<br/>Inherited in: odoo/addons/mass_mailing_event/models/event_registration.py<br/>Inherited in: odoo/addons/event_sale/models/event_registration.py<br/>Inherited in: odoo/addons/event_crm_sale/models/event_registration.py<br/>Inherited in: odoo/addons/event_crm/models/event_registration.py<br/>Inherited in: odoo/addons/event/models/event_registration.py<br/></p><hr/><h2>Inherited: odoo/addons/website_event_crm/models/event_registration.py</h2><h3>Methods</h3><ul id="m-_get_lead_description_fields"><li>_get_lead_description_fields(self) <span class="position">@ line 24</span></li></ul><details><summary id="m-_get_lead_description_registration">_get_lead_description_registration(self, line_suffix) <span class="position">@ line 11</span></summary><pre>Add the questions and answers linked to the registrations into the description of the lead.</pre></details><details><summary id="m-_get_lead_values">_get_lead_values(self, rule) <span class="position">@ line 29</span></summary><pre>Update lead values from Lead Generation rules to include the visitor and their language</pre></details><h2>Inherited: odoo/addons/website_event/models/event_registration.py</h2><h3>Fields</h3><details><summary id="f-registration_answer_choice_ids">registration_answer_choice_ids <span class="position">@ line 13</span></summary><pre>registration_answer_choice_ids = fields.One2many('event.registration.answer', 'registration_id', string='Attendee Selection Answers',
+        domain=[('question_type', '=', 'simple_choice')])</pre></details><details><summary id="f-registration_answer_ids">registration_answer_ids <span class="position">@ line 12</span></summary><pre>registration_answer_ids = fields.One2many('event.registration.answer', 'registration_id', string='Attendee Answers')</pre></details><details><summary id="f-visitor_id">visitor_id <span class="position">@ line 11</span></summary><pre>visitor_id = fields.Many2one('website.visitor', string='Visitor', ondelete='set null')</pre></details><h3>Methods</h3><ul id="m-_get_registration_summary"><li>_get_registration_summary(self) <span class="position">@ line 19</span></li></ul><ul id="m-_get_website_registration_allowed_fields"><li>_get_website_registration_allowed_fields(self) <span class="position">@ line 16</span></li></ul><h2>Inherited: odoo/addons/mass_mailing_event/models/event_registration.py</h2><h3>Methods</h3><ul id="m-_mailing_get_default_domain"><li>_mailing_get_default_domain(self, mailing) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/event_sale/models/event_registration.py</h2><h3>Fields</h3><details><summary id="f-sale_order_id">sale_order_id <span class="position">@ line 12</span></summary><pre>sale_order_id = fields.Many2one('sale.order', string='Sales Order', ondelete='cascade', copy=False)</pre></details><details><summary id="f-sale_order_line_id">sale_order_line_id <span class="position">@ line 13</span></summary><pre>sale_order_line_id = fields.Many2one('sale.order.line', string='Sales Order Line', ondelete='cascade', copy=False)</pre></details><details><summary id="f-sale_status">sale_status <span class="position">@ line 14</span></summary><pre>sale_status = fields.Selection(string="Sale Status", selection=[
+            ('to_pay', 'Not Sold'),
+            ('sold', 'Sold'),
+            ('free', 'Free'),
+        ], compute="_compute_registration_status", compute_sudo=True, store=True, precompute=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 19</span></summary><pre>state = fields.Selection(default=None, compute="_compute_registration_status", store=True, readonly=False, precompute=True)</pre></details><details><summary id="f-utm_campaign_id">utm_campaign_id <span class="position">@ line 20</span></summary><pre>utm_campaign_id = fields.Many2one(compute='_compute_utm_campaign_id', readonly=False,
+        store=True, ondelete="set null")</pre></details><details><summary id="f-utm_medium_id">utm_medium_id <span class="position">@ line 24</span></summary><pre>utm_medium_id = fields.Many2one(compute='_compute_utm_medium_id', readonly=False,
+        store=True, ondelete="set null")</pre></details><details><summary id="f-utm_source_id">utm_source_id <span class="position">@ line 22</span></summary><pre>utm_source_id = fields.Many2one(compute='_compute_utm_source_id', readonly=False,
+        store=True, ondelete="set null")</pre></details><h3>Methods</h3><ul id="m-_get_registration_summary"><li>_get_registration_summary(self) <span class="position">@ line 132</span></li></ul><ul id="m-_sale_order_ticket_type_change_notify"><li>_sale_order_ticket_type_change_notify(self, new_event_ticket) <span class="position">@ line 117</span></li></ul><ul id="m-_synchronize_so_line_values"><li>_synchronize_so_line_values(self, so_line) <span class="position">@ line 105</span></li></ul><ul id="m-action_view_sale_order"><li>action_view_sale_order(self) <span class="position">@ line 67</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 91</span></li></ul><h2>Inherited: odoo/addons/event_crm_sale/models/event_registration.py</h2><h3>Methods</h3><details><summary id="m-_get_lead_grouping">_get_lead_grouping(self, rules, rule_to_new_regs) <span class="position">@ line 12</span></summary><pre>Override to support sale-order based grouping and update.
+
+When checking for groups for rules, we search for existing leads linked
+to same group (based on sale_order_id) and rule. Each rule can therefore
+update an existing lead or create a new one, for each sale order that
+makes the group.</pre></details><h2>Inherited: odoo/addons/event_crm/models/event_registration.py</h2><h3>Fields</h3><details><summary id="f-lead_count">lead_count <span class="position">@ line 17</span></summary><pre>lead_count = fields.Integer(
+        '# Leads', compute='_compute_lead_count', compute_sudo=True)</pre></details><details><summary id="f-lead_ids">lead_ids <span class="position">@ line 14</span></summary><pre>lead_ids = fields.Many2many(
+        'crm.lead', string='Leads', copy=False, readonly=True,
+        groups='sales_team.group_sale_salesman')</pre></details><h3>Methods</h3><ul id="m-_apply_lead_generation_rules"><li>_apply_lead_generation_rules(self) <span class="position">@ line 82</span></li></ul><details><summary id="m-_convert_value">_convert_value(self, value, field_name) <span class="position">@ line 363</span></summary><pre>Small tool because convert_to_write is touchy</pre></details><details><summary id="m-_find_first_notnull">_find_first_notnull(self, field_name) <span class="position">@ line 357</span></summary><pre>Small tool to extract the first not nullvalue of a field: its value
+or the ids if this is a relational field.</pre></details><details><summary id="m-_get_lead_contact_values">_get_lead_contact_values(self) <span class="position">@ line 192</span></summary><pre>Specific management of contact values. Rule creation basis has some
+effect on contact management
+
+* in attendee mode: keep registration partner only if partner phone and
+email match. Indeed lead are synchronized with their contact and it
+would imply rewriting on partner, and therefore on other documents;
+* in batch mode: if a customer is found use it as main contact. Registrations
+details are included in lead description;
+
+:return dict: values used for create / write on a lead</pre></details><details><summary id="m-_get_lead_description">_get_lead_description(self, prefix, line_counter, line_suffix) <span class="position">@ line 257</span></summary><pre>Build the description for the lead using a prefix for all generated
+lines. For example to enumerate participants or inform of an update in
+the information of a participant.
+
+:return string description: complete description for a lead taking into
+account all registrations contained in self</pre></details><details><summary id="m-_get_lead_description_registration">_get_lead_description_registration(self, line_suffix) <span class="position">@ line 277</span></summary><pre>Build the description line specific to a given registration.</pre></details><details><summary id="m-_get_lead_grouping">_get_lead_grouping(self, rules, rule_to_new_regs) <span class="position">@ line 306</span></summary><pre>Perform grouping of registrations in order to enable order-based
+lead creation and update existing groups with new registrations.
+
+Heuristic in event is the following. Registrations created in multi-mode
+are grouped by event. Customer use case: website_event flow creates
+several registrations in a create-multi.
+
+Update is not supported as there is no way to determine if a registration
+is part of an existing batch.
+
+:param rules: lead creation rules to run on registrations given by self;
+:param rule_to_new_regs: dict: for each rule, subset of self matching
+rule conditions. Used to speedup batch computation;
+
+:return dict: for each rule, rule (key of dict) gives a list of groups.
+Each group is a tuple (
+existing_lead: existing lead to update;
+group_record: record used to group;
+registrations: sub record set of self, containing registrations
+belonging to the same group;
+)</pre></details><details><summary id="m-_get_lead_tracked_values">_get_lead_tracked_values(self) <span class="position">@ line 286</span></summary><pre>Tracked values are based on two subset of fields to track in order
+to fill or update leads. Two main use cases are
+
+* description fields: registration contact fields: email, phone, ...
+on registration. Other fields are added by inheritance like
+question answers;
+* contact fields: registration contact fields + partner_id field as
+contact of a lead is managed specifically. Indeed email and phone
+synchronization of lead / partner_id implies paying attention to
+not rewrite partner values from registration values.
+
+Tracked values are therefore the union of those two field sets.</pre></details><details><summary id="m-_get_lead_values">_get_lead_values(self, rule) <span class="position">@ line 166</span></summary><pre>Get lead values from registrations. Self can contain multiple records
+in which case first found non void value is taken. Note that all
+registrations should belong to the same event.
+
+:return dict lead_values: values used for create / write on a lead</pre></details><details><summary id="m-_load_records_create">_load_records_create(self, values) <span class="position">@ line 72</span></summary><pre>In import mode: do not run rules those are intended to run when customers
+buy tickets, not when bootstrapping a database.</pre></details><details><summary id="m-_load_records_write">_load_records_write(self, values) <span class="position">@ line 77</span></summary><pre>In import mode: do not run rules those are intended to run when customers
+buy tickets, not when bootstrapping a database.</pre></details><details><summary id="m-_update_leads">_update_leads(self, new_vals, lead_tracked_vals) <span class="position">@ line 100</span></summary><pre>Update leads linked to some registrations. Update is based depending
+on updated fields, see ``_get_lead_contact_fields()`` and ``_get_lead_
+description_fields()``. Main heuristic is
+
+* check attendee-based leads, for each registration recompute contact
+information if necessary (changing partner triggers the whole contact
+computation); update description if necessary;
+* check order-based leads, for each existing group-based lead, only
+partner change triggers a contact and description update. We consider
+that group-based rule works mainly with the main contact and less
+with further details of registrations. Those can be found in stat
+button if necessary.
+
+:param new_vals: values given to write. Used to determine updated fields;
+:param lead_tracked_vals: dict(registration_id, registration previous values)
+based on new_vals;</pre></details><details><summary id="m-write">write(self, vals) <span class="position">@ line 38</span></summary><pre>Update the lead values depending on fields updated in registrations.
+There are 2 main use cases
+
+* first is when we update the partner_id of multiple registrations. It
+happens when a public user fill its information when they register to
+an event;
+* second is when we update specific values of one registration like
+updating question answers or a contact information (email, phone);
+
+Also trigger rules based on confirmed and done attendees (state written
+to open and done).</pre></details><h2>Inherited: odoo/addons/event/models/event_registration.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 38</span></summary><pre>active = fields.Boolean(default=True)</pre></details><details><summary id="f-barcode">barcode <span class="position">@ line 39</span></summary><pre>barcode = fields.Char(string='Barcode', default=lambda self: self._get_random_barcode(), readonly=True, copy=False)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 61</span></summary><pre>company_id = fields.Many2one(
+        'res.company', string='Company', related='event_id.company_id',
+        store=True, readonly=False)</pre></details><details><summary id="f-company_name">company_name <span class="position">@ line 51</span></summary><pre>company_name = fields.Char(
+        string='Company Name', compute='_compute_company_name', readonly=False, store=True, tracking=5)</pre></details><details><summary id="f-date_closed">date_closed <span class="position">@ line 54</span></summary><pre>date_closed = fields.Datetime(
+        string='Attended Date', compute='_compute_date_closed',
+        readonly=False, store=True)</pre></details><details><summary id="f-email">email <span class="position">@ line 49</span></summary><pre>email = fields.Char(string='Email', compute='_compute_email', readonly=False, store=True, tracking=3)</pre></details><details><summary id="f-event_begin_date">event_begin_date <span class="position">@ line 57</span></summary><pre>event_begin_date = fields.Datetime(string="Event Start Date", related='event_id.date_begin', readonly=True)</pre></details><details><summary id="f-event_end_date">event_end_date <span class="position">@ line 58</span></summary><pre>event_end_date = fields.Datetime(string="Event End Date", related='event_id.date_end', readonly=True)</pre></details><details><summary id="f-event_id">event_id <span class="position">@ line 34</span></summary><pre>event_id = fields.Many2one(
+        'event.event', string='Event', required=True)</pre></details><details><summary id="f-event_organizer_id">event_organizer_id <span class="position">@ line 59</span></summary><pre>event_organizer_id = fields.Many2one(string='Event Organizer', related='event_id.organizer_id', readonly=True)</pre></details><details><summary id="f-event_ticket_id">event_ticket_id <span class="position">@ line 36</span></summary><pre>event_ticket_id = fields.Many2one(
+        'event.event.ticket', string='Ticket Type', ondelete='restrict')</pre></details><details><summary id="f-event_user_id">event_user_id <span class="position">@ line 60</span></summary><pre>event_user_id = fields.Many2one(string='Event Responsible', related='event_id.user_id', readonly=True)</pre></details><details><summary id="f-name">name <span class="position">@ line 46</span></summary><pre>name = fields.Char(
+        string='Attendee Name', index='trigram',
+        compute='_compute_name', readonly=False, store=True, tracking=2)</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 45</span></summary><pre>partner_id = fields.Many2one('res.partner', string='Booked by', tracking=1)</pre></details><details><summary id="f-phone">phone <span class="position">@ line 50</span></summary><pre>phone = fields.Char(string='Phone', compute='_compute_phone', readonly=False, store=True, tracking=4)</pre></details><details><summary id="f-registration_properties">registration_properties <span class="position">@ line 76</span></summary><pre>registration_properties = fields.Properties(
+        'Properties', definition='event_id.registration_properties_definition', copy=True)</pre></details><details><summary id="f-state">state <span class="position">@ line 64</span></summary><pre>state = fields.Selection([
+        ('draft', 'Unconfirmed'),
+        ('open', 'Registered'),
+        ('done', 'Attended'),
+        ('cancel', 'Cancelled')],
+        string='Status', default='open',
+        readonly=True, copy=False, tracking=6,
+        help='Unconfirmed: registrations in a pending state waiting for an action (specific case, notably with sale status)\n'
+             'Registered: registrations considered taken by a client\n'
+             'Attended: registrations for which the attendee attended the event\n'
+             'Cancelled: registrations cancelled manually')</pre></details><details><summary id="f-utm_campaign_id">utm_campaign_id <span class="position">@ line 41</span></summary><pre>utm_campaign_id = fields.Many2one('utm.campaign', 'Campaign', index=True, ondelete='set null')</pre></details><details><summary id="f-utm_medium_id">utm_medium_id <span class="position">@ line 43</span></summary><pre>utm_medium_id = fields.Many2one('utm.medium', 'Medium', index=True, ondelete='set null')</pre></details><details><summary id="f-utm_source_id">utm_source_id <span class="position">@ line 42</span></summary><pre>utm_source_id = fields.Many2one('utm.source', 'Source', index=True, ondelete='set null')</pre></details><h3>Methods</h3><details><summary id="m-_compute_display_name">_compute_display_name(self) <span class="position">@ line 225</span></summary><pre>Custom display_name in case a registration is nott linked to an attendee</pre></details><ul id="m-_get_registration_summary"><li>_get_registration_summary(self) <span class="position">@ line 405</span></li></ul><ul id="m-_message_compute_subject"><li>_message_compute_subject(self) <span class="position">@ line 324</span></li></ul><ul id="m-_message_get_default_recipients"><li>_message_get_default_recipients(self) <span class="position">@ line 353</span></li></ul><ul id="m-_message_get_suggested_recipients"><li>_message_get_suggested_recipients(self) <span class="position">@ line 337</span></li></ul><ul id="m-_message_post_after_hook"><li>_message_post_after_hook(self, message, msg_vals) <span class="position">@ line 364</span></li></ul><ul id="m-_synchronize_partner_values"><li>_synchronize_partner_values(self, partner, fnames) <span class="position">@ line 152</span></li></ul><details><summary id="m-_update_mail_schedulers">_update_mail_schedulers(self) <span class="position">@ line 286</span></summary><pre>Update schedulers to set them as running again, and cron to be called
+as soon as possible.</pre></details><ul id="m-action_cancel"><li>action_cancel(self) <span class="position">@ line 258</span></li></ul><ul id="m-action_confirm"><li>action_confirm(self) <span class="position">@ line 251</span></li></ul><details><summary id="m-action_send_badge_email">action_send_badge_email(self) <span class="position">@ line 261</span></summary><pre>Open a window to compose an email, with the template - 'event_badge'
+message loaded by default</pre></details><details><summary id="m-action_set_done">action_set_done(self) <span class="position">@ line 254</span></summary><pre>Close Registration</pre></details><ul id="m-action_set_draft"><li>action_set_draft(self) <span class="position">@ line 248</span></li></ul><ul id="m-action_set_previous_state"><li>action_set_previous_state(self) <span class="position">@ line 244</span></li></ul><ul id="m-default_get"><li>default_get(self, fields) <span class="position">@ line 89</span></li></ul><ul id="m-get_date_range_str"><li>get_date_range_str(self, lang_code) <span class="position">@ line 387</span></li></ul><ul id="m-toggle_active"><li>toggle_active(self) <span class="position">@ line 231</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 215</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.tracking.duration.mixin - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.tracking.duration.mixin</h1><p>Originally defined in: odoo/addons/mail/models/mail_tracking_duration_mixin.py</p><hr/><h2>Original: odoo/addons/mail/models/mail_tracking_duration_mixin.py</h2><h3>Fields</h3><details><summary id="f-duration_tracking">duration_tracking <span class="position">@ line 10</span></summary><pre>duration_tracking = fields.Json(
+        string="Status time", compute="_compute_duration_tracking",
+        help="JSON that maps ids from a many2one field to seconds spent")</pre></details><h3>Methods</h3><details><summary id="m-_compute_duration_tracking">_compute_duration_tracking(self) <span class="position">@ line 14</span></summary><pre>Computes duration_tracking, a Json field stored as { <many2one_id (str)>: <duration_spent_in_seconds (int)> }
+
+e.g. {"1": 1230, "2": 2220, "5": 14}
+
+`_track_duration_field` must be present in the model that uses the mixin to specify on what
+field to compute time spent. Besides, tracking must be activated for that field.
+
+e.g.
+class MyModel(models.Model):
+_track_duration_field = "tracked_field"
+
+tracked_field = fields.Many2one('tracked.model', tracking=True)</pre></details><details><summary id="m-_get_duration_from_tracking">_get_duration_from_tracking(self, trackings) <span class="position">@ line 66</span></summary><pre>Calculates the duration spent in each value based on the provided list of trackings.
+It adds a "fake" tracking at the end of the trackings list to account for the time spent in the current value.
+
+Args:
+trackings (list): A list of dictionaries representing the trackings with:
+- 'create_date': The date and time of the tracking.
+- 'old_value_integer': The ID of the previous value.
+
+Returns:
+dict: A dictionary where the keys are the IDs of the values, and the values are the durations in seconds</pre></details><script src="class.js"></script></body></html>

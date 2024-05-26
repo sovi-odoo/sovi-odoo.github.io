@@ -1,0 +1,689 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.template - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.template</h1><p>Inherited in: odoo/addons/website_sale_wishlist/models/product_wishlist.py<br/>Inherited in: odoo/addons/website_sale_stock_wishlist/models/product_template.py<br/>Inherited in: odoo/addons/website_sale_stock/models/product_template.py<br/>Inherited in: odoo/addons/website_sale_slides/models/product_template.py<br/>Inherited in: odoo/addons/website_sale/models/product_template.py<br/>Inherited in: odoo/addons/website_event_sale/models/product.py<br/>Inherited in: odoo/addons/website_event_booth_sale/models/product_template.py<br/>Inherited in: odoo/addons/stock_landed_costs/models/product.py<br/>Inherited in: odoo/addons/stock_delivery/models/product_template.py<br/>Inherited in: odoo/addons/stock_account/models/product.py<br/>Inherited in: odoo/addons/stock_account/models/product.py<br/>Inherited in: odoo/addons/stock/models/product.py<br/>Inherited in: odoo/addons/sale_timesheet/models/product_template.py<br/>Inherited in: odoo/addons/sale_stock/models/product_template.py<br/>Inherited in: odoo/addons/sale_purchase/models/product_template.py<br/>Inherited in: odoo/addons/sale_project/models/product_template.py<br/>Inherited in: odoo/addons/sale_product_matrix/models/product_template.py<br/>Inherited in: odoo/addons/sale_expense/models/product_template.py<br/>Inherited in: odoo/addons/sale/models/product_template.py<br/>Inherited in: odoo/addons/repair/models/product.py<br/>Inherited in: odoo/addons/purchase_stock/models/product.py<br/>Inherited in: odoo/addons/purchase_stock/models/product.py<br/>Inherited in: odoo/addons/purchase/models/product.py<br/>Inherited in: odoo/addons/purchase/models/product.py<br/>Inherited in: odoo/addons/product_matrix/models/product_template.py<br/>Inherited in: odoo/addons/product_expiry/models/product_product.py<br/>Inherited in: odoo/addons/product_email_template/models/product.py<br/>Inherited in: odoo/addons/product/models/product_template.py<br/>Inherited in: odoo/addons/pos_self_order/models/product_product.py<br/>Inherited in: odoo/addons/point_of_sale/models/product.py<br/>Inherited in: odoo/addons/mrp_account/models/product.py<br/>Inherited in: odoo/addons/mrp_account/models/product.py<br/>Inherited in: odoo/addons/mrp/models/product.py<br/>Inherited in: odoo/addons/membership/models/product.py<br/>Inherited in: odoo/addons/loyalty/models/product_template.py<br/>Inherited in: odoo/addons/l10n_pl/models/product.py<br/>Inherited in: odoo/addons/l10n_in/models/product_template.py<br/>Inherited in: odoo/addons/l10n_hu_edi/models/product.py<br/>Inherited in: odoo/addons/l10n_eg_edi_eta/models/product_template.py<br/>Inherited in: odoo/addons/l10n_de/models/datev.py<br/>Inherited in: odoo/addons/hr_expense/models/product_template.py<br/>Inherited in: odoo/addons/event_sale/models/product.py<br/>Inherited in: odoo/addons/event_booth_sale/models/product.py<br/>Inherited in: odoo/addons/account/models/product.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale_wishlist/models/product_wishlist.py</h2><h3>Methods</h3><ul id="m-_is_in_wishlist"><li>_is_in_wishlist(self) <span class="position">@ line 86</span></li></ul><h2>Inherited: odoo/addons/website_sale_stock_wishlist/models/product_template.py</h2><h3>Methods</h3><ul id="m-_get_additionnal_combination_info"><li>_get_additionnal_combination_info(self, product_or_template, quantity, date, website) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/website_sale_stock/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-allow_out_of_stock_order">allow_out_of_stock_order <span class="position">@ line 11</span></summary><pre>allow_out_of_stock_order = fields.Boolean(string='Continue selling when out-of-stock', default=True)</pre></details><details><summary id="f-available_threshold">available_threshold <span class="position">@ line 13</span></summary><pre>available_threshold = fields.Float(string='Show Threshold', default=5.0)</pre></details><details><summary id="f-out_of_stock_message">out_of_stock_message <span class="position">@ line 15</span></summary><pre>out_of_stock_message = fields.Html(string="Out-of-Stock Message", translate=html_translate)</pre></details><details><summary id="f-show_availability">show_availability <span class="position">@ line 14</span></summary><pre>show_availability = fields.Boolean(string='Show availability Qty', default=False)</pre></details><h3>Methods</h3><ul id="m-_get_additionnal_combination_info"><li>_get_additionnal_combination_info(self, product_or_template, quantity, date, website) <span class="position">@ line 23</span></li></ul><ul id="m-_is_sold_out"><li>_is_sold_out(self) <span class="position">@ line 17</span></li></ul><ul id="m-_website_show_quick_add"><li>_website_show_quick_add(self) <span class="position">@ line 20</span></li></ul><h2>Inherited: odoo/addons/website_sale_slides/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-detailed_type">detailed_type <span class="position">@ line 10</span></summary><pre>detailed_type = fields.Selection(selection_add=[
+        ('course', 'Course'),
+    ], ondelete={'course': 'set service'})</pre></details><h3>Methods</h3><ul id="m-_detailed_type_mapping"><li>_detailed_type_mapping(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/website_sale/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-accessory_product_ids">accessory_product_ids <span class="position">@ line 70</span></summary><pre>accessory_product_ids = fields.Many2many(
+        string="Accessory Products",
+        comodel_name='product.product',
+        relation='product_accessory_rel',
+        column1='src_id', column2='dest_id',
+        check_company=True,
+        help="Accessories show up when the customer reviews the cart before payment"
+            " (cross-sell strategy).",
+    )</pre></details><details><summary id="f-alternative_product_ids">alternative_product_ids <span class="position">@ line 61</span></summary><pre>alternative_product_ids = fields.Many2many(
+        string="Alternative Products",
+        comodel_name='product.template',
+        relation='product_alternative_rel',
+        column1='src_id', column2='dest_id',
+        check_company=True,
+        help="Suggest alternatives to your customer (upsell strategy)."
+            " Those products show up on the product page.",
+    )</pre></details><details><summary id="f-base_unit_count">base_unit_count <span class="position">@ line 105</span></summary><pre>base_unit_count = fields.Float(
+        string="Base Unit Count",
+        help="Display base unit price on your eCommerce pages. Set to 0 to hide it for this product.",
+        compute='_compute_base_unit_count',
+        inverse='_set_base_unit_count',
+        store=True,
+        required=True,
+        default=0,
+    )</pre></details><details><summary id="f-base_unit_id">base_unit_id <span class="position">@ line 114</span></summary><pre>base_unit_id = fields.Many2one(
+        string="Custom Unit of Measure",
+        help="Define a custom unit to display in the price per unit of measure field.",
+        comodel_name='website.base.unit',
+        compute='_compute_base_unit_id',
+        inverse='_set_base_unit_id',
+        store=True,
+    )</pre></details><details><summary id="f-base_unit_name">base_unit_name <span class="position">@ line 123</span></summary><pre>base_unit_name = fields.Char(
+        compute='_compute_base_unit_name',
+        help="Displays the custom unit for the products if defined or the selected unit of measure"
+            " otherwise.",
+    )</pre></details><details><summary id="f-base_unit_price">base_unit_price <span class="position">@ line 122</span></summary><pre>base_unit_price = fields.Monetary(string="Price Per Unit", compute="_compute_base_unit_price")</pre></details><details><summary id="f-compare_list_price">compare_list_price <span class="position">@ line 129</span></summary><pre>compare_list_price = fields.Monetary(
+        string="Compare to Price",
+        help="The amount will be displayed strikethroughed on the eCommerce product page",
+    )</pre></details><details><summary id="f-description_ecommerce">description_ecommerce <span class="position">@ line 53</span></summary><pre>description_ecommerce = fields.Html(
+        string="eCommerce Description",
+        translate=html_translate,
+        sanitize_overridable=True,
+        sanitize_attributes=False,
+        sanitize_form=False,
+    )</pre></details><details><summary id="f-product_template_image_ids">product_template_image_ids <span class="position">@ line 98</span></summary><pre>product_template_image_ids = fields.One2many(
+        string="Extra Product Media",
+        comodel_name='product.image',
+        inverse_name='product_tmpl_id',
+        copy=True,
+    )</pre></details><details><summary id="f-public_categ_ids">public_categ_ids <span class="position">@ line 90</span></summary><pre>public_categ_ids = fields.Many2many(
+        string="Website Product Category",
+        help="The product will be available in each mentioned eCommerce category. Go to Shop > Edit"
+             " Click on the page and enable 'Categories' to view all eCommerce categories.",
+        comodel_name='product.public.category',
+        relation='product_public_category_product_template_rel',
+    )</pre></details><details><summary id="f-website_description">website_description <span class="position">@ line 46</span></summary><pre>website_description = fields.Html(
+        string="Description for the website",
+        translate=html_translate,
+        sanitize_overridable=True,
+        sanitize_attributes=False,
+        sanitize_form=False,
+    )</pre></details><details><summary id="f-website_ribbon_id">website_ribbon_id <span class="position">@ line 82</span></summary><pre>website_ribbon_id = fields.Many2one(string="Ribbon", comodel_name='product.ribbon')</pre></details><details><summary id="f-website_sequence">website_sequence <span class="position">@ line 83</span></summary><pre>website_sequence = fields.Integer(
+        string="Website Sequence",
+        help="Determine the display order in the Website E-commerce",
+        default=_default_website_sequence,
+        copy=False,
+        index=True,
+    )</pre></details><details><summary id="f-website_size_x">website_size_x <span class="position">@ line 80</span></summary><pre>website_size_x = fields.Integer(string="Size X", default=1)</pre></details><details><summary id="f-website_size_y">website_size_y <span class="position">@ line 81</span></summary><pre>website_size_y = fields.Integer(string="Size Y", default=1)</pre></details><h3>Methods</h3><details><summary id="m-_can_be_added_to_cart">_can_be_added_to_cart(self) <span class="position">@ line 324</span></summary><pre>Pre-check to `_is_add_to_cart_possible` to know if product can be sold.</pre></details><ul id="m-_compute_website_url"><li>_compute_website_url(self) <span class="position">@ line 172</span></li></ul><ul id="m-_default_website_meta"><li>_default_website_meta(self) <span class="position">@ line 680</span></li></ul><details><summary id="m-_get_additionnal_combination_info">_get_additionnal_combination_info(self, product_or_template, quantity, date, website) <span class="position">@ line 455</span></summary><pre>Computes additional combination info, based on given parameters
+
+:param product_or_template: `product.product` or `product.template` record
+as variant values must take precedence over template values (when we have a variant)
+:param float quantity:
+:param date date: today's date, avoids useless calls to today/context_today and harmonize
+behavior
+:param website: `website` record holding the current website of the request (if any),
+or the contextual website (tests, ...)
+:returns: additional product/template information
+:rtype: dict</pre></details><ul id="m-_get_attrib_values_domain"><li>_get_attrib_values_domain(self, attribute_values) <span class="position">@ line 722</span></li></ul><ul id="m-_get_base_unit_price"><li>_get_base_unit_price(self, price) <span class="position">@ line 158</span></li></ul><details><summary id="m-_get_combination_info">_get_combination_info(self, combination, product_id, add_qty, parent_combination, only_template) <span class="position">@ line 348</span></summary><pre>Return info about a given combination.
+
+Note: this method does not take into account whether the combination is
+actually possible.
+
+:param combination: recordset of `product.template.attribute.value`
+
+:param int product_id: `product.product` id. If no `combination`
+is set, the method will try to load the variant `product_id` if
+it exists instead of finding a variant based on the combination.
+
+If there is no combination, that means we definitely want a
+variant and not something that will have no_variant set.
+
+:param float add_qty: the quantity for which to get the info,
+indeed some pricelist rules might depend on it.
+
+:param parent_combination: if no combination and no product_id are
+given, it will try to find the first possible combination, taking
+into account parent_combination (if set) for the exclusion rules.
+
+:param only_template: boolean, if set to True, get the info for the
+template only: ignore combination and don't try to find variant
+
+:return: dict with product/combination info:
+
+- product_id: the variant id matching the combination (if it exists)
+
+- product_template_id: the current template id
+
+- display_name: the name of the combination
+
+- price: the computed price of the combination, take the catalog
+price if no pricelist is given
+
+- price_extra: the computed extra price of the combination
+
+- list_price: the catalog price of the combination, but this is
+not the "real" list_price, it has price_extra included (so
+it's actually more closely related to `lst_price`), and it
+is converted to the pricelist currency (if given)
+
+- has_discounted_price: True if the pricelist discount policy says
+the price does not include the discount and there is actually a
+discount applied (price < list_price), else False</pre></details><details><summary id="m-_get_contextual_pricelist">_get_contextual_pricelist(self) <span class="position">@ line 851</span></summary><pre>Override to fallback on website current pricelist</pre></details><ul id="m-_get_google_analytics_data"><li>_get_google_analytics_data(self, product, combination_info) <span class="position">@ line 841</span></li></ul><details><summary id="m-_get_image_holder">_get_image_holder(self) <span class="position">@ line 613</span></summary><pre>Returns the holder of the image to use as default representation.
+If the product template has an image it is the product template,
+otherwise if the product has variants it is the first variant
+
+:return: this product template or the first product variant
+:rtype: recordset of 'product.template' or recordset of 'product.product'</pre></details><details><summary id="m-_get_images">_get_images(self) <span class="position">@ line 709</span></summary><pre>Return a list of records implementing `image.mixin` to
+display on the carousel on the website for this template.
+
+This returns a list and not a recordset because the records might be
+from different models (template and image).
+
+It contains in this order: the main image of the template and the
+Template Extra Images.</pre></details><details><summary id="m-_get_possible_variants_sorted">_get_possible_variants_sorted(self, parent_combination) <span class="position">@ line 224</span></summary><pre>Return the sorted recordset of variants that are possible.
+
+The order is based on the order of the attributes and their values.
+
+See `_get_possible_variants` for the limitations of this method with
+dynamic or no_variant attributes, and also for a warning about
+performances.
+
+:param parent_combination: combination from which `self` is an
+optional or accessory product
+:type parent_combination: recordset `product.template.attribute.value`
+
+:return: the sorted variants that are possible
+:rtype: recordset of `product.product`</pre></details><ul id="m-_get_sales_prices"><li>_get_sales_prices(self, pricelist, fiscal_position) <span class="position">@ line 261</span></li></ul><ul id="m-_get_suitable_image_size"><li>_get_suitable_image_size(self, columns, x_size, y_size) <span class="position">@ line 628</span></li></ul><ul id="m-_get_website_accessory_product"><li>_get_website_accessory_product(self) <span class="position">@ line 194</span></li></ul><ul id="m-_get_website_alternative_product"><li>_get_website_alternative_product(self) <span class="position">@ line 200</span></li></ul><ul id="m-_has_is_custom_values"><li>_has_is_custom_values(self) <span class="position">@ line 214</span></li></ul><details><summary id="m-_has_no_variant_attributes">_has_no_variant_attributes(self) <span class="position">@ line 204</span></summary><pre>Return whether this `product.template` has at least one no_variant
+attribute.
+
+:return: True if at least one no_variant attribute, False otherwise
+:rtype: bool</pre></details><ul id="m-_init_column"><li>_init_column(self, column_name) <span class="position">@ line 633</span></li></ul><details><summary id="m-_is_add_to_cart_possible">_is_add_to_cart_possible(self, parent_combination) <span class="position">@ line 330</span></summary><pre>It's possible to add to cart (potentially after configuration) if
+there is at least one possible combination.
+
+:param parent_combination: the combination from which `self` is an
+optional or accessory product.
+:type parent_combination: recordset `product.template.attribute.value`
+
+:return: True if it's possible to add to cart, else False
+:rtype: bool</pre></details><ul id="m-_prepare_variant_values"><li>_prepare_variant_values(self, combination) <span class="position">@ line 189</span></li></ul><details><summary id="m-_rating_domain">_rating_domain(self) <span class="position">@ line 704</span></summary><pre>Only take the published rating into account to compute avg and count</pre></details><ul id="m-_search_render_results"><li>_search_render_results(self, fetch_fields, mapping, icon, limit) <span class="position">@ line 795</span></li></ul><ul id="m-_search_render_results_prices"><li>_search_render_results_prices(self, mapping, combination_info) <span class="position">@ line 820</span></li></ul><ul id="m-_set_base_unit_count"><li>_set_base_unit_count(self) <span class="position">@ line 142</span></li></ul><ul id="m-_set_base_unit_id"><li>_set_base_unit_id(self) <span class="position">@ line 153</span></li></ul><ul id="m-_website_show_quick_add"><li>_website_show_quick_add(self) <span class="position">@ line 860</span></li></ul><details><summary id="m-create_product_variant">create_product_variant(self, product_template_attribute_value_ids) <span class="position">@ line 577</span></summary><pre>Create if necessary and possible and return the id of the product
+variant matching the given combination for this template.
+
+Note AWA: Known "exploit" issues with this method:
+
+- This method could be used by an unauthenticated user to generate a
+lot of useless variants. Unfortunately, after discussing the
+matter with ODO, there's no easy and user-friendly way to block
+that behavior.
+
+We would have to use captcha/server actions to clean/... that
+are all not user-friendly/overkill mechanisms.
+
+- This method could be used to try to guess what product variant ids
+are created in the system and what product template ids are
+configured as "dynamic", but that does not seem like a big deal.
+
+The error messages are identical on purpose to avoid giving too much
+information to a potential attacker:
+- returning 0 when failing
+- returning the variant id whether it already existed or not
+
+:param product_template_attribute_value_ids: the combination for which
+to get or create variant
+:type product_template_attribute_value_ids: list of id
+of `product.template.attribute.value`
+
+:return: id of the product variant matching the combination or 0
+:rtype: int</pre></details><ul id="m-set_sequence_bottom"><li>set_sequence_bottom(self) <span class="position">@ line 656</span></li></ul><ul id="m-set_sequence_down"><li>set_sequence_down(self) <span class="position">@ line 670</span></li></ul><ul id="m-set_sequence_top"><li>set_sequence_top(self) <span class="position">@ line 652</span></li></ul><ul id="m-set_sequence_up"><li>set_sequence_up(self) <span class="position">@ line 660</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 180</span></li></ul><h2>Inherited: odoo/addons/stock_landed_costs/models/product.py</h2><h3>Fields</h3><details><summary id="f-landed_cost_ok">landed_cost_ok <span class="position">@ line 12</span></summary><pre>landed_cost_ok = fields.Boolean('Is a Landed Cost', help='Indicates whether the product is a landed cost: when receiving a vendor bill, you can allocate this cost on preceding receipts.')</pre></details><details><summary id="f-split_method_landed_cost">split_method_landed_cost <span class="position">@ line 13</span></summary><pre>split_method_landed_cost = fields.Selection(SPLIT_METHOD, string="Default Split Method",
+                                                help="Default Split Method when used for Landed Cost")</pre></details><h3>Methods</h3><ul id="m-write"><li>write(self, vals) <span class="position">@ line 16</span></li></ul><h2>Inherited: odoo/addons/stock_delivery/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-country_of_origin">country_of_origin <span class="position">@ line 13</span></summary><pre>country_of_origin = fields.Many2one(
+        'res.country',
+        'Origin of Goods',
+        help="Rules of origin determine where goods originate, i.e. not where they have been shipped from, but where they have been produced or manufactured.\n"
+             "As such, the ‘origin’ is the 'economic nationality' of goods traded in commerce.",
+    )</pre></details><details><summary id="f-hs_code">hs_code <span class="position">@ line 9</span></summary><pre>hs_code = fields.Char(
+        string="HS Code",
+        help="Standardized code for international shipping and goods declaration. At the moment, only used for the FedEx shipping provider.",
+    )</pre></details><h2>Inherited: odoo/addons/stock_account/models/product.py</h2><h3>Fields</h3><details><summary id="f-cost_method">cost_method <span class="position">@ line 15</span></summary><pre>cost_method = fields.Selection(related="categ_id.property_cost_method", readonly=True)</pre></details><details><summary id="f-valuation">valuation <span class="position">@ line 16</span></summary><pre>valuation = fields.Selection(related="categ_id.property_valuation", readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-_get_product_accounts">_get_product_accounts(self) <span class="position">@ line 75</span></summary><pre>Add the stock accounts related to product to the result of super()
+@return: dictionary which contains information regarding stock accounts and super (income+expense accounts)</pre></details><details><summary id="m-get_product_accounts">get_product_accounts(self, fiscal_pos) <span class="position">@ line 88</span></summary><pre>Add the stock journal related to product to the result of super()
+@return: dictionary which contains all needed information regarding stock accounts and journal and super (income+expense accounts)</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 18</span></li></ul><h2>Inherited: odoo/addons/stock_account/models/product.py</h2><h3>Fields</h3><details><summary id="f-cost_method">cost_method <span class="position">@ line 15</span></summary><pre>cost_method = fields.Selection(related="categ_id.property_cost_method", readonly=True)</pre></details><details><summary id="f-valuation">valuation <span class="position">@ line 16</span></summary><pre>valuation = fields.Selection(related="categ_id.property_valuation", readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-_get_product_accounts">_get_product_accounts(self) <span class="position">@ line 75</span></summary><pre>Add the stock accounts related to product to the result of super()
+@return: dictionary which contains information regarding stock accounts and super (income+expense accounts)</pre></details><details><summary id="m-get_product_accounts">get_product_accounts(self, fiscal_pos) <span class="position">@ line 88</span></summary><pre>Add the stock journal related to product to the result of super()
+@return: dictionary which contains all needed information regarding stock accounts and journal and super (income+expense accounts)</pre></details><ul id="m-write"><li>write(self, vals) <span class="position">@ line 18</span></li></ul><h2>Inherited: odoo/addons/stock/models/product.py</h2><h3>Fields</h3><details><summary id="f-description_picking">description_picking <span class="position">@ line 684</span></summary><pre>description_picking = fields.Text('Description on Picking', translate=True)</pre></details><details><summary id="f-description_pickingin">description_pickingin <span class="position">@ line 686</span></summary><pre>description_pickingin = fields.Text('Description on Receptions', translate=True)</pre></details><details><summary id="f-description_pickingout">description_pickingout <span class="position">@ line 685</span></summary><pre>description_pickingout = fields.Text('Description on Delivery Orders', translate=True)</pre></details><details><summary id="f-has_available_route_ids">has_available_route_ids <span class="position">@ line 703</span></summary><pre>has_available_route_ids = fields.Boolean(
+        'Routes can be selected on this product', compute='_compute_has_available_route_ids',
+        default=lambda self: self.env['stock.route'].search_count([('product_selectable', '=', True)]))</pre></details><details><summary id="f-incoming_qty">incoming_qty <span class="position">@ line 693</span></summary><pre>incoming_qty = fields.Float(
+        'Incoming', compute='_compute_quantities', search='_search_incoming_qty',
+        compute_sudo=False, digits='Product Unit of Measure')</pre></details><details><summary id="f-is_storable">is_storable <span class="position">@ line 660</span></summary><pre>is_storable = fields.Boolean(
+        'Track Inventory', store=True, compute='compute_is_storable', readonly=False,
+        default=False, precompute=True)</pre></details><details><summary id="f-location_id">location_id <span class="position">@ line 701</span></summary><pre>location_id = fields.Many2one('stock.location', 'Location', store=False)</pre></details><details><summary id="f-nbr_moves_in">nbr_moves_in <span class="position">@ line 710</span></summary><pre>nbr_moves_in = fields.Integer(compute='_compute_nbr_moves', compute_sudo=False, help="Number of incoming stock moves in the past 12 months")</pre></details><details><summary id="f-nbr_moves_out">nbr_moves_out <span class="position">@ line 711</span></summary><pre>nbr_moves_out = fields.Integer(compute='_compute_nbr_moves', compute_sudo=False, help="Number of outgoing stock moves in the past 12 months")</pre></details><details><summary id="f-nbr_reordering_rules">nbr_reordering_rules <span class="position">@ line 712</span></summary><pre>nbr_reordering_rules = fields.Integer('Reordering Rules',
+        compute='_compute_nbr_reordering_rules', compute_sudo=False)</pre></details><details><summary id="f-outgoing_qty">outgoing_qty <span class="position">@ line 696</span></summary><pre>outgoing_qty = fields.Float(
+        'Outgoing', compute='_compute_quantities', search='_search_outgoing_qty',
+        compute_sudo=False, digits='Product Unit of Measure')</pre></details><details><summary id="f-property_stock_inventory">property_stock_inventory <span class="position">@ line 670</span></summary><pre>property_stock_inventory = fields.Many2one(
+        'stock.location', "Inventory Location",
+        company_dependent=True, check_company=True, domain="[('usage', '=', 'inventory'), '|', ('company_id', '=', False), ('company_id', '=', allowed_company_ids[0])]",
+        help="This stock location will be used, instead of the default one, as the source location for stock moves generated when you do an inventory.")</pre></details><details><summary id="f-property_stock_production">property_stock_production <span class="position">@ line 666</span></summary><pre>property_stock_production = fields.Many2one(
+        'stock.location', "Production Location",
+        company_dependent=True, check_company=True, domain="[('usage', '=', 'production'), '|', ('company_id', '=', False), ('company_id', '=', allowed_company_ids[0])]",
+        help="This stock location will be used, instead of the default one, as the source location for stock moves generated by manufacturing orders.")</pre></details><details><summary id="f-qty_available">qty_available <span class="position">@ line 687</span></summary><pre>qty_available = fields.Float(
+        'Quantity On Hand', compute='_compute_quantities', search='_search_qty_available',
+        compute_sudo=False, digits='Product Unit of Measure')</pre></details><details><summary id="f-reordering_max_qty">reordering_max_qty <span class="position">@ line 716</span></summary><pre>reordering_max_qty = fields.Float(
+        compute='_compute_nbr_reordering_rules', compute_sudo=False)</pre></details><details><summary id="f-reordering_min_qty">reordering_min_qty <span class="position">@ line 714</span></summary><pre>reordering_min_qty = fields.Float(
+        compute='_compute_nbr_reordering_rules', compute_sudo=False)</pre></details><details><summary id="f-responsible_id">responsible_id <span class="position">@ line 663</span></summary><pre>responsible_id = fields.Many2one(
+        'res.users', string='Responsible', default=lambda self: self.env.uid, company_dependent=True, check_company=True,
+        help="This user will be responsible of the next activities related to logistic operations for this product.")</pre></details><details><summary id="f-route_from_categ_ids">route_from_categ_ids <span class="position">@ line 719</span></summary><pre>route_from_categ_ids = fields.Many2many(
+        string="Category Routes", related='categ_id.total_route_ids', related_sudo=False)</pre></details><details><summary id="f-route_ids">route_ids <span class="position">@ line 706</span></summary><pre>route_ids = fields.Many2many(
+        'stock.route', 'stock_route_product', 'product_id', 'route_id', 'Routes',
+        domain=[('product_selectable', '=', True)], depends_context=['company', 'allowed_companies'],
+        help="Depending on the modules installed, this will allow you to define the route of the product: whether it will be bought, manufactured, replenished on order, etc.")</pre></details><details><summary id="f-sale_delay">sale_delay <span class="position">@ line 674</span></summary><pre>sale_delay = fields.Integer(
+        'Customer Lead Time', default=0,
+        help="Delivery lead time, in days. It's the number of days, promised to the customer, between the confirmation of the sales order and the delivery.")</pre></details><details><summary id="f-show_forecasted_qty_status_button">show_forecasted_qty_status_button <span class="position">@ line 722</span></summary><pre>show_forecasted_qty_status_button = fields.Boolean(compute='_compute_show_qty_status_button')</pre></details><details><summary id="f-show_on_hand_qty_status_button">show_on_hand_qty_status_button <span class="position">@ line 721</span></summary><pre>show_on_hand_qty_status_button = fields.Boolean(compute='_compute_show_qty_status_button')</pre></details><details><summary id="f-tracking">tracking <span class="position">@ line 677</span></summary><pre>tracking = fields.Selection([
+        ('serial', 'By Unique Serial Number'),
+        ('lot', 'By Lots'),
+        ('none', 'By Quantity')],
+        string="Tracking", required=True, default='none', # Not having a default value here causes issues when migrating.
+        compute='_compute_tracking', store=True, readonly=False, precompute=True,
+        help="Ensure the traceability of a storable product in your warehouse.")</pre></details><details><summary id="f-virtual_available">virtual_available <span class="position">@ line 690</span></summary><pre>virtual_available = fields.Float(
+        'Forecasted Quantity', compute='_compute_quantities', search='_search_virtual_available',
+        compute_sudo=False, digits='Product Unit of Measure')</pre></details><details><summary id="f-warehouse_id">warehouse_id <span class="position">@ line 702</span></summary><pre>warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', store=False)</pre></details><h3>Methods</h3><ul id="m-_compute_nbr_moves"><li>_compute_nbr_moves(self) <span class="position">@ line 775</span></li></ul><ul id="m-_compute_nbr_reordering_rules"><li>_compute_nbr_reordering_rules(self) <span class="position">@ line 829</span></li></ul><ul id="m-_compute_quantities_dict"><li>_compute_quantities_dict(self) <span class="position">@ line 752</span></li></ul><ul id="m-_search_incoming_qty"><li>_search_incoming_qty(self, operator, value) <span class="position">@ line 819</span></li></ul><ul id="m-_search_outgoing_qty"><li>_search_outgoing_qty(self, operator, value) <span class="position">@ line 824</span></li></ul><ul id="m-_search_qty_available"><li>_search_qty_available(self, operator, value) <span class="position">@ line 809</span></li></ul><ul id="m-_search_virtual_available"><li>_search_virtual_available(self, operator, value) <span class="position">@ line 814</span></li></ul><ul id="m-action_open_product_lot"><li>action_open_product_lot(self) <span class="position">@ line 994</span></li></ul><ul id="m-action_open_quants"><li>action_open_quants(self) <span class="position">@ line 949</span></li></ul><ul id="m-action_open_routes_diagram"><li>action_open_routes_diagram(self) <span class="position">@ line 1012</span></li></ul><ul id="m-action_product_tmpl_forecast_report"><li>action_product_tmpl_forecast_report(self) <span class="position">@ line 1029</span></li></ul><ul id="m-action_update_quantity_on_hand"><li>action_update_quantity_on_hand(self) <span class="position">@ line 954</span></li></ul><ul id="m-action_view_orderpoints"><li>action_view_orderpoints(self) <span class="position">@ line 985</span></li></ul><ul id="m-action_view_related_putaway_rules"><li>action_view_related_putaway_rules(self) <span class="position">@ line 972</span></li></ul><ul id="m-action_view_stock_move_lines"><li>action_view_stock_move_lines(self) <span class="position">@ line 988</span></li></ul><ul id="m-action_view_storage_category_capacity"><li>action_view_storage_category_capacity(self) <span class="position">@ line 981</span></li></ul><ul id="m-copy"><li>copy(self, default) <span class="position">@ line 932</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 886</span></li></ul><h2>Inherited: odoo/addons/sale_timesheet/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-project_id">project_id <span class="position">@ line 21</span></summary><pre>project_id = fields.Many2one(domain="['|', ('company_id', '=', False), '&', ('company_id', '=?', company_id), ('company_id', '=', current_company_id), ('allow_billable', '=', True), ('pricing_type', '=', 'task_rate'), ('allow_timesheets', 'in', [service_policy == 'delivered_timesheet', True])]")</pre></details><details><summary id="f-project_template_id">project_template_id <span class="position">@ line 22</span></summary><pre>project_template_id = fields.Many2one(domain="['|', ('company_id', '=', False), '&', ('company_id', '=?', company_id), ('company_id', '=', current_company_id), ('allow_billable', '=', True), ('allow_timesheets', 'in', [service_policy == 'delivered_timesheet', True])]")</pre></details><details><summary id="f-service_type">service_type <span class="position">@ line 17</span></summary><pre>service_type = fields.Selection(selection_add=[
+        ('timesheet', 'Timesheets on project (one fare per SO/Project)'),
+    ], ondelete={'timesheet': 'set manual'})</pre></details><details><summary id="f-service_upsell_threshold">service_upsell_threshold <span class="position">@ line 23</span></summary><pre>service_upsell_threshold = fields.Float('Threshold', default=1, help="Percentage of time delivered compared to the prepaid amount that must be reached for the upselling opportunity activity to be triggered.")</pre></details><details><summary id="f-service_upsell_threshold_ratio">service_upsell_threshold_ratio <span class="position">@ line 24</span></summary><pre>service_upsell_threshold_ratio = fields.Char(compute='_compute_service_upsell_threshold_ratio', export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_compute_visible_expense_policy"><li>_compute_visible_expense_policy(self) <span class="position">@ line 41</span></li></ul><ul id="m-_get_service_to_general_map"><li>_get_service_to_general_map(self) <span class="position">@ line 87</span></li></ul><ul id="m-_selection_service_policy"><li>_selection_service_policy(self) <span class="position">@ line 12</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 120</span></li></ul><h2>Inherited: odoo/addons/sale_purchase/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-service_to_purchase">service_to_purchase <span class="position">@ line 11</span></summary><pre>service_to_purchase = fields.Boolean(
+        "Subcontract Service", company_dependent=True, copy=False,
+        help="If ticked, each time you sell this product through a SO, a RfQ is automatically created to buy the product. Tip: don't forget to set a vendor on the product.")</pre></details><h3>Methods</h3><ul id="m-_check_vendor_for_service_to_purchase"><li>_check_vendor_for_service_to_purchase(self, sellers) <span class="position">@ line 30</span></li></ul><h2>Inherited: odoo/addons/sale_project/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-project_id">project_id <span class="position">@ line 33</span></summary><pre>project_id = fields.Many2one(
+        'project.project', 'Project', company_dependent=True, copy=True,
+    )</pre></details><details><summary id="f-project_template_id">project_template_id <span class="position">@ line 36</span></summary><pre>project_template_id = fields.Many2one(
+        'project.project', 'Project Template', company_dependent=True, copy=True,
+    )</pre></details><details><summary id="f-service_policy">service_policy <span class="position">@ line 39</span></summary><pre>service_policy = fields.Selection('_selection_service_policy', string="Service Invoicing Policy", compute_sudo=True, compute='_compute_service_policy', inverse='_inverse_service_policy')</pre></details><details><summary id="f-service_tracking">service_tracking <span class="position">@ line 21</span></summary><pre>service_tracking = fields.Selection(
+        selection=[
+            ('no', 'Nothing'),
+            ('task_global_project', 'Task'),
+            ('task_in_project', 'Project & Task'),
+            ('project_only', 'Project'),
+        ],
+        string="Create on Order", default="no",
+        help="On Sales order confirmation, this product can generate a project and/or task. \
+        From those, you can track the service you are selling.\n \
+        'In sale order\'s project': Will use the sale order\'s configured project if defined or fallback to \
+        creating a new project based on the selected template.")</pre></details><details><summary id="f-service_type">service_type <span class="position">@ line 40</span></summary><pre>service_type = fields.Selection(selection_add=[
+        ('milestones', 'Project Milestones'),
+    ])</pre></details><h3>Methods</h3><ul id="m-_get_general_to_service"><li>_get_general_to_service(self, invoice_policy, service_type) <span class="position">@ line 133</span></li></ul><ul id="m-_get_general_to_service_map"><li>_get_general_to_service_map(self) <span class="position">@ line 127</span></li></ul><ul id="m-_get_service_to_general"><li>_get_service_to_general(self, service_policy) <span class="position">@ line 130</span></li></ul><ul id="m-_get_service_to_general_map"><li>_get_service_to_general_map(self) <span class="position">@ line 119</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 174</span></li></ul><h2>Inherited: odoo/addons/sale_product_matrix/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-product_add_mode">product_add_mode <span class="position">@ line 10</span></summary><pre>product_add_mode = fields.Selection(
+        selection=[
+            ('configurator', "Product Configurator"),
+            ('matrix', "Order Grid Entry"),
+        ],
+        string="Add product mode",
+        default='configurator',
+        help="Configurator: choose attribute values to add the matching product variant to the order."
+             "\nGrid: add several variants at once from the grid of attribute values")</pre></details><h3>Methods</h3><ul id="m-get_single_product_variant"><li>get_single_product_variant(self) <span class="position">@ line 20</span></li></ul><h2>Inherited: odoo/addons/sale_expense/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-expense_policy_tooltip">expense_policy_tooltip <span class="position">@ line 10</span></summary><pre>expense_policy_tooltip = fields.Char(compute='_compute_expense_policy_tooltip')</pre></details><h2>Inherited: odoo/addons/sale/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-expense_policy">expense_policy <span class="position">@ line 26</span></summary><pre>expense_policy = fields.Selection(
+        selection=[
+            ('no', "No"),
+            ('cost', "At cost"),
+            ('sales_price', "Sales price"),
+        ],
+        string="Re-Invoice Expenses", default='no',
+        compute='_compute_expense_policy', store=True, readonly=False,
+        help="Validated expenses and vendor bills can be re-invoiced to a customer at its cost or sales price.")</pre></details><details><summary id="f-invoice_policy">invoice_policy <span class="position">@ line 39</span></summary><pre>invoice_policy = fields.Selection(
+        selection=[
+            ('order', "Ordered quantities"),
+            ('delivery', "Delivered quantities"),
+        ],
+        string="Invoicing Policy",
+        compute='_compute_invoice_policy',
+        precompute=True,
+        store=True,
+        readonly=False,
+        tracking=True,
+        help="Ordered Quantity: Invoice quantities ordered by the customer.\n"
+             "Delivered Quantity: Invoice quantities delivered to the customer.")</pre></details><details><summary id="f-optional_product_ids">optional_product_ids <span class="position">@ line 52</span></summary><pre>optional_product_ids = fields.Many2many(
+        comodel_name='product.template',
+        relation='product_optional_rel',
+        column1='src_id',
+        column2='dest_id',
+        string="Optional Products",
+        help="Optional Products are suggested "
+             "whenever the customer hits *Add to Cart* (cross-sell strategy, "
+             "e.g. for computers: warranty, software, etc.).",
+        check_company=True)</pre></details><details><summary id="f-sale_line_warn">sale_line_warn <span class="position">@ line 22</span></summary><pre>sale_line_warn = fields.Selection(
+        WARNING_MESSAGE, string="Sales Order Line",
+        help=WARNING_HELP, required=True, default="no-message")</pre></details><details><summary id="f-sale_line_warn_msg">sale_line_warn_msg <span class="position">@ line 25</span></summary><pre>sale_line_warn_msg = fields.Text(string="Message for Sales Order Line")</pre></details><details><summary id="f-sales_count">sales_count <span class="position">@ line 37</span></summary><pre>sales_count = fields.Float(
+        string="Sold", compute='_compute_sales_count', digits='Product Unit of Measure')</pre></details><details><summary id="f-service_type">service_type <span class="position">@ line 15</span></summary><pre>service_type = fields.Selection(
+        selection=[('manual', "Manually set quantities on order")],
+        string="Track Service",
+        compute='_compute_service_type', store=True, readonly=False, precompute=True,
+        help="Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic account.\n"
+             "Timesheets on contract: Invoice based on the tracked hours on the related timesheet.\n"
+             "Create a task and track hours: Create a task on the sales order validation and track the work hours.")</pre></details><details><summary id="f-visible_expense_policy">visible_expense_policy <span class="position">@ line 35</span></summary><pre>visible_expense_policy = fields.Boolean(
+        string="Re-Invoice Policy visible", compute='_compute_visible_expense_policy')</pre></details><h3>Methods</h3><ul id="m-_get_backend_root_menu_ids"><li>_get_backend_root_menu_ids(self) <span class="position">@ line 148</span></li></ul><ul id="m-action_view_sales"><li>action_view_sales(self) <span class="position">@ line 118</span></li></ul><details><summary id="m-get_single_product_variant">get_single_product_variant(self) <span class="position">@ line 186</span></summary><pre>Method used by the product configurator to check if the product is configurable or not.
+
+We need to open the product configurator if the product:
+- is configurable (see has_configurable_attributes)
+- has optional products</pre></details><h2>Inherited: odoo/addons/repair/models/product.py</h2><h3>Fields</h3><details><summary id="f-create_repair">create_repair <span class="position">@ line 21</span></summary><pre>create_repair = fields.Boolean('Create Repair', help="Create a linked Repair Order on Sale Order confirmation of this product.", groups='stock.group_stock_user')</pre></details><h2>Inherited: odoo/addons/purchase_stock/models/product.py</h2><h3>Fields</h3><details><summary id="f-property_account_creditor_price_difference">property_account_creditor_price_difference <span class="position">@ line 21</span></summary><pre>property_account_creditor_price_difference = fields.Many2one(
+        'account.account', string="Price Difference Account", company_dependent=True,
+        help="This account is used in automated inventory valuation to "\
+             "record the price difference between a purchase order and its related vendor bill when validating this vendor bill.")</pre></details><details><summary id="f-route_ids">route_ids <span class="position">@ line 33</span></summary><pre>route_ids = fields.Many2many(default=lambda self: self._get_buy_route())</pre></details><h2>Inherited: odoo/addons/purchase_stock/models/product.py</h2><h3>Fields</h3><details><summary id="f-property_account_creditor_price_difference">property_account_creditor_price_difference <span class="position">@ line 21</span></summary><pre>property_account_creditor_price_difference = fields.Many2one(
+        'account.account', string="Price Difference Account", company_dependent=True,
+        help="This account is used in automated inventory valuation to "\
+             "record the price difference between a purchase order and its related vendor bill when validating this vendor bill.")</pre></details><details><summary id="f-route_ids">route_ids <span class="position">@ line 33</span></summary><pre>route_ids = fields.Many2many(default=lambda self: self._get_buy_route())</pre></details><h2>Inherited: odoo/addons/purchase/models/product.py</h2><h3>Fields</h3><details><summary id="f-purchase_line_warn">purchase_line_warn <span class="position">@ line 22</span></summary><pre>purchase_line_warn = fields.Selection(WARNING_MESSAGE, 'Purchase Order Line Warning', help=WARNING_HELP, required=True, default="no-message")</pre></details><details><summary id="f-purchase_line_warn_msg">purchase_line_warn_msg <span class="position">@ line 23</span></summary><pre>purchase_line_warn_msg = fields.Text('Message for Purchase Order Line')</pre></details><details><summary id="f-purchase_method">purchase_method <span class="position">@ line 16</span></summary><pre>purchase_method = fields.Selection([
+        ('purchase', 'On ordered quantities'),
+        ('receive', 'On received quantities'),
+    ], string="Control Policy", compute='_compute_purchase_method', precompute=True, store=True, readonly=False,
+        help="On ordered quantities: Control bills based on ordered quantities.\n"
+            "On received quantities: Control bills based on received quantities.")</pre></details><details><summary id="f-purchased_product_qty">purchased_product_qty <span class="position">@ line 15</span></summary><pre>purchased_product_qty = fields.Float(compute='_compute_purchased_product_qty', string='Purchased', digits='Product Unit of Measure')</pre></details><h3>Methods</h3><ul id="m-_compute_purchased_product_qty"><li>_compute_purchased_product_qty(self) <span class="position">@ line 34</span></li></ul><ul id="m-_get_backend_root_menu_ids"><li>_get_backend_root_menu_ids(self) <span class="position">@ line 38</span></li></ul><ul id="m-action_view_po"><li>action_view_po(self) <span class="position">@ line 51</span></li></ul><h2>Inherited: odoo/addons/purchase/models/product.py</h2><h3>Fields</h3><details><summary id="f-purchase_line_warn">purchase_line_warn <span class="position">@ line 22</span></summary><pre>purchase_line_warn = fields.Selection(WARNING_MESSAGE, 'Purchase Order Line Warning', help=WARNING_HELP, required=True, default="no-message")</pre></details><details><summary id="f-purchase_line_warn_msg">purchase_line_warn_msg <span class="position">@ line 23</span></summary><pre>purchase_line_warn_msg = fields.Text('Message for Purchase Order Line')</pre></details><details><summary id="f-purchase_method">purchase_method <span class="position">@ line 16</span></summary><pre>purchase_method = fields.Selection([
+        ('purchase', 'On ordered quantities'),
+        ('receive', 'On received quantities'),
+    ], string="Control Policy", compute='_compute_purchase_method', precompute=True, store=True, readonly=False,
+        help="On ordered quantities: Control bills based on ordered quantities.\n"
+            "On received quantities: Control bills based on received quantities.")</pre></details><details><summary id="f-purchased_product_qty">purchased_product_qty <span class="position">@ line 15</span></summary><pre>purchased_product_qty = fields.Float(compute='_compute_purchased_product_qty', string='Purchased', digits='Product Unit of Measure')</pre></details><h3>Methods</h3><ul id="m-_compute_purchased_product_qty"><li>_compute_purchased_product_qty(self) <span class="position">@ line 34</span></li></ul><ul id="m-_get_backend_root_menu_ids"><li>_get_backend_root_menu_ids(self) <span class="position">@ line 38</span></li></ul><ul id="m-action_view_po"><li>action_view_po(self) <span class="position">@ line 51</span></li></ul><h2>Inherited: odoo/addons/product_matrix/models/product_template.py</h2><h3>Methods</h3><ul id="m-_get_template_matrix"><li>_get_template_matrix(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/product_expiry/models/product_product.py</h2><h3>Fields</h3><details><summary id="f-alert_time">alert_time <span class="position">@ line 33</span></summary><pre>alert_time = fields.Integer(string='Alert Date',
+        help='Number of days before the Expiration Date after which an alert should be'
+        ' raised on the lot/serial number. It will be computed on the lot/serial number.')</pre></details><details><summary id="f-expiration_time">expiration_time <span class="position">@ line 23</span></summary><pre>expiration_time = fields.Integer(string='Expiration Date',
+        help='Number of days after the receipt of the products (from the vendor'
+        ' or in stock after production) after which the goods may become dangerous'
+        ' and must not be consumed. It will be computed on the lot/serial number.')</pre></details><details><summary id="f-removal_time">removal_time <span class="position">@ line 30</span></summary><pre>removal_time = fields.Integer(string='Removal Date',
+        help='Number of days before the Expiration Date after which the goods'
+        ' should be removed from the stock. It will be computed on the lot/serial number.')</pre></details><details><summary id="f-use_expiration_date">use_expiration_date <span class="position">@ line 20</span></summary><pre>use_expiration_date = fields.Boolean(string='Use Expiration Date',
+        help='When this box is ticked, you have the possibility to specify dates to manage'
+        ' product expiration, on the product and on the corresponding lot/serial numbers')</pre></details><details><summary id="f-use_time">use_time <span class="position">@ line 27</span></summary><pre>use_time = fields.Integer(string='Best Before Date',
+        help='Number of days before the Expiration Date after which the goods starts'
+        ' deteriorating, without being dangerous yet. It will be computed on the lot/serial number.')</pre></details><h2>Inherited: odoo/addons/product_email_template/models/product.py</h2><h3>Fields</h3><details><summary id="f-email_template_id">email_template_id <span class="position">@ line 13</span></summary><pre>email_template_id = fields.Many2one('mail.template', string='Product Email Template',
+        help='When validating an invoice, an email will be sent to the customer '
+        'based on this template. The customer will receive an email for each '
+        'product linked to an email template.')</pre></details><h2>Inherited: odoo/addons/product/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 114</span></summary><pre>active = fields.Boolean('Active', default=True, help="If unchecked, it will allow you to hide the product without removing it.")</pre></details><details><summary id="f-attribute_line_ids">attribute_line_ids <span class="position">@ line 118</span></summary><pre>attribute_line_ids = fields.One2many('product.template.attribute.line', 'product_tmpl_id', 'Product Attributes', copy=True)</pre></details><details><summary id="f-barcode">barcode <span class="position">@ line 131</span></summary><pre>barcode = fields.Char('Barcode', compute='_compute_barcode', inverse='_set_barcode', search='_search_barcode')</pre></details><details><summary id="f-can_image_1024_be_zoomed">can_image_1024_be_zoomed <span class="position">@ line 146</span></summary><pre>can_image_1024_be_zoomed = fields.Boolean("Can Image 1024 be zoomed", compute='_compute_can_image_1024_be_zoomed', store=True)</pre></details><details><summary id="f-categ_id">categ_id <span class="position">@ line 62</span></summary><pre>categ_id = fields.Many2one(
+        'product.category', 'Product Category',
+        change_default=True, default=_get_default_category_id, group_expand='_read_group_categ_id',
+        required=True)</pre></details><details><summary id="f-color">color <span class="position">@ line 115</span></summary><pre>color = fields.Integer('Color Index')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 106</span></summary><pre>company_id = fields.Many2one(
+        'res.company', 'Company', index=True)</pre></details><details><summary id="f-cost_currency_id">cost_currency_id <span class="position">@ line 69</span></summary><pre>cost_currency_id = fields.Many2one(
+        'res.currency', 'Cost Currency', compute='_compute_cost_currency_id')</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 67</span></summary><pre>currency_id = fields.Many2one(
+        'res.currency', 'Currency', compute='_compute_currency_id')</pre></details><details><summary id="f-default_code">default_code <span class="position">@ line 132</span></summary><pre>default_code = fields.Char(
+        'Internal Reference', compute='_compute_default_code',
+        inverse='_set_default_code', store=True)</pre></details><details><summary id="f-description">description <span class="position">@ line 44</span></summary><pre>description = fields.Html(
+        'Description', translate=True)</pre></details><details><summary id="f-description_purchase">description_purchase <span class="position">@ line 46</span></summary><pre>description_purchase = fields.Text(
+        'Purchase Description', translate=True)</pre></details><details><summary id="f-description_sale">description_sale <span class="position">@ line 48</span></summary><pre>description_sale = fields.Text(
+        'Sales Description', translate=True,
+        help="A description of the Product that you want to communicate to your customers. "
+             "This description will be copied to every Sales Order, Delivery Order and Customer Invoice/Credit Note")</pre></details><details><summary id="f-detailed_type">detailed_type <span class="position">@ line 52</span></summary><pre>detailed_type = fields.Selection([
+        ('consu', 'Goods'),
+        ('service', 'Service')], string='Product Type', default='consu', required=True,
+        help='A storable product is a product for which you manage stock. The Inventory app has to be installed.\n'
+             'A consumable product is a product for which stock is not managed.\n'
+             'A service is a non-material product you provide.')</pre></details><details><summary id="f-has_configurable_attributes">has_configurable_attributes <span class="position">@ line 147</span></summary><pre>has_configurable_attributes = fields.Boolean("Is a configurable product", compute='_compute_has_configurable_attributes', store=True)</pre></details><details><summary id="f-is_favorite">is_favorite <span class="position">@ line 151</span></summary><pre>is_favorite = fields.Boolean(string="Favorite")</pre></details><details><summary id="f-is_product_variant">is_product_variant <span class="position">@ line 117</span></summary><pre>is_product_variant = fields.Boolean(string='Is a product variant', compute='_compute_is_product_variant')</pre></details><details><summary id="f-list_price">list_price <span class="position">@ line 73</span></summary><pre>list_price = fields.Float(
+        'Sales Price', default=1.0,
+        digits='Product Price',
+        tracking=True,
+        help="Price at which the product is sold to customers.",
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 42</span></summary><pre>name = fields.Char('Name', index='trigram', required=True, translate=True)</pre></details><details><summary id="f-packaging_ids">packaging_ids <span class="position">@ line 108</span></summary><pre>packaging_ids = fields.One2many(
+        'product.packaging', string="Product Packages", compute="_compute_packaging_ids", inverse="_set_packaging_ids",
+        help="Gives the different ways to package the same product.")</pre></details><details><summary id="f-pricelist_item_count">pricelist_item_count <span class="position">@ line 136</span></summary><pre>pricelist_item_count = fields.Integer("Number of price rules", compute="_compute_item_count")</pre></details><details><summary id="f-product_document_count">product_document_count <span class="position">@ line 143</span></summary><pre>product_document_count = fields.Integer(
+        string="Documents Count", compute='_compute_product_document_count')</pre></details><details><summary id="f-product_document_ids">product_document_ids <span class="position">@ line 138</span></summary><pre>product_document_ids = fields.One2many(
+        string="Documents",
+        comodel_name='product.document',
+        inverse_name='res_id',
+        domain=lambda self: [('res_model', '=', self._name)])</pre></details><details><summary id="f-product_properties">product_properties <span class="position">@ line 157</span></summary><pre>product_properties = fields.Properties('Properties', definition='categ_id.product_properties_definition', copy=True)</pre></details><details><summary id="f-product_tag_ids">product_tag_ids <span class="position">@ line 153</span></summary><pre>product_tag_ids = fields.Many2many(
+        string="Tags", comodel_name='product.tag', relation='product_tag_product_template_rel'
+    )</pre></details><details><summary id="f-product_tooltip">product_tooltip <span class="position">@ line 149</span></summary><pre>product_tooltip = fields.Char(compute='_compute_product_tooltip')</pre></details><details><summary id="f-product_variant_count">product_variant_count <span class="position">@ line 127</span></summary><pre>product_variant_count = fields.Integer(
+        '# Product Variants', compute='_compute_product_variant_count')</pre></details><details><summary id="f-product_variant_id">product_variant_id <span class="position">@ line 125</span></summary><pre>product_variant_id = fields.Many2one('product.product', 'Product', compute='_compute_product_variant_id')</pre></details><details><summary id="f-product_variant_ids">product_variant_ids <span class="position">@ line 123</span></summary><pre>product_variant_ids = fields.One2many('product.product', 'product_tmpl_id', 'Products', required=True)</pre></details><details><summary id="f-purchase_ok">purchase_ok <span class="position">@ line 96</span></summary><pre>purchase_ok = fields.Boolean('Purchase', default=True)</pre></details><details><summary id="f-sale_ok">sale_ok <span class="position">@ line 95</span></summary><pre>sale_ok = fields.Boolean('Sales', default=True)</pre></details><details><summary id="f-seller_ids">seller_ids <span class="position">@ line 111</span></summary><pre>seller_ids = fields.One2many('product.supplierinfo', 'product_tmpl_id', 'Vendors', depends_context=('company',))</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 43</span></summary><pre>sequence = fields.Integer('Sequence', default=1, help='Gives the sequence order when displaying a product list')</pre></details><details><summary id="f-standard_price">standard_price <span class="position">@ line 79</span></summary><pre>standard_price = fields.Float(
+        'Cost', compute='_compute_standard_price',
+        inverse='_set_standard_price', search='_search_standard_price',
+        digits='Product Price', groups="base.group_user",
+        help="""Value of the product (automatically computed in AVCO).
+        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).
+        Used to compute margins on sale orders.""")</pre></details><details><summary id="f-type">type <span class="position">@ line 58</span></summary><pre>type = fields.Selection(
+        [('consu', 'Goods'),
+         ('service', 'Service')],
+        compute='_compute_type', store=True, readonly=False, precompute=True)</pre></details><details><summary id="f-uom_id">uom_id <span class="position">@ line 97</span></summary><pre>uom_id = fields.Many2one(
+        'uom.uom', 'Unit of Measure',
+        default=_get_default_uom_id, required=True,
+        help="Default unit of measure used for all stock operations.")</pre></details><details><summary id="f-uom_name">uom_name <span class="position">@ line 101</span></summary><pre>uom_name = fields.Char(string='Unit of Measure Name', related='uom_id.name', readonly=True)</pre></details><details><summary id="f-uom_po_id">uom_po_id <span class="position">@ line 102</span></summary><pre>uom_po_id = fields.Many2one(
+        'uom.uom', 'Purchase Unit',
+        default=_get_default_uom_po_id, required=True,
+        help="Default unit of measure used for purchase orders. It must be in the same category as the default unit of measure.")</pre></details><details><summary id="f-valid_product_template_attribute_line_ids">valid_product_template_attribute_line_ids <span class="position">@ line 120</span></summary><pre>valid_product_template_attribute_line_ids = fields.Many2many('product.template.attribute.line',
+        compute="_compute_valid_product_template_attribute_line_ids", string='Valid Product Attribute Lines')</pre></details><details><summary id="f-variant_seller_ids">variant_seller_ids <span class="position">@ line 112</span></summary><pre>variant_seller_ids = fields.One2many('product.supplierinfo', 'product_tmpl_id')</pre></details><details><summary id="f-volume">volume <span class="position">@ line 87</span></summary><pre>volume = fields.Float(
+        'Volume', compute='_compute_volume', inverse='_set_volume', digits='Volume', store=True)</pre></details><details><summary id="f-volume_uom_name">volume_uom_name <span class="position">@ line 89</span></summary><pre>volume_uom_name = fields.Char(string='Volume unit of measure label', compute='_compute_volume_uom_name')</pre></details><details><summary id="f-weight">weight <span class="position">@ line 90</span></summary><pre>weight = fields.Float(
+        'Weight', compute='_compute_weight', digits='Stock Weight',
+        inverse='_set_weight', store=True)</pre></details><details><summary id="f-weight_uom_name">weight_uom_name <span class="position">@ line 93</span></summary><pre>weight_uom_name = fields.Char(string='Weight unit of measure label', compute='_compute_weight_uom_name')</pre></details><h3>Methods</h3><details><summary id="m-_cartesian_product">_cartesian_product(self, product_template_attribute_values_per_line, parent_combination) <span class="position">@ line 1211</span></summary><pre>Generate all possible combination for attributes values (aka cartesian product).
+It is equivalent to itertools.product except it skips invalid partial combinations before they are complete.
+
+Imagine the cartesian product of 'A', 'CD' and range(1_000_000) and let's say that 'A' and 'C' are incompatible.
+If you use itertools.product or any normal cartesian product, you'll need to filter out of the final result
+the 1_000_000 combinations that start with 'A' and 'C' . Instead, This implementation will test if 'A' and 'C' are
+compatible before even considering range(1_000_000), skip it and and continue with combinations that start
+with 'A' and 'D'.
+
+It's necessary for performance reason because filtering out invalid combinations from standard Cartesian product
+can be extremely slow
+
+:param product_template_attribute_values_per_line: the values we want all the possibles combinations of.
+One list of values by attribute line
+:return: a generator of product template attribute value</pre></details><ul id="m-_compute_is_product_variant"><li>_compute_is_product_variant(self) <span class="position">@ line 283</span></li></ul><ul id="m-_compute_item_count"><li>_compute_item_count(self) <span class="position">@ line 159</span></li></ul><ul id="m-_compute_product_document_count"><li>_compute_product_document_count(self) <span class="position">@ line 168</span></li></ul><details><summary id="m-_compute_template_field_from_variant_field">_compute_template_field_from_variant_field(self, fname, default) <span class="position">@ line 215</span></summary><pre>Sets the value of the given field based on the template variant values
+
+Equals to product_variant_ids[fname] if it's a single variant product.
+Otherwise, sets the value specified in ``default``.
+It's used to compute fields like barcode, weight, volume..
+
+:param str fname: name of the field to compute
+(field name must be identical between product.product & product.template models)
+:param default: default value to set when there are multiple or no variants on the template
+:return: None</pre></details><details><summary id="m-_create_first_product_variant">_create_first_product_variant(self, log_warning) <span class="position">@ line 1161</span></summary><pre>Create if necessary and possible and return the first product
+variant for this template.
+
+:param log_warning: whether a warning should be logged on fail
+:type log_warning: bool
+
+:return: the first product variant or none
+:rtype: recordset of `product.product`</pre></details><details><summary id="m-_create_product_variant">_create_product_variant(self, combination, log_warning) <span class="position">@ line 1114</span></summary><pre>Create if necessary and possible and return the product variant
+matching the given combination for this template.
+
+It is possible to create only if the template has dynamic attributes
+and the combination itself is possible.
+If we are in this case and the variant already exists but it is
+archived, it is activated instead of being created again.
+
+:param combination: the combination for which to get or create variant.
+The combination must contain all necessary attributes, including
+those of type no_variant. Indeed even though those attributes won't
+be included in the variant if newly created, they are needed when
+checking if the combination is possible.
+:type combination: recordset of `product.template.attribute.value`
+
+:param log_warning: whether a warning should be logged on fail
+:type log_warning: bool
+
+:return: the product variant matching the combination or none
+:rtype: recordset of `product.product`</pre></details><ul id="m-_create_variant_ids"><li>_create_variant_ids(self) <span class="position">@ line 716</span></li></ul><ul id="m-_detailed_type_mapping"><li>_detailed_type_mapping(self) <span class="position">@ line 408</span></li></ul><details><summary id="m-_filter_combinations_impossible_by_config">_filter_combinations_impossible_by_config(self, combination_tuples, ignore_no_variant) <span class="position">@ line 992</span></summary><pre>Filter combination_tuples according to the config of attributes on the template
+
+:return: iterator over possible combinations
+:rtype: generator</pre></details><details><summary id="m-_get_attribute_exclusions">_get_attribute_exclusions(self, parent_combination, parent_name, combination_ids) <span class="position">@ line 863</span></summary><pre>Return the list of attribute exclusions of a product.
+
+:param parent_combination: the combination from which
+`self` is an optional or accessory product. Indeed exclusions
+rules on one product can concern another product.
+:type parent_combination: recordset `product.template.attribute.value`
+:param parent_name: the name of the parent product combination.
+:type parent_name: str
+:param list combination: The combination of the product, as a
+list of `product.template.attribute.value` ids.
+
+:return: dict of exclusions
+- exclusions: from this product itself
+- archived_combinations: list of archived combinations
+- parent_combination: ids of the given parent_combination
+- parent_exclusions: from the parent_combination
+- parent_product_name: the name of the parent product if any, used in the interface
+to explain why some combinations are not available.
+(e.g: Not available with Customizable Desk (Legs: Steel))
+- mapped_attribute_names: the name of every attribute values based on their id,
+used to explain in the interface why that combination is not available
+(e.g: Not available with Color: Black)</pre></details><ul id="m-_get_attributes_extra_price"><li>_get_attributes_extra_price(self) <span class="position">@ line 678</span></li></ul><details><summary id="m-_get_closest_possible_combination">_get_closest_possible_combination(self, combination) <span class="position">@ line 1356</span></summary><pre>See `_get_closest_possible_combinations` (one iteration).
+
+This method return the same result (empty recordset) if no
+combination is possible at all which would be considered a negative
+result, or if there are no attribute lines on the template in which
+case the "empty combination" is actually a possible combination.
+Therefore the result of this method when empty should be tested
+with `_is_combination_possible` if it's important to know if the
+resulting empty combination is actually possible or not.</pre></details><details><summary id="m-_get_closest_possible_combinations">_get_closest_possible_combinations(self, combination) <span class="position">@ line 1369</span></summary><pre>Generator returning the possible combinations that are the closest to
+the given combination.
+
+If the given combination is incomplete, try to complete it.
+
+If the given combination is invalid, try to remove values from it before
+completing it.
+
+:param combination: the values to include if they are possible
+:type combination: recordset `product.template.attribute.value`
+
+:return: the possible combinations that are including as much
+elements as possible from the given combination.
+:rtype: generator of recordset of product.template.attribute.value</pre></details><ul id="m-_get_contextual_price"><li>_get_contextual_price(self, product) <span class="position">@ line 1442</span></li></ul><details><summary id="m-_get_contextual_pricelist">_get_contextual_pricelist(self) <span class="position">@ line 1450</span></summary><pre>Get the contextual pricelist
+
+This method is meant to be overriden in other standard modules.</pre></details><ul id="m-_get_default_category_id"><li>_get_default_category_id(self) <span class="position">@ line 24</span></li></ul><ul id="m-_get_default_uom_id"><li>_get_default_uom_id(self) <span class="position">@ line 29</span></li></ul><ul id="m-_get_default_uom_po_id"><li>_get_default_uom_po_id(self) <span class="position">@ line 33</span></li></ul><details><summary id="m-_get_first_possible_combination">_get_first_possible_combination(self, parent_combination, necessary_values) <span class="position">@ line 1198</span></summary><pre>See `_get_possible_combinations` (one iteration).
+
+This method return the same result (empty recordset) if no
+combination is possible at all which would be considered a negative
+result, or if there are no attribute lines on the template in which
+case the "empty combination" is actually a possible combination.
+Therefore the result of this method when empty should be tested
+with `_is_combination_possible` if it's important to know if the
+resulting empty combination is actually possible or not.</pre></details><details><summary id="m-_get_first_possible_variant_id">_get_first_possible_variant_id(self) <span class="position">@ line 1192</span></summary><pre>See `_create_first_product_variant`. This method returns an ID
+so it can be cached.</pre></details><details><summary id="m-_get_mapped_attribute_names">_get_mapped_attribute_names(self, parent_combination) <span class="position">@ line 974</span></summary><pre>The name of every attribute values based on their id,
+used to explain in the interface why that combination is not available
+(e.g: Not available with Color: Black).
+
+It contains both attribute value names from this product and from
+the parent combination if provided.</pre></details><details><summary id="m-_get_own_attribute_exclusions">_get_own_attribute_exclusions(self, combination_ids) <span class="position">@ line 927</span></summary><pre>Get exclusions coming from the current template.
+
+:param list combination: The combination of the product, as a
+list of `product.template.attribute.value` ids.
+Dictionnary, each product template attribute value is a key, and for each of them
+the value is an array with the other ptav that they exclude (empty if no exclusion).</pre></details><details><summary id="m-_get_parent_attribute_exclusions">_get_parent_attribute_exclusions(self, parent_combination) <span class="position">@ line 949</span></summary><pre>Get exclusions coming from the parent combination.
+
+Dictionnary, each parent's ptav is a key, and for each of them the value is
+an array with the other ptav that are excluded because of the parent.</pre></details><ul id="m-_get_placeholder_filename"><li>_get_placeholder_filename(self, field) <span class="position">@ line 1402</span></li></ul><details><summary id="m-_get_possible_combinations">_get_possible_combinations(self, parent_combination, necessary_values) <span class="position">@ line 1307</span></summary><pre>Generator returning combinations that are possible, following the
+sequence of attributes and values.
+
+See `_is_combination_possible` for what is a possible combination.
+
+When encountering an impossible combination, try to change the value
+of attributes by starting with the further regarding their sequences.
+
+Ignore attributes that have no values.
+
+:param parent_combination: combination from which `self` is an
+optional or accessory product.
+:type parent_combination: recordset `product.template.attribute.value`
+
+:param necessary_values: values that must be in the returned combination
+:type necessary_values: recordset of `product.template.attribute.value`
+
+:return: the possible combinations
+:rtype: generator of recordset of `product.template.attribute.value`</pre></details><details><summary id="m-_get_possible_variants">_get_possible_variants(self, parent_combination) <span class="position">@ line 839</span></summary><pre>Return the existing variants that are possible.
+
+For dynamic attributes, it will only return the variants that have been
+created already.
+
+If there are a lot of variants, this method might be slow. Even if there
+aren't too many variants, for performance reasons, do not call this
+method in a loop over the product templates.
+
+Therefore this method has a very restricted reasonable use case and you
+should strongly consider doing things differently if you consider using
+this method.
+
+:param parent_combination: combination from which `self` is an
+optional or accessory product.
+:type parent_combination: recordset `product.template.attribute.value`
+
+:return: the existing variants that are possible.
+:rtype: recordset of `product.product`</pre></details><ul id="m-_get_product_price_context"><li>_get_product_price_context(self, combination) <span class="position">@ line 662</span></li></ul><details><summary id="m-_get_related_fields_variant_template">_get_related_fields_variant_template(self) <span class="position">@ line 458</span></summary><pre>Return a list of fields present on template and variants models and that are related</pre></details><details><summary id="m-_get_variant_for_combination">_get_variant_for_combination(self, combination) <span class="position">@ line 1098</span></summary><pre>Get the variant matching the combination.
+
+All of the values in combination must be present in the variant, and the
+variant should not have more attributes. Ignore the attributes that are
+not supposed to create variants.
+
+:param combination: recordset of `product.template.attribute.value`
+
+:return: the variant if found, else empty
+:rtype: recordset `product.product`</pre></details><details><summary id="m-_get_variant_id_for_combination">_get_variant_id_for_combination(self, filtered_combination) <span class="position">@ line 1174</span></summary><pre>See `_get_variant_for_combination`. This method returns an ID
+so it can be cached.
+
+Use sudo because the same result should be cached for all users.</pre></details><details><summary id="m-_is_combination_possible">_is_combination_possible(self, combination, parent_combination, ignore_no_variant) <span class="position">@ line 1045</span></summary><pre>The combination is possible if it is not excluded by any rule
+coming from the current template, not excluded by any rule from the
+parent_combination (if given), and there should not be any archived
+variant with the exact same combination.
+
+If the template does not have any dynamic attribute, the combination
+is also not possible if the matching variant has been deleted.
+
+Moreover the attributes of the combination must excatly match the
+attributes allowed on the template.
+
+:param combination: the combination to check for possibility
+:type combination: recordset `product.template.attribute.value`
+
+:param ignore_no_variant: whether no_variant attributes should be ignored
+:type ignore_no_variant: bool
+
+:param parent_combination: combination from which `self` is an
+optional or accessory product.
+:type parent_combination: recordset `product.template.attribute.value`
+
+:return: whether the combination is possible
+:rtype: bool</pre></details><details><summary id="m-_is_combination_possible_by_config">_is_combination_possible_by_config(self, combination, ignore_no_variant) <span class="position">@ line 1029</span></summary><pre>Return whether the given combination is possible according to the config of attributes on the template
+
+:param combination: the combination to check for possibility
+:type combination: recordset `product.template.attribute.value`
+
+:param ignore_no_variant: whether no_variant attributes should be ignored
+:type ignore_no_variant: bool
+
+:return: wether the given combination is possible according to the config of attributes on the template
+:rtype: bool</pre></details><ul id="m-_prepare_variant_values"><li>_prepare_variant_values(self, combination) <span class="position">@ line 808</span></li></ul><ul id="m-_price_compute"><li>_price_compute(self, price_type, uom, currency, company, date) <span class="position">@ line 683</span></li></ul><ul id="m-_read_group_categ_id"><li>_read_group_categ_id(self, categories, domain) <span class="position">@ line 36</span></li></ul><details><summary id="m-_sanitize_vals">_sanitize_vals(self, vals) <span class="position">@ line 444</span></summary><pre>Sanitize vales for writing/creating product templates and variants.
+
+Values need to be sanitized to keep values synchronized, and to be able to preprocess the
+vals in extensions of create/write.
+:param vals: create/write values dictionary</pre></details><ul id="m-_search_barcode"><li>_search_barcode(self, operator, value) <span class="position">@ line 290</span></li></ul><ul id="m-_search_standard_price"><li>_search_standard_price(self, operator, value) <span class="position">@ line 266</span></li></ul><ul id="m-_set_barcode"><li>_set_barcode(self) <span class="position">@ line 296</span></li></ul><ul id="m-_set_default_code"><li>_set_default_code(self) <span class="position">@ line 382</span></li></ul><ul id="m-_set_packaging_ids"><li>_set_packaging_ids(self) <span class="position">@ line 393</span></li></ul><details><summary id="m-_set_product_variant_field">_set_product_variant_field(self, fname) <span class="position">@ line 238</span></summary><pre>Propagate the value of the given field from the templates to their unique variant.
+
+Only if it's a single variant product.
+It's used to set fields like barcode, weight, volume..
+
+:param str fname: name of the field whose value should be propagated to the variant.
+(field name must be identical between product.product & product.template models)</pre></details><ul id="m-_set_standard_price"><li>_set_standard_price(self) <span class="position">@ line 263</span></li></ul><ul id="m-_set_volume"><li>_set_volume(self) <span class="position">@ line 273</span></li></ul><ul id="m-_set_weight"><li>_set_weight(self) <span class="position">@ line 280</span></li></ul><ul id="m-action_open_documents"><li>action_open_documents(self) <span class="position">@ line 618</span></li></ul><ul id="m-action_open_label_layout"><li>action_open_label_layout(self) <span class="position">@ line 592</span></li></ul><ul id="m-copy"><li>copy(self, default) <span class="position">@ line 513</span></li></ul><ul id="m-copy_data"><li>copy_data(self, default) <span class="position">@ line 505</span></li></ul><ul id="m-get_contextual_price"><li>get_contextual_price(self, product) <span class="position">@ line 1439</span></li></ul><details><summary id="m-get_single_product_variant">get_single_product_variant(self) <span class="position">@ line 1408</span></summary><pre>Method used by the product configurator to check if the product is configurable or not.
+
+We need to open the product configurator if the product:
+- is configurable (see has_configurable_attributes)
+- has optional products (method is extended in sale to return optional products info)
+
+Note: self.ensure_one()</pre></details><details><summary id="m-has_dynamic_attributes">has_dynamic_attributes(self) <span class="position">@ line 816</span></summary><pre>Return whether this `product.template` has at least one dynamic
+attribute.
+
+:return: True if at least one dynamic attribute, False otherwise
+:rtype: bool</pre></details><ul id="m-open_pricelist_rules"><li>open_pricelist_rules(self) <span class="position">@ line 597</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 482</span></li></ul><h2>Inherited: odoo/addons/pos_self_order/models/product_product.py</h2><h3>Fields</h3><details><summary id="f-description_self_order">description_self_order <span class="position">@ line 21</span></summary><pre>description_self_order = fields.Html(
+        string="Product Description for Self Order",
+    )</pre></details><details><summary id="f-self_order_available">self_order_available <span class="position">@ line 16</span></summary><pre>self_order_available = fields.Boolean(
+        string="Available in Self Order",
+        help="If this product is available in the Self Order screens",
+        default=True,
+    )</pre></details><h3>Methods</h3><ul id="m-write"><li>write(self, vals_list) <span class="position">@ line 31</span></li></ul><h2>Inherited: odoo/addons/point_of_sale/models/product.py</h2><h3>Fields</h3><details><summary id="f-available_in_pos">available_in_pos <span class="position">@ line 15</span></summary><pre>available_in_pos = fields.Boolean(string='Available in POS', help='Check if you want this product to appear in the Point of Sale.', default=False)</pre></details><details><summary id="f-combo_ids">combo_ids <span class="position">@ line 20</span></summary><pre>combo_ids = fields.Many2many('pos.combo', string='Combinations')</pre></details><details><summary id="f-detailed_type">detailed_type <span class="position">@ line 21</span></summary><pre>detailed_type = fields.Selection(selection_add=[
+        ('combo', 'Combo')
+    ], ondelete={'combo': 'set consu'})</pre></details><details><summary id="f-pos_categ_ids">pos_categ_ids <span class="position">@ line 17</span></summary><pre>pos_categ_ids = fields.Many2many(
+        'pos.category', string='Point of Sale Category',
+        help="Category used in the Point of Sale.")</pre></details><details><summary id="f-to_weight">to_weight <span class="position">@ line 16</span></summary><pre>to_weight = fields.Boolean(string='To Weigh With Scale', help="Check if the product should be weighted using the hardware scale integration.")</pre></details><details><summary id="f-type">type <span class="position">@ line 24</span></summary><pre>type = fields.Selection(selection_add=[
+        ('combo', 'Combo')
+    ], ondelete={'combo': 'set consu'})</pre></details><h3>Methods</h3><ul id="m-_create_variant_ids"><li>_create_variant_ids(self) <span class="position">@ line 55</span></li></ul><h2>Inherited: odoo/addons/mrp_account/models/product.py</h2><h3>Methods</h3><ul id="m-_get_product_accounts"><li>_get_product_accounts(self) <span class="position">@ line 12</span></li></ul><ul id="m-action_bom_cost"><li>action_bom_cost(self) <span class="position">@ line 19</span></li></ul><ul id="m-button_bom_cost"><li>button_bom_cost(self) <span class="position">@ line 24</span></li></ul><h2>Inherited: odoo/addons/mrp_account/models/product.py</h2><h3>Methods</h3><ul id="m-_get_product_accounts"><li>_get_product_accounts(self) <span class="position">@ line 12</span></li></ul><ul id="m-action_bom_cost"><li>action_bom_cost(self) <span class="position">@ line 19</span></li></ul><ul id="m-button_bom_cost"><li>button_bom_cost(self) <span class="position">@ line 24</span></li></ul><h2>Inherited: odoo/addons/mrp/models/product.py</h2><h3>Fields</h3><details><summary id="f-bom_count">bom_count <span class="position">@ line 27</span></summary><pre>bom_count = fields.Integer('# Bill of Material',
+        compute='_compute_bom_count', compute_sudo=False)</pre></details><details><summary id="f-bom_ids">bom_ids <span class="position">@ line 26</span></summary><pre>bom_ids = fields.One2many('mrp.bom', 'product_tmpl_id', 'Bill of Materials')</pre></details><details><summary id="f-bom_line_ids">bom_line_ids <span class="position">@ line 25</span></summary><pre>bom_line_ids = fields.One2many('mrp.bom.line', 'product_tmpl_id', 'BoM Components')</pre></details><details><summary id="f-is_kits">is_kits <span class="position">@ line 33</span></summary><pre>is_kits = fields.Boolean(compute='_compute_is_kits', search='_search_is_kits')</pre></details><details><summary id="f-mrp_product_qty">mrp_product_qty <span class="position">@ line 31</span></summary><pre>mrp_product_qty = fields.Float('Manufactured', digits='Product Unit of Measure',
+        compute='_compute_mrp_product_qty', compute_sudo=False)</pre></details><details><summary id="f-used_in_bom_count">used_in_bom_count <span class="position">@ line 29</span></summary><pre>used_in_bom_count = fields.Integer('# of BoM Where is Used',
+        compute='_compute_used_in_bom_count', compute_sudo=False)</pre></details><h3>Methods</h3><ul id="m-_compute_bom_count"><li>_compute_bom_count(self) <span class="position">@ line 35</span></li></ul><ul id="m-_compute_is_kits"><li>_compute_is_kits(self) <span class="position">@ line 39</span></li></ul><ul id="m-_compute_mrp_product_qty"><li>_compute_mrp_product_qty(self) <span class="position">@ line 81</span></li></ul><ul id="m-_compute_show_qty_status_button"><li>_compute_show_qty_status_button(self) <span class="position">@ line 56</span></li></ul><ul id="m-_compute_used_in_bom_count"><li>_compute_used_in_bom_count(self) <span class="position">@ line 63</span></li></ul><ul id="m-_get_backend_root_menu_ids"><li>_get_backend_root_menu_ids(self) <span class="position">@ line 110</span></li></ul><ul id="m-_search_is_kits"><li>_search_is_kits(self, operator, value) <span class="position">@ line 46</span></li></ul><ul id="m-action_archive"><li>action_archive(self) <span class="position">@ line 93</span></li></ul><ul id="m-action_used_in_bom"><li>action_used_in_bom(self) <span class="position">@ line 75</span></li></ul><ul id="m-action_view_mos"><li>action_view_mos(self) <span class="position">@ line 85</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 68</span></li></ul><h2>Inherited: odoo/addons/membership/models/product.py</h2><h3>Fields</h3><details><summary id="f-membership">membership <span class="position">@ line 10</span></summary><pre>membership = fields.Boolean(help='Check if the product is eligible for membership.')</pre></details><details><summary id="f-membership_date_from">membership_date_from <span class="position">@ line 11</span></summary><pre>membership_date_from = fields.Date(string='Membership Start Date',
+        help='Date from which membership becomes active.')</pre></details><details><summary id="f-membership_date_to">membership_date_to <span class="position">@ line 13</span></summary><pre>membership_date_to = fields.Date(string='Membership End Date',
+        help='Date until which membership remains active.')</pre></details><h2>Inherited: odoo/addons/l10n_pl/models/product.py</h2><h3>Fields</h3><details><summary id="f-l10n_pl_vat_gtu">l10n_pl_vat_gtu <span class="position">@ line 7</span></summary><pre>l10n_pl_vat_gtu = fields.Selection(
+        string='GTU Codes',
+        selection=[
+            ('GTU_01', 'GTU_01 - Alcoholic beverages'),
+            ('GTU_02', 'GTU_02 - Goods referred to under Art. 103 sec 5aa'),
+            ('GTU_03', 'GTU_03 - Fuel oil for excise duty, lubricating oils and other oils'),
+            ('GTU_04', 'GTU_04 - Tobacco products, tobacco, e-liquid'),
+            ('GTU_05', 'GTU_05 - Wastes'),
+            ('GTU_06', 'GTU_06 - Electronic devices, their parts and materials'),
+            ('GTU_07', 'GTU_07 - Vehicles and vehicle parts'),
+            ('GTU_08', 'GTU_08 - Precious metals and base metals'),
+            ('GTU_09', 'GTU_09 - Medicament and medical devices, medicinal products'),
+            ('GTU_10', 'GTU_10 - Buildings, structures and land'),
+            ('GTU_11', 'GTU_11 - Services related to the greenhouse gas emission allowance trading'),
+            ('GTU_12', 'GTU_12 - Intangible services'),
+            ('GTU_13', 'GTU_13 - Transport services and warehouse management services'),
+        ],
+        help='Codes for specific types of products, needed for VAT declaration'
+    )</pre></details><h2>Inherited: odoo/addons/l10n_in/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-l10n_in_hsn_code">l10n_in_hsn_code <span class="position">@ line 11</span></summary><pre>l10n_in_hsn_code = fields.Char(string="HSN/SAC Code", help="Harmonized System Nomenclature/Services Accounting Code")</pre></details><details><summary id="f-l10n_in_hsn_description">l10n_in_hsn_description <span class="position">@ line 12</span></summary><pre>l10n_in_hsn_description = fields.Char(string="HSN/SAC Description", help="HSN/SAC description is required if HSN/SAC code is not provided.")</pre></details><details><summary id="f-l10n_in_hsn_warning">l10n_in_hsn_warning <span class="position">@ line 13</span></summary><pre>l10n_in_hsn_warning = fields.Text(string="HSC/SAC warning", compute="_compute_l10n_in_hsn_warning")</pre></details><h2>Inherited: odoo/addons/l10n_hu_edi/models/product.py</h2><h3>Fields</h3><details><summary id="f-l10n_hu_product_code">l10n_hu_product_code <span class="position">@ line 23</span></summary><pre>l10n_hu_product_code = fields.Char(
+        string='Product Code Value',
+        help='If your product has a code in a standard nomenclature, you can indicate its code here.',
+    )</pre></details><details><summary id="f-l10n_hu_product_code_type">l10n_hu_product_code_type <span class="position">@ line 9</span></summary><pre>l10n_hu_product_code_type = fields.Selection(
+        selection=[
+            ('VTSZ', 'VTSZ - Customs Code'),
+            ('TESZOR', 'TESZOR - CPA 2.1 Code'),
+            ('KN', 'KN - Combined Nomenclature Code'),
+            ('AHK', 'AHK - e-TKO Excise Duty Code'),
+            ('KT', 'KT - Environmental Product Code'),
+            ('CSK', 'CSK - Packaging Catalogue Code'),
+            ('EJ', 'EJ - Building Registry Number'),
+            ('OTHER', 'Other'),
+        ],
+        string='Product Code Type',
+        help='If your product has a code in a standard nomenclature, you can indicate which nomenclature here.',
+    )</pre></details><h2>Inherited: odoo/addons/l10n_eg_edi_eta/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-l10n_eg_eta_code">l10n_eg_eta_code <span class="position">@ line 11</span></summary><pre>l10n_eg_eta_code = fields.Char('ETA Item code', compute='_compute_l10n_eg_eta_code',
+                                   inverse='_set_l10n_eg_eta_code',
+                                   help="This can be an EGS or GS1 product code, which is needed for the e-invoice.  "
+                                        "The best practice however is to use that code also as barcode and in that case, "
+                                        "you should put it in the Barcode field instead and leave this field empty.")</pre></details><h3>Methods</h3><ul id="m-_set_l10n_eg_eta_code"><li>_set_l10n_eg_eta_code(self) <span class="position">@ line 24</span></li></ul><h2>Inherited: odoo/addons/l10n_de/models/datev.py</h2><h3>Methods</h3><details><summary id="m-_get_product_accounts">_get_product_accounts(self) <span class="position">@ line 13</span></summary><pre>As taxes with a different rate need a different income/expense account, we add this logic in case people only use
+invoicing to not be blocked by the above constraint</pre></details><h2>Inherited: odoo/addons/hr_expense/models/product_template.py</h2><h3>Fields</h3><details><summary id="f-can_be_expensed">can_be_expensed <span class="position">@ line 18</span></summary><pre>can_be_expensed = fields.Boolean(string="Expenses", compute='_compute_can_be_expensed',
+        store=True, readonly=False, help="Specify whether the product can be selected in an expense.")</pre></details><h3>Methods</h3><ul id="m-_auto_init"><li>_auto_init(self) <span class="position">@ line 21</span></li></ul><h2>Inherited: odoo/addons/event_sale/models/product.py</h2><h3>Fields</h3><details><summary id="f-detailed_type">detailed_type <span class="position">@ line 9</span></summary><pre>detailed_type = fields.Selection(selection_add=[
+        ('event', 'Event Ticket'),
+    ], ondelete={'event': 'set service'})</pre></details><h3>Methods</h3><ul id="m-_detailed_type_mapping"><li>_detailed_type_mapping(self) <span class="position">@ line 18</span></li></ul><h2>Inherited: odoo/addons/event_booth_sale/models/product.py</h2><h3>Fields</h3><details><summary id="f-detailed_type">detailed_type <span class="position">@ line 10</span></summary><pre>detailed_type = fields.Selection(selection_add=[
+        ('event_booth', 'Event Booth'),
+    ], ondelete={'event_booth': 'set service'})</pre></details><h3>Methods</h3><ul id="m-_detailed_type_mapping"><li>_detailed_type_mapping(self) <span class="position">@ line 19</span></li></ul><h2>Inherited: odoo/addons/account/models/product.py</h2><h3>Fields</h3><details><summary id="f-account_tag_ids">account_tag_ids <span class="position">@ line 53</span></summary><pre>account_tag_ids = fields.Many2many(
+        string="Account Tags",
+        comodel_name='account.account.tag',
+        domain="[('applicability', '=', 'products')]",
+        help="Tags to be set on the base and tax journal items created for this product.")</pre></details><details><summary id="f-fiscal_country_codes">fiscal_country_codes <span class="position">@ line 58</span></summary><pre>fiscal_country_codes = fields.Char(compute='_compute_fiscal_country_codes')</pre></details><details><summary id="f-property_account_expense_id">property_account_expense_id <span class="position">@ line 49</span></summary><pre>property_account_expense_id = fields.Many2one('account.account', company_dependent=True,
+        string="Expense Account",
+        domain=ACCOUNT_DOMAIN,
+        help="Keep this field empty to use the default value from the product category. If anglo-saxon accounting with automated valuation method is configured, the expense account on the product category will be used.")</pre></details><details><summary id="f-property_account_income_id">property_account_income_id <span class="position">@ line 45</span></summary><pre>property_account_income_id = fields.Many2one('account.account', company_dependent=True,
+        string="Income Account",
+        domain=ACCOUNT_DOMAIN,
+        help="Keep this field empty to use the default value from the product category.")</pre></details><details><summary id="f-supplier_taxes_id">supplier_taxes_id <span class="position">@ line 39</span></summary><pre>supplier_taxes_id = fields.Many2many('account.tax', 'product_supplier_taxes_rel', 'prod_id', 'tax_id',
+        string="Purchase Taxes",
+        help="Default taxes used when buying the product",
+        domain=[('type_tax_use', '=', 'purchase')],
+        default=lambda self: self.env.companies.account_purchase_tax_id or self.env.companies.root_id.sudo().account_purchase_tax_id,
+    )</pre></details><details><summary id="f-tax_string">tax_string <span class="position">@ line 38</span></summary><pre>tax_string = fields.Char(compute='_compute_tax_string')</pre></details><details><summary id="f-taxes_id">taxes_id <span class="position">@ line 32</span></summary><pre>taxes_id = fields.Many2many('account.tax', 'product_taxes_rel', 'prod_id', 'tax_id',
+        string="Sales Taxes",
+        help="Default taxes used when selling the product",
+        domain=[('type_tax_use', '=', 'sale')],
+        default=lambda self: self.env.companies.account_sale_tax_id or self.env.companies.root_id.sudo().account_sale_tax_id,
+    )</pre></details><h3>Methods</h3><ul id="m-_construct_tax_string"><li>_construct_tax_string(self, price) <span class="position">@ line 90</span></li></ul><ul id="m-_get_asset_accounts"><li>_get_asset_accounts(self) <span class="position">@ line 66</span></li></ul><ul id="m-_get_product_accounts"><li>_get_product_accounts(self) <span class="position">@ line 60</span></li></ul><ul id="m-get_product_accounts"><li>get_product_accounts(self, fiscal_pos) <span class="position">@ line 72</span></li></ul><script src="class.js"></script></body></html>

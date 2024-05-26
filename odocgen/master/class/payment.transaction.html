@@ -1,0 +1,836 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>payment.transaction - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>payment.transaction</h1><p>Originally defined in: odoo/addons/payment/models/payment_transaction.py</p><p>Inherited in: odoo/addons/website_payment/models/payment_transaction.py<br/>Inherited in: odoo/addons/sale/models/payment_transaction.py<br/>Inherited in: odoo/addons/pos_online_payment/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_xendit/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_stripe/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_sips/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_razorpay/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_payumoney/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_payulatam/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_paypal/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_ogone/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_mollie/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_mercado_pago/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_flutterwave/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_demo/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_custom/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_buckaroo/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_authorize/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_asiapay/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_aps/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_alipay/models/payment_transaction.py<br/>Inherited in: odoo/addons/payment_adyen/models/payment_transaction.py<br/>Inherited in: odoo/addons/account_payment/models/payment_transaction.py<br/></p><hr/><h2>Original: odoo/addons/payment/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-amount">amount <span class="position">@ line 52</span></summary><pre>amount = fields.Monetary(
+        string="Amount", currency_field='currency_id', readonly=True, required=True)</pre></details><details><summary id="f-child_transaction_ids">child_transaction_ids <span class="position">@ line 90</span></summary><pre>child_transaction_ids = fields.One2many(
+        string="Child Transactions",
+        help="The child transactions of the transaction.",
+        comodel_name='payment.transaction',
+        inverse_name='source_transaction_id',
+        readonly=True,
+    )</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 37</span></summary><pre>company_id = fields.Many2one(  # Indexed to speed-up ORM searches (from ir_rule or others)
+        related='provider_id.company_id', store=True, index=True
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 54</span></summary><pre>currency_id = fields.Many2one(
+        string="Currency", comodel_name='res.currency', readonly=True, required=True)</pre></details><details><summary id="f-is_post_processed">is_post_processed <span class="position">@ line 100</span></summary><pre>is_post_processed = fields.Boolean(
+        string="Is Post-processed", help="Has the payment been post-processed")</pre></details><details><summary id="f-landing_route">landing_route <span class="position">@ line 105</span></summary><pre>landing_route = fields.Char(
+        string="Landing Route",
+        help="The route the user is redirected to after the transaction")</pre></details><details><summary id="f-last_state_change">last_state_change <span class="position">@ line 67</span></summary><pre>last_state_change = fields.Datetime(
+        string="Last State Change Date", readonly=True, default=fields.Datetime.now)</pre></details><details><summary id="f-operation">operation <span class="position">@ line 71</span></summary><pre>operation = fields.Selection(  # This should not be trusted if the state is draft or pending.
+        string="Operation",
+        selection=[
+            ('online_redirect', "Online payment with redirection"),
+            ('online_direct', "Online direct payment"),
+            ('online_token', "Online payment by token"),
+            ('validation', "Validation of the payment method"),
+            ('offline', "Offline payment by token"),
+            ('refund', "Refund"),
+        ],
+        readonly=True,
+        index=True,
+    )</pre></details><details><summary id="f-partner_address">partner_address <span class="position">@ line 116</span></summary><pre>partner_address = fields.Char(string="Address")</pre></details><details><summary id="f-partner_city">partner_city <span class="position">@ line 118</span></summary><pre>partner_city = fields.Char(string="City")</pre></details><details><summary id="f-partner_country_id">partner_country_id <span class="position">@ line 120</span></summary><pre>partner_country_id = fields.Many2one(string="Country", comodel_name='res.country')</pre></details><details><summary id="f-partner_email">partner_email <span class="position">@ line 115</span></summary><pre>partner_email = fields.Char(string="Email")</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 110</span></summary><pre>partner_id = fields.Many2one(
+        string="Customer", comodel_name='res.partner', readonly=True, required=True,
+        ondelete='restrict')</pre></details><details><summary id="f-partner_lang">partner_lang <span class="position">@ line 114</span></summary><pre>partner_lang = fields.Selection(string="Language", selection=_lang_get)</pre></details><details><summary id="f-partner_name">partner_name <span class="position">@ line 113</span></summary><pre>partner_name = fields.Char(string="Partner Name")</pre></details><details><summary id="f-partner_phone">partner_phone <span class="position">@ line 121</span></summary><pre>partner_phone = fields.Char(string="Phone")</pre></details><details><summary id="f-partner_state_id">partner_state_id <span class="position">@ line 119</span></summary><pre>partner_state_id = fields.Many2one(string="State", comodel_name='res.country.state')</pre></details><details><summary id="f-partner_zip">partner_zip <span class="position">@ line 117</span></summary><pre>partner_zip = fields.Char(string="Zip")</pre></details><details><summary id="f-payment_method_code">payment_method_code <span class="position">@ line 43</span></summary><pre>payment_method_code = fields.Char(
+        string="Payment Method Code", related='payment_method_id.code'
+    )</pre></details><details><summary id="f-payment_method_id">payment_method_id <span class="position">@ line 40</span></summary><pre>payment_method_id = fields.Many2one(
+        string="Payment Method", comodel_name='payment.method', readonly=True, required=True
+    )</pre></details><details><summary id="f-provider_code">provider_code <span class="position">@ line 36</span></summary><pre>provider_code = fields.Selection(string="Provider Code", related='provider_id.code')</pre></details><details><summary id="f-provider_id">provider_id <span class="position">@ line 33</span></summary><pre>provider_id = fields.Many2one(
+        string="Provider", comodel_name='payment.provider', readonly=True, required=True
+    )</pre></details><details><summary id="f-provider_reference">provider_reference <span class="position">@ line 49</span></summary><pre>provider_reference = fields.Char(
+        string="Provider Reference", help="The provider reference of the transaction",
+        readonly=True)</pre></details><details><summary id="f-reference">reference <span class="position">@ line 46</span></summary><pre>reference = fields.Char(
+        string="Reference", help="The internal reference of the transaction", readonly=True,
+        required=True)</pre></details><details><summary id="f-refunds_count">refunds_count <span class="position">@ line 97</span></summary><pre>refunds_count = fields.Integer(string="Refunds Count", compute='_compute_refunds_count')</pre></details><details><summary id="f-source_transaction_id">source_transaction_id <span class="position">@ line 84</span></summary><pre>source_transaction_id = fields.Many2one(
+        string="Source Transaction",
+        comodel_name='payment.transaction',
+        help="The source transaction of the related child transactions",
+        readonly=True,
+    )</pre></details><details><summary id="f-state">state <span class="position">@ line 59</span></summary><pre>state = fields.Selection(
+        string="Status",
+        selection=[('draft', "Draft"), ('pending', "Pending"), ('authorized', "Authorized"),
+                   ('done', "Confirmed"), ('cancel', "Canceled"), ('error', "Error")],
+        default='draft', readonly=True, required=True, copy=False, index=True)</pre></details><details><summary id="f-state_message">state_message <span class="position">@ line 64</span></summary><pre>state_message = fields.Text(
+        string="Message", help="The complementary information message about the state",
+        readonly=True)</pre></details><details><summary id="f-token_id">token_id <span class="position">@ line 56</span></summary><pre>token_id = fields.Many2one(
+        string="Payment Token", comodel_name='payment.token', readonly=True,
+        domain='[("provider_id", "=", "provider_id")]', ondelete='restrict')</pre></details><details><summary id="f-tokenize">tokenize <span class="position">@ line 102</span></summary><pre>tokenize = fields.Boolean(
+        string="Create Token",
+        help="Whether a payment token should be created when post-processing the transaction")</pre></details><h3>Methods</h3><ul id="m-_compute_refunds_count"><li>_compute_refunds_count(self) <span class="position">@ line 129</span></li></ul><details><summary id="m-_create_child_transaction">_create_child_transaction(self, amount, is_refund) <span class="position">@ line 585</span></summary><pre>Create a new transaction with the current transaction as its parent transaction.
+
+This happens only in case of a refund or a partial capture (where the initial transaction is
+split between smaller transactions, either captured or voided).
+
+Note: self.ensure_one()
+
+:param float amount: The strictly positive amount of the child transaction, in the same
+currency as the source transaction.
+:param bool is_refund: Whether the child transaction is a refund.
+:return: The created child transaction.
+:rtype: payment.transaction</pre></details><details><summary id="m-_cron_post_process">_cron_post_process(self) <span class="position">@ line 834</span></summary><pre>Trigger the post-processing of the transactions that were not handled by the client in
+the `poll_status` controller method.
+
+:return: None</pre></details><details><summary id="m-_ensure_provider_is_not_disabled">_ensure_provider_is_not_disabled(self) <span class="position">@ line 573</span></summary><pre>Ensure that the provider's state is not `disabled` before sending a request to its
+provider.
+
+:return: None
+:raise UserError: If the provider's state is `disabled`.</pre></details><details><summary id="m-_get_last">_get_last(self) <span class="position">@ line 1003</span></summary><pre>Return the last transaction of the recordset.
+
+:return: The last transaction of the recordset, sorted by id.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_get_mandate_values">_get_mandate_values(self) <span class="position">@ line 480</span></summary><pre>Return a dict of module-specific values used to create a mandate.
+
+For a module to add its own mandate values, it must overwrite this method and return a dict
+of module-specific values.
+
+Note: `self.ensure_one()`
+
+:return: The dict of module-specific mandate values.
+:rtype: dict</pre></details><details><summary id="m-_get_processing_values">_get_processing_values(self) <span class="position">@ line 399</span></summary><pre>Return the values used to process the transaction.
+
+The values are returned as a dict containing entries with the following keys:
+
+- `provider_id`: The provider handling the transaction, as a `payment.provider` id.
+- `provider_code`: The code of the provider.
+- `reference`: The reference of the transaction.
+- `amount`: The rounded amount of the transaction.
+- `currency_id`: The currency of the transaction, as a `res.currency` id.
+- `partner_id`: The partner making the transaction, as a `res.partner` id.
+- Additional provider-specific entries.
+
+Note: `self.ensure_one()`
+
+:return: The processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_received_message">_get_received_message(self) <span class="position">@ line 952</span></summary><pre>Return the message stating that the transaction has been received by the provider.
+
+Note: `self.ensure_one()`
+
+:return: The 'transaction received' message.
+:rtype: str</pre></details><details><summary id="m-_get_sent_message">_get_sent_message(self) <span class="position">@ line 912</span></summary><pre>Return the message stating that the transaction has been requested.
+
+Note: `self.ensure_one()`
+
+:return: The 'transaction sent' message.
+:rtype: str</pre></details><details><summary id="m-_get_specific_processing_values">_get_specific_processing_values(self, processing_values) <span class="position">@ line 453</span></summary><pre>Return a dict of provider-specific values used to process the transaction.
+
+For a provider to add its own processing values, it must overwrite this method and return a
+dict of provider-specific values based on the generic values returned by this method.
+Provider-specific values take precedence over those of the dict of generic processing
+values.
+
+:param dict processing_values: The generic processing values of the transaction.
+:return: The dict of provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 467</span></summary><pre>Return a dict of provider-specific values used to render the redirect form.
+
+For a provider to add its own rendering values, it must overwrite this method and return a
+dict of provider-specific values based on the processing values (provider-specific
+processing values included).
+
+:param dict processing_values: The processing values of the transaction.
+:return: The dict of provider-specific rendering values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 634</span></summary><pre>Find the transaction based on the notification data.
+
+For a provider to handle transaction processing, it must overwrite this method and return
+the transaction matching the notification data.
+
+:param str provider_code: The code of the provider handling the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction, if found.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_handle_notification_data">_handle_notification_data(self, provider_code, notification_data) <span class="position">@ line 622</span></summary><pre>Match the transaction with the notification data, update its state and return it.
+
+:param str provider_code: The code of the provider handling the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_log_message_on_linked_documents">_log_message_on_linked_documents(self, message) <span class="position">@ line 897</span></summary><pre>Log a message on the records linked to the transaction.
+
+For a module to implement payments and link documents to a transaction, it must override
+this method and call it, then log the message on documents linked to the transaction.
+
+Note: `self.ensure_one()`
+
+:param str message: The message to log.
+:return: None</pre></details><details><summary id="m-_log_received_message">_log_received_message(self) <span class="position">@ line 885</span></summary><pre>Log that the transactions have been received in the chatter of relevant documents.
+
+A transaction is 'received' when a payment status is received from the provider handling the
+transaction.
+
+:return: None</pre></details><details><summary id="m-_log_sent_message">_log_sent_message(self) <span class="position">@ line 876</span></summary><pre>Log that the transactions have been initiated in the chatter of relevant documents.
+
+:return: None</pre></details><details><summary id="m-_post_process">_post_process(self) <span class="position">@ line 862</span></summary><pre>Post-process the transactions.
+
+The generic post-processing only consists in flagging the transactions as post-processed.
+For a module to add its own logic to the post-processing, it must overwrite this method and
+apply its specific logic to the transactions, optionally after filtering them based on their
+state.
+
+:return: None</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 647</span></summary><pre>Update the transaction state and the provider reference based on the notification data.
+
+This method should usually not be called directly. The correct method to call upon receiving
+notification data is :meth:`_handle_notification_data`.
+
+For a provider to handle transaction processing, it must overwrite this method and process
+the notification data.
+
+Note: `self.ensure_one()`
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None</pre></details><details><summary id="m-_send_capture_request">_send_capture_request(self, amount_to_capture) <span class="position">@ line 530</span></summary><pre>Request the provider handling the transaction to capture the payment.
+
+For partial captures, create a child transaction linked to the source transaction.
+
+For a provider to support authorization, it must override this method and make an API
+request to capture the payment.
+
+Note: `self.ensure_one()`
+
+:param float amount_to_capture: The amount to capture.
+:return: The created capture child transaction, if any.
+:rtype: `payment.transaction`</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 494</span></summary><pre>Request the provider handling the transaction to make the payment.
+
+This method is exclusively used to make payments by token, which correspond to both the
+`online_token` and the `offline` transaction's `operation` field.
+
+For a provider to support tokenization, it must override this method and make an API request
+to make a payment.
+
+Note: `self.ensure_one()`
+
+:return: None</pre></details><details><summary id="m-_send_refund_request">_send_refund_request(self, amount_to_refund) <span class="position">@ line 511</span></summary><pre>Request the provider handling the transaction to refund it.
+
+For a provider to support refunds, it must override this method and make an API request to
+make a refund.
+
+Note: `self.ensure_one()`
+
+:param float amount_to_refund: The amount to be refunded.
+:return: The refund transaction created to process the refund request.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_send_void_request">_send_void_request(self, amount_to_void) <span class="position">@ line 551</span></summary><pre>Request the provider handling the transaction to void the payment.
+
+For partial voids, create a child transaction linked to the source transaction.
+
+For a provider to support authorization, it must override this method and make an API
+request to void the payment.
+
+Note: `self.ensure_one()`
+
+:param float amount_to_void: The amount to be voided.
+:return: The created void child transaction, if any.
+:rtype: payment.transaction</pre></details><details><summary id="m-_set_authorized">_set_authorized(self, state_message, extra_allowed_states) <span class="position">@ line 680</span></summary><pre>Update the transactions' state to `authorized`.
+
+:param str state_message: The reason for setting the transactions in the state `authorized`.
+:param tuple[str] extra_allowed_states: The extra states that should be considered allowed
+target states for the source state 'authorized'.
+:return: The updated transactions.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_set_canceled">_set_canceled(self, state_message, extra_allowed_states) <span class="position">@ line 715</span></summary><pre>Update the transactions' state to `cancel`.
+
+:param str state_message: The reason for setting the transactions in the state `cancel`.
+:param tuple[str] extra_allowed_states: The extra states that should be considered allowed
+target states for the source state 'canceled'.
+:return: The updated transactions.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_set_done">_set_done(self, state_message, extra_allowed_states) <span class="position">@ line 697</span></summary><pre>Update the transactions' state to `done`.
+
+:param str state_message: The reason for setting the transactions in the state `done`.
+:param tuple[str] extra_allowed_states: The extra states that should be considered allowed
+target states for the source state 'done'.
+:return: The updated transactions.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_set_error">_set_error(self, state_message, extra_allowed_states) <span class="position">@ line 733</span></summary><pre>Update the transactions' state to `error`.
+
+:param str state_message: The reason for setting the transactions in the state `error`.
+:param tuple[str] extra_allowed_states: The extra states that should be considered allowed
+target states for the source state 'error'.
+:return: The updated transactions.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_set_pending">_set_pending(self, state_message, extra_allowed_states) <span class="position">@ line 663</span></summary><pre>Update the transactions' state to `pending`.
+
+:param str state_message: The reason for setting the transactions in the state `pending`.
+:param tuple[str] extra_allowed_states: The extra states that should be considered allowed
+target states for the source state 'pending'.
+:return: The updated transactions.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_update_source_transaction_state">_update_source_transaction_state(self) <span class="position">@ line 810</span></summary><pre>Update the state of the source transactions for which all child transactions have
+reached a final state.
+
+:return: None</pre></details><details><summary id="m-_update_state">_update_state(self, allowed_states, target_state, state_message) <span class="position">@ line 750</span></summary><pre>Update the transactions' state to the target state if the current state allows it.
+
+If the current state is the same as the target state, the transaction is skipped and a log
+with level INFO is created.
+
+:param tuple[str] allowed_states: The allowed source states for the target state.
+:param str target_state: The target state.
+:param str state_message: The message to set as `state_message`.
+:return: The recordset of transactions whose state was updated.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-action_capture">action_capture(self) <span class="position">@ line 246</span></summary><pre>Open the partial capture wizard if it is supported by the related providers, otherwise
+capture the transactions immediately.
+
+:return: The action to open the partial capture wizard, if supported.
+:rtype: action.act_window|None</pre></details><details><summary id="m-action_refund">action_refund(self, amount_to_refund) <span class="position">@ line 288</span></summary><pre>Check the state of the transactions and request their refund.
+
+:param float amount_to_refund: The amount to be refunded.
+:return: None</pre></details><details><summary id="m-action_view_refunds">action_view_refunds(self) <span class="position">@ line 220</span></summary><pre>Return the windows action to browse the refund transactions linked to the transaction.
+
+Note: `self.ensure_one()`
+
+:return: The window action to browse the refund transactions.
+:rtype: dict</pre></details><details><summary id="m-action_void">action_void(self) <span class="position">@ line 273</span></summary><pre>Check the state of the transaction and request to have them voided.</pre></details><h2>Inherited: odoo/addons/website_payment/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-is_donation">is_donation <span class="position">@ line 11</span></summary><pre>is_donation = fields.Boolean(string="Is donation")</pre></details><h3>Methods</h3><ul id="m-_post_process"><li>_post_process(self) <span class="position">@ line 13</span></li></ul><ul id="m-_send_donation_email"><li>_send_donation_email(self, is_internal_notification, comment, recipient_email) <span class="position">@ line 27</span></li></ul><h2>Inherited: odoo/addons/sale/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-sale_order_ids">sale_order_ids <span class="position">@ line 13</span></summary><pre>sale_order_ids = fields.Many2many('sale.order', 'sale_order_transaction_rel', 'transaction_id', 'sale_order_id',
+                                      string='Sales Orders', copy=False, readonly=True)</pre></details><details><summary id="f-sale_order_ids_nbr">sale_order_ids_nbr <span class="position">@ line 15</span></summary><pre>sale_order_ids_nbr = fields.Integer(compute='_compute_sale_order_ids_nbr', string='# of Sales Orders')</pre></details><h3>Methods</h3><details><summary id="m-_check_amount_and_confirm_order">_check_amount_and_confirm_order(self) <span class="position">@ line 97</span></summary><pre>Confirm the sales order based on the amount of a transaction.
+
+Confirm the sales orders only if the transaction amount (or the sum of the partial
+transaction amounts) is equal to or greater than the required amount for order confirmation
+
+Grouped payments (paying multiple sales orders in one transaction) are not supported.
+
+:return: The confirmed sales orders.
+:rtype: a `sale.order` recordset</pre></details><ul id="m-_compute_sale_order_reference"><li>_compute_sale_order_reference(self, order) <span class="position">@ line 17</span></li></ul><details><summary id="m-_cron_send_invoice">_cron_send_invoice(self) <span class="position">@ line 153</span></summary><pre>Cron to send invoice that where not ready to be send directly after posting</pre></details><ul id="m-_invoice_sale_orders"><li>_invoice_sale_orders(self) <span class="position">@ line 174</span></li></ul><details><summary id="m-_log_message_on_linked_documents">_log_message_on_linked_documents(self, message) <span class="position">@ line 118</span></summary><pre>Override of payment to log a message on the sales orders linked to the transaction.
+
+Note: self.ensure_one()
+
+:param str message: The message to be logged
+:return: None</pre></details><details><summary id="m-_post_process">_post_process(self) <span class="position">@ line 37</span></summary><pre>Override of `payment` to add Sales-specific logic to the post-processing.
+
+In particular, for pending transactions, we send the quotation by email; for authorized
+transactions, we confirm the quotation; for confirmed transactions, we automatically confirm
+the quotation and generate invoices.</pre></details><ul id="m-_send_invoice"><li>_send_invoice(self) <span class="position">@ line 132</span></li></ul><ul id="m-action_view_sales_orders"><li>action_view_sales_orders(self) <span class="position">@ line 225</span></li></ul><h2>Inherited: odoo/addons/pos_online_payment/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-pos_order_id">pos_order_id <span class="position">@ line 11</span></summary><pre>pos_order_id = fields.Many2one('pos.order', string='POS Order', help='The Point of Sale order linked to the payment transaction', readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-_post_process">_post_process(self) <span class="position">@ line 27</span></summary><pre>Override of payment to process POS online payments automatically.</pre></details><ul id="m-_process_pos_online_payment"><li>_process_pos_online_payment(self) <span class="position">@ line 32</span></li></ul><details><summary id="m-action_view_pos_order">action_view_pos_order(self) <span class="position">@ line 71</span></summary><pre>Return the action for the view of the pos order linked to the transaction.</pre></details><h2>Inherited: odoo/addons/payment_xendit/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 20</span></summary><pre>Override of `payment` to return Xendit-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 88</span></summary><pre>Override of `payment` to find the transaction based on the notification data.
+
+:param str provider_code: The code of the provider that handled the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction if found.
+:rtype: payment.transaction
+:raise ValidationError: If inconsistent data were received.
+:raise ValidationError: If the data match no transaction.</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 113</span></summary><pre>Override of `payment` to process the transaction based on Xendit data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None
+:raise ValidationError: If inconsistent data were received.</pre></details><details><summary id="m-_xendit_prepare_invoice_request_payload">_xendit_prepare_invoice_request_payload(self) <span class="position">@ line 45</span></summary><pre>Create the payload for the invoice request based on the transaction values.
+
+:return: The request payload.
+:rtype: dict</pre></details><h2>Inherited: odoo/addons/payment_stripe/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_processing_values">_get_specific_processing_values(self, processing_values) <span class="position">@ line 23</span></summary><pre>Override of payment to return Stripe-specific processing values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 319</span></summary><pre>Override of payment to find the transaction based on Stripe data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if inconsistent data were received
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 353</span></summary><pre>Override of `payment` to process the transaction based on Stripe data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data build from information passed to the
+return route. Depending on the operation of the transaction,
+the entries with the keys 'payment_intent', 'setup_intent'
+and 'payment_method' can be populated with their
+corresponding Stripe API objects.
+:return: None
+:raise: ValidationError if inconsistent data were received</pre></details><details><summary id="m-_send_capture_request">_send_capture_request(self, amount_to_capture) <span class="position">@ line 271</span></summary><pre>Override of `payment` to send a capture request to Stripe.</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 46</span></summary><pre>Override of payment to send a payment request to Stripe with a confirmed PaymentIntent.
+
+Note: self.ensure_one()
+
+:return: None
+:raise: UserError if the transaction is not linked to a token</pre></details><details><summary id="m-_send_refund_request">_send_refund_request(self, amount_to_refund) <span class="position">@ line 237</span></summary><pre>Override of payment to send a refund request to Stripe.
+
+Note: self.ensure_one()
+
+:param float amount_to_refund: The amount to refund.
+:return: The refund transaction created to process the refund request.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_send_void_request">_send_void_request(self, amount_to_void) <span class="position">@ line 295</span></summary><pre>Override of `payment` to send a void request to Stripe.</pre></details><details><summary id="m-_stripe_create_customer">_stripe_create_customer(self) <span class="position">@ line 178</span></summary><pre>Create and return a Customer.
+
+:return: The Customer
+:rtype: dict</pre></details><details><summary id="m-_stripe_create_intent">_stripe_create_intent(self) <span class="position">@ line 77</span></summary><pre>Create and return a PaymentIntent or a SetupIntent object, depending on the operation.
+
+:return: The created PaymentIntent or SetupIntent object.
+:rtype: dict</pre></details><details><summary id="m-_stripe_prepare_mandate_options">_stripe_prepare_mandate_options(self) <span class="position">@ line 199</span></summary><pre>Prepare the configuration options for setting up an eMandate along with an intent.
+
+:return: The Stripe-formatted payload for the mandate options.
+:rtype: dict</pre></details><details><summary id="m-_stripe_prepare_payment_intent_payload">_stripe_prepare_payment_intent_payload(self) <span class="position">@ line 136</span></summary><pre>Prepare the payload for the creation of a PaymentIntent object in Stripe format.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+
+:return: The Stripe-formatted payload for the PaymentIntent request.
+:rtype: dict</pre></details><details><summary id="m-_stripe_prepare_setup_intent_payload">_stripe_prepare_setup_intent_payload(self) <span class="position">@ line 118</span></summary><pre>Prepare the payload for the creation of a SetupIntent object in Stripe format.
+
+Note: This method serves as a hook for modules that would fully implement Stripe Connect.
+
+:return: The Stripe-formatted payload for the SetupIntent request.
+:rtype: dict</pre></details><details><summary id="m-_stripe_tokenize_from_notification_data">_stripe_tokenize_from_notification_data(self, notification_data) <span class="position">@ line 437</span></summary><pre>Create a new token based on the notification data.
+
+:param dict notification_data: The notification data built with Stripe objects.
+See `_process_notification_data`.
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_sips/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 50</span></summary><pre>Override of payment to return Sips-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 85</span></summary><pre>Override of payment to find the transaction based on Sips data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 113</span></summary><pre>Override of payment to process the transaction based on Sips data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><ul id="m-_sips_notification_data_to_object"><li>_sips_notification_data_to_object(self, data) <span class="position">@ line 159</span></li></ul><h2>Inherited: odoo/addons/payment_razorpay/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_processing_values">_get_specific_processing_values(self, processing_values) <span class="position">@ line 23</span></summary><pre>Override of `payment` to return razorpay-specific processing values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the
+transaction.
+:return: The provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 308</span></summary><pre>Override of `payment` to find the transaction based on razorpay data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The normalized notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 373</span></summary><pre>Override of `payment` to process the transaction based on Razorpay data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><details><summary id="m-_razorpay_create_customer">_razorpay_create_customer(self) <span class="position">@ line 49</span></summary><pre>Create and return a Customer object.
+
+:return: The created Customer.
+:rtype: dict</pre></details><details><summary id="m-_razorpay_create_order">_razorpay_create_order(self, customer_id) <span class="position">@ line 91</span></summary><pre>Create and return an Order object to initiate the payment.
+
+:param str customer_id: The ID of the Customer object to assign to the Order for
+non-subsequent payments.
+:return: The created Order.
+:rtype: dict</pre></details><details><summary id="m-_razorpay_create_refund_tx_from_notification_data">_razorpay_create_refund_tx_from_notification_data(self, source_tx, notification_data) <span class="position">@ line 351</span></summary><pre>Create a refund transaction based on Razorpay data.
+
+:param recordset source_tx: The source transaction for which a refund is initiated, as a
+`payment.transaction` recordset.
+:param dict notification_data: The notification data sent by the provider.
+:return: The newly created refund transaction.
+:rtype: recordset of `payment.transaction`
+:raise ValidationError: If inconsistent data were received.</pre></details><details><summary id="m-_razorpay_get_mandate_max_amount">_razorpay_get_mandate_max_amount(self) <span class="position">@ line 153</span></summary><pre>Return the eMandate's maximum amount to define.
+
+:return: The eMandate's maximum amount.
+:rtype: float</pre></details><details><summary id="m-_razorpay_prepare_order_payload">_razorpay_prepare_order_payload(self, customer_id) <span class="position">@ line 111</span></summary><pre>Prepare the payload for the order request based on the transaction values.
+
+:param str customer_id: The ID of the Customer object to assign to the Order for
+non-subsequent payments.
+:return: The request payload.
+:rtype: dict</pre></details><details><summary id="m-_razorpay_tokenize_from_notification_data">_razorpay_tokenize_from_notification_data(self, notification_data) <span class="position">@ line 448</span></summary><pre>Create a new token based on the notification data.
+
+:param dict notification_data: The notification data built with Razorpay objects.
+See `_process_notification_data`.
+:return: None</pre></details><details><summary id="m-_send_capture_request">_send_capture_request(self, amount_to_capture) <span class="position">@ line 274</span></summary><pre>Override of `payment` to send a capture request to Razorpay.</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 187</span></summary><pre>Override of `payment` to send a payment request to Razorpay.
+
+Note: self.ensure_one()
+
+:return: None
+:raise UserError: If the transaction is not linked to a token.</pre></details><details><summary id="m-_send_refund_request">_send_refund_request(self, amount_to_refund) <span class="position">@ line 235</span></summary><pre>Override of `payment` to send a refund request to Razorpay.
+
+Note: self.ensure_one()
+
+:param float amount_to_refund: The amount to refund.
+:return: The refund transaction created to process the refund request.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_send_void_request">_send_void_request(self, amount_to_void) <span class="position">@ line 299</span></summary><pre>Override of `payment` to explain that it is impossible to void a Razorpay transaction.</pre></details><h2>Inherited: odoo/addons/payment_payumoney/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 15</span></summary><pre>Override of payment to return Payumoney-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 48</span></summary><pre>Override of payment to find the transaction based on Payumoney data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if inconsistent data were received
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 76</span></summary><pre>Override of payment to process the transaction based on Payumoney data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_payulatam/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 53</span></summary><pre>Override of payment to return Payulatam-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 95</span></summary><pre>Override of payment to find the transaction based on Payulatam data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 117</span></summary><pre>Override of payment to process the transaction based on Payulatam data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_paypal/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-paypal_type">paypal_type <span class="position">@ line 22</span></summary><pre>paypal_type = fields.Char(string="PayPal Transaction Type")</pre></details><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 24</span></summary><pre>Override of payment to return Paypal-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 65</span></summary><pre>Override of payment to find the transaction based on Paypal data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 86</span></summary><pre>Override of payment to process the transaction based on Paypal data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None
+:raise: ValidationError if inconsistent data were received</pre></details><h2>Inherited: odoo/addons/payment_ogone/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 53</span></summary><pre>Override of payment to return Ogone-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 164</span></summary><pre>Override of payment to find the transaction based on Ogone data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_ogone_tokenize_from_notification_data">_ogone_tokenize_from_notification_data(self, notification_data) <span class="position">@ line 241</span></summary><pre>Create a token from notification data.
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 185</span></summary><pre>Override of payment to process the transaction based on Ogone data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 103</span></summary><pre>Override of payment to send a payment request to Ogone.
+
+Note: self.ensure_one()
+
+:return: None
+:raise: UserError if the transaction is not linked to a token</pre></details><h2>Inherited: odoo/addons/payment_mollie/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 21</span></summary><pre>Override of payment to return Mollie-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific rendering values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 77</span></summary><pre>Override of payment to find the transaction based on Mollie data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_mollie_prepare_payment_request_payload">_mollie_prepare_payment_request_payload(self) <span class="position">@ line 50</span></summary><pre>Create the payload for the payment request based on the transaction values.
+
+:return: The request payload
+:rtype: dict</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 99</span></summary><pre>Override of payment to process the transaction based on Mollie data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_mercado_pago/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 22</span></summary><pre>Override of `payment` to return Mercado Pago-specific rendering values.
+
+Note: self.ensure_one() from `_get_rendering_values`.
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 110</span></summary><pre>Override of `payment` to find the transaction based on Mercado Pago data.
+
+:param str provider_code: The code of the provider that handled the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction if found.
+:rtype: recordset of `payment.transaction`
+:raise ValidationError: If inconsistent data were received.
+:raise ValidationError: If the data match no transaction.</pre></details><details><summary id="m-_mercado_pago_prepare_preference_request_payload">_mercado_pago_prepare_preference_request_payload(self) <span class="position">@ line 54</span></summary><pre>Create the payload for the preference request based on the transaction values.
+
+:return: The request payload.
+:rtype: dict</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 135</span></summary><pre>Override of `payment` to process the transaction based on Mercado Pago data.
+
+Note: self.ensure_one() from `_process_notification_data`
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None
+:raise ValidationError: If inconsistent data were received.</pre></details><h2>Inherited: odoo/addons/payment_flutterwave/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_flutterwave_tokenize_from_notification_data">_flutterwave_tokenize_from_notification_data(self, notification_data) <span class="position">@ line 183</span></summary><pre>Create a new token based on the notification data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None</pre></details><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 22</span></summary><pre>Override of payment to return Flutterwave-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 104</span></summary><pre>Override of payment to find the transaction based on Flutterwave data.
+
+:param str provider_code: The code of the provider that handled the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction if found.
+:rtype: recordset of `payment.transaction`
+:raise ValidationError: If inconsistent data were received.
+:raise ValidationError: If the data match no transaction.</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 129</span></summary><pre>Override of payment to process the transaction based on Flutterwave data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None
+:raise ValidationError: If inconsistent data were received.</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 63</span></summary><pre>Override of payment to send a payment request to Flutterwave.
+
+Note: self.ensure_one()
+
+:return: None
+:raise UserError: If the transaction is not linked to a token.</pre></details><h2>Inherited: odoo/addons/payment_demo/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-capture_manually">capture_manually <span class="position">@ line 14</span></summary><pre>capture_manually = fields.Boolean(related='provider_id.capture_manually')</pre></details><h3>Methods</h3><details><summary id="m-_demo_tokenize_from_notification_data">_demo_tokenize_from_notification_data(self, notification_data) <span class="position">@ line 191</span></summary><pre>Create a new token based on the notification data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The fake notification data to tokenize from.
+:return: None</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 126</span></summary><pre>Override of payment to find the transaction based on dummy data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The dummy notification data
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 147</span></summary><pre>Override of payment to process the transaction based on dummy data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The dummy notification data
+:return: None
+:raise: ValidationError if inconsistent data were received</pre></details><details><summary id="m-_send_capture_request">_send_capture_request(self, amount_to_capture) <span class="position">@ line 98</span></summary><pre>Override of `payment` to simulate a capture request.</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 62</span></summary><pre>Override of payment to simulate a payment request.
+
+Note: self.ensure_one()
+
+:return: None</pre></details><details><summary id="m-_send_refund_request">_send_refund_request(self) <span class="position">@ line 80</span></summary><pre>Override of payment to simulate a refund.
+
+Note: self.ensure_one()
+
+:param dict kwargs: The keyword arguments.
+:return: The refund transaction created to process the refund request.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_send_void_request">_send_void_request(self, amount_to_void) <span class="position">@ line 114</span></summary><pre>Override of `payment` to simulate a void request.</pre></details><details><summary id="m-action_demo_set_canceled">action_demo_set_canceled(self) <span class="position">@ line 32</span></summary><pre>Set the state of the demo transaction to 'cancel'.
+
+Note: self.ensure_one()
+
+:return: None</pre></details><details><summary id="m-action_demo_set_done">action_demo_set_done(self) <span class="position">@ line 18</span></summary><pre>Set the state of the demo transaction to 'done'.
+
+Note: self.ensure_one()
+
+:return: None</pre></details><details><summary id="m-action_demo_set_error">action_demo_set_error(self) <span class="position">@ line 46</span></summary><pre>Set the state of the demo transaction to 'error'.
+
+Note: self.ensure_one()
+
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_custom/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_communication">_get_communication(self) <span class="position">@ line 34</span></summary><pre>Return the communication the user should use for their transaction.
+
+This communication might change according to the settings and the accounting localization.
+
+Note: self.ensure_one()
+
+:return: The selected communication.
+:rtype: str</pre></details><details><summary id="m-_get_sent_message">_get_sent_message(self) <span class="position">@ line 99</span></summary><pre>Override of payment to return a different message.
+
+:return: The 'transaction sent' message
+:rtype: str</pre></details><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 16</span></summary><pre>Override of payment to return custom-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 52</span></summary><pre>Override of payment to find the transaction based on custom data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification feedback data
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_log_received_message">_log_received_message(self) <span class="position">@ line 91</span></summary><pre>Override of `payment` to remove custom providers from the recordset.
+
+:return: None</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 73</span></summary><pre>Override of payment to process the transaction based on custom data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The custom data
+:return: None</pre></details><h2>Inherited: odoo/addons/payment_buckaroo/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 19</span></summary><pre>Override of payment to return Buckaroo-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 52</span></summary><pre>Override of payment to find the transaction based on Buckaroo data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The normalized notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 74</span></summary><pre>Override of payment to process the transaction based on Buckaroo data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The normalized notification data sent by the provider
+:return: None
+:raise: ValidationError if inconsistent data were received</pre></details><h2>Inherited: odoo/addons/payment_authorize/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_authorize_create_transaction_request">_authorize_create_transaction_request(self, opaque_data) <span class="position">@ line 39</span></summary><pre>Create an Authorize.Net payment transaction request.
+
+Note: self.ensure_one()
+
+:param dict opaque_data: The payment details obfuscated by Authorize.Net
+:return:</pre></details><details><summary id="m-_authorize_tokenize">_authorize_tokenize(self) <span class="position">@ line 270</span></summary><pre>Create a token for the current transaction.
+
+Note: self.ensure_one()
+
+:return: None</pre></details><details><summary id="m-_get_specific_processing_values">_get_specific_processing_values(self, processing_values) <span class="position">@ line 20</span></summary><pre>Override of payment to return an access token as provider-specific processing values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 180</span></summary><pre>Find the transaction based on Authorize.net data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 200</span></summary><pre>Override of payment to process the transaction based on Authorize data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><details><summary id="m-_send_capture_request">_send_capture_request(self, amount_to_capture) <span class="position">@ line 147</span></summary><pre>Override of `payment` to send a capture request to Authorize.</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 55</span></summary><pre>Override of payment to send a payment request to Authorize.
+
+Note: self.ensure_one()
+
+:return: None
+:raise: UserError if the transaction is not linked to a token</pre></details><details><summary id="m-_send_refund_request">_send_refund_request(self, amount_to_refund) <span class="position">@ line 85</span></summary><pre>Override of payment to send a refund request to Authorize.
+
+Note: self.ensure_one()
+
+:param float amount_to_refund: The amount to refund
+:return: The refund transaction created to process the refund request.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_send_void_request">_send_void_request(self, amount_to_void) <span class="position">@ line 164</span></summary><pre>Override of payment to send a void request to Authorize.</pre></details><h2>Inherited: odoo/addons/payment_asiapay/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 51</span></summary><pre>Override of `payment` to return AsiaPay-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`.
+
+:param dict processing_values: The generic and specific processing values of the
+transaction.
+:return: The dict of provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 106</span></summary><pre>Override of `payment` to find the transaction based on AsiaPay data.
+
+:param str provider_code: The code of the provider that handled the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction if found.
+:rtype: recordset of `payment.transaction`
+:raise ValidationError: If inconsistent data are received.
+:raise ValidationError: If the data match no transaction.</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 134</span></summary><pre>Override of `payment' to process the transaction based on AsiaPay data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None
+:raise ValidationError: If inconsistent data are received.</pre></details><h2>Inherited: odoo/addons/payment_aps/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 43</span></summary><pre>Override of `payment` to return APS-specific processing values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic processing values of the transaction.
+:return: The dict of provider-specific processing values.
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 80</span></summary><pre>Override of `payment` to find the transaction based on APS data.
+
+:param str provider_code: The code of the provider that handled the transaction.
+:param dict notification_data: The notification data sent by the provider.
+:return: The transaction if found.
+:rtype: recordset of `payment.transaction`
+:raise ValidationError: If inconsistent data are received.
+:raise ValidationError: If the data match no transaction.</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 108</span></summary><pre>Override of `payment' to process the transaction based on APS data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider.
+:return: None
+:raise ValidationError: If inconsistent data are received.</pre></details><h2>Inherited: odoo/addons/payment_alipay/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_get_specific_rendering_values">_get_specific_rendering_values(self, processing_values) <span class="position">@ line 19</span></summary><pre>Override of payment to return Alipay-specific rendering values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic and specific processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 64</span></summary><pre>Override of payment to find the transaction based on Alipay data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if inconsistent data were received
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 96</span></summary><pre>Override of payment to process the transaction based on Alipay data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None
+:raise: ValidationError if inconsistent data were received</pre></details><h2>Inherited: odoo/addons/payment_adyen/models/payment_transaction.py</h2><h3>Methods</h3><details><summary id="m-_adyen_create_child_tx_from_notification_data">_adyen_create_child_tx_from_notification_data(self, source_tx, notification_data, is_refund) <span class="position">@ line 337</span></summary><pre>Create a child transaction based on Adyen data.
+
+:param payment.transaction source_tx: The source transaction for which a new operation is
+initiated.
+:param dict notification_data: The notification data sent by the provider
+:return: The newly created child transaction.
+:rtype: payment.transaction
+:raise ValidationError: If inconsistent data were received.</pre></details><details><summary id="m-_adyen_tokenize_from_notification_data">_adyen_tokenize_from_notification_data(self, notification_data) <span class="position">@ line 477</span></summary><pre>Create a new token based on the notification data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None</pre></details><details><summary id="m-_get_specific_processing_values">_get_specific_processing_values(self, processing_values) <span class="position">@ line 22</span></summary><pre>Override of payment to return Adyen-specific processing values.
+
+Note: self.ensure_one() from `_get_processing_values`
+
+:param dict processing_values: The generic processing values of the transaction
+:return: The dict of provider-specific processing values
+:rtype: dict</pre></details><details><summary id="m-_get_tx_from_notification_data">_get_tx_from_notification_data(self, provider_code, notification_data) <span class="position">@ line 245</span></summary><pre>Override of payment to find the transaction based on Adyen data.
+
+:param str provider_code: The code of the provider that handled the transaction
+:param dict notification_data: The notification data sent by the provider
+:return: The transaction if found
+:rtype: recordset of `payment.transaction`
+:raise: ValidationError if inconsistent data were received
+:raise: ValidationError if the data match no transaction</pre></details><details><summary id="m-_process_notification_data">_process_notification_data(self, notification_data) <span class="position">@ line 361</span></summary><pre>Override of payment to process the transaction based on Adyen data.
+
+Note: self.ensure_one()
+
+:param dict notification_data: The notification data sent by the provider
+:return: None
+:raise: ValidationError if inconsistent data were received</pre></details><details><summary id="m-_send_capture_request">_send_capture_request(self, amount_to_capture) <span class="position">@ line 169</span></summary><pre>Override of `payment` to send a capture request to Adyen.</pre></details><details><summary id="m-_send_payment_request">_send_payment_request(self) <span class="position">@ line 48</span></summary><pre>Override of payment to send a payment request to Adyen.
+
+Note: self.ensure_one()
+
+:return: None
+:raise: UserError if the transaction is not linked to a token</pre></details><details><summary id="m-_send_refund_request">_send_refund_request(self, amount_to_refund) <span class="position">@ line 121</span></summary><pre>Override of payment to send a refund request to Adyen.
+
+Note: self.ensure_one()
+
+:param float amount_to_refund: The amount to refund
+:return: The refund transaction created to process the refund request.
+:rtype: recordset of `payment.transaction`</pre></details><details><summary id="m-_send_void_request">_send_void_request(self, amount_to_void) <span class="position">@ line 212</span></summary><pre>Override of `payment` to send a void request to Adyen.</pre></details><h2>Inherited: odoo/addons/account_payment/models/payment_transaction.py</h2><h3>Fields</h3><details><summary id="f-invoice_ids">invoice_ids <span class="position">@ line 12</span></summary><pre>invoice_ids = fields.Many2many(
+        string="Invoices", comodel_name='account.move', relation='account_invoice_transaction_rel',
+        column1='transaction_id', column2='invoice_id', readonly=True, copy=False,
+        domain=[('move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))])</pre></details><details><summary id="f-invoices_count">invoices_count <span class="position">@ line 16</span></summary><pre>invoices_count = fields.Integer(string="Invoices Count", compute='_compute_invoices_count')</pre></details><details><summary id="f-payment_id">payment_id <span class="position">@ line 9</span></summary><pre>payment_id = fields.Many2one(
+        string="Payment", comodel_name='account.payment', readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-_create_payment">_create_payment(self) <span class="position">@ line 132</span></summary><pre>Create an `account.payment` record for the current transaction.
+
+If the transaction is linked to some invoices, their reconciliation is done automatically.
+
+Note: self.ensure_one()
+
+:param dict extra_create_values: Optional extra create values
+:return: The created payment
+:rtype: recordset of `account.payment`</pre></details><details><summary id="m-_log_message_on_linked_documents">_log_message_on_linked_documents(self, message) <span class="position">@ line 189</span></summary><pre>Log a message on the payment and the invoices linked to the transaction.
+
+For a module to implement payments and link documents to a transaction, it must override
+this method and call super, then log the message on documents linked to the transaction.
+
+Note: self.ensure_one()
+
+:param str message: The message to be logged
+:return: None</pre></details><details><summary id="m-_post_process">_post_process(self) <span class="position">@ line 96</span></summary><pre>Override of `payment` to add account-specific logic to the post-processing.
+
+In particular, for confirmed transactions we write a message in the chatter with the payment
+and transaction references, post relevant fiscal documents, and create missing payments. For
+cancelled transactions, we cancel the payment.</pre></details><details><summary id="m-action_view_invoices">action_view_invoices(self) <span class="position">@ line 39</span></summary><pre>Return the action for the views of the invoices linked to the transaction.
+
+Note: self.ensure_one()
+
+:return: The action
+:rtype: dict</pre></details><script src="class.js"></script></body></html>

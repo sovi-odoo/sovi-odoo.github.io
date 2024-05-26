@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>chat.room - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>chat.room</h1><p>Originally defined in: odoo/addons/website_jitsi/models/chat_room.py</p><hr/><h2>Original: odoo/addons/website_jitsi/models/chat_room.py</h2><h3>Fields</h3><details><summary id="f-is_full">is_full <span class="position">@ line 28</span></summary><pre>is_full = fields.Boolean("Full", compute="_compute_is_full")</pre></details><details><summary id="f-jitsi_server_domain">jitsi_server_domain <span class="position">@ line 29</span></summary><pre>jitsi_server_domain = fields.Char(
+        'Jitsi Server Domain', compute='_compute_jitsi_server_domain',
+        help='The Jitsi server domain can be customized through the settings to use a different server than the default "meet.jit.si"')</pre></details><details><summary id="f-lang_id">lang_id <span class="position">@ line 32</span></summary><pre>lang_id = fields.Many2one(
+        "res.lang", "Language",
+        default=lambda self: self.env["res.lang"].search([("code", "=", self.env.user.lang)], limit=1))</pre></details><details><summary id="f-last_activity">last_activity <span class="position">@ line 41</span></summary><pre>last_activity = fields.Datetime(
+        "Last Activity", copy=False, readonly=True,
+        default=lambda self: fields.Datetime.now())</pre></details><details><summary id="f-max_capacity">max_capacity <span class="position">@ line 35</span></summary><pre>max_capacity = fields.Selection(
+        [("4", "4"), ("8", "8"), ("12", "12"), ("16", "16"),
+         ("20", "20"), ("no_limit", "No limit")], string="Max capacity",
+        default="8", required=True)</pre></details><details><summary id="f-max_participant_reached">max_participant_reached <span class="position">@ line 44</span></summary><pre>max_participant_reached = fields.Integer(
+        "Max participant reached", copy=False, readonly=True,
+        help="Maximum number of participant reached in the room at the same time")</pre></details><details><summary id="f-name">name <span class="position">@ line 25</span></summary><pre>name = fields.Char(
+        "Room Name", required=True, copy=False,
+        default=lambda self: self._default_name())</pre></details><details><summary id="f-participant_count">participant_count <span class="position">@ line 39</span></summary><pre>participant_count = fields.Integer("Participant count", default=0, copy=False)</pre></details><h3>Methods</h3><ul id="m-_compute_jitsi_server_domain"><li>_compute_jitsi_server_domain(self) <span class="position">@ line 56</span></li></ul><ul id="m-_default_name"><li>_default_name(self, objname) <span class="position">@ line 22</span></li></ul><script src="class.js"></script></body></html>

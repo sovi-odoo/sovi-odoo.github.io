@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.payment.term.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.payment.term.line</h1><p>Originally defined in: odoo/addons/account/models/account_payment_term.py</p><hr/><h2>Original: odoo/addons/account/models/account_payment_term.py</h2><h3>Fields</h3><details><summary id="f-days_next_month">days_next_month <span class="position">@ line 272</span></summary><pre>days_next_month = fields.Char(
+        string='Days on the next month',
+        readonly=False,
+        default='10',
+        size=2,
+    )</pre></details><details><summary id="f-delay_type">delay_type <span class="position">@ line 265</span></summary><pre>delay_type = fields.Selection([
+            ('days_after', 'Days after invoice date'),
+            ('days_after_end_of_month', 'Days after end of month'),
+            ('days_after_end_of_next_month', 'Days after end of next month'),
+            ('days_end_of_month_on_the', 'Days end of month on the'),
+        ], required=True, default='days_after')</pre></details><details><summary id="f-display_days_next_month">display_days_next_month <span class="position">@ line 271</span></summary><pre>display_days_next_month = fields.Boolean(compute='_compute_display_days_next_month')</pre></details><details><summary id="f-nb_days">nb_days <span class="position">@ line 278</span></summary><pre>nb_days = fields.Integer(string='Days', readonly=False, store=True, compute='_compute_days')</pre></details><details><summary id="f-payment_id">payment_id <span class="position">@ line 279</span></summary><pre>payment_id = fields.Many2one('account.payment.term', string='Payment Terms', required=True, index=True, ondelete='cascade')</pre></details><details><summary id="f-value">value <span class="position">@ line 257</span></summary><pre>value = fields.Selection([
+            ('percent', 'Percent'),
+            ('fixed', 'Fixed')
+        ], required=True, default='percent',
+        help="Select here the kind of valuation related to this payment terms line.")</pre></details><details><summary id="f-value_amount">value_amount <span class="position">@ line 262</span></summary><pre>value_amount = fields.Float(string='Due', digits='Payment Terms',
+                                help="For percent enter a ratio between 0-100.",
+                                compute='_compute_value_amount', store=True, readonly=False)</pre></details><h3>Methods</h3><ul id="m-_get_due_date"><li>_get_due_date(self, date_ref) <span class="position">@ line 281</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sale.order.template - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sale.order.template</h1><p>Originally defined in: odoo/addons/sale_management/models/sale_order_template.py</p><p>Inherited in: odoo/addons/sale_pdf_quote_builder/models/sale_order_template.py<br/></p><hr/><h2>Original: odoo/addons/sale_management/models/sale_order_template.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 13</span></summary><pre>active = fields.Boolean(
+        default=True,
+        help="If unchecked, it will allow you to hide the quotation template without removing it.")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 16</span></summary><pre>company_id = fields.Many2one(comodel_name='res.company', default=lambda self: self.env.company)</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 55</span></summary><pre>journal_id = fields.Many2one(
+        'account.journal', string="Invoicing Journal",
+        domain=[('type', '=', 'sale')], company_dependent=True, check_company=True,
+        help="If set, SO with this template will invoice in this journal; "
+             "otherwise the sales journal with the lowest sequence is used.")</pre></details><details><summary id="f-mail_template_id">mail_template_id <span class="position">@ line 22</span></summary><pre>mail_template_id = fields.Many2one(
+        comodel_name='mail.template',
+        string="Confirmation Mail",
+        domain=[('model', '=', 'sale.order')],
+        help="This e-mail template will be sent on confirmation. Leave empty to send nothing.")</pre></details><details><summary id="f-name">name <span class="position">@ line 18</span></summary><pre>name = fields.Char(string="Quotation Template", required=True)</pre></details><details><summary id="f-note">note <span class="position">@ line 19</span></summary><pre>note = fields.Html(string="Terms and conditions", translate=True)</pre></details><details><summary id="f-number_of_days">number_of_days <span class="position">@ line 27</span></summary><pre>number_of_days = fields.Integer(
+        string="Quotation Duration",
+        help="Number of days for the validity date computation of the quotation")</pre></details><details><summary id="f-prepayment_percent">prepayment_percent <span class="position">@ line 41</span></summary><pre>prepayment_percent = fields.Float(
+        string="Prepayment percentage",
+        compute="_compute_prepayment_percent",
+        store=True, readonly=False,
+        help="The percentage of the amount needed to be paid to confirm quotations.")</pre></details><details><summary id="f-require_payment">require_payment <span class="position">@ line 36</span></summary><pre>require_payment = fields.Boolean(
+        string="Online Payment",
+        compute='_compute_require_payment',
+        store=True, readonly=False,
+        help="Request an online payment to the customer in order to confirm orders automatically.")</pre></details><details><summary id="f-require_signature">require_signature <span class="position">@ line 31</span></summary><pre>require_signature = fields.Boolean(
+        string="Online Signature",
+        compute='_compute_require_signature',
+        store=True, readonly=False,
+        help="Request a online signature to the customer in order to confirm orders automatically.")</pre></details><details><summary id="f-sale_order_template_line_ids">sale_order_template_line_ids <span class="position">@ line 47</span></summary><pre>sale_order_template_line_ids = fields.One2many(
+        comodel_name='sale.order.template.line', inverse_name='sale_order_template_id',
+        string="Lines",
+        copy=True)</pre></details><details><summary id="f-sale_order_template_option_ids">sale_order_template_option_ids <span class="position">@ line 51</span></summary><pre>sale_order_template_option_ids = fields.One2many(
+        comodel_name='sale.order.template.option', inverse_name='sale_order_template_id',
+        string="Optional Products",
+        copy=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 20</span></summary><pre>sequence = fields.Integer(default=10)</pre></details><h3>Methods</h3><ul id="m-_update_product_translations"><li>_update_product_translations(self) <span class="position">@ line 125</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 117</span></li></ul><h2>Inherited: odoo/addons/sale_pdf_quote_builder/models/sale_order_template.py</h2><h3>Fields</h3><details><summary id="f-sale_footer">sale_footer <span class="position">@ line 16</span></summary><pre>sale_footer = fields.Binary(
+        string="Footer pages", default=lambda self: self.env.company.sale_footer)</pre></details><details><summary id="f-sale_footer_name">sale_footer_name <span class="position">@ line 18</span></summary><pre>sale_footer_name = fields.Char(default=lambda self: self.env.company.sale_footer_name)</pre></details><details><summary id="f-sale_header">sale_header <span class="position">@ line 13</span></summary><pre>sale_header = fields.Binary(
+        string="Header pages", default=lambda self: self.env.company.sale_header)</pre></details><details><summary id="f-sale_header_name">sale_header_name <span class="position">@ line 15</span></summary><pre>sale_header_name = fields.Char(default=lambda self: self.env.company.sale_header_name)</pre></details><script src="class.js"></script></body></html>

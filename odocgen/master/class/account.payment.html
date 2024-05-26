@@ -1,0 +1,231 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.payment - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.payment</h1><p>Inherited in: odoo/addons/website_payment/models/account_payment.py<br/>Inherited in: odoo/addons/pos_online_payment/models/account_payment.py<br/>Inherited in: odoo/addons/point_of_sale/models/account_payment.py<br/>Inherited in: odoo/addons/l10n_ph/models/account_payment.py<br/>Inherited in: odoo/addons/l10n_nz/models/account_payment.py<br/>Inherited in: odoo/addons/l10n_latam_check/models/account_payment.py<br/>Inherited in: odoo/addons/l10n_ch/models/account_payment.py<br/>Inherited in: odoo/addons/l10n_au/models/account_payment.py<br/>Inherited in: odoo/addons/l10n_ar_withholding/models/account_payment.py<br/>Inherited in: odoo/addons/hr_expense/models/account_payment.py<br/>Inherited in: odoo/addons/account_payment/models/account_payment.py<br/>Inherited in: odoo/addons/account_check_printing/models/account_payment.py<br/>Inherited in: odoo/addons/account/models/account_payment.py<br/></p><hr/><h2>Inherited: odoo/addons/website_payment/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-is_donation">is_donation <span class="position">@ line 10</span></summary><pre>is_donation = fields.Boolean(string="Is Donation", related="payment_transaction_id.is_donation")</pre></details><h2>Inherited: odoo/addons/pos_online_payment/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-pos_order_id">pos_order_id <span class="position">@ line 10</span></summary><pre>pos_order_id = fields.Many2one('pos.order', string='POS Order', help='The Point of Sale order linked to this payment', readonly=True)</pre></details><h3>Methods</h3><details><summary id="m-action_view_pos_order">action_view_pos_order(self) <span class="position">@ line 12</span></summary><pre>Return the action for the view of the pos order linked to the payment.</pre></details><h2>Inherited: odoo/addons/point_of_sale/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-force_outstanding_account_id">force_outstanding_account_id <span class="position">@ line 11</span></summary><pre>force_outstanding_account_id = fields.Many2one("account.account", "Forced Outstanding Account", check_company=True)</pre></details><details><summary id="f-pos_payment_method_id">pos_payment_method_id <span class="position">@ line 10</span></summary><pre>pos_payment_method_id = fields.Many2one('pos.payment.method', "POS Payment Method")</pre></details><details><summary id="f-pos_session_id">pos_session_id <span class="position">@ line 12</span></summary><pre>pos_session_id = fields.Many2one('pos.session', "POS Session")</pre></details><h3>Methods</h3><ul id="m-_get_valid_liquidity_accounts"><li>_get_valid_liquidity_accounts(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/l10n_ph/models/account_payment.py</h2><h3>Methods</h3><ul id="m-action_open_l10n_ph_2307_wizard"><li>action_open_l10n_ph_2307_wizard(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/l10n_latam_check/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-l10n_latam_check_bank_id">l10n_latam_check_bank_id <span class="position">@ line 38</span></summary><pre>l10n_latam_check_bank_id = fields.Many2one(
+        comodel_name='res.bank',
+        string='Check Bank',
+        compute='_compute_l10n_latam_check_bank_id', store=True, readonly=False,
+    )</pre></details><details><summary id="f-l10n_latam_check_current_journal_id">l10n_latam_check_current_journal_id <span class="position">@ line 25</span></summary><pre>l10n_latam_check_current_journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string="Check Current Journal",
+        compute='_compute_l10n_latam_check_current_journal', store=True,
+    )</pre></details><details><summary id="f-l10n_latam_check_id">l10n_latam_check_id <span class="position">@ line 13</span></summary><pre>l10n_latam_check_id = fields.Many2one(
+        comodel_name='account.payment',
+        string='Check',
+        copy=False,
+        check_company=True,
+    )</pre></details><details><summary id="f-l10n_latam_check_issuer_vat">l10n_latam_check_issuer_vat <span class="position">@ line 43</span></summary><pre>l10n_latam_check_issuer_vat = fields.Char(
+        string='Check Issuer VAT',
+        compute='_compute_l10n_latam_check_issuer_vat', store=True, readonly=False,
+    )</pre></details><details><summary id="f-l10n_latam_check_number">l10n_latam_check_number <span class="position">@ line 34</span></summary><pre>l10n_latam_check_number = fields.Char(
+        compute='_compute_l10n_latam_check_number', inverse='_inverse_l10n_latam_check_number',
+    )</pre></details><details><summary id="f-l10n_latam_check_operation_ids">l10n_latam_check_operation_ids <span class="position">@ line 19</span></summary><pre>l10n_latam_check_operation_ids = fields.One2many(
+        comodel_name='account.payment',
+        inverse_name='l10n_latam_check_id',
+        string='Check Operations',
+        readonly=True,
+    )</pre></details><details><summary id="f-l10n_latam_check_payment_date">l10n_latam_check_payment_date <span class="position">@ line 47</span></summary><pre>l10n_latam_check_payment_date = fields.Date(
+        string='Check Cash-In Date',
+        help="Date from when you can cash in the check, turn the check into cash",
+        readonly=False,
+    )</pre></details><details><summary id="f-l10n_latam_check_warning_msg">l10n_latam_check_warning_msg <span class="position">@ line 31</span></summary><pre>l10n_latam_check_warning_msg = fields.Text(
+        compute='_compute_l10n_latam_check_warning_msg',
+    )</pre></details><details><summary id="f-l10n_latam_manual_checks">l10n_latam_manual_checks <span class="position">@ line 54</span></summary><pre>l10n_latam_manual_checks = fields.Boolean(
+        related='journal_id.l10n_latam_manual_checks',
+    )</pre></details><h3>Methods</h3><details><summary id="m-_compute_check_number">_compute_check_number(self) <span class="position">@ line 72</span></summary><pre>Override from account_check_printing.
+For electronic/deferred own checks or third party checks, don't call super so that number is not cleaned</pre></details><details><summary id="m-_create_paired_internal_transfer_payment">_create_paired_internal_transfer_payment(self) <span class="position">@ line 318</span></summary><pre>Two modifications when only when transferring from a third party checks journal:
+1. When a paired transfer is created, the default odoo behavior is to use on the paired transfer the first
+available payment method. If we are transferring to another third party checks journal, then set as payment
+method on the paired transfer 'in_third_party_checks' or 'out_third_party_checks'
+2. On the paired transfer set the l10n_latam_check_id field, this field is needed for the
+l10n_latam_check_operation_ids and also for some warnings and constrains.</pre></details><ul id="m-_get_blocking_l10n_latam_warning_msg"><li>_get_blocking_l10n_latam_warning_msg(self) <span class="position">@ line 146</span></li></ul><ul id="m-_get_payment_method_codes_to_exclude"><li>_get_payment_method_codes_to_exclude(self) <span class="position">@ line 249</span></li></ul><details><summary id="m-_inverse_check_number">_inverse_check_number(self) <span class="position">@ line 80</span></summary><pre>On third party checks or electronic/deferred own checks, avoid calling super because is not needed to write
+the sequence for these use case.</pre></details><ul id="m-_inverse_l10n_latam_check_number"><li>_inverse_l10n_latam_check_number(self) <span class="position">@ line 68</span></li></ul><details><summary id="m-_prepare_move_line_default_vals">_prepare_move_line_default_vals(self, write_off_line_vals, force_balance) <span class="position">@ line 278</span></summary><pre>Add check name and operation on liquidity line</pre></details><ul id="m-action_post"><li>action_post(self) <span class="position">@ line 262</span></li></ul><details><summary id="m-action_unmark_sent">action_unmark_sent(self) <span class="position">@ line 255</span></summary><pre>Unmarking as sent for electronic/deferred check would give the option to print and re-number check but
+it's not implemented yet for this kind of checks</pre></details><details><summary id="m-button_open_check_operations">button_open_check_operations(self) <span class="position">@ line 299</span></summary><pre>Redirect the user to the invoice(s) paid by this payment.
+:return:    An action on account.move.</pre></details><h2>Inherited: odoo/addons/l10n_ch/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-l10n_ch_reference_warning_msg">l10n_ch_reference_warning_msg <span class="position">@ line 11</span></summary><pre>l10n_ch_reference_warning_msg = fields.Char(compute='_compute_l10n_ch_reference_warning_msg')</pre></details><h3>Methods</h3><details><summary id="m-_l10n_ch_reference_is_valid">_l10n_ch_reference_is_valid(self, payment_reference) <span class="position">@ line 24</span></summary><pre>Check if this invoice has a valid reference (for Switzerland)
+e.g.
+000000000000000000000012371
+210000000003139471430009017
+21 00000 00003 13947 14300 09017</pre></details><h2>Inherited: odoo/addons/l10n_ar_withholding/models/account_payment.py</h2><h3>Methods</h3><details><summary id="m-_synchronize_to_moves">_synchronize_to_moves(self, changed_fields) <span class="position">@ line 9</span></summary><pre>If we change a payment with withholdings, delete all withholding lines as the synchronization mechanism is not
+implemented yet</pre></details><h2>Inherited: odoo/addons/hr_expense/models/account_payment.py</h2><h3>Methods</h3><ul id="m-_creation_message"><li>_creation_message(self) <span class="position">@ line 39</span></li></ul><ul id="m-_must_delete_all_expense_payments"><li>_must_delete_all_expense_payments(self) <span class="position">@ line 47</span></li></ul><ul id="m-_synchronize_from_moves"><li>_synchronize_from_moves(self, changed_fields) <span class="position">@ line 23</span></li></ul><ul id="m-_synchronize_to_moves"><li>_synchronize_to_moves(self, changed_fields) <span class="position">@ line 32</span></li></ul><ul id="m-action_open_expense_report"><li>action_open_expense_report(self) <span class="position">@ line 11</span></li></ul><h2>Inherited: odoo/addons/account_payment/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-amount_available_for_refund">amount_available_for_refund <span class="position">@ line 22</span></summary><pre>amount_available_for_refund = fields.Monetary(compute='_compute_amount_available_for_refund')</pre></details><details><summary id="f-payment_token_id">payment_token_id <span class="position">@ line 17</span></summary><pre>payment_token_id = fields.Many2one(
+        string="Saved Payment Token", comodel_name='payment.token', domain="""[
+            ('id', 'in', suitable_payment_token_ids),
+        ]""",
+        help="Note that only tokens from providers allowing to capture the amount are available.")</pre></details><details><summary id="f-payment_transaction_id">payment_transaction_id <span class="position">@ line 11</span></summary><pre>payment_transaction_id = fields.Many2one(
+        string="Payment Transaction",
+        comodel_name='payment.transaction',
+        readonly=True,
+        auto_join=True,  # No access rule bypass since access to payments means access to txs too
+    )</pre></details><details><summary id="f-refunds_count">refunds_count <span class="position">@ line 45</span></summary><pre>refunds_count = fields.Integer(string="Refunds Count", compute='_compute_refunds_count')</pre></details><details><summary id="f-source_payment_id">source_payment_id <span class="position">@ line 36</span></summary><pre>source_payment_id = fields.Many2one(
+        string="Source Payment",
+        comodel_name='account.payment',
+        help="The source payment of related refund payments",
+        related='payment_transaction_id.source_transaction_id.payment_id',
+        readonly=True,
+        store=True,  # Stored for the group by in `_compute_refunds_count`
+        index='btree_not_null',
+    )</pre></details><details><summary id="f-suitable_payment_token_ids">suitable_payment_token_ids <span class="position">@ line 25</span></summary><pre>suitable_payment_token_ids = fields.Many2many(
+        comodel_name='payment.token',
+        compute='_compute_suitable_payment_token_ids',
+        compute_sudo=True,
+    )</pre></details><details><summary id="f-use_electronic_payment_method">use_electronic_payment_method <span class="position">@ line 31</span></summary><pre>use_electronic_payment_method = fields.Boolean(
+        compute='_compute_use_electronic_payment_method',
+    )</pre></details><h3>Methods</h3><ul id="m-_compute_amount_available_for_refund"><li>_compute_amount_available_for_refund(self) <span class="position">@ line 49</span></li></ul><ul id="m-_compute_refunds_count"><li>_compute_refunds_count(self) <span class="position">@ line 88</span></li></ul><ul id="m-_create_payment_transaction"><li>_create_payment_transaction(self) <span class="position">@ line 178</span></li></ul><ul id="m-_get_payment_refund_wizard_values"><li>_get_payment_refund_wizard_values(self) <span class="position">@ line 216</span></li></ul><ul id="m-_prepare_payment_transaction_vals"><li>_prepare_payment_transaction_vals(self) <span class="position">@ line 196</span></li></ul><ul id="m-action_post"><li>action_post(self) <span class="position">@ line 119</span></li></ul><ul id="m-action_refund_wizard"><li>action_refund_wizard(self) <span class="position">@ line 148</span></li></ul><ul id="m-action_view_refunds"><li>action_view_refunds(self) <span class="position">@ line 158</span></li></ul><h2>Inherited: odoo/addons/account_check_printing/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-check_amount_in_words">check_amount_in_words <span class="position">@ line 30</span></summary><pre>check_amount_in_words = fields.Char(
+        string="Amount in Words",
+        store=True,
+        compute='_compute_check_amount_in_words',
+    )</pre></details><details><summary id="f-check_manual_sequencing">check_manual_sequencing <span class="position">@ line 35</span></summary><pre>check_manual_sequencing = fields.Boolean(related='journal_id.check_manual_sequencing')</pre></details><details><summary id="f-check_number">check_number <span class="position">@ line 36</span></summary><pre>check_number = fields.Char(
+        string="Check Number",
+        store=True,
+        readonly=True,
+        copy=False,
+        compute='_compute_check_number',
+        inverse='_inverse_check_number',
+        help="The selected journal is configured to print check numbers. If your pre-printed check paper already has numbers "
+             "or if the current numbering is wrong, you can change it in the journal configuration page.",
+    )</pre></details><details><summary id="f-payment_method_line_id">payment_method_line_id <span class="position">@ line 46</span></summary><pre>payment_method_line_id = fields.Many2one(index=True)</pre></details><details><summary id="f-show_check_number">show_check_number <span class="position">@ line 47</span></summary><pre>show_check_number = fields.Boolean(compute='_compute_show_check_number')</pre></details><h3>Methods</h3><details><summary id="m-_auto_init">_auto_init(self) <span class="position">@ line 63</span></summary><pre>Create compute stored field check_number
+here to avoid MemoryError on large databases.</pre></details><ul id="m-_check_build_page_info"><li>_check_build_page_info(self, i, p) <span class="position">@ line 226</span></li></ul><ul id="m-_check_fill_line"><li>_check_fill_line(self, amount_str) <span class="position">@ line 223</span></li></ul><details><summary id="m-_check_get_pages">_check_get_pages(self) <span class="position">@ line 244</span></summary><pre>Returns the data structure used by the template: a list of dicts containing what to print on pages.</pre></details><details><summary id="m-_check_make_stub_pages">_check_make_stub_pages(self) <span class="position">@ line 253</span></summary><pre>The stub is the summary of paid invoices. It may spill on several pages, in which case only the check on
+first page is valid. This function returns a list of stub lines per page.</pre></details><ul id="m-_get_aml_default_display_name_list"><li>_get_aml_default_display_name_list(self) <span class="position">@ line 141</span></li></ul><ul id="m-_inverse_check_number"><li>_inverse_check_number(self) <span class="position">@ line 125</span></li></ul><ul id="m-action_post"><li>action_post(self) <span class="position">@ line 150</span></li></ul><ul id="m-action_unmark_sent"><li>action_unmark_sent(self) <span class="position">@ line 200</span></li></ul><ul id="m-action_void_check"><li>action_void_check(self) <span class="position">@ line 203</span></li></ul><ul id="m-do_print_checks"><li>do_print_checks(self) <span class="position">@ line 207</span></li></ul><details><summary id="m-print_checks">print_checks(self) <span class="position">@ line 157</span></summary><pre>Check that the recordset is valid, set the payments state to sent and call print_checks()</pre></details><h2>Inherited: odoo/addons/account/models/account_payment.py</h2><h3>Fields</h3><details><summary id="f-amount">amount <span class="position">@ line 85</span></summary><pre>amount = fields.Monetary(currency_field='currency_id')</pre></details><details><summary id="f-amount_company_currency_signed">amount_company_currency_signed <span class="position">@ line 173</span></summary><pre>amount_company_currency_signed = fields.Monetary(
+        currency_field='company_currency_id', compute='_compute_amount_company_currency_signed', store=True)</pre></details><details><summary id="f-amount_signed">amount_signed <span class="position">@ line 170</span></summary><pre>amount_signed = fields.Monetary(
+        currency_field='currency_id', compute='_compute_amount_signed', tracking=True,
+        help='Negative value of amount field if payment_type is outbound')</pre></details><details><summary id="f-available_journal_ids">available_journal_ids <span class="position">@ line 79</span></summary><pre>available_journal_ids = fields.Many2many(
+        comodel_name='account.journal',
+        compute='_compute_available_journal_ids'
+    )</pre></details><details><summary id="f-available_partner_bank_ids">available_partner_bank_ids <span class="position">@ line 38</span></summary><pre>available_partner_bank_ids = fields.Many2many(
+        comodel_name='res.partner.bank',
+        compute='_compute_available_partner_bank_ids',
+    )</pre></details><details><summary id="f-available_payment_method_line_ids">available_payment_method_line_ids <span class="position">@ line 71</span></summary><pre>available_payment_method_line_ids = fields.Many2many('account.payment.method.line',
+        compute='_compute_payment_method_line_fields')</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 28</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        inherited=True,
+        related='move_id.company_id', store=True, readonly=False, precompute=True,
+        index=False,  # covered by account_payment_journal_id_company_id_idx
+    )</pre></details><details><summary id="f-country_code">country_code <span class="position">@ line 169</span></summary><pre>country_code = fields.Char(related='company_id.account_fiscal_country_id.code')</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 96</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        compute='_compute_currency_id', store=True, readonly=False, precompute=True,
+        help="The payment's currency.")</pre></details><details><summary id="f-destination_account_id">destination_account_id <span class="position">@ line 115</span></summary><pre>destination_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Destination Account',
+        store=True, readonly=False,
+        compute='_compute_destination_account_id',
+        domain="[('account_type', 'in', ('asset_receivable', 'liability_payable'))]",
+        check_company=True)</pre></details><details><summary id="f-destination_journal_id">destination_journal_id <span class="position">@ line 122</span></summary><pre>destination_journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string='Destination Journal',
+        domain="[('type', 'in', ('bank','cash')), ('id', '!=', journal_id)]",
+        check_company=True,
+    )</pre></details><details><summary id="f-is_internal_transfer">is_internal_transfer <span class="position">@ line 49</span></summary><pre>is_internal_transfer = fields.Boolean(string="Internal Transfer",
+        readonly=False, store=True,
+        tracking=True,
+        compute="_compute_is_internal_transfer")</pre></details><details><summary id="f-is_matched">is_matched <span class="position">@ line 36</span></summary><pre>is_matched = fields.Boolean(string="Is Matched With a Bank Statement", store=True,
+        compute='_compute_reconciliation_status')</pre></details><details><summary id="f-is_reconciled">is_reconciled <span class="position">@ line 34</span></summary><pre>is_reconciled = fields.Boolean(string="Is Reconciled", store=True,
+        compute='_compute_reconciliation_status')</pre></details><details><summary id="f-journal_id">journal_id <span class="position">@ line 22</span></summary><pre>journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        inherited=True,
+        related='move_id.journal_id', store=True, readonly=False, precompute=True,
+        index=False,  # covered by account_payment_journal_id_company_id_idx
+    )</pre></details><details><summary id="f-move_id">move_id <span class="position">@ line 17</span></summary><pre>move_id = fields.Many2one(
+        comodel_name='account.move',
+        string='Journal Entry', required=True, readonly=True, ondelete='cascade',
+        index=True,
+        check_company=True)</pre></details><details><summary id="f-outstanding_account_id">outstanding_account_id <span class="position">@ line 109</span></summary><pre>outstanding_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string="Outstanding Account",
+        store=True,
+        compute='_compute_outstanding_account_id',
+        check_company=True)</pre></details><details><summary id="f-paired_internal_transfer_payment_id">paired_internal_transfer_payment_id <span class="position">@ line 55</span></summary><pre>paired_internal_transfer_payment_id = fields.Many2one('account.payment',
+        index='btree_not_null',
+        help="When an internal transfer is posted, a paired payment is created. "
+        "They are cross referenced through this field", copy=False)</pre></details><details><summary id="f-partner_bank_id">partner_bank_id <span class="position">@ line 42</span></summary><pre>partner_bank_id = fields.Many2one('res.partner.bank', string="Recipient Bank Account",
+        readonly=False, store=True, tracking=True,
+        compute='_compute_partner_bank_id',
+        domain="[('id', 'in', available_partner_bank_ids)]",
+        check_company=True,
+        ondelete='restrict',
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 101</span></summary><pre>partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string="Customer/Vendor",
+        store=True, readonly=False, ondelete='restrict',
+        compute='_compute_partner_id',
+        domain="['|', ('parent_id','=', False), ('is_company','=', True)]",
+        tracking=True,
+        check_company=True)</pre></details><details><summary id="f-partner_type">partner_type <span class="position">@ line 90</span></summary><pre>partner_type = fields.Selection([
+        ('customer', 'Customer'),
+        ('supplier', 'Vendor'),
+    ], default='customer', tracking=True, required=True)</pre></details><details><summary id="f-payment_method_code">payment_method_code <span class="position">@ line 157</span></summary><pre>payment_method_code = fields.Char(
+        related='payment_method_line_id.code')</pre></details><details><summary id="f-payment_method_id">payment_method_id <span class="position">@ line 73</span></summary><pre>payment_method_id = fields.Many2one(
+        related='payment_method_line_id.payment_method_id',
+        string="Method",
+        tracking=True,
+        store=True
+    )</pre></details><details><summary id="f-payment_method_line_id">payment_method_line_id <span class="position">@ line 61</span></summary><pre>payment_method_line_id = fields.Many2one('account.payment.method.line', string='Payment Method',
+        readonly=False, store=True, copy=False,
+        compute='_compute_payment_method_line_id',
+        domain="[('id', 'in', available_payment_method_line_ids)]",
+        help="Manual: Pay or Get paid by any method outside of Odoo.\n"
+        "Payment Providers: Each payment provider has its own Payment Method. Request a transaction on/to a card thanks to a payment token saved by the partner when buying or subscribing online.\n"
+        "Check: Pay bills by check and print it from Odoo.\n"
+        "Batch Deposit: Collect several customer checks at once generating and submitting a batch deposit to your bank. Module account_batch_payment is necessary.\n"
+        "SEPA Credit Transfer: Pay in the SEPA zone by submitting a SEPA Credit Transfer file to your bank. Module account_sepa is necessary.\n"
+        "SEPA Direct Debit: Get paid in the SEPA zone thanks to a mandate your partner will have granted to you. Module account_sepa is necessary.\n")</pre></details><details><summary id="f-payment_receipt_title">payment_receipt_title <span class="position">@ line 159</span></summary><pre>payment_receipt_title = fields.Char(
+        compute='_compute_payment_receipt_title'
+    )</pre></details><details><summary id="f-payment_reference">payment_reference <span class="position">@ line 94</span></summary><pre>payment_reference = fields.Char(string="Payment Reference", copy=False, tracking=True,
+        help="Reference of the document used to issue this payment. Eg. check number, file name, etc.")</pre></details><details><summary id="f-payment_type">payment_type <span class="position">@ line 86</span></summary><pre>payment_type = fields.Selection([
+        ('outbound', 'Send'),
+        ('inbound', 'Receive'),
+    ], string='Payment Type', default='inbound', required=True, tracking=True)</pre></details><details><summary id="f-qr_code">qr_code <span class="position">@ line 53</span></summary><pre>qr_code = fields.Html(string="QR Code URL",
+        compute="_compute_qr_code")</pre></details><details><summary id="f-reconciled_bill_ids">reconciled_bill_ids <span class="position">@ line 140</span></summary><pre>reconciled_bill_ids = fields.Many2many('account.move', string="Reconciled Bills",
+        compute='_compute_stat_buttons_from_reconciliation',
+        help="Invoices whose journal items have been reconciled with these payments.")</pre></details><details><summary id="f-reconciled_bills_count">reconciled_bills_count <span class="position">@ line 143</span></summary><pre>reconciled_bills_count = fields.Integer(string="# Reconciled Bills",
+        compute="_compute_stat_buttons_from_reconciliation")</pre></details><details><summary id="f-reconciled_invoice_ids">reconciled_invoice_ids <span class="position">@ line 130</span></summary><pre>reconciled_invoice_ids = fields.Many2many('account.move', string="Reconciled Invoices",
+        compute='_compute_stat_buttons_from_reconciliation',
+        help="Invoices whose journal items have been reconciled with these payments.")</pre></details><details><summary id="f-reconciled_invoices_count">reconciled_invoices_count <span class="position">@ line 133</span></summary><pre>reconciled_invoices_count = fields.Integer(string="# Reconciled Invoices",
+        compute="_compute_stat_buttons_from_reconciliation")</pre></details><details><summary id="f-reconciled_invoices_type">reconciled_invoices_type <span class="position">@ line 137</span></summary><pre>reconciled_invoices_type = fields.Selection(
+        [('credit_note', 'Credit Note'), ('invoice', 'Invoice')],
+        compute='_compute_stat_buttons_from_reconciliation')</pre></details><details><summary id="f-reconciled_statement_line_ids">reconciled_statement_line_ids <span class="position">@ line 145</span></summary><pre>reconciled_statement_line_ids = fields.Many2many(
+        comodel_name='account.bank.statement.line',
+        string="Reconciled Statement Lines",
+        compute='_compute_stat_buttons_from_reconciliation',
+        help="Statements lines matched to this payment",
+    )</pre></details><details><summary id="f-reconciled_statement_lines_count">reconciled_statement_lines_count <span class="position">@ line 151</span></summary><pre>reconciled_statement_lines_count = fields.Integer(
+        string="# Reconciled Statement Lines",
+        compute="_compute_stat_buttons_from_reconciliation",
+    )</pre></details><details><summary id="f-require_partner_bank_account">require_partner_bank_account <span class="position">@ line 167</span></summary><pre>require_partner_bank_account = fields.Boolean(
+        compute='_compute_show_require_partner_bank')</pre></details><details><summary id="f-show_partner_bank_account">show_partner_bank_account <span class="position">@ line 164</span></summary><pre>show_partner_bank_account = fields.Boolean(
+        compute='_compute_show_require_partner_bank')</pre></details><h3>Methods</h3><details><summary id="m-_compute_payment_receipt_title">_compute_payment_receipt_title(self) <span class="position">@ line 701</span></summary><pre>To override in order to change the title displayed on the payment receipt report</pre></details><details><summary id="m-_create_paired_internal_transfer_payment">_create_paired_internal_transfer_payment(self) <span class="position">@ line 957</span></summary><pre>When an internal transfer is posted, a paired payment is created
+with opposite payment_type and swapped journal_id & destination_journal_id.
+Both payments liquidity transfer lines are then reconciled.</pre></details><ul id="m-_get_aml_default_display_map"><li>_get_aml_default_display_map(self) <span class="position">@ line 250</span></li></ul><details><summary id="m-_get_aml_default_display_name_list">_get_aml_default_display_name_list(self) <span class="position">@ line 258</span></summary><pre>Hook allowing custom values when constructing the default label to set on the journal items.
+
+:return: A list of terms to concatenate all together. E.g.
+[
+('label', "Vendor Reimbursement"),
+('sep', ' '),
+('amount', "$ 1,555.00"),
+('sep', ' - '),
+('date', "05/14/2020"),
+]</pre></details><details><summary id="m-_get_counterpart_aml_display_name_list">_get_counterpart_aml_display_name_list(self) <span class="position">@ line 305</span></summary><pre>Hook allowing custom values when constructing the label to set on the counterpart line.
+
+:return: A list of terms to concatenate all together. E.g.
+[('reference', "INV/2018/0001")]</pre></details><details><summary id="m-_get_liquidity_aml_display_name_list">_get_liquidity_aml_display_name_list(self) <span class="position">@ line 288</span></summary><pre>Hook allowing custom values when constructing the label to set on the liquidity line.
+
+:return: A list of terms to concatenate all together. E.g.
+[('reference', "INV/2018/0001")]</pre></details><ul id="m-_get_payment_method_codes_to_exclude"><li>_get_payment_method_codes_to_exclude(self) <span class="position">@ line 522</span></li></ul><details><summary id="m-_get_payment_receipt_report_values">_get_payment_receipt_report_values(self) <span class="position">@ line 985</span></summary><pre>Get the extra values when rendering the Payment Receipt PDF report.
+
+:return: A dictionary:
+* display_invoices: Display the invoices table.
+* display_payment_method: Display the payment method value.</pre></details><ul id="m-_get_valid_liquidity_accounts"><li>_get_valid_liquidity_accounts(self) <span class="position">@ line 238</span></li></ul><details><summary id="m-_prepare_move_line_default_vals">_prepare_move_line_default_vals(self, write_off_line_vals, force_balance) <span class="position">@ line 317</span></summary><pre>Prepare the dictionary to create the default account.move.lines for the current payment.
+:param write_off_line_vals: Optional list of dictionaries to create a write-off account.move.line easily containing:
+* amount:       The amount to be added to the counterpart amount.
+* name:         The label to set on the line.
+* account_id:   The account on which create the write-off.
+:param force_balance: Optional balance.
+:return: A list of python dictionary to be passed to the account.move.line's 'create' method.</pre></details><details><summary id="m-_seek_for_lines">_seek_for_lines(self) <span class="position">@ line 208</span></summary><pre>Helper used to dispatch the journal items between:
+- The lines using the temporary liquidity account.
+- The lines using the counterpart account.
+- The lines being the write-off lines.
+:return: (liquidity_lines, counterpart_lines, writeoff_lines)</pre></details><details><summary id="m-_synchronize_from_moves">_synchronize_from_moves(self, changed_fields) <span class="position">@ line 816</span></summary><pre>Update the account.payment regarding its related account.move.
+Also, check both models are still consistent.
+:param changed_fields: A set containing all modified fields on account.move.</pre></details><details><summary id="m-_synchronize_to_moves">_synchronize_to_moves(self, changed_fields) <span class="position">@ line 905</span></summary><pre>Update the account.move regarding the modified account.payment.
+:param changed_fields: A list containing all modified fields on account.payment.</pre></details><details><summary id="m-action_cancel">action_cancel(self) <span class="position">@ line 1021</span></summary><pre>draft -> cancelled</pre></details><details><summary id="m-action_draft">action_draft(self) <span class="position">@ line 1028</span></summary><pre>posted -> draft</pre></details><details><summary id="m-action_open_destination_journal">action_open_destination_journal(self) <span class="position">@ line 1118</span></summary><pre>Redirect the user to this destination journal.
+:return:    An action on account.move.</pre></details><details><summary id="m-action_post">action_post(self) <span class="position">@ line 1008</span></summary><pre>draft -> posted</pre></details><details><summary id="m-button_open_bills">button_open_bills(self) <span class="position">@ line 1056</span></summary><pre>Redirect the user to the bill(s) paid by this payment.
+:return:    An action on account.move.</pre></details><details><summary id="m-button_open_invoices">button_open_invoices(self) <span class="position">@ line 1032</span></summary><pre>Redirect the user to the invoice(s) paid by this payment.
+:return:    An action on account.move.</pre></details><details><summary id="m-button_open_journal_entry">button_open_journal_entry(self) <span class="position">@ line 1104</span></summary><pre>Redirect the user to this payment journal.
+:return:    An action on account.move.</pre></details><details><summary id="m-button_open_statement_lines">button_open_statement_lines(self) <span class="position">@ line 1080</span></summary><pre>Redirect the user to the statement line(s) reconciled to this payment.
+:return:    An action on account.move.</pre></details><ul id="m-button_request_cancel"><li>button_request_cancel(self) <span class="position">@ line 1025</span></li></ul><ul id="m-default_get"><li>default_get(self, fields_list) <span class="position">@ line 735</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 184</span></li></ul><ul id="m-mark_as_sent"><li>mark_as_sent(self) <span class="position">@ line 1002</span></li></ul><ul id="m-new"><li>new(self, values, origin, ref) <span class="position">@ line 742</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 800</span></li></ul><ul id="m-unmark_as_sent"><li>unmark_as_sent(self) <span class="position">@ line 1005</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 794</span></li></ul><script src="class.js"></script></body></html>

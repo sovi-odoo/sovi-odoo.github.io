@@ -1,0 +1,212 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.message - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.message</h1><p>Originally defined in: odoo/addons/mail/models/mail_message.py</p><p>Inherited in: odoo/addons/snailmail/models/mail_message.py<br/>Inherited in: odoo/addons/sms/models/mail_message.py<br/>Inherited in: odoo/addons/rating/models/mail_message.py<br/>Inherited in: odoo/addons/project/models/mail_message.py<br/>Inherited in: odoo/addons/portal_rating/models/mail_message.py<br/>Inherited in: odoo/addons/portal/models/mail_message.py<br/>Inherited in: odoo/addons/im_livechat/models/mail_message.py<br/>Inherited in: odoo/addons/account_audit_trail/models/mail_message.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_message.py</h2><h3>Fields</h3><details><summary id="f-attachment_ids">attachment_ids <span class="position">@ line 101</span></summary><pre>attachment_ids = fields.Many2many(
+        'ir.attachment', 'message_attachment_rel',
+        'message_id', 'attachment_id',
+        string='Attachments')</pre></details><details><summary id="f-author_avatar">author_avatar <span class="position">@ line 141</span></summary><pre>author_avatar = fields.Binary("Author's avatar", related='author_id.avatar_128', depends=['author_id'], readonly=False)</pre></details><details><summary id="f-author_guest_id">author_guest_id <span class="position">@ line 142</span></summary><pre>author_guest_id = fields.Many2one(string="Guest", comodel_name='mail.guest')</pre></details><details><summary id="f-author_id">author_id <span class="position">@ line 138</span></summary><pre>author_id = fields.Many2one(
+        'res.partner', 'Author', index=True, ondelete='set null',
+        help="Author of the message. If not set, email_from may hold an email address that did not match any partner.")</pre></details><details><summary id="f-body">body <span class="position">@ line 87</span></summary><pre>body = fields.Html('Contents', default='', sanitize_style=True)</pre></details><details><summary id="f-child_ids">child_ids <span class="position">@ line 107</span></summary><pre>child_ids = fields.One2many('mail.message', 'parent_id', 'Child Messages')</pre></details><details><summary id="f-date">date <span class="position">@ line 86</span></summary><pre>date = fields.Datetime('Date', default=fields.Datetime.now)</pre></details><details><summary id="f-description">description <span class="position">@ line 88</span></summary><pre>description = fields.Char(
+        'Short description', compute="_compute_description",
+        help='Message description: either the subject, or the beginning of the body')</pre></details><details><summary id="f-email_add_signature">email_add_signature <span class="position">@ line 183</span></summary><pre>email_add_signature = fields.Boolean(default=True)</pre></details><details><summary id="f-email_from">email_from <span class="position">@ line 137</span></summary><pre>email_from = fields.Char('From', help="Email address of the sender. This field is set when no matching partner is found and replaces the author_id field in the chatter.")</pre></details><details><summary id="f-email_layout_xmlid">email_layout_xmlid <span class="position">@ line 182</span></summary><pre>email_layout_xmlid = fields.Char('Layout', copy=False)</pre></details><details><summary id="f-has_error">has_error <span class="position">@ line 154</span></summary><pre>has_error = fields.Boolean(
+        'Has error', compute='_compute_has_error', search='_search_has_error')</pre></details><details><summary id="f-is_current_user_or_guest_author">is_current_user_or_guest_author <span class="position">@ line 143</span></summary><pre>is_current_user_or_guest_author = fields.Boolean(compute='_compute_is_current_user_or_guest_author')</pre></details><details><summary id="f-is_internal">is_internal <span class="position">@ line 135</span></summary><pre>is_internal = fields.Boolean('Employee Only', help='Hide to public / portal users, independently from subtype configuration.')</pre></details><details><summary id="f-link_preview_ids">link_preview_ids <span class="position">@ line 94</span></summary><pre>link_preview_ids = fields.One2many(
+        'mail.link.preview', 'message_id', string='Link Previews',
+        groups="base.group_erp_manager")</pre></details><details><summary id="f-mail_activity_type_id">mail_activity_type_id <span class="position">@ line 132</span></summary><pre>mail_activity_type_id = fields.Many2one(
+        'mail.activity.type', 'Mail Activity Type',
+        index='btree_not_null', ondelete='set null')</pre></details><details><summary id="f-mail_ids">mail_ids <span class="position">@ line 191</span></summary><pre>mail_ids = fields.One2many('mail.mail', 'mail_message_id', string='Mails', groups="base.group_system")</pre></details><details><summary id="f-mail_server_id">mail_server_id <span class="position">@ line 180</span></summary><pre>mail_server_id = fields.Many2one('ir.mail_server', 'Outgoing mail server')</pre></details><details><summary id="f-message_id">message_id <span class="position">@ line 178</span></summary><pre>message_id = fields.Char('Message-Id', help='Message unique identifier', index='btree', readonly=True, copy=False)</pre></details><details><summary id="f-message_type">message_type <span class="position">@ line 115</span></summary><pre>message_type = fields.Selection([
+        ('email', 'Incoming Email'),
+        ('comment', 'Comment'),
+        ('email_outgoing', 'Outgoing Email'),
+        ('notification', 'System notification'),
+        ('auto_comment', 'Automated Targeted Notification'),
+        ('user_notification', 'User Specific Notification')],
+        'Type', required=True, default='comment',
+        help="Used to categorize message generator"
+             "\n'email': generated by an incoming email e.g. mailgateway"
+             "\n'comment': generated by user input e.g. through discuss or composer"
+             "\n'email_outgoing': generated by a mailing"
+             "\n'notification': generated by system e.g. tracking messages"
+             "\n'auto_comment': generated by automated notification mechanism e.g. acknowledgment"
+             "\n'user_notification': generated for a specific recipient"
+        )</pre></details><details><summary id="f-model">model <span class="position">@ line 109</span></summary><pre>model = fields.Char('Related Document Model')</pre></details><details><summary id="f-needaction">needaction <span class="position">@ line 152</span></summary><pre>needaction = fields.Boolean(
+        'Need Action', compute='_compute_needaction', search='_search_needaction')</pre></details><details><summary id="f-notification_ids">notification_ids <span class="position">@ line 157</span></summary><pre>notification_ids = fields.One2many(
+        'mail.notification', 'mail_message_id', 'Notifications',
+        auto_join=True, copy=False, depends=['notified_partner_ids'])</pre></details><details><summary id="f-notified_partner_ids">notified_partner_ids <span class="position">@ line 149</span></summary><pre>notified_partner_ids = fields.Many2many(
+        'res.partner', 'mail_notification', string='Partners with Need Action',
+        context={'active_test': False}, depends=['notification_ids'], copy=False)</pre></details><details><summary id="f-parent_id">parent_id <span class="position">@ line 105</span></summary><pre>parent_id = fields.Many2one(
+        'mail.message', 'Parent Message', index='btree_not_null', ondelete='set null')</pre></details><details><summary id="f-partner_ids">partner_ids <span class="position">@ line 146</span></summary><pre>partner_ids = fields.Many2many('res.partner', string='Recipients', context={'active_test': False})</pre></details><details><summary id="f-pinned_at">pinned_at <span class="position">@ line 163</span></summary><pre>pinned_at = fields.Datetime('Pinned', help='Datetime at which the message has been pinned')</pre></details><details><summary id="f-preview">preview <span class="position">@ line 91</span></summary><pre>preview = fields.Char(
+        'Preview', compute='_compute_preview',
+        help='The text-only beginning of the body used as email preview.')</pre></details><details><summary id="f-reaction_ids">reaction_ids <span class="position">@ line 97</span></summary><pre>reaction_ids = fields.One2many(
+        'mail.message.reaction', 'message_id', string="Reactions",
+        groups="base.group_system")</pre></details><details><summary id="f-record_alias_domain_id">record_alias_domain_id <span class="position">@ line 112</span></summary><pre>record_alias_domain_id = fields.Many2one('mail.alias.domain', 'Alias Domain', ondelete='set null')</pre></details><details><summary id="f-record_company_id">record_company_id <span class="position">@ line 113</span></summary><pre>record_company_id = fields.Many2one('res.company', 'Company', ondelete='set null')</pre></details><details><summary id="f-record_name">record_name <span class="position">@ line 111</span></summary><pre>record_name = fields.Char('Message Record Name')</pre></details><details><summary id="f-reply_to">reply_to <span class="position">@ line 179</span></summary><pre>reply_to = fields.Char('Reply-To', help='Reply email address. Setting the reply_to bypasses the automatic thread creation.')</pre></details><details><summary id="f-reply_to_force_new">reply_to_force_new <span class="position">@ line 175</span></summary><pre>reply_to_force_new = fields.Boolean(
+        'No threading for answers',
+        help='If true, answers do not go in the original document discussion thread. Instead, it will check for the reply_to in tracking message-id and redirected accordingly. This has an impact on the generated message-id.')</pre></details><details><summary id="f-res_id">res_id <span class="position">@ line 110</span></summary><pre>res_id = fields.Many2oneReference('Related Document ID', model_field='model')</pre></details><details><summary id="f-starred">starred <span class="position">@ line 164</span></summary><pre>starred = fields.Boolean(
+        'Starred', compute='_compute_starred', search='_search_starred', compute_sudo=False,
+        help='Current user has a starred notification linked to this message')</pre></details><details><summary id="f-starred_partner_ids">starred_partner_ids <span class="position">@ line 161</span></summary><pre>starred_partner_ids = fields.Many2many(
+        'res.partner', 'mail_message_res_partner_starred_rel', string='Favorited By')</pre></details><details><summary id="f-subject">subject <span class="position">@ line 85</span></summary><pre>subject = fields.Char('Subject')</pre></details><details><summary id="f-subtype_id">subtype_id <span class="position">@ line 131</span></summary><pre>subtype_id = fields.Many2one('mail.message.subtype', 'Subtype', ondelete='set null', index=True)</pre></details><details><summary id="f-tracking_value_ids">tracking_value_ids <span class="position">@ line 168</span></summary><pre>tracking_value_ids = fields.One2many(
+        'mail.tracking.value', 'mail_message_id',
+        string='Tracking values',
+        groups="base.group_system",
+        help='Tracked values are stored in a separate model. This field allow to reconstruct '
+             'the tracking and to generate statistics on the model.')</pre></details><h3>Methods</h3><ul id="m-_bus_notification_target"><li>_bus_notification_target(self) <span class="position">@ line 1197</span></li></ul><details><summary id="m-_cleanup_side_records">_cleanup_side_records(self) <span class="position">@ line 1205</span></summary><pre>Clean related data: notifications, stars, ... to avoid lingering
+notifications / unreachable counters with void messages notably.</pre></details><ul id="m-_compute_has_error"><li>_compute_has_error(self) <span class="position">@ line 234</span></li></ul><details><summary id="m-_compute_needaction">_compute_needaction(self) <span class="position">@ line 219</span></summary><pre>Need action on a mail.message = notified on my channel</pre></details><details><summary id="m-_filter_empty">_filter_empty(self) <span class="position">@ line 1213</span></summary><pre>Return subset of "void" messages</pre></details><ul id="m-_get_message_format_fields"><li>_get_message_format_fields(self) <span class="position">@ line 1138</span></li></ul><details><summary id="m-_get_message_preview">_get_message_preview(self, max_char) <span class="position">@ line 1223</span></summary><pre>Returns an unformatted version of the message body. Unless `max_char=0` is passed,
+output will be capped at max_char characters with a ' [...]' suffix if applicable.
+Default `max_char` is the longest known mail client preview length (Outlook 2013).</pre></details><ul id="m-_get_search_domain_share"><li>_get_search_domain_share(self) <span class="position">@ line 1288</span></li></ul><details><summary id="m-_invalidate_documents">_invalidate_documents(self, model, res_id) <span class="position">@ line 1278</span></summary><pre>Invalidate the cache of the documents followed by ``self``.</pre></details><details><summary id="m-_message_format">_message_format(self, format_reply, msg_vals, for_current_user) <span class="position">@ line 900</span></summary><pre>Get the message values in the format for web client. Since message
+values can be broadcasted, computed fields MUST NOT BE READ and
+broadcasted.
+
+:param msg_vals: dictionary of values used to create the message. If
+given it may be used to access values related to ``message`` without
+accessing it directly. It lessens query count in some optimized use
+cases by avoiding access message content in db;
+
+:returns list(dict).
+Example :
+{
+'body': HTML content of the message
+'model': u'res.partner',
+'record_name': u'Agrolait',
+'attachments': [
+{
+'file_type_icon': u'webimage',
+'id': 45,
+'name': u'sample.png',
+'filename': u'sample.png'
+}
+],
+'needaction_partner_ids': [], # list of partner ids
+'res_id': 7,
+'trackingValues': [
+{
+'changedField': "Customer",
+'id': 2965,
+'fieldName': 'partner_id',
+'fieldType': 'char',
+'newValue': {
+'currencyId': "",
+'value': "Axelor",
+],
+'oldValue': {
+'currencyId': "",
+'value': "",
+],
+}
+],
+'author_id': (3, u'Administrator'),
+'email_from': 'sacha@pokemon.com' # email address or False
+'subtype_id': (1, u'Discussions'),
+'date': '2015-06-30 08:22:33',
+'partner_ids': [[7, "Sacha Du Bourg-Palette"]], # list of partner convert_to_read
+'message_type': u'comment',
+'id': 59,
+'subject': False
+'is_note': True # only if the message is a note (subtype == note)
+'is_discussion': False # only if the message is a discussion (subtype == discussion)
+'parentMessage': {...}, # formatted message that this message is a reply to. Only present if format_reply is True
+}</pre></details><ul id="m-_message_format_extras"><li>_message_format_extras(self, format_reply) <span class="position">@ line 1035</span></li></ul><details><summary id="m-_message_format_personalize">_message_format_personalize(self, partner_id, messages_formatted, format_reply, msg_vals) <span class="position">@ line 1111</span></summary><pre>Personalize the messages for the partner.
+
+:param integer partner_id: id of the partner to personalize the messages for
+:param list messages_formatted: (optional) list of message formatted using
+the method _message_format_personalized_prepare.
+If not provided message_format is called on self with the 2 next parameters
+to format the messages and then the messages are personalized.
+:param bool format_reply: (optional) see method message_format
+:param dict msg_vals: (optional) see method message_format
+:return: list of messages_formatted personalized for the partner</pre></details><details><summary id="m-_message_notification_format">_message_notification_format(self) <span class="position">@ line 1146</span></summary><pre>Returns the current messages and their corresponding notifications in
+the format expected by the web client.
+
+Notifications hold the information about each recipient of a message: if
+the message was successfully sent or if an exception or bounce occurred.</pre></details><ul id="m-_message_reaction"><li>_message_reaction(self, content, action) <span class="position">@ line 849</span></li></ul><details><summary id="m-_notify_message_notification_update">_notify_message_notification_update(self) <span class="position">@ line 1167</span></summary><pre>Send bus notifications to update status of notifications in the web
+client. Purpose is to send the updated status per author.</pre></details><ul id="m-_record_by_message"><li>_record_by_message(self) <span class="position">@ line 889</span></li></ul><ul id="m-_search_has_error"><li>_search_has_error(self, operator, operand) <span class="position">@ line 241</span></li></ul><ul id="m-_validate_access_for_current_persona"><li>_validate_access_for_current_persona(self, operation) <span class="position">@ line 593</span></li></ul><details><summary id="m-action_open_document">action_open_document(self) <span class="position">@ line 762</span></summary><pre>Opens the related record based on the model and ID</pre></details><details><summary id="m-check_access_rule">check_access_rule(self, operation) <span class="position">@ line 364</span></summary><pre>Access rules of mail.message:
+- read: if
+- author_id == pid, uid is the author OR
+- create_uid == uid, uid is the creator OR
+- uid is in the recipients (partner_ids) OR
+- uid has been notified (needaction) OR
+- uid have read access to the related document if model, res_id
+- otherwise: raise
+- create: if
+- no model, no res_id (private message) OR
+- pid in message_follower_ids if model, res_id OR
+- uid can read the parent OR
+- uid have write or create access on the related document if model, res_id, OR
+- otherwise: raise
+- write: if
+- author_id == pid, uid is the author, OR
+- uid is in the recipients (partner_ids) OR
+- uid has write or create access on the related document if model, res_id
+- otherwise: raise
+- unlink: if
+- uid has write or create access on the related document
+- otherwise: raise
+
+Specific case: non employee users see only messages with subtype (aka do
+not see internal logs).</pre></details><ul id="m-export_data"><li>export_data(self, fields_to_export) <span class="position">@ line 752</span></li></ul><ul id="m-fetch"><li>fetch(self, field_names) <span class="position">@ line 705</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 265</span></li></ul><ul id="m-is_thread_message"><li>is_thread_message(self, vals) <span class="position">@ line 1266</span></li></ul><details><summary id="m-read">read(self, fields, load) <span class="position">@ line 699</span></summary><pre>Override to explicitely call check_access_rule, that is not called
+by the ORM. It instead directly fetches ir.rules and apply them.</pre></details><details><summary id="m-set_message_done">set_message_done(self) <span class="position">@ line 798</span></summary><pre>Remove the needaction from messages for the current partner.</pre></details><details><summary id="m-toggle_message_starred">toggle_message_starred(self) <span class="position">@ line 831</span></summary><pre>Toggle messages as (un)starred. Technically, the notifications related
+to uid are set to (un)starred.</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 726</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 714</span></li></ul><h2>Inherited: odoo/addons/snailmail/models/mail_message.py</h2><h3>Fields</h3><details><summary id="f-letter_ids">letter_ids <span class="position">@ line 11</span></summary><pre>letter_ids = fields.One2many(comodel_name='snailmail.letter', inverse_name='message_id')</pre></details><details><summary id="f-message_type">message_type <span class="position">@ line 12</span></summary><pre>message_type = fields.Selection(
+        selection_add=[('snailmail', 'Snailmail')],
+        ondelete={'snailmail': lambda recs: recs.write({'message_type': ' comment'})})</pre></details><details><summary id="f-snailmail_error">snailmail_error <span class="position">@ line 8</span></summary><pre>snailmail_error = fields.Boolean(
+        string="Snailmail message in error",
+        compute="_compute_snailmail_error", search="_search_snailmail_error")</pre></details><h3>Methods</h3><ul id="m-_search_snailmail_error"><li>_search_snailmail_error(self, operator, operand) <span class="position">@ line 22</span></li></ul><ul id="m-cancel_letter"><li>cancel_letter(self) <span class="position">@ line 27</span></li></ul><ul id="m-send_letter"><li>send_letter(self) <span class="position">@ line 30</span></li></ul><h2>Inherited: odoo/addons/sms/models/mail_message.py</h2><h3>Fields</h3><details><summary id="f-has_sms_error">has_sms_error <span class="position">@ line 20</span></summary><pre>has_sms_error = fields.Boolean(
+        'Has SMS error', compute='_compute_has_sms_error', search='_search_has_sms_error')</pre></details><details><summary id="f-message_type">message_type <span class="position">@ line 17</span></summary><pre>message_type = fields.Selection(
+        selection_add=[('sms', 'SMS')],
+        ondelete={'sms': lambda recs: recs.write({'message_type': 'comment'})})</pre></details><h3>Methods</h3><ul id="m-_compute_has_sms_error"><li>_compute_has_sms_error(self) <span class="position">@ line 23</span></li></ul><details><summary id="m-_message_format">_message_format(self, format_reply, msg_vals, for_current_user) <span class="position">@ line 36</span></summary><pre>Override in order to retrieves data about SMS (recipient name and
+SMS status)
+
+TDE FIXME: clean the overall message_format thingy</pre></details><ul id="m-_search_has_sms_error"><li>_search_has_sms_error(self, operator, operand) <span class="position">@ line 31</span></li></ul><h2>Inherited: odoo/addons/rating/models/mail_message.py</h2><h3>Fields</h3><details><summary id="f-rating_ids">rating_ids <span class="position">@ line 10</span></summary><pre>rating_ids = fields.One2many('rating.rating', 'message_id', groups='base.group_user', string='Related ratings')</pre></details><details><summary id="f-rating_value">rating_value <span class="position">@ line 11</span></summary><pre>rating_value = fields.Float(
+        'Rating Value', compute='_compute_rating_value', compute_sudo=True,
+        store=False, search='_search_rating_value')</pre></details><h3>Methods</h3><ul id="m-_message_format"><li>_message_format(self, format_reply, msg_vals, for_current_user) <span class="position">@ line 29</span></li></ul><ul id="m-_search_rating_value"><li>_search_rating_value(self, operator, operand) <span class="position">@ line 22</span></li></ul><h2>Inherited: odoo/addons/project/models/mail_message.py</h2><h3>Methods</h3><ul id="m-init"><li>init(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/portal_rating/models/mail_message.py</h2><h3>Methods</h3><details><summary id="m-_portal_get_default_format_properties_names">_portal_get_default_format_properties_names(self, options) <span class="position">@ line 11</span></summary><pre>Add request for rating information
+
+:param dict options: supports 'rating_include' option allowing to
+conditionally include rating information;</pre></details><details><summary id="m-_portal_message_format">_portal_message_format(self, properties_names, options) <span class="position">@ line 25</span></summary><pre>If requested, add rating information to returned formatted values.
+
+Note: rating information combine both statistics (see 'rating_get_stats'
+if available on model) and rating / publication information.</pre></details><details><summary id="m-_portal_message_format_rating">_portal_message_format_rating(self, rating_values) <span class="position">@ line 52</span></summary><pre>From 'rating_values' get an updated version formatted for frontend
+display.
+
+:param dict rating_values: values coming from reading ratings
+in database;
+
+:return dict: updated rating_values</pre></details><h2>Inherited: odoo/addons/portal/models/mail_message.py</h2><h3>Methods</h3><details><summary id="m-_portal_get_default_format_properties_names">_portal_get_default_format_properties_names(self, options) <span class="position">@ line 32</span></summary><pre>Fields and values to compute for portal format.
+
+:param dict options: options, used notably for inheritance and adding
+specific fields or properties to compute;
+
+:return set: fields or properties derived from fields</pre></details><details><summary id="m-_portal_message_format">_portal_message_format(self, properties_names, options) <span class="position">@ line 53</span></summary><pre>Format messages for portal frontend. This private implementation
+does not check for access that should be checked beforehand.
+
+Notes:
+* when asking for attachments: ensure an access token is present then
+access them (using sudo);
+
+:param set properties_names: fields or properties derived from fields
+for which we are going to compute values;
+
+:return list: list of dict, one per message in self. Each dict contains
+values for either fields, either properties derived from fields.</pre></details><details><summary id="m-_portal_message_format_attachments">_portal_message_format_attachments(self, attachment_values) <span class="position">@ line 109</span></summary><pre>From 'attachment_values' get an updated version formatted for
+frontend display.
+
+:param dict attachment_values: values coming from reading attachments
+in database;
+
+:return dict: updated attachment_values</pre></details><details><summary id="m-portal_message_format">portal_message_format(self, options) <span class="position">@ line 12</span></summary><pre>Simpler and portal-oriented version of 'message_format'. Purpose
+is to prepare, organize and format values required by frontend widget
+(frontend Chatter).
+
+This public API asks for read access on messages before doing the
+actual computation in the private implementation.
+
+:param dict options: options, used notably for inheritance and adding
+specific fields or properties to compute;
+
+:return list: list of dict, one per message in self. Each dict contains
+values for either fields, either properties derived from fields.</pre></details><h2>Inherited: odoo/addons/im_livechat/models/mail_message.py</h2><h3>Fields</h3><details><summary id="f-parent_author_name">parent_author_name <span class="position">@ line 10</span></summary><pre>parent_author_name = fields.Char(compute="_compute_parent_author_name")</pre></details><details><summary id="f-parent_body">parent_body <span class="position">@ line 11</span></summary><pre>parent_body = fields.Html(compute="_compute_parent_body")</pre></details><h3>Methods</h3><details><summary id="m-_message_format">_message_format(self, format_reply, msg_vals, for_current_user) <span class="position">@ line 24</span></summary><pre>Override to remove email_from and to return the livechat username if applicable.
+A third param is added to the author_id tuple in this case to be able to differentiate it
+from the normal name in client code.
+
+In addition, if we are currently running a chatbot.script, we include the information about
+the chatbot.message related to this mail.message.
+This allows the frontend display to include the additional features
+(e.g: Show additional buttons with the available answers for this step).</pre></details><h2>Inherited: odoo/addons/account_audit_trail/models/mail_message.py</h2><h3>Fields</h3><details><summary id="f-account_audit_log_move_id">account_audit_log_move_id <span class="position">@ line 14</span></summary><pre>account_audit_log_move_id = fields.Many2one(
+        comodel_name='account.move',
+        string="Journal Entry",
+        compute="_compute_account_audit_log_move_id",
+        search="_search_account_audit_log_move_id",
+    )</pre></details><details><summary id="f-account_audit_log_preview">account_audit_log_preview <span class="position">@ line 13</span></summary><pre>account_audit_log_preview = fields.Html(string="Description", compute="_compute_account_audit_log_preview")</pre></details><details><summary id="f-show_audit_log">show_audit_log <span class="position">@ line 20</span></summary><pre>show_audit_log = fields.Boolean(compute="_compute_account_audit_log_move_id", search="_search_show_audit_log")</pre></details><h3>Methods</h3><ul id="m-_compute_account_audit_log_move_id"><li>_compute_account_audit_log_move_id(self) <span class="position">@ line 45</span></li></ul><ul id="m-_compute_account_audit_log_preview"><li>_compute_account_audit_log_preview(self) <span class="position">@ line 22</span></li></ul><ul id="m-_search_account_audit_log_move_id"><li>_search_account_audit_log_move_id(self, operator, value) <span class="position">@ line 61</span></li></ul><ul id="m-_search_show_audit_log"><li>_search_show_audit_log(self, operator, value) <span class="position">@ line 70</span></li></ul><script src="class.js"></script></body></html>

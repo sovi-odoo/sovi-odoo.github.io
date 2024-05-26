@@ -1,0 +1,368 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sale.order.line - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sale.order.line</h1><p>Inherited in: odoo/addons/website_sale_stock/models/sale_order_line.py<br/>Inherited in: odoo/addons/website_sale_loyalty/models/sale_order_line.py<br/>Inherited in: odoo/addons/website_sale/models/sale_order_line.py<br/>Inherited in: odoo/addons/website_event_sale/models/sale_order.py<br/>Inherited in: odoo/addons/stock_dropshipping/models/sale.py<br/>Inherited in: odoo/addons/stock_delivery/models/sale_order.py<br/>Inherited in: odoo/addons/sale_timesheet_margin/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_timesheet/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_stock_margin/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_stock/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_service/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_purchase/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_project_stock/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_project/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_product_matrix/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_mrp/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_margin/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_management/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_loyalty_delivery/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_loyalty/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale_expense_margin/models/sale_order_line.py<br/>Inherited in: odoo/addons/sale/models/sale_order_line.py<br/>Inherited in: odoo/addons/repair/models/sale_order.py<br/>Inherited in: odoo/addons/pos_sale_loyalty/models/sale_order.py<br/>Inherited in: odoo/addons/pos_sale/models/sale_order.py<br/>Inherited in: odoo/addons/event_sale/models/sale_order_line.py<br/>Inherited in: odoo/addons/event_booth_sale/models/sale_order_line.py<br/>Inherited in: odoo/addons/delivery/models/sale_order_line.py<br/></p><hr/><h2>Inherited: odoo/addons/website_sale_stock/models/sale_order_line.py</h2><h3>Methods</h3><ul id="m-_get_max_available_qty"><li>_get_max_available_qty(self) <span class="position">@ line 17</span></li></ul><ul id="m-_set_shop_warning_stock"><li>_set_shop_warning_stock(self, desired_qty, new_qty) <span class="position">@ line 9</span></li></ul><h2>Inherited: odoo/addons/website_sale_loyalty/models/sale_order_line.py</h2><h3>Methods</h3><ul id="m-_show_in_cart"><li>_show_in_cart(self) <span class="position">@ line 10</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 14</span></li></ul><h2>Inherited: odoo/addons/website_sale/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-linked_line_id">linked_line_id <span class="position">@ line 9</span></summary><pre>linked_line_id = fields.Many2one(
+        string="Linked Order Line",
+        comodel_name='sale.order.line',
+        ondelete='cascade',
+        domain="[('order_id', '=', order_id)]",
+        copy=False,
+        index=True,
+    )</pre></details><details><summary id="f-name_short">name_short <span class="position">@ line 20</span></summary><pre>name_short = fields.Char(compute='_compute_name_short')</pre></details><details><summary id="f-option_line_ids">option_line_ids <span class="position">@ line 17</span></summary><pre>option_line_ids = fields.One2many(
+        string="Options Linked", comodel_name='sale.order.line', inverse_name='linked_line_id',
+    )</pre></details><details><summary id="f-shop_warning">shop_warning <span class="position">@ line 21</span></summary><pre>shop_warning = fields.Char(string="Warning")</pre></details><h3>Methods</h3><ul id="m-_get_displayed_unit_price"><li>_get_displayed_unit_price(self) <span class="position">@ line 80</span></li></ul><details><summary id="m-_get_pricelist_price_before_discount">_get_pricelist_price_before_discount(self) <span class="position">@ line 57</span></summary><pre>On ecommerce orders, the base price must always be the sales price.</pre></details><ul id="m-_get_sale_order_line_multiline_description_sale"><li>_get_sale_order_line_multiline_description_sale(self) <span class="position">@ line 43</span></li></ul><ul id="m-_get_shop_warning"><li>_get_shop_warning(self, clear) <span class="position">@ line 73</span></li></ul><ul id="m-_is_reorder_allowed"><li>_is_reorder_allowed(self) <span class="position">@ line 93</span></li></ul><ul id="m-_show_in_cart"><li>_show_in_cart(self) <span class="position">@ line 88</span></li></ul><ul id="m-get_description_following_lines"><li>get_description_following_lines(self) <span class="position">@ line 54</span></li></ul><h2>Inherited: odoo/addons/stock_dropshipping/models/sale.py</h2><h3>Methods</h3><ul id="m-_compute_is_mto"><li>_compute_is_mto(self) <span class="position">@ line 30</span></li></ul><ul id="m-_get_qty_procurement"><li>_get_qty_procurement(self, previous_product_uom_qty) <span class="position">@ line 42</span></li></ul><h2>Inherited: odoo/addons/stock_delivery/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_prepare_procurement_values"><li>_prepare_procurement_values(self, group_id) <span class="position">@ line 50</span></li></ul><h2>Inherited: odoo/addons/sale_timesheet/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-analytic_line_ids">analytic_line_ids <span class="position">@ line 13</span></summary><pre>analytic_line_ids = fields.One2many(domain=[('project_id', '=', False)])</pre></details><details><summary id="f-has_displayed_warning_upsell">has_displayed_warning_upsell <span class="position">@ line 16</span></summary><pre>has_displayed_warning_upsell = fields.Boolean('Has Displayed Warning Upsell', copy=False, export_string_translation=False)</pre></details><details><summary id="f-qty_delivered_method">qty_delivered_method <span class="position">@ line 12</span></summary><pre>qty_delivered_method = fields.Selection(selection_add=[('timesheet', 'Timesheets')])</pre></details><details><summary id="f-remaining_hours">remaining_hours <span class="position">@ line 15</span></summary><pre>remaining_hours = fields.Float('Time Remaining on SO', compute='_compute_remaining_hours', compute_sudo=True, store=True)</pre></details><details><summary id="f-remaining_hours_available">remaining_hours_available <span class="position">@ line 14</span></summary><pre>remaining_hours_available = fields.Boolean(compute='_compute_remaining_hours_available', compute_sudo=True)</pre></details><details><summary id="f-timesheet_ids">timesheet_ids <span class="position">@ line 17</span></summary><pre>timesheet_ids = fields.One2many('account.analytic.line', 'so_line', domain=[('project_id', '!=', False)], string='Timesheets', export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_convert_qty_company_hours"><li>_convert_qty_company_hours(self, dest_company) <span class="position">@ line 104</span></li></ul><details><summary id="m-_get_action_per_item">_get_action_per_item(self) <span class="position">@ line 198</span></summary><pre>Get action per Sales Order Item
+
+When the Sales Order Item contains a service product then the action will be View Timesheets.
+
+:returns: Dict containing id of SOL as key and the action as value</pre></details><details><summary id="m-_recompute_qty_to_invoice">_recompute_qty_to_invoice(self, start_date, end_date) <span class="position">@ line 162</span></summary><pre>Recompute the qty_to_invoice field for product containing timesheets
+
+Search the existed timesheets between the given period in parameter.
+Retrieve the unit_amount of this timesheet and then recompute
+the qty_to_invoice for each current product.
+
+:param start_date: the start date of the period
+:param end_date: the end date of the period</pre></details><details><summary id="m-_timesheet_compute_delivered_quantity_domain">_timesheet_compute_delivered_quantity_domain(self) <span class="position">@ line 93</span></summary><pre>Hook for validated timesheet in addionnal module</pre></details><ul id="m-_timesheet_create_project"><li>_timesheet_create_project(self) <span class="position">@ line 117</span></li></ul><details><summary id="m-_timesheet_create_project_prepare_values">_timesheet_create_project_prepare_values(self) <span class="position">@ line 156</span></summary><pre>Generate project values</pre></details><h2>Inherited: odoo/addons/sale_stock/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-customer_lead">customer_lead <span class="position">@ line 28</span></summary><pre>customer_lead = fields.Float(
+        compute='_compute_customer_lead', store=True, readonly=False, precompute=True,
+        inverse='_inverse_customer_lead')</pre></details><details><summary id="f-display_qty_widget">display_qty_widget <span class="position">@ line 26</span></summary><pre>display_qty_widget = fields.Boolean(compute='_compute_qty_to_deliver')</pre></details><details><summary id="f-forecast_expected_date">forecast_expected_date <span class="position">@ line 20</span></summary><pre>forecast_expected_date = fields.Datetime(compute='_compute_qty_at_date')</pre></details><details><summary id="f-free_qty_today">free_qty_today <span class="position">@ line 21</span></summary><pre>free_qty_today = fields.Float(compute='_compute_qty_at_date', digits='Product Unit of Measure')</pre></details><details><summary id="f-is_mto">is_mto <span class="position">@ line 25</span></summary><pre>is_mto = fields.Boolean(compute='_compute_is_mto')</pre></details><details><summary id="f-is_storable">is_storable <span class="position">@ line 27</span></summary><pre>is_storable = fields.Boolean(related='product_id.is_storable')</pre></details><details><summary id="f-move_ids">move_ids <span class="position">@ line 17</span></summary><pre>move_ids = fields.One2many('stock.move', 'sale_line_id', string='Stock Moves')</pre></details><details><summary id="f-qty_available_today">qty_available_today <span class="position">@ line 22</span></summary><pre>qty_available_today = fields.Float(compute='_compute_qty_at_date')</pre></details><details><summary id="f-qty_delivered_method">qty_delivered_method <span class="position">@ line 15</span></summary><pre>qty_delivered_method = fields.Selection(selection_add=[('stock_move', 'Stock Moves')])</pre></details><details><summary id="f-qty_to_deliver">qty_to_deliver <span class="position">@ line 24</span></summary><pre>qty_to_deliver = fields.Float(compute='_compute_qty_to_deliver', digits='Product Unit of Measure')</pre></details><details><summary id="f-route_id">route_id <span class="position">@ line 16</span></summary><pre>route_id = fields.Many2one('stock.route', string='Route', domain=[('sale_selectable', '=', True)], ondelete='restrict', check_company=True)</pre></details><details><summary id="f-scheduled_date">scheduled_date <span class="position">@ line 19</span></summary><pre>scheduled_date = fields.Datetime(compute='_compute_qty_at_date')</pre></details><details><summary id="f-virtual_available_at_date">virtual_available_at_date <span class="position">@ line 18</span></summary><pre>virtual_available_at_date = fields.Float(compute='_compute_qty_at_date', digits='Product Unit of Measure')</pre></details><details><summary id="f-warehouse_id">warehouse_id <span class="position">@ line 23</span></summary><pre>warehouse_id = fields.Many2one(related='order_id.warehouse_id')</pre></details><h3>Methods</h3><details><summary id="m-_action_launch_stock_rule">_action_launch_stock_rule(self, previous_product_uom_qty) <span class="position">@ line 298</span></summary><pre>Launch procurement group run method with required/custom fields generated by a
+sale order line. procurement group will launch '_run_pull', '_run_buy' or '_run_manufacture'
+depending on the sale order line product rule.</pre></details><ul id="m-_create_procurements"><li>_create_procurements(self, product_qty, procurement_uom, origin, values) <span class="position">@ line 292</span></li></ul><ul id="m-_get_action_add_from_catalog_extra_context"><li>_get_action_add_from_catalog_extra_context(self, order) <span class="position">@ line 360</span></li></ul><details><summary id="m-_get_outgoing_incoming_moves">_get_outgoing_incoming_moves(self, strict) <span class="position">@ line 249</span></summary><pre>Return the outgoing and incoming moves of the sale order line.
+@param strict: If True, only consider the moves that are strictly delivered to the customer (old behavior).
+If False, consider the moves that were created through the initial rule of the delivery route,
+to support the new push mechanism.</pre></details><ul id="m-_get_procurement_group"><li>_get_procurement_group(self) <span class="position">@ line 281</span></li></ul><details><summary id="m-_get_product_catalog_lines_data">_get_product_catalog_lines_data(self) <span class="position">@ line 365</span></summary><pre>Override of `sale` to add the delivered quantity.
+
+:rtype: dict
+:return: A dict with the following structure:
+{
+'deliveredQty': float,
+'quantity': float,
+'price': float,
+'readOnly': bool,
+}</pre></details><ul id="m-_get_qty_procurement"><li>_get_qty_procurement(self, previous_product_uom_qty) <span class="position">@ line 237</span></li></ul><ul id="m-_inverse_customer_lead"><li>_inverse_customer_lead(self) <span class="position">@ line 205</span></li></ul><ul id="m-_prepare_procurement_group_vals"><li>_prepare_procurement_group_vals(self) <span class="position">@ line 284</span></li></ul><details><summary id="m-_prepare_procurement_values">_prepare_procurement_values(self, group_id) <span class="position">@ line 211</span></summary><pre>Prepare specific key for moves or other components that will be created from a stock rule
+coming from a sale order line. This method could be override in order to add other custom key that could
+be used in move/po creation.</pre></details><ul id="m-_update_line_quantity"><li>_update_line_quantity(self, values) <span class="position">@ line 351</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 176</span></li></ul><h2>Inherited: odoo/addons/sale_service/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-is_service">is_service <span class="position">@ line 16</span></summary><pre>is_service = fields.Boolean("Is a Service", compute='_compute_is_service', store=True, compute_sudo=True, export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_additional_name_per_id"><li>_additional_name_per_id(self) <span class="position">@ line 79</span></li></ul><details><summary id="m-_auto_init">_auto_init(self) <span class="position">@ line 56</span></summary><pre>Create column to stop ORM from computing it himself (too slow)</pre></details><details><summary id="m-_domain_sale_line_service">_domain_sale_line_service(self) <span class="position">@ line 18</span></summary><pre>Get the default generic services domain for sale.order.line.
+You can filter out domain leafs by passing kwargs of the form 'check_<leaf_field>=False'.
+Only 'is_service' cannot be disabled.
+
+:param kwargs: boolean kwargs of the form 'check_<leaf_field>=False'
+:return: a valid domain</pre></details><details><summary id="m-_domain_sale_line_service_str">_domain_sale_line_service_str(self, domain, op) <span class="position">@ line 34</span></summary><pre>Get the str version of the domain for services sale.order.line.
+Can be optionally aggregated with another domain for customization of the field domain definition
+
+:param str domain: static str representing the domain for the field definition. Assumed it's a valid domain
+:param str op: '&' or '|' depending on how the domain should be combined. Defaults to '&'
+:param kwargs: refer to :ref:`_domain_sale_line_service`
+:return: str version of the combined services sale.order.line domain.</pre></details><ul id="m-_name_search"><li>_name_search(self, name, domain, operator, limit, order) <span class="position">@ line 97</span></li></ul><ul id="m-init"><li>init(self) <span class="position">@ line 71</span></li></ul><h2>Inherited: odoo/addons/sale_purchase/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-purchase_line_count">purchase_line_count <span class="position">@ line 16</span></summary><pre>purchase_line_count = fields.Integer("Number of generated purchase items", compute='_compute_purchase_count')</pre></details><details><summary id="f-purchase_line_ids">purchase_line_ids <span class="position">@ line 15</span></summary><pre>purchase_line_ids = fields.One2many('purchase.order.line', 'sale_line_id', string="Generated Purchase Lines", readonly=True, help="Purchase line generated by this Sales item on order confirmation, or when the quantity was increased.")</pre></details><h3>Methods</h3><ul id="m-_create_purchase_order"><li>_create_purchase_order(self, supplierinfo) <span class="position">@ line 236</span></li></ul><ul id="m-_match_or_create_purchase_order"><li>_match_or_create_purchase_order(self, supplierinfo) <span class="position">@ line 240</span></li></ul><details><summary id="m-_purchase_decrease_ordered_qty">_purchase_decrease_ordered_qty(self, new_qty, origin_values) <span class="position">@ line 75</span></summary><pre>Decrease the quantity from SO line will add a next acitivities on the related purchase order
+:param new_qty: new quantity (lower than the current one on SO line), expressed
+in UoM of SO line.
+:param origin_values: map from sale line id to old value for the ordered quantity (dict)</pre></details><details><summary id="m-_purchase_get_date_order">_purchase_get_date_order(self, supplierinfo) <span class="position">@ line 114</span></summary><pre>return the ordered date for the purchase order, computed as : SO commitment date - supplier delay</pre></details><details><summary id="m-_purchase_increase_ordered_qty">_purchase_increase_ordered_qty(self, new_qty, origin_values) <span class="position">@ line 99</span></summary><pre>Increase the quantity on the related purchase lines
+:param new_qty: new quantity (higher than the current one on SO line), expressed
+in UoM of SO line.
+:param origin_values: map from sale line id to old value for the ordered quantity (dict)</pre></details><details><summary id="m-_purchase_service_create">_purchase_service_create(self, quantity) <span class="position">@ line 252</span></summary><pre>On Sales Order confirmation, some lines (services ones) can create a purchase order line and maybe a purchase order.
+If a line should create a RFQ, it will check for existing PO. If no one is find, the SO line will create one, then adds
+a new PO line. The created purchase order line will be linked to the SO line.
+:param quantity: the quantity to force on the PO line, expressed in SO line UoM</pre></details><details><summary id="m-_purchase_service_generation">_purchase_service_generation(self) <span class="position">@ line 286</span></summary><pre>Create a Purchase for the first time from the sale line. If the SO line already created a PO, it
+will not create a second one.</pre></details><ul id="m-_purchase_service_get_company"><li>_purchase_service_get_company(self) <span class="position">@ line 119</span></li></ul><ul id="m-_purchase_service_get_price_unit_and_taxes"><li>_purchase_service_get_price_unit_and_taxes(self, supplierinfo, purchase_order) <span class="position">@ line 143</span></li></ul><ul id="m-_purchase_service_get_product_name"><li>_purchase_service_get_product_name(self, supplierinfo, purchase_order, quantity) <span class="position">@ line 159</span></li></ul><ul id="m-_purchase_service_match_purchase_order"><li>_purchase_service_match_purchase_order(self, partner, company) <span class="position">@ line 229</span></li></ul><ul id="m-_purchase_service_match_supplier"><li>_purchase_service_match_supplier(self, warning) <span class="position">@ line 222</span></li></ul><details><summary id="m-_purchase_service_prepare_line_values">_purchase_service_prepare_line_values(self, purchase_order, quantity) <span class="position">@ line 174</span></summary><pre>Returns the values to create the purchase order line from the current SO line.
+:param purchase_order: record of purchase.order
+:rtype: dict
+:param quantity: the quantity to force on the PO line, expressed in SO line UoM</pre></details><details><summary id="m-_purchase_service_prepare_order_values">_purchase_service_prepare_order_values(self, supplierinfo) <span class="position">@ line 122</span></summary><pre>Returns the values to create the purchase order from the current SO line.
+:param supplierinfo: record of product.supplierinfo
+:rtype: dict</pre></details><details><summary id="m-_retrieve_purchase_partner">_retrieve_purchase_partner(self) <span class="position">@ line 246</span></summary><pre>In case we want to explicitely name a partner from whom we want to buy or receive products</pre></details><ul id="m-write"><li>write(self, values) <span class="position">@ line 51</span></li></ul><h2>Inherited: odoo/addons/sale_project_stock/models/sale_order_line.py</h2><h3>Methods</h3><details><summary id="m-_get_action_per_item">_get_action_per_item(self) <span class="position">@ line 9</span></summary><pre>Get action per Sales Order Item to display the stock moves linked
+
+:returns: Dict containing id of SOL as key and the action as value</pre></details><h2>Inherited: odoo/addons/sale_project/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-project_id">project_id <span class="position">@ line 16</span></summary><pre>project_id = fields.Many2one(
+        'project.project', 'Generated Project',
+        index=True, copy=False, export_string_translation=False)</pre></details><details><summary id="f-qty_delivered_method">qty_delivered_method <span class="position">@ line 15</span></summary><pre>qty_delivered_method = fields.Selection(selection_add=[('milestones', 'Milestones')])</pre></details><details><summary id="f-reached_milestones_ids">reached_milestones_ids <span class="position">@ line 22</span></summary><pre>reached_milestones_ids = fields.One2many('project.milestone', 'sale_line_id', string='Reached Milestones', domain=[('is_reached', '=', True)], export_string_translation=False)</pre></details><details><summary id="f-task_id">task_id <span class="position">@ line 19</span></summary><pre>task_id = fields.Many2one(
+        'project.task', 'Generated Task',
+        index=True, copy=False, export_string_translation=False)</pre></details><h3>Methods</h3><ul id="m-_convert_qty_company_hours"><li>_convert_qty_company_hours(self, dest_company) <span class="position">@ line 167</span></li></ul><details><summary id="m-_get_action_per_item">_get_action_per_item(self) <span class="position">@ line 398</span></summary><pre>Get action per Sales Order Item
+
+:returns: Dict containing id of SOL as key and the action as value</pre></details><ul id="m-_handle_milestones"><li>_handle_milestones(self, project) <span class="position">@ line 348</span></li></ul><details><summary id="m-_prepare_invoice_line">_prepare_invoice_line(self) <span class="position">@ line 367</span></summary><pre>If the sale order line isn't linked to a sale order which already have a default analytic account,
+this method allows to retrieve the analytic account which is linked to project or task directly linked
+to this sale order line, or the analytic account of the project which uses this sale order line, if it exists.</pre></details><details><summary id="m-_timesheet_create_project">_timesheet_create_project(self) <span class="position">@ line 184</span></summary><pre>Generate project for the given so line, and link it.
+:param project: record of project.project in which the task should be created
+:return task: record of the created task</pre></details><details><summary id="m-_timesheet_create_project_prepare_values">_timesheet_create_project_prepare_values(self) <span class="position">@ line 170</span></summary><pre>Generate project values</pre></details><details><summary id="m-_timesheet_create_task">_timesheet_create_task(self, project) <span class="position">@ line 252</span></summary><pre>Generate task for the given so line, and link it.
+:param project: record of project.project in which the task should be created
+:return task: record of the created task</pre></details><ul id="m-_timesheet_create_task_prepare_values"><li>_timesheet_create_task_prepare_values(self, project) <span class="position">@ line 231</span></li></ul><details><summary id="m-_timesheet_service_generation">_timesheet_service_generation(self) <span class="position">@ line 268</span></summary><pre>For service lines, create the task or the project. If already exists, it simply links
+the existing one to the line.
+Note: If the SO was confirmed, cancelled, set to draft then confirmed, avoid creating a
+new project/task. This explains the searches on 'sale_line_id' on project/task. This also
+implied if so line of generated task has been modified, we may regenerate it.</pre></details><ul id="m-default_get"><li>default_get(self, fields) <span class="position">@ line 24</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 151</span></li></ul><h2>Inherited: odoo/addons/sale_product_matrix/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-product_add_mode">product_add_mode <span class="position">@ line 9</span></summary><pre>product_add_mode = fields.Selection(related='product_template_id.product_add_mode', depends=['product_template_id'])</pre></details><h2>Inherited: odoo/addons/sale_mrp/models/sale_order_line.py</h2><h3>Methods</h3><ul id="m-_compute_qty_delivered"><li>_compute_qty_delivered(self) <span class="position">@ line 33</span></li></ul><ul id="m-_get_bom_component_qty"><li>_get_bom_component_qty(self, bom) <span class="position">@ line 92</span></li></ul><ul id="m-_get_qty_procurement"><li>_get_qty_procurement(self, previous_product_uom_qty) <span class="position">@ line 144</span></li></ul><ul id="m-compute_uom_qty"><li>compute_uom_qty(self, new_qty, stock_move, rounding) <span class="position">@ line 86</span></li></ul><h2>Inherited: odoo/addons/sale_margin/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-margin">margin <span class="position">@ line 10</span></summary><pre>margin = fields.Float(
+        "Margin", compute='_compute_margin',
+        digits='Product Price', store=True, groups="base.group_user", precompute=True)</pre></details><details><summary id="f-margin_percent">margin_percent <span class="position">@ line 13</span></summary><pre>margin_percent = fields.Float(
+        "Margin (%)", compute='_compute_margin', store=True, groups="base.group_user", precompute=True)</pre></details><details><summary id="f-purchase_price">purchase_price <span class="position">@ line 15</span></summary><pre>purchase_price = fields.Float(
+        string="Cost", compute="_compute_purchase_price",
+        digits='Product Price', store=True, readonly=False, copy=False, precompute=True,
+        groups="base.group_user")</pre></details><h2>Inherited: odoo/addons/sale_management/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-sale_order_option_ids">sale_order_option_ids <span class="position">@ line 11</span></summary><pre>sale_order_option_ids = fields.One2many('sale.order.option', 'line_id', 'Optional Products Lines')</pre></details><h3>Methods</h3><ul id="m-_can_be_edited_on_portal"><li>_can_be_edited_on_portal(self) <span class="position">@ line 45</span></li></ul><ul id="m-_compute_price_unit"><li>_compute_price_unit(self) <span class="position">@ line 33</span></li></ul><details><summary id="m-_lines_without_price_recomputation">_lines_without_price_recomputation(self) <span class="position">@ line 39</span></summary><pre>Hook to allow filtering the lines to avoid the recomputation of the price.</pre></details><details><summary id="m-_use_template_name">_use_template_name(self) <span class="position">@ line 25</span></summary><pre>Allows overriding to avoid using the template lines descriptions for the sale order lines descriptions.
+This is typically useful for 'configured' products, such as event_ticket or event_booth, where we need to have
+specific configuration information inside description instead of the default values.</pre></details><h2>Inherited: odoo/addons/sale_loyalty_delivery/models/sale_order_line.py</h2><h3>Methods</h3><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/sale_loyalty/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-coupon_id">coupon_id <span class="position">@ line 14</span></summary><pre>coupon_id = fields.Many2one(
+        comodel_name='loyalty.card', ondelete='restrict', readonly=True)</pre></details><details><summary id="f-is_reward_line">is_reward_line <span class="position">@ line 10</span></summary><pre>is_reward_line = fields.Boolean(
+        string="Is a program reward line", compute='_compute_is_reward_line')</pre></details><details><summary id="f-points_cost">points_cost <span class="position">@ line 18</span></summary><pre>points_cost = fields.Float(help="How much point this reward costs on the loyalty card.")</pre></details><details><summary id="f-reward_id">reward_id <span class="position">@ line 12</span></summary><pre>reward_id = fields.Many2one(
+        comodel_name='loyalty.reward', ondelete='restrict', readonly=True)</pre></details><details><summary id="f-reward_identifier_code">reward_identifier_code <span class="position">@ line 16</span></summary><pre>reward_identifier_code = fields.Char(
+        help="Technical field used to link multiple reward lines from the same reward together.")</pre></details><h3>Methods</h3><ul id="m-_can_be_invoiced_alone"><li>_can_be_invoiced_alone(self) <span class="position">@ line 50</span></li></ul><ul id="m-_compute_name"><li>_compute_name(self) <span class="position">@ line 20</span></li></ul><ul id="m-_compute_tax_id"><li>_compute_tax_id(self) <span class="position">@ line 30</span></li></ul><ul id="m-_get_display_price"><li>_get_display_price(self) <span class="position">@ line 43</span></li></ul><ul id="m-_is_not_sellable_line"><li>_is_not_sellable_line(self) <span class="position">@ line 53</span></li></ul><details><summary id="m-_reset_loyalty">_reset_loyalty(self, complete) <span class="position">@ line 56</span></summary><pre>Reset the line(s) to a state which does not impact reward computation.
+If complete is set to True we also remove the coupon and reward from the line(s).
+This option should be used when the line will be unlinked.
+
+Returns self</pre></details><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 97</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 85</span></li></ul><h2>Inherited: odoo/addons/sale_expense_margin/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-expense_id">expense_id <span class="position">@ line 8</span></summary><pre>expense_id = fields.Many2one('hr.expense', string='Expense')</pre></details><h2>Inherited: odoo/addons/sale/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-analytic_line_ids">analytic_line_ids <span class="position">@ line 236</span></summary><pre>analytic_line_ids = fields.One2many(
+        comodel_name='account.analytic.line', inverse_name='so_line',
+        string="Analytic lines")</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 46</span></summary><pre>company_id = fields.Many2one(
+        related='order_id.company_id',
+        store=True, index=True, precompute=True)</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 49</span></summary><pre>currency_id = fields.Many2one(
+        related='order_id.currency_id',
+        depends=['order_id.currency_id'],
+        store=True, precompute=True)</pre></details><details><summary id="f-customer_lead">customer_lead <span class="position">@ line 198</span></summary><pre>customer_lead = fields.Float(
+        string="Lead Time",
+        compute='_compute_customer_lead',
+        store=True, readonly=False, required=True, precompute=True,
+        help="Number of days between the order confirmation and the shipping of the products to the customer")</pre></details><details><summary id="f-discount">discount <span class="position">@ line 158</span></summary><pre>discount = fields.Float(
+        string="Discount (%)",
+        compute='_compute_discount',
+        digits='Discount',
+        store=True, readonly=False, precompute=True)</pre></details><details><summary id="f-display_type">display_type <span class="position">@ line 68</span></summary><pre>display_type = fields.Selection(
+        selection=[
+            ('line_section', "Section"),
+            ('line_note', "Note"),
+        ],
+        default=False)</pre></details><details><summary id="f-invoice_lines">invoice_lines <span class="position">@ line 240</span></summary><pre>invoice_lines = fields.Many2many(
+        comodel_name='account.move.line',
+        relation='sale_order_line_invoice_rel', column1='order_line_id', column2='invoice_line_id',
+        string="Invoice Lines",
+        copy=False)</pre></details><details><summary id="f-invoice_status">invoice_status <span class="position">@ line 245</span></summary><pre>invoice_status = fields.Selection(
+        selection=[
+            ('upselling', "Upselling Opportunity"),
+            ('invoiced', "Fully Invoiced"),
+            ('to invoice', "To Invoice"),
+            ('no', "Nothing to Invoice"),
+        ],
+        string="Invoice Status",
+        compute='_compute_invoice_status',
+        store=True)</pre></details><details><summary id="f-is_configurable_product">is_configurable_product <span class="position">@ line 74</span></summary><pre>is_configurable_product = fields.Boolean(
+        string="Is the product configurable?",
+        related='product_template_id.has_configurable_attributes',
+        depends=['product_id'])</pre></details><details><summary id="f-is_downpayment">is_downpayment <span class="position">@ line 78</span></summary><pre>is_downpayment = fields.Boolean(
+        string="Is a down payment",
+        help="Down payments are made when creating invoices from a sales order."
+            " They are not copied when duplicating a sales order.")</pre></details><details><summary id="f-is_expense">is_expense <span class="position">@ line 82</span></summary><pre>is_expense = fields.Boolean(
+        string="Is expense",
+        help="Is true if the sales order line comes from an expense or a vendor bills")</pre></details><details><summary id="f-is_product_archived">is_product_archived <span class="position">@ line 119</span></summary><pre>is_product_archived = fields.Boolean(compute="_compute_is_product_archived")</pre></details><details><summary id="f-name">name <span class="position">@ line 121</span></summary><pre>name = fields.Text(
+        string="Description",
+        compute='_compute_name',
+        store=True, readonly=False, required=True, precompute=True)</pre></details><details><summary id="f-order_id">order_id <span class="position">@ line 39</span></summary><pre>order_id = fields.Many2one(
+        comodel_name='sale.order',
+        string="Order Reference",
+        required=True, ondelete='cascade', index=True, copy=False)</pre></details><details><summary id="f-order_partner_id">order_partner_id <span class="position">@ line 53</span></summary><pre>order_partner_id = fields.Many2one(
+        related='order_id.partner_id',
+        string="Customer",
+        store=True, index=True, precompute=True)</pre></details><details><summary id="f-price_reduce_taxexcl">price_reduce_taxexcl <span class="position">@ line 176</span></summary><pre>price_reduce_taxexcl = fields.Monetary(
+        string="Price Reduce Tax excl",
+        compute='_compute_price_reduce_taxexcl',
+        store=True, precompute=True)</pre></details><details><summary id="f-price_reduce_taxinc">price_reduce_taxinc <span class="position">@ line 180</span></summary><pre>price_reduce_taxinc = fields.Monetary(
+        string="Price Reduce Tax incl",
+        compute='_compute_price_reduce_taxinc',
+        store=True, precompute=True)</pre></details><details><summary id="f-price_subtotal">price_subtotal <span class="position">@ line 164</span></summary><pre>price_subtotal = fields.Monetary(
+        string="Subtotal",
+        compute='_compute_amount',
+        store=True, precompute=True)</pre></details><details><summary id="f-price_tax">price_tax <span class="position">@ line 168</span></summary><pre>price_tax = fields.Float(
+        string="Total Tax",
+        compute='_compute_amount',
+        store=True, precompute=True)</pre></details><details><summary id="f-price_total">price_total <span class="position">@ line 172</span></summary><pre>price_total = fields.Monetary(
+        string="Total",
+        compute='_compute_amount',
+        store=True, precompute=True)</pre></details><details><summary id="f-price_unit">price_unit <span class="position">@ line 152</span></summary><pre>price_unit = fields.Float(
+        string="Unit Price",
+        compute='_compute_price_unit',
+        digits='Product Price',
+        store=True, readonly=False, required=True, precompute=True)</pre></details><details><summary id="f-pricelist_item_id">pricelist_item_id <span class="position">@ line 148</span></summary><pre>pricelist_item_id = fields.Many2one(
+        comodel_name='product.pricelist.item',
+        compute='_compute_pricelist_item_id')</pre></details><details><summary id="f-product_custom_attribute_value_ids">product_custom_attribute_value_ids <span class="position">@ line 107</span></summary><pre>product_custom_attribute_value_ids = fields.One2many(
+        comodel_name='product.attribute.custom.value', inverse_name='sale_order_line_id',
+        string="Custom Values",
+        compute='_compute_custom_attribute_values',
+        store=True, readonly=False, precompute=True, copy=True)</pre></details><details><summary id="f-product_id">product_id <span class="position">@ line 87</span></summary><pre>product_id = fields.Many2one(
+        comodel_name='product.product',
+        string="Product",
+        change_default=True, ondelete='restrict', index='btree_not_null',
+        domain="[('sale_ok', '=', True)]")</pre></details><details><summary id="f-product_no_variant_attribute_value_ids">product_no_variant_attribute_value_ids <span class="position">@ line 114</span></summary><pre>product_no_variant_attribute_value_ids = fields.Many2many(
+        comodel_name='product.template.attribute.value',
+        string="Extra Values",
+        compute='_compute_no_variant_attribute_values',
+        store=True, readonly=False, precompute=True, ondelete='restrict')</pre></details><details><summary id="f-product_packaging_id">product_packaging_id <span class="position">@ line 186</span></summary><pre>product_packaging_id = fields.Many2one(
+        comodel_name='product.packaging',
+        string="Packaging",
+        compute='_compute_product_packaging_id',
+        store=True, readonly=False, precompute=True,
+        domain="[('sales', '=', True), ('product_id','=',product_id)]",
+        check_company=True)</pre></details><details><summary id="f-product_packaging_qty">product_packaging_qty <span class="position">@ line 193</span></summary><pre>product_packaging_qty = fields.Float(
+        string="Packaging Quantity",
+        compute='_compute_product_packaging_qty',
+        store=True, readonly=False, precompute=True)</pre></details><details><summary id="f-product_template_attribute_value_ids">product_template_attribute_value_ids <span class="position">@ line 104</span></summary><pre>product_template_attribute_value_ids = fields.Many2many(
+        related='product_id.product_template_attribute_value_ids',
+        depends=['product_id'])</pre></details><details><summary id="f-product_template_id">product_template_id <span class="position">@ line 92</span></summary><pre>product_template_id = fields.Many2one(
+        string="Product Template",
+        comodel_name='product.template',
+        compute='_compute_product_template_id',
+        readonly=False,
+        search='_search_product_template_id',
+        # previously related='product_id.product_tmpl_id'
+        # not anymore since the field must be considered editable for product configurator logic
+        # without modifying the related product_id when updated.
+        domain=[('sale_ok', '=', True)])</pre></details><details><summary id="f-product_type">product_type <span class="position">@ line 266</span></summary><pre>product_type = fields.Selection(related='product_id.detailed_type', depends=['product_id'])</pre></details><details><summary id="f-product_uom">product_uom <span class="position">@ line 131</span></summary><pre>product_uom = fields.Many2one(
+        comodel_name='uom.uom',
+        string="Unit of Measure",
+        compute='_compute_product_uom',
+        store=True, readonly=False, precompute=True, ondelete='restrict',
+        domain="[('category_id', '=', product_uom_category_id)]")</pre></details><details><summary id="f-product_uom_category_id">product_uom_category_id <span class="position">@ line 102</span></summary><pre>product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', depends=['product_id'])</pre></details><details><summary id="f-product_uom_qty">product_uom_qty <span class="position">@ line 126</span></summary><pre>product_uom_qty = fields.Float(
+        string="Quantity",
+        compute='_compute_product_uom_qty',
+        digits='Product Unit of Measure', default=1.0,
+        store=True, readonly=False, required=True, precompute=True)</pre></details><details><summary id="f-product_uom_readonly">product_uom_readonly <span class="position">@ line 270</span></summary><pre>product_uom_readonly = fields.Boolean(
+        compute='_compute_product_uom_readonly')</pre></details><details><summary id="f-product_updatable">product_updatable <span class="position">@ line 267</span></summary><pre>product_updatable = fields.Boolean(
+        string="Can Edit Product",
+        compute='_compute_product_updatable')</pre></details><details><summary id="f-qty_delivered">qty_delivered <span class="position">@ line 217</span></summary><pre>qty_delivered = fields.Float(
+        string="Delivery Quantity",
+        compute='_compute_qty_delivered',
+        default=0.0,
+        digits='Product Unit of Measure',
+        store=True, readonly=False, copy=False)</pre></details><details><summary id="f-qty_delivered_method">qty_delivered_method <span class="position">@ line 204</span></summary><pre>qty_delivered_method = fields.Selection(
+        selection=[
+            ('manual', "Manual"),
+            ('analytic', "Analytic From Expenses"),
+        ],
+        string="Method to update delivered qty",
+        compute='_compute_qty_delivered_method',
+        store=True, precompute=True,
+        help="According to product configuration, the delivered quantity can be automatically computed by mechanism:\n"
+             "  - Manual: the quantity is set manually on the line\n"
+             "  - Analytic From expenses: the quantity is the quantity sum from posted expenses\n"
+             "  - Timesheet: the quantity is the sum of hours recorded on tasks linked to this sale line\n"
+             "  - Stock Moves: the quantity comes from confirmed pickings\n")</pre></details><details><summary id="f-qty_invoiced">qty_invoiced <span class="position">@ line 225</span></summary><pre>qty_invoiced = fields.Float(
+        string="Invoiced Quantity",
+        compute='_compute_qty_invoiced',
+        digits='Product Unit of Measure',
+        store=True)</pre></details><details><summary id="f-qty_to_invoice">qty_to_invoice <span class="position">@ line 230</span></summary><pre>qty_to_invoice = fields.Float(
+        string="Quantity To Invoice",
+        compute='_compute_qty_to_invoice',
+        digits='Product Unit of Measure',
+        store=True)</pre></details><details><summary id="f-salesman_id">salesman_id <span class="position">@ line 57</span></summary><pre>salesman_id = fields.Many2one(
+        related='order_id.user_id',
+        string="Salesperson",
+        store=True, precompute=True)</pre></details><details><summary id="f-sequence">sequence <span class="position">@ line 43</span></summary><pre>sequence = fields.Integer(string="Sequence", default=10)</pre></details><details><summary id="f-state">state <span class="position">@ line 61</span></summary><pre>state = fields.Selection(
+        related='order_id.state',
+        string="Order Status",
+        copy=False, store=True, precompute=True)</pre></details><details><summary id="f-tax_calculation_rounding_method">tax_calculation_rounding_method <span class="position">@ line 272</span></summary><pre>tax_calculation_rounding_method = fields.Selection(
+        related='company_id.tax_calculation_rounding_method',
+        string='Tax calculation rounding method', readonly=True)</pre></details><details><summary id="f-tax_country_id">tax_country_id <span class="position">@ line 65</span></summary><pre>tax_country_id = fields.Many2one(related='order_id.tax_country_id')</pre></details><details><summary id="f-tax_id">tax_id <span class="position">@ line 139</span></summary><pre>tax_id = fields.Many2many(
+        comodel_name='account.tax',
+        string="Taxes",
+        compute='_compute_tax_id',
+        store=True, readonly=False, precompute=True,
+        context={'active_test': False},
+        check_company=True)</pre></details><details><summary id="f-untaxed_amount_invoiced">untaxed_amount_invoiced <span class="position">@ line 256</span></summary><pre>untaxed_amount_invoiced = fields.Monetary(
+        string="Untaxed Invoiced Amount",
+        compute='_compute_untaxed_amount_invoiced',
+        store=True)</pre></details><details><summary id="f-untaxed_amount_to_invoice">untaxed_amount_to_invoice <span class="position">@ line 260</span></summary><pre>untaxed_amount_to_invoice = fields.Monetary(
+        string="Untaxed Amount To Invoice",
+        compute='_compute_untaxed_amount_to_invoice',
+        store=True)</pre></details><h3>Methods</h3><ul id="m-_additional_name_per_id"><li>_additional_name_per_id(self) <span class="position">@ line 1214</span></li></ul><details><summary id="m-_can_be_invoiced_alone">_can_be_invoiced_alone(self) <span class="position">@ line 853</span></summary><pre>Whether a given line is meaningful to invoice alone.
+
+It is generally meaningless/confusing or even wrong to invoice some specific SOlines
+(delivery, discounts, rewards, ...) without others, unless they are the only left to invoice
+in the SO.</pre></details><details><summary id="m-_check_line_unlink">_check_line_unlink(self) <span class="position">@ line 1092</span></summary><pre>Check whether given lines can be deleted or not.
+
+* Lines cannot be deleted if the order is confirmed.
+* Down payment lines who have not yet been invoiced bypass that exception.
+* Sections and Notes can always be deleted.
+
+:returns: Sales Order Lines that cannot be deleted
+:rtype: `sale.order.line` recordset</pre></details><ul id="m-_compute_customer_lead"><li>_compute_customer_lead(self) <span class="position">@ line 694</span></li></ul><details><summary id="m-_convert_to_sol_currency">_convert_to_sol_currency(self, amount, currency) <span class="position">@ line 1297</span></summary><pre>Convert the given amount from the given currency to the SO(L) currency.
+
+:param float amount: the amount to convert
+:param currency: currency in which the given amount is expressed
+:type currency: `res.currency` record
+:returns: converted amount
+:rtype: float</pre></details><details><summary id="m-_convert_to_tax_base_line_dict">_convert_to_tax_base_line_dict(self) <span class="position">@ line 620</span></summary><pre>Convert the current record to a dictionary in order to use the generic taxes computation method
+defined on account.tax.
+
+:return: A python dictionary.</pre></details><ul id="m-_expected_date"><li>_expected_date(self) <span class="position">@ line 1123</span></li></ul><details><summary id="m-_get_custom_compute_tax_cache_key">_get_custom_compute_tax_cache_key(self) <span class="position">@ line 470</span></summary><pre>Hook method to be able to set/get cached taxes while computing them</pre></details><details><summary id="m-_get_delivered_quantity_by_analytic">_get_delivered_quantity_by_analytic(self, additional_domain) <span class="position">@ line 745</span></summary><pre>Compute and write the delivered quantity of current SO lines, based on their related
+analytic lines.
+:param additional_domain: domain to restrict AAL to include in computation (required since timesheet is an AAL with a project ...)</pre></details><details><summary id="m-_get_display_price">_get_display_price(self) <span class="position">@ line 507</span></summary><pre>Compute the displayed unit price for a given line.
+
+Overridden in custom flows:
+* where the price is not specified by the pricelist
+* where the discount is not specified by the pricelist
+
+Note: self.ensure_one()</pre></details><ul id="m-_get_downpayment_description"><li>_get_downpayment_description(self) <span class="position">@ line 397</span></li></ul><ul id="m-_get_downpayment_state"><li>_get_downpayment_state(self) <span class="position">@ line 731</span></li></ul><details><summary id="m-_get_invoice_line_sequence">_get_invoice_line_sequence(self, new, old) <span class="position">@ line 1134</span></summary><pre>Method intended to be overridden in third-party module if we want to prevent the resequencing
+of invoice lines.
+
+:param int new:   the new line sequence
+:param int old:   the old line sequence
+
+:return:          the sequence of the SO line, by default the new one.</pre></details><ul id="m-_get_invoice_lines"><li>_get_invoice_lines(self) <span class="position">@ line 797</span></li></ul><ul id="m-_get_partner_display"><li>_get_partner_display(self) <span class="position">@ line 1209</span></li></ul><details><summary id="m-_get_pricelist_price">_get_pricelist_price(self) <span class="position">@ line 532</span></summary><pre>Compute the price given by the pricelist for the given line information.
+
+:return: the product sales price in the order currency (without taxes)
+:rtype: float</pre></details><details><summary id="m-_get_pricelist_price_before_discount">_get_pricelist_price_before_discount(self) <span class="position">@ line 572</span></summary><pre>Compute the price used as base for the pricelist price computation.
+
+:return: the product sales price in the order currency (without taxes)
+:rtype: float</pre></details><details><summary id="m-_get_pricelist_price_context">_get_pricelist_price_context(self) <span class="position">@ line 562</span></summary><pre>DO NOT USE in new code, this contextual logic should be dropped or heavily refactored soon</pre></details><details><summary id="m-_get_product_catalog_lines_data">_get_product_catalog_lines_data(self) <span class="position">@ line 1230</span></summary><pre>Return information about sale order lines in `self`.
+
+If `self` is empty, this method returns only the default value(s) needed for the product
+catalog. In this case, the quantity that equals 0.
+
+Otherwise, it returns a quantity and a price based on the product of the SOL(s) and whether
+the product is read-only or not.
+
+A product is considered read-only if the order is considered read-only (see
+``SaleOrder._is_readonly`` for more details) or if `self` contains multiple records
+or if it has sale_line_warn == "block".
+
+Note: This method cannot be called with multiple records that have different products linked.
+
+:raise odoo.exceptions.ValueError: ``len(self.product_id) != 1``
+:rtype: dict
+:return: A dict with the following structure:
+{
+'quantity': float,
+'price': float,
+'readOnly': bool,
+'warning': String
+}</pre></details><details><summary id="m-_get_product_price_context">_get_product_price_context(self) <span class="position">@ line 551</span></summary><pre>Gives the context for product price computation.
+
+:return: additional context to consider extra prices from attributes in the base product price.
+:rtype: dict</pre></details><details><summary id="m-_get_protected_fields">_get_protected_fields(self) <span class="position">@ line 1060</span></summary><pre>Give the fields that should not be modified on a locked SO.
+
+:returns: list of field names
+:rtype: list</pre></details><details><summary id="m-_get_sale_order_line_multiline_description_sale">_get_sale_order_line_multiline_description_sale(self) <span class="position">@ line 346</span></summary><pre>Compute a default multiline description for this sales order line.
+
+In most cases the product description is enough but sometimes we need to append information that only
+exists on the sale order line itself.
+e.g:
+- custom attributes and attributes that don't create variants, both introduced by the "product configurator"
+- in event_sale we need to know specifically the sales order line as well as the product to generate the name:
+the product is not sufficient because we also need to know the event_id and the event_ticket_id (both which belong to the sale order line).</pre></details><details><summary id="m-_get_sale_order_line_multiline_description_variants">_get_sale_order_line_multiline_description_variants(self) <span class="position">@ line 359</span></summary><pre>When using no_variant attributes or is_custom values, the product
+itself is not sufficient to create the description: we need to add
+information about those special attributes and values.
+
+:return: the description related to special variant attributes/values
+:rtype: string</pre></details><ul id="m-_is_delivery"><li>_is_delivery(self) <span class="position">@ line 1222</span></li></ul><ul id="m-_is_not_sellable_line"><li>_is_not_sellable_line(self) <span class="position">@ line 1226</span></li></ul><details><summary id="m-_prepare_invoice_line">_prepare_invoice_line(self) <span class="position">@ line 1146</span></summary><pre>Prepare the values to create the new invoice line for a sales order line.
+
+:param optional_values: any parameter that should be added to the returned invoice line
+:rtype: dict</pre></details><details><summary id="m-_prepare_procurement_values">_prepare_procurement_values(self, group_id) <span class="position">@ line 1192</span></summary><pre>Prepare specific key for moves or other components that will be created from a stock rule
+coming from a sale order line. This method could be override in order to add other custom key that could
+be used in move/po creation.</pre></details><ul id="m-_search_product_template_id"><li>_search_product_template_id(self, operator, value) <span class="position">@ line 293</span></li></ul><ul id="m-_set_analytic_distribution"><li>_set_analytic_distribution(self, inv_line_vals) <span class="position">@ line 1181</span></li></ul><ul id="m-_update_line_quantity"><li>_update_line_quantity(self, values) <span class="position">@ line 1071</span></li></ul><ul id="m-_validate_analytic_distribution"><li>_validate_analytic_distribution(self) <span class="position">@ line 1199</span></li></ul><ul id="m-action_add_from_catalog"><li>action_add_from_catalog(self) <span class="position">@ line 1117</span></li></ul><ul id="m-compute_uom_qty"><li>compute_uom_qty(self, new_qty, stock_move, rounding) <span class="position">@ line 1131</span></li></ul><ul id="m-has_valued_move_ids"><li>has_valued_move_ids(self) <span class="position">@ line 1320</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 1026</span></li></ul><h2>Inherited: odoo/addons/repair/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_action_launch_stock_rule"><li>_action_launch_stock_rule(self, previous_product_uom_qty) <span class="position">@ line 82</span></li></ul><ul id="m-_cancel_repair_order"><li>_cancel_repair_order(self) <span class="position">@ line 128</span></li></ul><ul id="m-_compute_qty_delivered"><li>_compute_qty_delivered(self) <span class="position">@ line 53</span></li></ul><ul id="m-_create_repair_order"><li>_create_repair_order(self) <span class="position">@ line 87</span></li></ul><ul id="m-has_valued_move_ids"><li>has_valued_move_ids(self) <span class="position">@ line 135</span></li></ul><ul id="m-write"><li>write(self, vals) <span class="position">@ line 69</span></li></ul><h2>Inherited: odoo/addons/pos_sale_loyalty/models/sale_order.py</h2><h3>Methods</h3><ul id="m-_get_sale_order_fields"><li>_get_sale_order_fields(self) <span class="position">@ line 10</span></li></ul><h2>Inherited: odoo/addons/pos_sale/models/sale_order.py</h2><h3>Fields</h3><details><summary id="f-pos_order_line_ids">pos_order_line_ids <span class="position">@ line 51</span></summary><pre>pos_order_line_ids = fields.One2many('pos.order.line', 'sale_order_line_id', string="Order lines Transfered to Point of Sale", readonly=True, groups="point_of_sale.group_pos_user")</pre></details><h3>Methods</h3><ul id="m-_get_sale_order_fields"><li>_get_sale_order_fields(self) <span class="position">@ line 74</span></li></ul><ul id="m-read_converted"><li>read_converted(self) <span class="position">@ line 77</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 121</span></li></ul><h2>Inherited: odoo/addons/event_sale/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-event_id">event_id <span class="position">@ line 10</span></summary><pre>event_id = fields.Many2one(
+        'event.event', string='Event',
+        compute="_compute_event_id", store=True, readonly=False, precompute=True,
+        help="Choose an event and it will automatically create a registration for this event.")</pre></details><details><summary id="f-event_ticket_id">event_ticket_id <span class="position">@ line 14</span></summary><pre>event_ticket_id = fields.Many2one(
+        'event.event.ticket', string='Ticket Type',
+        compute="_compute_event_ticket_id", store=True, readonly=False, precompute=True,
+        help="Choose an event ticket and it will automatically create a registration for this event ticket.")</pre></details><details><summary id="f-registration_ids">registration_ids <span class="position">@ line 18</span></summary><pre>registration_ids = fields.One2many('event.registration', 'sale_order_line_id', string="Registrations")</pre></details><h3>Methods</h3><ul id="m-_get_display_price"><li>_get_display_price(self) <span class="position">@ line 98</span></li></ul><details><summary id="m-_get_sale_order_line_multiline_description_sale">_get_sale_order_line_multiline_description_sale(self) <span class="position">@ line 81</span></summary><pre>We override this method because we decided that:
+The default description of a sales order line containing a ticket must be different than the default description when no ticket is present.
+So in that case we use the description computed from the ticket, instead of the description computed from the product.
+We need this override to be defined here in sales order line (and not in product) because here is the only place where the event_ticket_id is referenced.</pre></details><details><summary id="m-_init_registrations">_init_registrations(self) <span class="position">@ line 33</span></summary><pre>Create registrations linked to a sales order line. A sale
+order line has a product_uom_qty attribute that will be the number of
+registrations linked to this line.</pre></details><details><summary id="m-_use_template_name">_use_template_name(self) <span class="position">@ line 92</span></summary><pre>We do not want configured description to get rewritten by template default</pre></details><h2>Inherited: odoo/addons/event_booth_sale/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-event_booth_category_id">event_booth_category_id <span class="position">@ line 11</span></summary><pre>event_booth_category_id = fields.Many2one('event.booth.category', string='Booths Category', ondelete='set null')</pre></details><details><summary id="f-event_booth_ids">event_booth_ids <span class="position">@ line 19</span></summary><pre>event_booth_ids = fields.One2many('event.booth', 'sale_order_line_id', string='Confirmed Booths')</pre></details><details><summary id="f-event_booth_pending_ids">event_booth_pending_ids <span class="position">@ line 12</span></summary><pre>event_booth_pending_ids = fields.Many2many(
+        'event.booth', string='Pending Booths', search='_search_event_booth_pending_ids',
+        compute='_compute_event_booth_pending_ids', inverse='_inverse_event_booth_pending_ids',
+        help='Used to create registration when providing the desired event booth.'
+    )</pre></details><details><summary id="f-event_booth_registration_ids">event_booth_registration_ids <span class="position">@ line 17</span></summary><pre>event_booth_registration_ids = fields.One2many(
+        'event.booth.registration', 'sale_order_line_id', string='Confirmed Registration')</pre></details><details><summary id="f-is_event_booth">is_event_booth <span class="position">@ line 20</span></summary><pre>is_event_booth = fields.Boolean(compute='_compute_is_event_booth')</pre></details><h3>Methods</h3><ul id="m-_get_display_price"><li>_get_display_price(self) <span class="position">@ line 109</span></li></ul><ul id="m-_get_sale_order_line_multiline_description_sale"><li>_get_sale_order_line_multiline_description_sale(self) <span class="position">@ line 98</span></li></ul><details><summary id="m-_inverse_event_booth_pending_ids">_inverse_event_booth_pending_ids(self) <span class="position">@ line 39</span></summary><pre>This method will take care of creating the event.booth.registrations based on selected booths.
+It will also unlink ones that are de-selected.</pre></details><ul id="m-_search_event_booth_pending_ids"><li>_search_event_booth_pending_ids(self, operator, value) <span class="position">@ line 57</span></li></ul><ul id="m-_update_event_booths"><li>_update_event_booths(self, set_paid) <span class="position">@ line 85</span></li></ul><details><summary id="m-_use_template_name">_use_template_name(self) <span class="position">@ line 103</span></summary><pre>We do not want configured description to get rewritten by template default</pre></details><h2>Inherited: odoo/addons/delivery/models/sale_order_line.py</h2><h3>Fields</h3><details><summary id="f-is_delivery">is_delivery <span class="position">@ line 9</span></summary><pre>is_delivery = fields.Boolean(string="Is a Delivery", default=False)</pre></details><details><summary id="f-product_qty">product_qty <span class="position">@ line 10</span></summary><pre>product_qty = fields.Float(
+        string='Product Qty', compute='_compute_product_qty', digits='Product Unit of Measure'
+    )</pre></details><details><summary id="f-recompute_delivery_price">recompute_delivery_price <span class="position">@ line 13</span></summary><pre>recompute_delivery_price = fields.Boolean(related='order_id.recompute_delivery_price')</pre></details><h3>Methods</h3><ul id="m-_can_be_invoiced_alone"><li>_can_be_invoiced_alone(self) <span class="position">@ line 18</span></li></ul><details><summary id="m-_check_line_unlink">_check_line_unlink(self) <span class="position">@ line 40</span></summary><pre>Extend the allowed deletion policy of SO lines.
+
+Lines that are delivery lines can be deleted from a confirmed order.
+
+:rtype: recordset sale.order.line
+:returns: set of lines that cannot be deleted</pre></details><ul id="m-_compute_pricelist_item_id"><li>_compute_pricelist_item_id(self) <span class="position">@ line 53</span></li></ul><ul id="m-_is_delivery"><li>_is_delivery(self) <span class="position">@ line 35</span></li></ul><ul id="m-_is_not_sellable_line"><li>_is_not_sellable_line(self) <span class="position">@ line 15</span></li></ul><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 31</span></li></ul><script src="class.js"></script></body></html>

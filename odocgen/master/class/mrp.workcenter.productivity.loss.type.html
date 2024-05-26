@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mrp.workcenter.productivity.loss.type - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mrp.workcenter.productivity.loss.type</h1><p>Originally defined in: odoo/addons/mrp/models/mrp_workcenter.py</p><hr/><h2>Original: odoo/addons/mrp/models/mrp_workcenter.py</h2><h3>Fields</h3><details><summary id="f-loss_type">loss_type <span class="position">@ line 357</span></summary><pre>loss_type = fields.Selection([
+            ('availability', 'Availability'),
+            ('performance', 'Performance'),
+            ('quality', 'Quality'),
+            ('productive', 'Productive')], string='Category', default='availability', required=True)</pre></details><h3>Methods</h3><details><summary id="m-_compute_display_name">_compute_display_name(self) <span class="position">@ line 349</span></summary><pre>As 'category' field in form view is a Many2one, its value will be in
+lower case. In order to display its value capitalized 'display_name' is
+overrided.</pre></details><script src="class.js"></script></body></html>
