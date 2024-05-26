@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>crm.team.member - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>crm.team.member</h1><p>Inherited in: odoo/addons/sales_team/models/crm_team_member.py<br/>Inherited in: odoo/addons/crm/models/crm_team_member.py<br/></p><hr/><h2>Inherited: odoo/addons/sales_team/models/crm_team_member.py</h2><h3>Fields</h3><details><summary id="f-active">active <span class="position">@ line 29</span></summary><pre>active = fields.Boolean(string='Active', default=True)</pre></details><details><summary id="f-company_id">company_id <span class="position">@ line 41</span></summary><pre>company_id = fields.Many2one('res.company', string='Company', related='user_id.company_id')</pre></details><details><summary id="f-crm_team_id">crm_team_id <span class="position">@ line 15</span></summary><pre>crm_team_id = fields.Many2one(
+        'crm.team', string='Sales Team', group_expand='_read_group_crm_team_id',
+        default=False,  # TDE: temporary fix to activate depending computed fields
+        check_company=True, index=True, ondelete="cascade", required=True)</pre></details><details><summary id="f-email">email <span class="position">@ line 38</span></summary><pre>email = fields.Char(string='Email', related='user_id.email')</pre></details><details><summary id="f-image_128">image_128 <span class="position">@ line 36</span></summary><pre>image_128 = fields.Image("Image (128)", related="user_id.image_128", max_width=128, max_height=128)</pre></details><details><summary id="f-image_1920">image_1920 <span class="position">@ line 35</span></summary><pre>image_1920 = fields.Image("Image", related="user_id.image_1920", max_width=1920, max_height=1920)</pre></details><details><summary id="f-is_membership_multi">is_membership_multi <span class="position">@ line 30</span></summary><pre>is_membership_multi = fields.Boolean(
+        'Multiple Memberships Allowed', compute='_compute_is_membership_multi',
+        help='If True, users may belong to several sales teams. Otherwise membership is limited to a single sales team.')</pre></details><details><summary id="f-member_warning">member_warning <span class="position">@ line 33</span></summary><pre>member_warning = fields.Text(compute='_compute_member_warning')</pre></details><details><summary id="f-mobile">mobile <span class="position">@ line 40</span></summary><pre>mobile = fields.Char(string='Mobile', related='user_id.mobile')</pre></details><details><summary id="f-name">name <span class="position">@ line 37</span></summary><pre>name = fields.Char(string='Name', related='user_id.display_name', readonly=False)</pre></details><details><summary id="f-phone">phone <span class="position">@ line 39</span></summary><pre>phone = fields.Char(string='Phone', related='user_id.phone')</pre></details><details><summary id="f-user_company_ids">user_company_ids <span class="position">@ line 26</span></summary><pre>user_company_ids = fields.Many2many(
+        'res.company', compute='_compute_user_company_ids',
+        help='UX: Limit to team company or all if no company')</pre></details><details><summary id="f-user_id">user_id <span class="position">@ line 19</span></summary><pre>user_id = fields.Many2one(
+        'res.users', string='Salesperson',  # TDE FIXME check responsible field
+        check_company=True, index=True, ondelete='cascade', required=True,
+        domain="[('share', '=', False), ('id', 'not in', user_in_teams_ids), ('company_ids', 'in', user_company_ids)]")</pre></details><details><summary id="f-user_in_teams_ids">user_in_teams_ids <span class="position">@ line 23</span></summary><pre>user_in_teams_ids = fields.Many2many(
+        'res.users', compute='_compute_user_in_teams_ids',
+        help='UX: Give users not to add in the currently chosen team to avoid duplicates')</pre></details><h3>Methods</h3><details><summary id="m-_synchronize_memberships">_synchronize_memberships(self, user_team_ids) <span class="position">@ line 189</span></summary><pre>Synchronize memberships: archive other memberships.
+
+:param user_team_ids: list of pairs (user_id, crm_team_id)</pre></details><details><summary id="m-write">write(self, values) <span class="position">@ line 164</span></summary><pre>Specific behavior about active. If you change user_id / team_id user
+get warnings in form view and a raise in constraint check. We support
+archive / activation of memberships that toggles other memberships. But
+we do not support manual creation or update of user_id / team_id. This
+either works, either crashes). Indeed supporting it would lead to complex
+code with low added value. Users should create or remove members, and
+maybe archive / activate them. Updating manually memberships by
+modifying user_id or team_id is advanced and does not benefit from our
+support.</pre></details><h2>Inherited: odoo/addons/crm/models/crm_team_member.py</h2><h3>Fields</h3><details><summary id="f-assignment_domain">assignment_domain <span class="position">@ line 23</span></summary><pre>assignment_domain = fields.Char('Assignment Domain', tracking=True)</pre></details><details><summary id="f-assignment_enabled">assignment_enabled <span class="position">@ line 22</span></summary><pre>assignment_enabled = fields.Boolean(related="crm_team_id.assignment_enabled")</pre></details><details><summary id="f-assignment_max">assignment_max <span class="position">@ line 25</span></summary><pre>assignment_max = fields.Integer('Average Leads Capacity (on 30 days)', default=30)</pre></details><details><summary id="f-assignment_optout">assignment_optout <span class="position">@ line 24</span></summary><pre>assignment_optout = fields.Boolean('Skip auto assignment')</pre></details><details><summary id="f-lead_month_count">lead_month_count <span class="position">@ line 26</span></summary><pre>lead_month_count = fields.Integer(
+        'Leads (30 days)', compute='_compute_lead_month_count',
+        help='Lead assigned to this member those last 30 days')</pre></details><h3>Methods</h3><details><summary id="m-_assign_and_convert_leads">_assign_and_convert_leads(self, work_days) <span class="position">@ line 65</span></summary><pre>Main processing method to assign leads to sales team members. It also
+converts them into opportunities. This method should be called after
+``_allocate_leads`` as this method assigns leads already allocated to
+the member's team. Its main purpose is therefore to distribute team
+workload on its members based on their capacity.
+
+Preparation
+
+* prepare lead domain for each member. It is done using a logical
+AND with team's domain and member's domain. Member domains further
+restricts team domain;
+* prepare a set of available leads for each member by searching for
+leads matching domain with a sufficient limit to ensure all members
+will receive leads;
+* prepare a weighted population sample. Population are members that
+should received leads. Initial weight is the number of leads to
+assign to that specific member. This is minimum value between
+* remaining this month: assignment_max - number of lead already
+assigned this month;
+* days-based assignment: assignment_max with a ratio based on
+``work_days`` parameter (see ``CrmTeam.action_assign_leads()``)
+* e.g. Michel Poilvache (max: 30 - currently assigned: 15) limit
+for 2 work days: min(30-15, 30/15) -> 2 leads assigned
+* e.g. Michel Tartopoil (max: 30 - currently assigned: 26) limit
+for 10 work days: min(30-26, 30/3) -> 4 leads assigned
+
+This method then follows the following heuristic
+
+* take a weighted random choice in population;
+* find first available (not yet assigned) lead in its lead set;
+* if found:
+* convert it into an opportunity and assign member as salesperson;
+* lessen member's weight so that other members have an higher
+probability of being picked up next;
+* if not found: consider this member is out of assignment process,
+remove it from population so that it is not picked up anymore;
+
+Assignment is performed one lead at a time for fairness purpose. Indeed
+members may have overlapping domains within a given team. To ensure
+some fairness in process once a member receives a lead, a new choice is
+performed with updated weights. This is not optimal from performance
+point of view but increases probability leads are correctly distributed
+within the team.
+
+:param float work_days: see ``CrmTeam.action_assign_leads()``;
+
+:return members_data: dict() with each member assignment result:
+membership: {
+'assigned': set of lead IDs directly assigned to the member;
+}, ...</pre></details><details><summary id="m-_get_assignment_quota">_get_assignment_quota(self, work_days) <span class="position">@ line 201</span></summary><pre>Compute assignment quota based on work_days. This quota includes
+a compensation to speedup getting to the lead average (``assignment_max``).
+As this field is a counter for "30 days" -> divide by requested work
+days in order to have base assign number then add compensation.
+
+:param float work_days: see ``CrmTeam.action_assign_leads()``;</pre></details><ul id="m-_get_lead_month_domain"><li>_get_lead_month_domain(self) <span class="position">@ line 53</span></li></ul><script src="class.js"></script></body></html>

@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>sms.tracker - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>sms.tracker</h1><p>Originally defined in: odoo/addons/sms/models/sms_tracker.py</p><p>Inherited in: odoo/addons/mass_mailing_sms/models/sms_tracker.py<br/></p><hr/><h2>Original: odoo/addons/sms/models/sms_tracker.py</h2><h3>Fields</h3><details><summary id="f-SMS_STATE_TO_NOTIFICATION_STATUS">SMS_STATE_TO_NOTIFICATION_STATUS <span class="position">@ line 22</span></summary><pre>SMS_STATE_TO_NOTIFICATION_STATUS = {
+        'canceled': 'canceled',
+        'process': 'process',
+        'error': 'exception',
+        'outgoing': 'ready',
+        'sent': 'sent',
+        'pending': 'pending',
+    }</pre></details><details><summary id="f-mail_notification_id">mail_notification_id <span class="position">@ line 32</span></summary><pre>mail_notification_id = fields.Many2one('mail.notification', ondelete='cascade')</pre></details><details><summary id="f-sms_uuid">sms_uuid <span class="position">@ line 31</span></summary><pre>sms_uuid = fields.Char('SMS uuid', required=True)</pre></details><h3>Methods</h3><details><summary id="m-_action_update_from_provider_error">_action_update_from_provider_error(self, provider_error) <span class="position">@ line 38</span></summary><pre>:param str provider_error: value returned by SMS service provider (IAP) or any string.
+If provided, notification values will be derived from it.
+(see ``_get_tracker_values_from_provider_error``)</pre></details><ul id="m-_action_update_from_sms_state"><li>_action_update_from_sms_state(self, sms_state, failure_type, failure_reason) <span class="position">@ line 56</span></li></ul><ul id="m-_update_sms_notifications"><li>_update_sms_notifications(self, notification_status, failure_type, failure_reason) <span class="position">@ line 60</span></li></ul><h2>Inherited: odoo/addons/mass_mailing_sms/models/sms_tracker.py</h2><h3>Fields</h3><details><summary id="f-SMS_STATE_TO_TRACE_STATUS">SMS_STATE_TO_TRACE_STATUS <span class="position">@ line 9</span></summary><pre>SMS_STATE_TO_TRACE_STATUS = {
+        'error': 'error',
+        'process': 'process',
+        'outgoing': 'outgoing',
+        'canceled': 'cancel',
+        'pending': 'pending',
+        'sent': 'sent',
+    }</pre></details><details><summary id="f-mailing_trace_id">mailing_trace_id <span class="position">@ line 18</span></summary><pre>mailing_trace_id = fields.Many2one('mailing.trace', ondelete='cascade')</pre></details><h3>Methods</h3><ul id="m-_action_update_from_provider_error"><li>_action_update_from_provider_error(self, provider_error) <span class="position">@ line 20</span></li></ul><ul id="m-_action_update_from_sms_state"><li>_action_update_from_sms_state(self, sms_state, failure_type, failure_reason) <span class="position">@ line 25</span></li></ul><ul id="m-_update_sms_mailings"><li>_update_sms_mailings(self, trace_status, traces) <span class="position">@ line 55</span></li></ul><ul id="m-_update_sms_traces"><li>_update_sms_traces(self, trace_status, failure_type, failure_reason) <span class="position">@ line 31</span></li></ul><script src="class.js"></script></body></html>

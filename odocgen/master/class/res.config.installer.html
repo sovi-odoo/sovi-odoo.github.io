@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>res.config.installer - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>res.config.installer</h1><p>Inherited in: odoo/odoo/addons/base/models/res_config.py<br/></p><hr/><h2>Inherited: odoo/odoo/addons/base/models/res_config.py</h2><h3>Methods</h3><details><summary id="m-_already_installed">_already_installed(self) <span class="position">@ line 230</span></summary><pre>For each module (boolean fields in a res.config.installer),
+check if it's already installed (either 'to install', 'to upgrade'
+or 'installed') and if it is return the module's record
+
+:returns: a list of all installed modules in this installer
+:rtype: recordset (collection of Record)</pre></details><details><summary id="m-already_installed">already_installed(self) <span class="position">@ line 220</span></summary><pre>For each module, check if it's already installed and if it
+is return its name
+
+:returns: a list of the already installed modules in this
+installer
+:rtype: [str]</pre></details><ul id="m-execute"><li>execute(self) <span class="position">@ line 303</span></li></ul><details><summary id="m-modules_to_install">modules_to_install(self) <span class="position">@ line 243</span></summary><pre>selects all modules to install:
+
+* checked boolean fields
+* return values of hook methods. Hook methods are of the form
+``_if_%(addon_name)s``, and are called if the corresponding
+addon is marked for installation. They take the arguments
+cr, uid, ids and context, and return an iterable of addon
+names
+* additionals, additionals are setup through the ``_install_if``
+class variable. ``_install_if`` is a dict of {iterable:iterable}
+where key and value are iterables of addon names.
+
+If all the addons in the key are selected for installation
+(warning: addons added through hooks don't count), then the
+addons in the value are added to the set of modules to install
+* not already installed</pre></details><script src="class.js"></script></body></html>

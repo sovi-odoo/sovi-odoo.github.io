@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>transifex.translation - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>transifex.translation</h1><p>Originally defined in: odoo/addons/transifex/models/transifex_translation.py</p><hr/><h2>Original: odoo/addons/transifex/models/transifex_translation.py</h2><h3>Methods</h3><details><summary id="m-_get_transifex_projects">_get_transifex_projects(self) <span class="position">@ line 18</span></summary><pre>get the transifex project name for each module
+
+.tx/config files contains the project reference
+first section is [main], after '[odoo-16.sale]'
+
+:rtype: dict
+:return: {module_name: tx_project_name}</pre></details><details><summary id="m-_update_transifex_url">_update_transifex_url(self, translations) <span class="position">@ line 46</span></summary><pre>Update translations' Transifex URL
+
+:param translations: the translations to update, may be a recordset or a list of dicts.
+The elements of `translations` must have the fields/keys 'source', 'module', 'lang',
+and the field/key 'transifex_url' is updated on them.</pre></details><script src="class.js"></script></body></html>

@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>account.cash.rounding - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>account.cash.rounding</h1><p>Originally defined in: odoo/addons/account/models/account_cash_rounding.py</p><p>Inherited in: odoo/addons/point_of_sale/models/pos_order.py<br/></p><hr/><h2>Original: odoo/addons/account/models/account_cash_rounding.py</h2><h3>Fields</h3><details><summary id="f-company_id">company_id <span class="position">@ line 40</span></summary><pre>company_id = fields.Many2one('res.company', related='profit_account_id.company_id')</pre></details><details><summary id="f-loss_account_id">loss_account_id <span class="position">@ line 31</span></summary><pre>loss_account_id = fields.Many2one(
+        'account.account',
+        string='Loss Account',
+        company_dependent=True,
+        domain="[('deprecated', '=', False)]",
+    )</pre></details><details><summary id="f-name">name <span class="position">@ line 19</span></summary><pre>name = fields.Char(string='Name', translate=True, required=True)</pre></details><details><summary id="f-profit_account_id">profit_account_id <span class="position">@ line 25</span></summary><pre>profit_account_id = fields.Many2one(
+        'account.account',
+        string='Profit Account',
+        company_dependent=True,
+        domain="[('deprecated', '=', False)]",
+    )</pre></details><details><summary id="f-rounding">rounding <span class="position">@ line 20</span></summary><pre>rounding = fields.Float(string='Rounding Precision', required=True, default=0.01,
+        help='Represent the non-zero value smallest coinage (for example, 0.05).')</pre></details><details><summary id="f-rounding_method">rounding_method <span class="position">@ line 37</span></summary><pre>rounding_method = fields.Selection(string='Rounding Method', required=True,
+        selection=[('UP', 'UP'), ('DOWN', 'DOWN'), ('HALF-UP', 'HALF-UP')],
+        default='HALF-UP', help='The tie-breaking rule used for float rounding operations')</pre></details><details><summary id="f-strategy">strategy <span class="position">@ line 22</span></summary><pre>strategy = fields.Selection([('biggest_tax', 'Modify tax amount'), ('add_invoice_line', 'Add a rounding line')],
+        string='Rounding Strategy', default='add_invoice_line', required=True,
+        help='Specify which way will be used to round the invoice amount to the rounding precision')</pre></details><h3>Methods</h3><details><summary id="m-compute_difference">compute_difference(self, currency, amount) <span class="position">@ line 56</span></summary><pre>Compute the difference between the base_amount and the amount after rounding.
+For example, base_amount=23.91, after rounding=24.00, the result will be 0.09.
+
+:param currency: The currency.
+:param amount: The amount
+:return: round(difference)</pre></details><details><summary id="m-round">round(self, amount) <span class="position">@ line 48</span></summary><pre>Compute the rounding on the amount passed as parameter.
+
+:param amount: the amount to round
+:return: the rounded amount depending the rounding value and the rounding method</pre></details><script src="class.js"></script></body></html>

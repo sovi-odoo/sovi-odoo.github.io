@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>ir.fields.converter - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>ir.fields.converter</h1><p>Originally defined in: odoo/odoo/addons/base/models/ir_fields.py</p><hr/><h2>Original: odoo/odoo/addons/base/models/ir_fields.py</h2><h3>Methods</h3><details><summary id="m-_get_import_field_path">_get_import_field_path(self, field, value) <span class="position">@ line 53</span></summary><pre>Rebuild field path for import error attribution to the right field.
+This method uses the 'parent_fields_hierarchy' context key built during treatment of one2many fields
+(_str_to_one2many). As the field to import is the last of the chain (child_id/child_id2/field_to_import),
+we need to retrieve the complete hierarchy in case of error in order to assign the error to the correct
+column in the import UI.
+
+:param (str) field: field in which the value will be imported.
+:param (str or list) value:
+- str: in most of the case the value we want to import into a field is a string (or a number).
+- list: when importing into a one2may field, all the records to import are regrouped into a list of dict.
+E.g.: creating multiple partners: [{None: 'ChildA_1', 'type': 'Private address'}, {None: 'ChildA_2', 'type': 'Private address'}]
+where 'None' is the name. (because we can find a partner by his name, we don't need to specify the field.)
+
+The field_path value is computed based on the last field in the chain.
+for example,
+- path_field for 'Private address' at childA_1 is ['partner_id', 'type']
+- path_field for 'childA_1' is ['partner_id']
+
+So, by retrieving the correct field_path for each value to import, if errors are raised for those fields,
+we can the link the errors to the correct header-field couple in the import UI.</pre></details><details><summary id="m-_referencing_subfield">_referencing_subfield(self, record) <span class="position">@ line 535</span></summary><pre>Checks the record for the subfields allowing referencing (an
+existing record in an other table), errors out if it finds potential
+conflicts (multiple referencing subfields) or non-referencing subfields
+returns the name of the correct subfield.
+
+:param record:
+:return: the record subfield to use for referencing and a list of warnings
+:rtype: str, list</pre></details><ul id="m-_str_to_json"><li>_str_to_json(self, model, field, value) <span class="position">@ line 196</span></li></ul><ul id="m-_str_to_properties"><li>_str_to_properties(self, model, field, value) <span class="position">@ line 203</span></li></ul><details><summary id="m-_xmlid_to_record_id">_xmlid_to_record_id(self, xmlid, model) <span class="position">@ line 510</span></summary><pre>Return the record id corresponding to the given external id,
+provided that the record actually exists; otherwise return ``None``.</pre></details><script src="class.js"></script></body></html>

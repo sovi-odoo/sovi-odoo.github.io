@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>product.template.attribute.exclusion - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>product.template.attribute.exclusion</h1><p>Originally defined in: odoo/addons/product/models/product_template_attribute_exclusion.py</p><hr/><h2>Original: odoo/addons/product/models/product_template_attribute_exclusion.py</h2><h3>Fields</h3><details><summary id="f-product_template_attribute_value_id">product_template_attribute_value_id <span class="position">@ line 11</span></summary><pre>product_template_attribute_value_id = fields.Many2one(
+        comodel_name='product.template.attribute.value',
+        string="Attribute Value",
+        ondelete='cascade',
+        index=True)</pre></details><details><summary id="f-product_tmpl_id">product_tmpl_id <span class="position">@ line 16</span></summary><pre>product_tmpl_id = fields.Many2one(
+        comodel_name='product.template',
+        string="Product Template",
+        ondelete='cascade',
+        required=True,
+        index=True)</pre></details><details><summary id="f-value_ids">value_ids <span class="position">@ line 22</span></summary><pre>value_ids = fields.Many2many(
+        comodel_name='product.template.attribute.value',
+        relation='product_attr_exclusion_value_ids_rel',
+        string="Attribute Values",
+        domain="[('product_tmpl_id', '=', product_tmpl_id), ('ptav_active', '=', True)]")</pre></details><h3>Methods</h3><ul id="m-unlink"><li>unlink(self) <span class="position">@ line 34</span></li></ul><ul id="m-write"><li>write(self, values) <span class="position">@ line 41</span></li></ul><script src="class.js"></script></body></html>

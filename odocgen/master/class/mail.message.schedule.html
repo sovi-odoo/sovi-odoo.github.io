@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.message.schedule - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.message.schedule</h1><p>Originally defined in: odoo/addons/mail/models/mail_message_schedule.py</p><hr/><h2>Original: odoo/addons/mail/models/mail_message_schedule.py</h2><h3>Fields</h3><details><summary id="f-mail_message_id">mail_message_id <span class="position">@ line 27</span></summary><pre>mail_message_id = fields.Many2one(
+        'mail.message', string='Message',
+        ondelete='cascade', required=True)</pre></details><details><summary id="f-notification_parameters">notification_parameters <span class="position">@ line 30</span></summary><pre>notification_parameters = fields.Text('Notification Parameter')</pre></details><details><summary id="f-scheduled_datetime">scheduled_datetime <span class="position">@ line 31</span></summary><pre>scheduled_datetime = fields.Datetime(
+        'Scheduled Send Date', required=True,
+        help='Datetime at which notification should be sent.')</pre></details><h3>Methods</h3><ul id="m-_group_by_model"><li>_group_by_model(self) <span class="position">@ line 127</span></li></ul><details><summary id="m-_send_notifications">_send_notifications(self, default_notify_kwargs) <span class="position">@ line 57</span></summary><pre>Send notification for scheduled messages.
+
+:param dict default_notify_kwargs: optional parameters to propagate to
+``notify_thread``. Those are default values overridden by content of
+``notification_parameters`` field.</pre></details><details><summary id="m-force_send">force_send(self) <span class="position">@ line 53</span></summary><pre>Launch notification process independently from the expected date.</pre></details><script src="class.js"></script></body></html>

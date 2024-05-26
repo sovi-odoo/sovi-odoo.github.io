@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>l10n_it_edi_doi.declaration_of_intent - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>l10n_it_edi_doi.declaration_of_intent</h1><p>Inherited in: odoo/addons/l10n_it_edi_doi/models/declaration_of_intent.py<br/></p><hr/><h2>Inherited: odoo/addons/l10n_it_edi_doi/models/declaration_of_intent.py</h2><h3>Fields</h3><details><summary id="f-company_id">company_id <span class="position">@ line 31</span></summary><pre>company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company',
+        index=True,
+        required=True,
+        default=lambda self: self.env.company._accessible_branches()[:1],
+    )</pre></details><details><summary id="f-currency_id">currency_id <span class="position">@ line 47</span></summary><pre>currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        default=lambda self: self.env.ref('base.EUR', raise_if_not_found=False).id,
+        required=True,
+        readonly=True,
+    )</pre></details><details><summary id="f-end_date">end_date <span class="position">@ line 70</span></summary><pre>end_date = fields.Date(
+        string='End Date',
+        required=True,
+        copy=False,
+        help="Last date on which the Declaration of Intent is valid",
+    )</pre></details><details><summary id="f-invoice_ids">invoice_ids <span class="position">@ line 121</span></summary><pre>invoice_ids = fields.One2many(
+        'account.move',
+        'l10n_it_edi_doi_id',
+        string="Invoices / Refunds",
+        copy=False,
+        readonly=True,
+    )</pre></details><details><summary id="f-invoiced">invoiced <span class="position">@ line 83</span></summary><pre>invoiced = fields.Monetary(
+        string='Invoiced',
+        compute='_compute_invoiced',
+        store=True,
+        readonly=True,
+        help="Total amount of sales under this Declaration of Intent",
+    )</pre></details><details><summary id="f-issue_date">issue_date <span class="position">@ line 55</span></summary><pre>issue_date = fields.Date(
+        string='Date of Issue',
+        required=True,
+        copy=False,
+        default=fields.Date.context_today,
+        help="Date on which the Declaration of Intent was issued",
+    )</pre></details><details><summary id="f-not_yet_invoiced">not_yet_invoiced <span class="position">@ line 91</span></summary><pre>not_yet_invoiced = fields.Monetary(
+        string='Not Yet Invoiced',
+        compute='_compute_not_yet_invoiced',
+        store=True,
+        readonly=True,
+        help="Total amount of planned sales under this Declaration of Intent (i.e. current quotation and sales orders) that can still be invoiced",
+    )</pre></details><details><summary id="f-partner_id">partner_id <span class="position">@ line 39</span></summary><pre>partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner',
+        index=True,
+        required=True,
+        domain="['|', ('is_company', '=', True), ('parent_id', '=', False)]",
+    )</pre></details><details><summary id="f-protocol_number_part1">protocol_number_part1 <span class="position">@ line 107</span></summary><pre>protocol_number_part1 = fields.Char(
+        string='Protocol 1',
+        required=True,
+        readonly=False,
+        copy=False,
+    )</pre></details><details><summary id="f-protocol_number_part2">protocol_number_part2 <span class="position">@ line 114</span></summary><pre>protocol_number_part2 = fields.Char(
+        string='Protocol 2',
+        required=True,
+        readonly=False,
+        copy=False,
+    )</pre></details><details><summary id="f-remaining">remaining <span class="position">@ line 99</span></summary><pre>remaining = fields.Monetary(
+        string='Remaining',
+        compute='_compute_remaining',
+        store=True,
+        readonly=True,
+        help="Remaining amount after deduction of the Invoiced and Not Yet Invoiced amounts.",
+    )</pre></details><details><summary id="f-sale_order_ids">sale_order_ids <span class="position">@ line 129</span></summary><pre>sale_order_ids = fields.One2many(
+        'sale.order',
+        'l10n_it_edi_doi_id',
+        string="Sales Orders / Quotations",
+        copy=False,
+        readonly=True,
+    )</pre></details><details><summary id="f-start_date">start_date <span class="position">@ line 63</span></summary><pre>start_date = fields.Date(
+        string='Start Date',
+        required=True,
+        copy=False,
+        help="First date on which the Declaration of Intent is valid",
+    )</pre></details><details><summary id="f-state">state <span class="position">@ line 14</span></summary><pre>state = fields.Selection([
+         ('draft', 'Draft'),
+         ('active', 'Active'),
+         ('revoked', 'Revoked'),
+         ('terminated', 'Terminated'),
+        ],
+        string="State",
+        tracking=True,
+        default='draft',
+        required=True,
+        readonly=True,
+        help="The state of this Declaration of Intent. \n"
+        "- 'Draft' means that the Declaration of Intent still needs to be confirmed before being usable. \n"
+        "- 'Active' means that the Declaration of Intent is usable. \n"
+        "- 'Terminated' designates that the Declaration of Intent has been marked as not to use anymore without invalidating usages of it. \n"
+        "- 'Revoked' means the Declaration of Intent should not have been used. You will probably need to revert previous usages of it, if any.\n")</pre></details><details><summary id="f-threshold">threshold <span class="position">@ line 77</span></summary><pre>threshold = fields.Monetary(
+        string='Threshold',
+        required=True,
+        help="Total amount of allowed sales without VAT under this Declaration of Intent",
+    )</pre></details><h3>Methods</h3><details><summary id="m-_build_threshold_warning_message">_build_threshold_warning_message(self, invoiced, not_yet_invoiced) <span class="position">@ line 172</span></summary><pre>Build a warning message that will be displayed in a yellow banner on top of a document
+if the `remaining` of the Declaration of Intent is less than 0 when including the document
+or the Declaration of Intent is revoked
+:param float invoiced:          The `declaration.invoiced` amount when including the document.
+:param float not_yet_invoiced:  The `declaration.not_yet_invoiced` amount when including the document.
+:return str:                    The warning message to be shown.</pre></details><details><summary id="m-_get_validity_errors">_get_validity_errors(self, company, partner, currency) <span class="position">@ line 195</span></summary><pre>Check whether all declarations of intent in self are valid for the specified `company`, `partner`, `date` and `currency'.
+Violating these constraints leads to errors in the feature. They should not be ignored.
+Return all errors as a list of strings.</pre></details><details><summary id="m-_get_validity_warnings">_get_validity_warnings(self, company, partner, currency, date, invoiced_amount, only_blocking, sales_order) <span class="position">@ line 214</span></summary><pre>Check whether all declarations of intent in self are valid for the specified `company`, `partner`, `date` and `currency'.
+The checks for `date` and state of the declaration (except draft) are not considered blocking in case `invoiced_amount` is not positive.
+All other checks are considered blocking (prevent posting).
+Includes all checks from `_get_validity_errors`.
+The checks are different for invoices and sales orders (toggled via kwarg `sales_order`).
+I.e. we do not care about the date for sales orders.
+Return all errors as a list of strings.</pre></details><ul id="m-action_open_invoice_ids"><li>action_open_invoice_ids(self) <span class="position">@ line 301</span></li></ul><ul id="m-action_open_sale_order_ids"><li>action_open_sale_order_ids(self) <span class="position">@ line 287</span></li></ul><details><summary id="m-action_reactivate">action_reactivate(self) <span class="position">@ line 270</span></summary><pre>Resets a not 'active' Declaration of Intent back to 'active'.</pre></details><details><summary id="m-action_reset_to_draft">action_reset_to_draft(self) <span class="position">@ line 264</span></summary><pre>Resets an 'active' Declaration of Intent back to 'draft'.</pre></details><details><summary id="m-action_revoke">action_revoke(self) <span class="position">@ line 276</span></summary><pre>Called by the 'revoke' button of the form view.</pre></details><details><summary id="m-action_terminate">action_terminate(self) <span class="position">@ line 281</span></summary><pre>Called by the 'terminated' button of the form view.</pre></details><details><summary id="m-action_validate">action_validate(self) <span class="position">@ line 258</span></summary><pre>Move a 'draft' Declaration of Intent to 'active'.</pre></details><script src="class.js"></script></body></html>

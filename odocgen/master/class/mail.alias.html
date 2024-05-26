@@ -1,0 +1,78 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>mail.alias - odocgen</title><link rel="stylesheet" href="class.css" /></head><body><h1>mail.alias</h1><p>Originally defined in: odoo/addons/mail/models/mail_alias.py</p><p>Inherited in: odoo/addons/hr/models/mail_alias.py<br/></p><hr/><h2>Original: odoo/addons/mail/models/mail_alias.py</h2><h3>Fields</h3><details><summary id="f-alias_bounced_content">alias_bounced_content <span class="position">@ line 85</span></summary><pre>alias_bounced_content = fields.Html(
+        "Custom Bounced Message", translate=True,
+        help="If set, this content will automatically be sent out to unauthorized users instead of the default message.")</pre></details><details><summary id="f-alias_contact">alias_contact <span class="position">@ line 73</span></summary><pre>alias_contact = fields.Selection(
+        [
+            ('everyone', 'Everyone'),
+            ('partners', 'Authenticated Partners'),
+            ('followers', 'Followers only')
+        ], default='everyone',
+        string='Alias Contact Security', required=True,
+        help="Policy to post a message on the document using the mailgateway.\n"
+             "- everyone: everyone can post\n"
+             "- partners: only authenticated partners\n"
+             "- followers: only followers of the related document or members of following channels\n")</pre></details><details><summary id="f-alias_defaults">alias_defaults <span class="position">@ line 56</span></summary><pre>alias_defaults = fields.Text('Default Values', required=True, default='{}',
+                                 help="A Python dictionary that will be evaluated to provide "
+                                      "default values when creating new records for this alias.")</pre></details><details><summary id="f-alias_domain">alias_domain <span class="position">@ line 46</span></summary><pre>alias_domain = fields.Char('Alias domain name', related='alias_domain_id.name')</pre></details><details><summary id="f-alias_domain_id">alias_domain_id <span class="position">@ line 43</span></summary><pre>alias_domain_id = fields.Many2one(
+        'mail.alias.domain', string='Alias Domain', ondelete='restrict',
+        default=lambda self: self.env.company.alias_domain_id)</pre></details><details><summary id="f-alias_force_thread_id">alias_force_thread_id <span class="position">@ line 59</span></summary><pre>alias_force_thread_id = fields.Integer(
+        'Record Thread ID',
+        help="Optional ID of a thread (record) to which all incoming messages will be attached, even "
+             "if they did not reply to it. If set, this will disable the creation of new records completely.")</pre></details><details><summary id="f-alias_full_name">alias_full_name <span class="position">@ line 41</span></summary><pre>alias_full_name = fields.Char('Alias Email', compute='_compute_alias_full_name', store=True, index='btree_not_null')</pre></details><details><summary id="f-alias_incoming_local">alias_incoming_local <span class="position">@ line 84</span></summary><pre>alias_incoming_local = fields.Boolean('Local-part based incoming detection', default=False)</pre></details><details><summary id="f-alias_model_id">alias_model_id <span class="position">@ line 48</span></summary><pre>alias_model_id = fields.Many2one('ir.model', 'Aliased Model', required=True, ondelete="cascade",
+                                     help="The model (Odoo Document Kind) to which this alias "
+                                          "corresponds. Any incoming email that does not reply to an "
+                                          "existing record will cause the creation of a new record "
+                                          "of this model (e.g. a Project Task)",
+                                      # hack to only allow selecting mail_thread models (we might
+                                      # (have a few false positives, though)
+                                      domain="[('field_id.name', '=', 'message_ids')]")</pre></details><details><summary id="f-alias_name">alias_name <span class="position">@ line 38</span></summary><pre>alias_name = fields.Char(
+        'Alias Name', copy=False,
+        help="The name of the email alias, e.g. 'jobs' if you want to catch emails for <jobs@example.odoo.com>")</pre></details><details><summary id="f-alias_parent_model_id">alias_parent_model_id <span class="position">@ line 64</span></summary><pre>alias_parent_model_id = fields.Many2one(
+        'ir.model', 'Parent Model',
+        help="Parent model holding the alias. The model holding the alias reference "
+             "is not necessarily the model given by alias_model_id "
+             "(example: project (parent_model) and task (model))")</pre></details><details><summary id="f-alias_parent_thread_id">alias_parent_thread_id <span class="position">@ line 69</span></summary><pre>alias_parent_thread_id = fields.Integer(
+        'Parent Record Thread ID',
+        help="ID of the parent record holding the alias (example: project holding the task creation alias)")</pre></details><details><summary id="f-alias_status">alias_status <span class="position">@ line 88</span></summary><pre>alias_status = fields.Selection(
+        [
+            ('not_tested', 'Not Tested'),
+            ('valid', 'Valid'),
+            ('invalid', 'Invalid'),
+        ], compute='_compute_alias_status', store=True,
+        help='Alias status assessed on the last message received.')</pre></details><details><summary id="f-display_name">display_name <span class="position">@ line 42</span></summary><pre>display_name = fields.Char(string='Display Name', compute='_compute_display_name')</pre></details><h3>Methods</h3><details><summary id="m-_alias_bounce_incoming_email">_alias_bounce_incoming_email(self, message, message_dict, set_invalid) <span class="position">@ line 513</span></summary><pre>Set alias status to invalid and create bounce message to the sender
+and the alias responsible.
+
+This method must be called when a message received on the alias has
+caused an error due to the mis-configuration of the alias.
+
+:param EmailMessage message: email message that is invalid and is about
+to bounce;
+:param dict message_dict: dictionary holding parsed message variables
+:param bool set_invalid: set alias as invalid, to be done notably if
+bounce is considered as coming from a configuration error instead of
+being rejected due to alias rules;</pre></details><details><summary id="m-_check_unique">_check_unique(self, alias_names, alias_domains) <span class="position">@ line 294</span></summary><pre>Check unicity constraint won't be raised, otherwise raise a UserError
+with a complete error message. Also check unicity against alias config
+parameters.
+
+:param list alias_names: a list of names (considered as sanitized
+and ready to be sent to DB);
+:param list alias_domains: list of alias_domain records under which
+the check is performed, as uniqueness is performed for given pair
+(name, alias_domain);</pre></details><details><summary id="m-_get_alias_bounced_body">_get_alias_bounced_body(self, message_dict) <span class="position">@ line 436</span></summary><pre>Get the body of the email return in case of bounced email when the
+alias does not accept incoming email e.g. contact is not allowed.
+
+:param dict message_dict: dictionary holding parsed message variables
+
+:return: HTML to use as email body</pre></details><details><summary id="m-_get_alias_bounced_body_fallback">_get_alias_bounced_body_fallback(self, message_dict) <span class="position">@ line 463</span></summary><pre>Default body of bounced emails. See '_get_alias_bounced_body'</pre></details><ul id="m-_get_alias_contact_description"><li>_get_alias_contact_description(self) <span class="position">@ line 483</span></li></ul><details><summary id="m-_get_alias_invalid_body">_get_alias_invalid_body(self, message_dict) <span class="position">@ line 488</span></summary><pre>Get the body of the bounced email returned when the alias is incorrectly
+configured e.g. error in alias_defaults.
+
+:param dict message_dict: dictionary holding parsed message variables
+
+:return: HTML to use as email body</pre></details><details><summary id="m-init">init(self) <span class="position">@ line 96</span></summary><pre>Make sure there aren't multiple records for the same name and alias
+domain. Not in _sql_constraint because COALESCE is not supported for
+PostgreSQL constraint.</pre></details><ul id="m-open_document"><li>open_document(self) <span class="position">@ line 412</span></li></ul><ul id="m-open_parent_document"><li>open_parent_document(self) <span class="position">@ line 422</span></li></ul><details><summary id="m-write">write(self, vals) <span class="position">@ line 267</span></summary><pre>Raise UserError with a meaningful message instead of letting the
+uniqueness constraint raise an SQL error. To check uniqueness we have
+to rebuild pairs of names / domains to validate, taking into account
+that a void alias_domain_id is acceptable (but also raises for
+uniqueness).</pre></details><h2>Inherited: odoo/addons/hr/models/mail_alias.py</h2><h3>Fields</h3><details><summary id="f-alias_contact">alias_contact <span class="position">@ line 10</span></summary><pre>alias_contact = fields.Selection(selection_add=[
+        ('employees', 'Authenticated Employees'),
+    ], ondelete={'employees': 'cascade'})</pre></details><h3>Methods</h3><ul id="m-_get_alias_contact_description"><li>_get_alias_contact_description(self) <span class="position">@ line 14</span></li></ul><script src="class.js"></script></body></html>
